@@ -1,0 +1,1 @@
+curl -Ss http://www.workerman.net/check.php | php

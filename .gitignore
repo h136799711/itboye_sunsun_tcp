@@ -1,0 +1,9 @@
+runtime/
+.idea/
+.phpintel/
+*.DS_Store
+*.bak
+**/bak/
+sftp-config.json
+.vscode/
+vendor/

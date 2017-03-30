@@ -1,0 +1,25 @@
+{
+    "name": "itboye/sunsun_tcp",
+    "description": "sunsun tcp server",
+    "type": "project",
+    "license": "GPL",
+    "keywords": ["itboye", "sunsun_tcp"],
+    "minimum-stability":"dev",
+    "authors": [
+        {
+            "name": "hebidu",
+            "email": "hebiduhebi@126.com",
+            "role":"developer"
+        }
+    ],
+    "require": {
+        "php":">=5.3",
+        "workerman/workerman" : ">=3.1.8",
+        "workerman/gateway-worker" : ">=3.0.0",
+        "workerman/mysql" : "1.0",
+        "workerman/gatewayclient": "^3.0"
+    },
+    "autoload": {
+        "psr-4": { "sunsun\\": ["sunsun/src"] }
+    }
+}

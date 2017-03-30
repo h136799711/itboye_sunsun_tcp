@@ -1,2 +1,2 @@
-# itboye_sunsun_tcp
-sunsun tcp server
+1. envcheck.sh用于检测workerman的环境
+2. eee
