@@ -27,20 +27,20 @@ class Des{
      */
     public static function encrypt ($value,$key)
     {
-        $ret = base64_encode(openssl_encrypt($value,"des-ecb",$key));
+        $ret = openssl_encrypt($value,"des-ecb",$key);
         return $ret;
     }
 
     /**
      *解密
-     * @param $value
+     * @param string $value base64加密过的密文
      * @param $key
      * @return string <type>
      * @internal param $ <type> $value
      */
     public static function decrypt ($value,$key)
     {
-        return openssl_decrypt(base64_decode($value),"des-ecb",$key);
+        return openssl_decrypt($value,"des-ecb",$key);
     }
 
 }
