@@ -26,7 +26,6 @@ define("SUNSUN_WORKER_USER","sunsun");
 define("SUNSUN_WORKER_PASSWORD","poiuyTREWQ123456");
 define("SUNSUN_WORKER_DB_NAME","sunsun_xiaoli");
 
-require_once __DIR__ . '/../../../vendor/autoload.php';
 require_once __DIR__ . '/../../../statistics/Clients/StatisticClient.php';
 use \GatewayWorker\Lib\Gateway;
 
