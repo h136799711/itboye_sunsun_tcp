@@ -1,2 +1,2 @@
 #git 更新
-git pull origin master
+git fetch origin master & git reset --hard origin/master
