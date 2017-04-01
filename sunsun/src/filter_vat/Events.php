@@ -385,6 +385,7 @@ class Events
      * @param string $type 日志类型
      */
     public static function log($client_id,$message,$type='common'){
-        \sunsun\helper\LogHelper::log(self::$db,$client_id,$message,'filter_vat_'.$type);
+//        \sunsun\helper\LogHelper::log(self::$db,$client_id,$message,'filter_vat_'.$type);
+        \sunsun\filter_vat\helper\FilterVatTcpLogHelper::log(self::$db,$client_id,$message,'filter_vat_'.$type);
     }
 }

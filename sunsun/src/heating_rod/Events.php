@@ -385,7 +385,7 @@ class Events
      * @param string $type 日志类型
      */
     public static function log($client_id,$message,$type='common'){
-        \sunsun\helper\LogHelper::log(self::$db,$client_id,$message,'heating_rod'.$type);
-
+//        \sunsun\helper\LogHelper::log(self::$db,$client_id,$message,'heating_rod'.$type);
+        \sunsun\heating_rod\helper\HeatingRodTcpLogHelper::log(self::$db,$client_id,$message,'heating_rod'.$type);
     }
 }
