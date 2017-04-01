@@ -121,6 +121,7 @@ class Events
     {
         try{
 
+            self::log($client_id,json_encode($message),"origin_message");
             self::$activeTime = time();
             $_SESSION['last_active_time'] = self::$activeTime;
             $_SESSION['last_recv_message'] = gmdate("Y/m/d H:i:s",self::$activeTime);
@@ -384,6 +385,6 @@ class Events
      * @param string $type 日志类型
      */
     public static function log($client_id,$message,$type='common'){
-        \sunsun\helper\LogHelper::log(self::$db,$client_id,$message,$type);
+        \sunsun\helper\LogHelper::log(self::$db,$client_id,$message,'filter_vat_'.$type);
     }
 }
