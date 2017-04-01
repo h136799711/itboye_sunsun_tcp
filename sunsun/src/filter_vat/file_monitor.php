@@ -10,7 +10,7 @@ use Workerman\Worker;
 use Workerman\Lib\Timer;
 
 // watch Applications catalogue
-$monitor_dir = realpath(__DIR__.'/../');
+$monitor_dir = realpath(__DIR__.'/');
 
 // worker
 $worker = new Worker();

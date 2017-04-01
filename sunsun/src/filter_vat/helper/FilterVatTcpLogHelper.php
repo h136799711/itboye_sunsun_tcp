@@ -10,7 +10,7 @@ namespace sunsun\filter_vat\helper;
 
 
 use sunsun\filter_vat\dal\FilterVatTcpLogDal;
-use sunsun\model\FilterVatTcpLogModel;
+use sunsun\filter_vat\model\FilterVatTcpLogModel;
 
 class FilterVatTcpLogHelper
 {

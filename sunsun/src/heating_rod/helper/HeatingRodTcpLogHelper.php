@@ -9,7 +9,7 @@
 namespace sunsun\heating_rod\helper;
 
 use sunsun\heating_rod\dal\HeatingRodTcpLogDal;
-use sunsun\model\HeatingRodTcpLogModel;
+use sunsun\heating_rod\model\HeatingRodTcpLogModel;
 
 class HeatingRodTcpLogHelper
 {

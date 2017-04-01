@@ -3,7 +3,7 @@
 namespace sunsun\filter_vat\dal;
 
 use sunsun\dal\BaseDal;
-use sunsun\model\FilterVatTcpLogModel;
+use sunsun\filter_vat\model\FilterVatTcpLogModel;
 
 /**
  * Created by PhpStorm.

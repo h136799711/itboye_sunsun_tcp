@@ -3,7 +3,7 @@
 namespace sunsun\heating_rod\dal;
 
 use sunsun\dal\BaseDal;
-use sunsun\model\HeatingRodTcpLogModel;
+use sunsun\heating_rod\model\HeatingRodTcpLogModel;
 
 /**
  * Created by PhpStorm.
