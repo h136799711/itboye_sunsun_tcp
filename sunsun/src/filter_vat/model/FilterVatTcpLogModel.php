@@ -6,8 +6,10 @@
  * Time: 12:29
  */
 
-namespace sunsun\model;
+namespace sunsun\filter_vat\model;
 
+
+use sunsun\model\BaseModel;
 
 class FilterVatTcpLogModel extends BaseModel
 {

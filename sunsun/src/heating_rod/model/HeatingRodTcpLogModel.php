@@ -6,8 +6,10 @@
  * Time: 12:29
  */
 
-namespace sunsun\model;
+namespace sunsun\heating_rod\model;
 
+
+use sunsun\model\BaseModel;
 
 class HeatingRodTcpLogModel extends BaseModel
 {

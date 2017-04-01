@@ -18,9 +18,7 @@ timestamp=`date '+%Y-%m-%d %H:%M:%S'`
 echo "heating_rod gateway and worker is need restart process....."
 echo -e "$timestamp"" heating_rod workerman gateway and worker restart\n" >> ./heating_rod.log
 
-./stop.sh
-sleep 3s
-./start.sh
+./stop.sh && ./start.sh
 
 else
     echo "heating_rod gateway and worker is runing....."

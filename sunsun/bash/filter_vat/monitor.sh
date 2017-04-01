@@ -19,9 +19,7 @@ timestamp=`date '+%Y-%m-%d %H:%M:%S'`
 echo "filter_vat gateway and worker is need restart process....."
 echo -e "$timestamp""filter_vat workerman gateway and worker restart\n" >> ./filter_vat.log
 
-./stop.sh
-sleep 3s
-./start.sh
+./stop.sh && ./start.sh
 
 else
     echo "filter_vat gateway and worker is runing....."
