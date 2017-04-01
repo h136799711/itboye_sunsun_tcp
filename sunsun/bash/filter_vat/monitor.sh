@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 #监控过滤桶gateway、worker是否存活,定时执行该代码通过crontab
 mainString="workerman"
 gateway="filter_vat_gateway"
