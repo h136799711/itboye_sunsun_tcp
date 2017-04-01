@@ -1,3 +1,4 @@
+#!/bin/bash
 #监控过滤桶gateway、worker是否存活,定时执行该代码通过crontab
 mainString="workerman"
 gateway="heating_rod_gateway"
