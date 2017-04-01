@@ -13,7 +13,7 @@ workerFindStr=$(ps -fe | grep ${worker}  | grep -v grep)
 #ret=`echo $?`
 #echo ${gatewayFindStr}
 #echo ${workerFindStr}
-if [ "${registerFindStr}" == "" -o "${gatewayFindStr}" == "" -o "${workerFindStr}" == "" ]
+if [ ${registerFindStr} == "" -o ${gatewayFindStr} == "" -o ${workerFindStr} == "" ]
 then
 timestamp=`date '+%Y-%m-%d %H:%M:%S'`
 echo "filter_vat gateway and worker is need restart process....."
