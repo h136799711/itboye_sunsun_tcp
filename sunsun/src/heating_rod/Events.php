@@ -386,5 +386,6 @@ class Events
      */
     public static function log($client_id,$message,$type='common'){
         \sunsun\helper\LogHelper::log(self::$db,$client_id,$message,'heating_rod'.$type);
+
     }
 }
