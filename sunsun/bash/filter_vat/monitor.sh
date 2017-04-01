@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 #监控过滤桶gateway、worker是否存活,定时执行该代码通过crontab
 mainString="workerman"
 gateway="filter_vat_gateway"
@@ -11,7 +13,7 @@ workerFindStr=$(ps -fe | grep ${worker}  | grep -v grep)
 #ret=`echo $?`
 #echo ${gatewayFindStr}
 #echo ${workerFindStr}
-if [ "${registerFindStr}" == "" ] || [ "${gatewayFindStr}" == "" ] || [ "${workerFindStr}" == "" ]
+if [ "${registerFindStr}" == "" -o "${gatewayFindStr}" == "" -o "${workerFindStr}" == "" ]
 then
 timestamp=`date '+%Y-%m-%d %H:%M:%S'`
 echo "filter_vat gateway and worker is need restart process....."
