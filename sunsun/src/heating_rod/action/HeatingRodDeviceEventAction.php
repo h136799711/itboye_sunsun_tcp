@@ -38,22 +38,8 @@ class HeatingRodDeviceEventAction
         $do->setEventInfo($eventInfo);
         $do->setEventType($eventType);
         $result = $dal->insert($do);
-
         $resp = new HeatingRodDeviceEventResp($req);
         $resp->setState(0);
-
-        //
-        if(intval($eventType) == EventTypeEnum::REAL_TIME_TEMP){
-            //实时温度记录
-
-            $dal = (new HeatingRodTempHisDal());
-            $model  = new HeatingRodTempHisModel();
-            $model->setDid($did);
-            $model->setCreateTime($now);
-            $model->setTemp($req->getT());
-            $result = $dal->insert($model);
-        }
-
         return $resp;
     }
 
