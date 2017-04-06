@@ -43,7 +43,7 @@ class HeatingRodDeviceEventAction
         $resp->setState(0);
 
         //
-        if($eventType == EventTypeEnum::REAL_TIME_TEMP){
+        if(intval($eventType) == EventTypeEnum::REAL_TIME_TEMP){
             //实时温度记录
 
             $dal = (new HeatingRodTempHisDal());
