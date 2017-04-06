@@ -10,9 +10,12 @@ namespace sunsun\heating_rod\action;
 
 
 use GatewayWorker\Lib\Gateway;
+use sunsun\heating_rod\consts\EventTypeEnum;
 use sunsun\heating_rod\dal\HeatingRodDeviceEventDal;
+use sunsun\heating_rod\dal\HeatingRodTempHisDal;
 use sunsun\heating_rod\model\HeatingRodDeviceEventModel;
 use sunsun\heating_rod\model\HeatingRodDeviceModel;
+use sunsun\heating_rod\model\HeatingRodTempHisModel;
 use sunsun\heating_rod\req\HeatingRodDeviceEventReq;
 use sunsun\heating_rod\resp\HeatingRodDeviceEventResp;
 
@@ -38,6 +41,19 @@ class HeatingRodDeviceEventAction
 
         $resp = new HeatingRodDeviceEventResp($req);
         $resp->setState(0);
+
+        //
+        if($eventType == EventTypeEnum::REAL_TIME_TEMP){
+            //实时温度记录
+
+            $dal = (new HeatingRodTempHisDal());
+            $model  = new HeatingRodTempHisModel();
+            $model->setDid($did);
+            $model->setCreateTime($now);
+            $model->setTemp($req->getT());
+            $dal->insert($model);
+        }
+
         return $resp;
     }
 
