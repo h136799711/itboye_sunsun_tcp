@@ -51,7 +51,7 @@ class HeatingRodDeviceEventAction
             $model->setDid($did);
             $model->setCreateTime($now);
             $model->setTemp($req->getT());
-            $dal->insert($model);
+            $result = $dal->insert($model);
         }
 
         return $resp;
