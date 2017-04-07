@@ -20,6 +20,9 @@ use sunsun\po\BaseRespPo;
 class FilterVatDeviceInfoResp extends BaseRespPo
 {
 
+
+    private $t;
+
     /**
      * 定时清洗使能
      *
@@ -148,6 +151,7 @@ class FilterVatDeviceInfoResp extends BaseRespPo
         }
     }
 
+
     public function setData($data){
         array_key_exists("sn",$data) && $this->setSn($data['sn']);
         array_key_exists("clEn",$data) && $this->setClEn($data['clEn']);
@@ -163,6 +167,7 @@ class FilterVatDeviceInfoResp extends BaseRespPo
         array_key_exists("uvCfg",$data) && $this->setUvCfg($data['uvCfg']);
         array_key_exists("outStateA",$data) && $this->setOutStateA($data['outStateA']);
         array_key_exists("outStateB",$data) && $this->setOutStateB($data['outStateB']);
+        array_key_exists("t",$data) && $this->setT($data['t']);
         array_key_exists("devLock",$data) && $this->setDevLock($data['devLock']);
         $this->setUpdState(-1);
         array_key_exists("updState",$data) && $this->setUpdState($data['updState']);
@@ -188,6 +193,7 @@ class FilterVatDeviceInfoResp extends BaseRespPo
             'outStateA'=>$this->getOutStateA(),
             'outStateB'=>$this->getOutStateB(),
             'devLock'=>$this->getDevLock(),
+            't'=>$this->getT(),
         ];
         if($this->getUpdState() == -1){
             $data['updState'] = 0;
@@ -197,6 +203,7 @@ class FilterVatDeviceInfoResp extends BaseRespPo
 
         return $data;
     }
+
 
     /**
      * @return int
@@ -446,5 +453,22 @@ class FilterVatDeviceInfoResp extends BaseRespPo
         }
         return "";
     }
+
+    /**
+     * @return mixed
+     */
+    public function getT()
+    {
+        return $this->t;
+    }
+
+    /**
+     * @param mixed $t
+     */
+    public function setT($t)
+    {
+        $this->t = $t;
+    }
+
 
 }

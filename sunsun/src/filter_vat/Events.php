@@ -194,7 +194,7 @@ class Events
             if(method_exists($result,"toDataArray")){
                 // 4. 加密数据
                 $encodeData = \sunsun\decoder\SunsunTDS::encode($result->toDataArray(),$pwd);
-                self::jsonSuc($client_id,'success return',$encodeData);
+                self::jsonSuc($client_id,serialize($result),$encodeData);
 
             }else{
                 self::jsonError($client_id,'fail',[]);
