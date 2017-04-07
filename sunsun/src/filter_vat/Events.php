@@ -19,6 +19,8 @@
  */
 #declare(ticks=1);
 
+date_default_timezone_set("Etc/GMT");
+
 define("SUNSUN_ENV","debug");//debug模式
 define("SUNSUN_WORKER_HOST","101.37.37.167");
 define("SUNSUN_WORKER_PORT","3306");
