@@ -19,17 +19,47 @@ class ModelConverterHelper
         if(!is_null($resp->getT())){
             $data['t'] = $resp->getT();
         }
-        if(!is_null($resp->getPwr())){
-            $data['pwr'] = $resp->getPwr();
+        if(!is_null($resp->getPh())){
+            $data['ph'] = $resp->getPh();
         }
-        if(!is_null($resp->getTSet())){
-            $data['t_set'] = $resp->getTSet();
+        if(!is_null($resp->getOut())){
+            $data['out_ctrl'] = $resp->getOut();
         }
-        if(!is_null($resp->getTCyc())){
-            $data['t_cyc'] = $resp->getTCyc();
+        if(!is_null($resp->getTMax())){
+            $data['t_max'] = $resp->getTMax();
         }
-        if(!is_null($resp->getCfg())){
-            $data['cfg'] = $resp->getCfg();
+        if(!is_null($resp->getFault())){
+            $data['fault'] = $resp->getFault();
+        }
+        if(!is_null($resp->getTh())){
+            $data['th'] = $resp->getTh();
+        }
+        if(!is_null($resp->getTl())){
+            $data['tl'] = $resp->getTl();
+        }
+        if(!is_null($resp->getPP())){
+            $data['p_p'] = $resp->getPP();
+        }
+        if(!is_null($resp->getUvcP())){
+            $data['uvc_p'] = $resp->getUvcP();
+        }
+        if(!is_null($resp->getSpP())){
+            $data['sp_p'] = $resp->getSpP();
+        }
+        if(!is_null($resp->getLP())){
+            $data['l_p'] = $resp->getLP();
+        }
+        if(!is_null($resp->getLPer())){
+            $data['l_per'] = $resp->getLPer();
+        }
+        if(!is_null($resp->getUvcPer())){
+            $data['uvc_per'] = $resp->getUvcPer();
+        }
+        if(!is_null($resp->getSpPer())){
+            $data['sp_per'] = $resp->getSpPer();
+        }
+        if(!is_null($resp->getExDev())){
+            $data['exDev'] = $resp->getExDev();
         }
 
         if(!is_null($resp->getDevLock())){

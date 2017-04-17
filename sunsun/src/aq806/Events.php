@@ -70,7 +70,7 @@ class Events
             foreach ($allSessions as $clientId=>$session){
                 $lastActiveTime = $session['last_active_time'];
                 if($nowTime - $lastActiveTime > self::$inactiveTimeInterval){
-                    $msg = "tcp server waiting for more than ".self::$inactiveTimeInterval." seconds";
+                    $msg = "aq806 tcp server waiting for more than ".self::$inactiveTimeInterval." seconds";
                     self::closeChannel($clientId,$msg);
                 }
             }
