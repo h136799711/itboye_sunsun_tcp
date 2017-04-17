@@ -1,0 +1,1 @@
+php ../../src/aq806/start_gateway.php stop && php ../../src/aq806/start_businessworker.php stop && php ../../src/aq806/start_aq806_register.php stop && ps -ef | grep aq806 | grep -v grep | cut -c 9-15 | xargs kill -9 && ps -ef | grep WorkerMan | grep 1237 | grep -v grep | cut -c 9-15 | xargs kill -9
