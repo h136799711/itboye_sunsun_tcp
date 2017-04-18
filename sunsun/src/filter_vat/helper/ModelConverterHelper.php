@@ -16,6 +16,9 @@ class ModelConverterHelper
 {
     public static function convertToModelArray(FilterVatDeviceInfoResp $resp){
         $data = [];
+        if(!is_null($resp->getT())){
+            $data['t'] = $resp->getT();
+        }
         if(!is_null($resp->getClEn())){
             $data['cl_en'] = $resp->getClEn();
         }
