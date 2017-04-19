@@ -11,64 +11,43 @@ namespace sunsun\aq806\req;
 use sunsun\po\BaseReqPo;
 
 /**
- * Class Aq806HbReq
+ * Class Aq806DeviceEventReq
  * 设备事件
  * @package sunsun\aq806\req
  */
 class Aq806DeviceEventReq extends BaseReqPo
 {
     private $code;
-    private $t;
 
     public function getEventInfo(){
         $codeDesc = $this->getCodeDesc();
         return [
-            'code'=>$codeDesc,
-            't'=>$this->getT()
+            'code'=>$codeDesc
         ];
     }
 
     public function getCodeDesc(){
-//        0：无操作
-//1：实时温度推送（服务器记录温度）
-//2：加热棒过温异常
-//3：温度传感器1异常
-//4：温度传感器2异常
-//5：加热丝开路异常
         switch ($this->code){
             case 0:
-                return "no action";
+                return "无操作";
             case 1:
-                return "Real-time temperature push（Server record temperature）";
+                return "冲浪水泵异常";
             case 2:
-                return "Abnormal heating rod temperature";
+                return "备用电源异常";
             case 3:
-                return "Temperature sensor 1 anomaly";
+                return "照明灯异常";
             case 4:
-                return "Temperature sensor 2 anomaly";
+                return "杀菌灯异常";
             case 5:
-                return "Heating wire open circuit anomaly";
+                return "水位过低";
+            case 6:
+                return "水温过低";
+            case 7:
+                return "水温过高";
             default:break;
         }
-        return "Unknown";
+        return "未知";
     }
-
-    /**
-     * @return mixed
-     */
-    public function getT()
-    {
-        return $this->t;
-    }
-
-    /**
-     * @param mixed $t
-     */
-    public function setT($t)
-    {
-        $this->t = $t;
-    }
-
 
 
     /**
@@ -94,7 +73,6 @@ class Aq806DeviceEventReq extends BaseReqPo
         if(!empty($data)){
             $this->setSn($data['sn']);
             $this->setCode($data['code']);
-            $this->setT($data['t']);
         }
     }
 
@@ -102,8 +80,7 @@ class Aq806DeviceEventReq extends BaseReqPo
     {
         return [
             'reqType'=>$this->getReqType(),
-            'sn'=>$this->getSn(),
-
+            'sn'=>$this->getSn()
         ];
     }
 
