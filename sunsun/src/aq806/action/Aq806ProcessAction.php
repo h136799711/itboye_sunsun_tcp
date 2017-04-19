@@ -27,7 +27,7 @@ class Aq806ProcessAction
 {
 
     /**
-     * 过滤桶除了设备登录之外的其它请求处理
+     * aq806除了设备登录之外的其它请求处理
      * @param $did
      * @param string $clientId tcp通道标识
      * @param array $jsonDecode 明文传输过来的数据json格式
