@@ -27,7 +27,7 @@ $worker->name = 'aq806_worker';
 // bussinessWorker进程数量
 $worker->count = 4;
 // 服务注册地址
-$worker->registerAddress = '127.0.0.1:1240';
+$worker->registerAddress = '127.0.0.1:1238';
 // 进程启动时设置一个定时器，定时向所有客户端连接发送数据
 $worker->onWorkerStart = function($worker)
 {
