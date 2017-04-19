@@ -28,7 +28,6 @@ define("SUNSUN_WORKER_USER","sunsun");
 define("SUNSUN_WORKER_PASSWORD","poiuyTREWQ123456");
 define("SUNSUN_WORKER_DB_NAME","sunsun_xiaoli");
 
-#require_once __DIR__ . '/../../../statistics/Clients/StatisticClient.php';
 use \GatewayWorker\Lib\Gateway;
 
 /**
@@ -180,13 +179,11 @@ class Events
            }
 
            if(empty($result)){
-               self::reportStatics(3,"null result");
                return ;
            }
 
            if($result instanceof  \Exception) {
                self::closeChannel($client_id,$result->getTraceAsString());
-               self::reportStatics(3,$result->getTraceAsString());
                return ;
            }
 
@@ -222,17 +219,6 @@ class Events
     //============================帮助方法
 
 
-    private static function reportStatics($code=0,$msg=''){
-        StatisticClient::tick("Aq806", 'message');
-        // 统计的产生，接口调用的时间
-
-        $success = true;
-        if($code != 0){
-            $success = false;
-        }
-        // 上报结果
-        StatisticClient::report('Aq806', 'message', $success, $code, $msg);
-    }
 
     /**
      * 处理业务逻辑
@@ -353,13 +339,11 @@ class Events
     private static function jsonError($client_id,$msg,$data){
         self::log($client_id,$msg,\sunsun\consts\LogType::Error);
         Gateway::closeClient($client_id);
-        self::reportStatics(3,$msg);
     }
 
     private static function jsonSuc($client_id,$msg,$data){
         self::log($client_id,$msg.','.serialize($data),\sunsun\consts\LogType::Success);
         Gateway::sendToClient($client_id,$data);
-        self::reportStatics();
     }
 
 
