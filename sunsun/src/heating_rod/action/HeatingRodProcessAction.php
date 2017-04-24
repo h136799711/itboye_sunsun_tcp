@@ -107,6 +107,10 @@ class HeatingRodProcessAction
 
         //过滤桶除了设备登录之外的其它请求处理
         switch ($req->getReqType()){
+            //已登录成功后的登录请求
+            case HeatingRodReqType::Login:
+                $resp = (new HeatingRodLoginAction())->login($did,$clientId,$req);
+                break;
             //心跳请求
             case HeatingRodReqType::Heartbeat:
                 $resp = (new HeatingRodHbAction())->heartBeat($clientId,$req);
