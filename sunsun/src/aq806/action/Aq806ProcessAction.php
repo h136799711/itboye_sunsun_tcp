@@ -107,6 +107,11 @@ class Aq806ProcessAction
 
         //过滤桶除了设备登录之外的其它请求处理
         switch ($req->getReqType()){
+
+            //已登录成功后的登录请求
+            case Aq806RespType::Login:
+                $resp = (new Aq806LoginAction())->login($did,$clientId,$req);
+                break;
             //心跳请求
             case Aq806ReqType::Heartbeat:
                 $resp = (new Aq806HbAction())->heartBeat($clientId,$req);
