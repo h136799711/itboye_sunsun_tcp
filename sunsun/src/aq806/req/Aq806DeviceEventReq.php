@@ -18,13 +18,16 @@ use sunsun\po\BaseReqPo;
 class Aq806DeviceEventReq extends BaseReqPo
 {
     private $code;
+    private $ph;
 
     public function getEventInfo(){
         $codeDesc = $this->getCodeDesc();
         return [
-            'code'=>$codeDesc
+            'code'=>$codeDesc,
+            'ph'=>$this->getPh()
         ];
     }
+
 
     public function getCodeDesc(){
         switch ($this->code){
@@ -48,6 +51,23 @@ class Aq806DeviceEventReq extends BaseReqPo
         }
         return "未知";
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPh()
+    {
+        return $this->ph;
+    }
+
+    /**
+     * @param mixed $ph
+     */
+    public function setPh($ph)
+    {
+        $this->ph = $ph;
+    }
+
 
 
     /**
