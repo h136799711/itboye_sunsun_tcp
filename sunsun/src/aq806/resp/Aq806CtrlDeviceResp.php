@@ -79,6 +79,93 @@ class Aq806CtrlDeviceResp extends BaseRespPo
     //AQ210：AQ210底板
     private $exDev;
 
+    private $pushCfg;
+    private $dCyc;
+    private $uvWh;
+    private $pWh;
+    private $lWh;
+
+    /**
+     * @return mixed
+     */
+    public function getPushCfg()
+    {
+        return $this->pushCfg;
+    }
+
+    /**
+     * @param mixed $pushCfg
+     */
+    public function setPushCfg($pushCfg)
+    {
+        $this->pushCfg = $pushCfg;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDCyc()
+    {
+        return $this->dCyc;
+    }
+
+    /**
+     * @param mixed $dCyc
+     */
+    public function setDCyc($dCyc)
+    {
+        $this->dCyc = $dCyc;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUvWh()
+    {
+        return $this->uvWh;
+    }
+
+    /**
+     * @param mixed $uvWh
+     */
+    public function setUvWh($uvWh)
+    {
+        $this->uvWh = $uvWh;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPWh()
+    {
+        return $this->pWh;
+    }
+
+    /**
+     * @param mixed $pWh
+     */
+    public function setPWh($pWh)
+    {
+        $this->pWh = $pWh;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLWh()
+    {
+        return $this->lWh;
+    }
+
+    /**
+     * @param mixed $lWh
+     */
+    public function setLWh($lWh)
+    {
+        $this->lWh = $lWh;
+    }
+
+
     /**
      * @return mixed
      */
@@ -361,6 +448,12 @@ class Aq806CtrlDeviceResp extends BaseRespPo
         array_key_exists("devLock",$data) && $this->setDevLock($data['devLock']);
         $this->setUpdState(-1);
         array_key_exists("updState",$data) && $this->setUpdState($data['updState']);
+
+        array_key_exists("push_cfg",$data) && $this->setPushCfg($data['push_cfg']);
+        array_key_exists("d_cyc",$data) && $this->setDCyc($data['d_cyc']);
+        array_key_exists("uv_wh",$data) && $this->setUvWh($data['uv_wh']);
+        array_key_exists("p_wh",$data) && $this->setPWh($data['p_wh']);
+        array_key_exists("l_wh",$data) && $this->setLWh($data['l_wh']);
     }
 
     public function toDataArray()
@@ -384,7 +477,12 @@ class Aq806CtrlDeviceResp extends BaseRespPo
             'uvc_per'=>$this->getUvcPer(),
             'sp_per'=>$this->getSpPer(),
             'exDev'=>$this->getExDev(),
-            'devLock'=>$this->getDevLock()
+            'devLock'=>$this->getDevLock(),
+            'push_cfg'=>$this->getPushCfg(),
+            'd_cyc'=>$this->getDCyc(),
+            'uv_wh'=>$this->getUvWh(),
+            'p_wh'=>$this->getPWh(),
+            'l_wh'=>$this->getLWh()
         ];
         if($this->getUpdState() == -1){
             $data['updState'] = 0;

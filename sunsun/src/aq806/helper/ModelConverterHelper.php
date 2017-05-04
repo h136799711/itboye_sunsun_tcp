@@ -80,6 +80,26 @@ class ModelConverterHelper
             $data['upd_state'] = 0;
         }
 
+
+        if(!is_null($resp->getPushCfg())){
+            $data['push_cfg']  = $resp->getPushCfg();
+        }
+
+        if(!is_null($resp->getDCyc())){
+            $data['d_cyc']  = $resp->getDCyc();
+        }
+
+        if(!is_null($resp->getUvWh())){
+            $data['uv_wh']  = $resp->getUvWh();
+        }
+
+        if(!is_null($resp->getPWh())){
+            $data['p_wh']  = $resp->getPWh();
+        }
+
+        if(!is_null($resp->getLWh())){
+            $data['l_wh']  = $resp->getLWh();
+        }
         return $data;
     }
 
@@ -151,6 +171,28 @@ class ModelConverterHelper
             $data['upd_state'] = 0;
         }
 
+        if(!is_null($resp->getDevLock())){
+            $data['dev_lock'] = $resp->getDevLock();
+        }
+        if(!is_null($resp->getPushCfg())){
+            $data['push_cfg']  = $resp->getPushCfg();
+        }
+
+        if(!is_null($resp->getDCyc())){
+            $data['d_cyc']  = $resp->getDCyc();
+        }
+
+        if(!is_null($resp->getUvWh())){
+            $data['uv_wh']  = $resp->getUvWh();
+        }
+
+        if(!is_null($resp->getPWh())){
+            $data['p_wh']  = $resp->getPWh();
+        }
+
+        if(!is_null($resp->getLWh())){
+            $data['l_wh']  = $resp->getLWh();
+        }
         return $data;
     }
 }

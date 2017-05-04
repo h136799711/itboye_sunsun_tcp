@@ -92,6 +92,75 @@ class Aq806CtrlDeviceReq extends BaseReqPo
     private $spPer;
     private $pushCfg;
     private $devLock;
+    private $dCyc;
+    private $uvWh;
+    private $pWh;
+    private $lWh;
+
+    /**
+     * @return mixed
+     */
+    public function getDCyc()
+    {
+        return $this->dCyc;
+    }
+
+    /**
+     * @param mixed $dCyc
+     */
+    public function setDCyc($dCyc)
+    {
+        $this->dCyc = $dCyc;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUvWh()
+    {
+        return $this->uvWh;
+    }
+
+    /**
+     * @param mixed $uvWh
+     */
+    public function setUvWh($uvWh)
+    {
+        $this->uvWh = $uvWh;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPWh()
+    {
+        return $this->pWh;
+    }
+
+    /**
+     * @param mixed $pWh
+     */
+    public function setPWh($pWh)
+    {
+        $this->pWh = $pWh;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLWh()
+    {
+        return $this->lWh;
+    }
+
+    /**
+     * @param mixed $lWh
+     */
+    public function setLWh($lWh)
+    {
+        $this->lWh = $lWh;
+    }
+
 
     /**
      * @return mixed
@@ -304,7 +373,7 @@ class Aq806CtrlDeviceReq extends BaseReqPo
     public function setData($data){
         array_key_exists("devLock",$data) && $this->setDevLock($data['devLock']);
         array_key_exists("pushCfg",$data) && $this->setPushCfg($data['pushCfg']);
-        array_key_exists("spPer",$data) && $this->setPushCfg($data['spPer']);
+        array_key_exists("spPer",$data) && $this->setSpPer($data['spPer']);
         array_key_exists("uvcPer",$data) && $this->setUvcPer($data['uvcPer']);
         array_key_exists("lPer",$data) && $this->setLPer($data['lPer']);
         array_key_exists("tl",$data) && $this->setTl($data['tl']);
@@ -318,6 +387,11 @@ class Aq806CtrlDeviceReq extends BaseReqPo
         array_key_exists("mode",$data) && $this->setMode($data['mode']);
 
         array_key_exists("tmL",$data) && $this->setTmL($data['tmL']);
+
+        array_key_exists("dCyc",$data) && $this->setDCyc($data['dCyc']);
+        array_key_exists("uv_wh",$data) && $this->setUvWh($data['uvWh']);
+        array_key_exists("pWh",$data) && $this->setPWh($data['pWh']);
+        array_key_exists("lWH",$data) && $this->setLWh($data['lWH']);
 
 
     }
