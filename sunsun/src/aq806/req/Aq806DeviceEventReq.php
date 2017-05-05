@@ -33,6 +33,47 @@ class Aq806DeviceEventReq extends BaseReqPo
         ];
     }
 
+    public function getDynDesc(){
+        if(empty($this->getDyn())) return "";
+        //照明灯动态
+        $light_on  = 1;
+        $light_off = 2;
+        //杀菌灯动态
+        $Germicidal_on = 4;
+        $Germicidal_off = 8;
+        //冲浪泵动态
+        $Surfing_pump_on = 16;
+        $Surfing_pump_off = 32;
+        //模式动态
+        $Surfing_pump_auto = 64;
+        $Surfing_pump_manual = 128;
+        $desc = "";
+        $dyn = intval($this->getDyn());
+
+        if(($dyn & $Surfing_pump_on) == $Surfing_pump_on){
+            $desc .= "冲浪泵启动了;";
+        }
+        if(($dyn & $Surfing_pump_off) == $Surfing_pump_off){
+            $desc .= "冲浪泵关闭了;";
+        }
+
+        if(($dyn & $Germicidal_on) == $Germicidal_on){
+            $desc .= "杀菌灯打开了;";
+        }
+        if(($dyn & $Germicidal_off) == $Germicidal_off){
+            $desc .= "杀菌灯关闭了;";
+        }
+
+
+        if(($dyn & $light_on) == $light_on){
+            $desc .= "照明灯打开了;";
+        }
+        if(($dyn & $light_off) == $light_off){
+            $desc .= "照明灯关闭了;";
+        }
+
+        return $desc;
+    }
 
     public function getCodeDesc(){
         switch ($this->code){
