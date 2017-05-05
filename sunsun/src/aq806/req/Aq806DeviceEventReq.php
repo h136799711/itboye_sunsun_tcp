@@ -95,6 +95,8 @@ class Aq806DeviceEventReq extends BaseReqPo
                 return "水温过高";
             case 10:
                 return "数据推送";
+            case 11:
+                return "动态提示";
             default:break;
         }
         return "未知";
