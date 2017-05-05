@@ -83,14 +83,14 @@ class Aq806DeviceEventModel extends BaseModel
     }
 
 
-
-    public function toDataArray(){
+    public function toDataArray()
+    {
         return [
-            'did'=>$this->getDid(),
-            'event_type'=>$this->getEventType(),
-            'event_info'=>$this->getEventInfo(),
-            'create_time'=>$this->getCreateTime(),
-            'update_time'=>$this->getUpdateTime()
+            'did' => $this->getDid(),
+            'event_type' => $this->getEventType(),
+            'event_info' => $this->getEventInfo(),
+            'create_time' => $this->getCreateTime(),
+            'update_time' => $this->getUpdateTime()
         ];
     }
 

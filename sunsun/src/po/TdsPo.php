@@ -11,10 +11,10 @@ namespace sunsun\po;
 
 class TdsPo
 {
-    private  $tdsData;
-    private  $tdsOriginData;
-    private  $tdsType;
-    private  $tdsValid;
+    private $tdsData;
+    private $tdsOriginData;
+    private $tdsType;
+    private $tdsValid;
 
 
     /**
@@ -81,7 +81,8 @@ class TdsPo
         $this->tdsValid = $tdsValid;
     }
 
-    public function isValid(){
+    public function isValid()
+    {
         return $this->tdsValid == 1;
     }
 

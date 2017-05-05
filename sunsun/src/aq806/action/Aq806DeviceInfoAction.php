@@ -10,24 +10,25 @@ namespace sunsun\aq806\action;
 
 
 use sunsun\aq806\dal\Aq806DeviceDal;
+use sunsun\aq806\helper\ModelConverterHelper;
 use sunsun\aq806\resp\Aq806DeviceInfoResp;
 use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
-use sunsun\aq806\helper\ModelConverterHelper;
 
 class Aq806DeviceInfoAction
 {
-    public function updateInfo($did,$clientId,Aq806DeviceInfoResp $resp){
+    public function updateInfo($did, $clientId, Aq806DeviceInfoResp $resp)
+    {
         $check = $resp->check();
-        if(!empty($check)){
+        if (!empty($check)) {
             return ResultHelper::fail($check);
         }
         //更新设备信息
         $updateEntity = ModelConverterHelper::convertToModelArray($resp);
         $dal = new Aq806DeviceDal();
-        LogHelper::logDebug($clientId,'updateEntity'.json_encode($updateEntity));
+        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
 
-        $ret = $dal->updateByDid($did,$updateEntity);
+        $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
     }
 

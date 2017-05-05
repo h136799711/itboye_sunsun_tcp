@@ -87,14 +87,14 @@ class FilterVatCtrlDeviceResp extends BaseRespPo
     private $uvOn;
 
     /**
-     * 杀菌灯关闭时间	格式HHmm，UTC时间
+     * 杀菌灯关闭时间    格式HHmm，UTC时间
      *
      * @var
      */
     private $uvOff;
 
     /**
-     * 杀菌灯累计工作时间	单位小时
+     * 杀菌灯累计工作时间    单位小时
      * @var
      */
     private $uvWH;
@@ -120,7 +120,7 @@ class FilterVatCtrlDeviceResp extends BaseRespPo
 
     /**
      * 备用插座B状态
-     * 	0：插座断电
+     *    0：插座断电
      * 1：插座通电
      * @var
      */
@@ -140,58 +140,59 @@ class FilterVatCtrlDeviceResp extends BaseRespPo
     private $updState;
 
 
-    public function __construct(FilterVatCtrlDeviceReq $req=null)
+    public function __construct(FilterVatCtrlDeviceReq $req = null)
     {
         $this->setRespType(FilterVatRespType::Control);
-        if(!empty($req)){
+        if (!empty($req)) {
             $this->setSn($req->getSn());
         }
     }
 
-    public function setData($data){
-        array_key_exists("sn",$data) && $this->setSn($data['sn']);
-        array_key_exists("clEn",$data) && $this->setClEn($data['clEn']);
-        array_key_exists("clWeek",$data) && $this->setClWeek($data['clWeek']);
-        array_key_exists("clTm",$data) && $this->setClTm($data['clTm']);
-        array_key_exists("clDur",$data) && $this->setClDur($data['clDur']);
-        array_key_exists("clState",$data) && $this->setClState($data['clState']);
-        array_key_exists("clSche",$data) && $this->setClSche($data['clSche']);
-        array_key_exists("clCfg",$data) && $this->setClCfg($data['clCfg']);
-        array_key_exists("uvOn",$data) && $this->setUvOn($data['uvOn']);
-        array_key_exists("uvOff",$data) && $this->setUvOff($data['uvOff']);
-        array_key_exists("uvWH",$data) && $this->setUvWH($data['uvWH']);
-        array_key_exists("uvCfg",$data) && $this->setUvCfg($data['uvCfg']);
-        array_key_exists("outStateA",$data) && $this->setOutStateA($data['outStateA']);
-        array_key_exists("outStateB",$data) && $this->setOutStateB($data['outStateB']);
-        array_key_exists("devLock",$data) && $this->setDevLock($data['devLock']);
+    public function setData($data)
+    {
+        array_key_exists("sn", $data) && $this->setSn($data['sn']);
+        array_key_exists("clEn", $data) && $this->setClEn($data['clEn']);
+        array_key_exists("clWeek", $data) && $this->setClWeek($data['clWeek']);
+        array_key_exists("clTm", $data) && $this->setClTm($data['clTm']);
+        array_key_exists("clDur", $data) && $this->setClDur($data['clDur']);
+        array_key_exists("clState", $data) && $this->setClState($data['clState']);
+        array_key_exists("clSche", $data) && $this->setClSche($data['clSche']);
+        array_key_exists("clCfg", $data) && $this->setClCfg($data['clCfg']);
+        array_key_exists("uvOn", $data) && $this->setUvOn($data['uvOn']);
+        array_key_exists("uvOff", $data) && $this->setUvOff($data['uvOff']);
+        array_key_exists("uvWH", $data) && $this->setUvWH($data['uvWH']);
+        array_key_exists("uvCfg", $data) && $this->setUvCfg($data['uvCfg']);
+        array_key_exists("outStateA", $data) && $this->setOutStateA($data['outStateA']);
+        array_key_exists("outStateB", $data) && $this->setOutStateB($data['outStateB']);
+        array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
         $this->setUpdState(-1);
-        array_key_exists("updState",$data) && $this->setUpdState($data['updState']);
+        array_key_exists("updState", $data) && $this->setUpdState($data['updState']);
     }
 
     public function toDataArray()
     {
 
         $data = [
-            'resType'=>$this->getRespType(),
-            'sn'=>$this->getSn(),
-            'clEn'=>$this->getClEn(),
-            'clWeek'=>$this->getClWeek(),
-            'clTm'=>$this->getClTm(),
-            'clDur'=>$this->getClDur(),
-            'clState'=>$this->getClState(),
-            'clSche'=>$this->getClSche(),
-            'clCfg'=>$this->getClCfg(),
-            'uvOn'=>$this->getUvOn(),
-            'uvOff'=>$this->getUvOff(),
-            'uvWH'=>$this->getUvWH(),
-            'uvCfg'=>$this->getUvCfg(),
-            'outStateA'=>$this->getOutStateA(),
-            'outStateB'=>$this->getOutStateB(),
-            'devLock'=>$this->getDevLock(),
+            'resType' => $this->getRespType(),
+            'sn' => $this->getSn(),
+            'clEn' => $this->getClEn(),
+            'clWeek' => $this->getClWeek(),
+            'clTm' => $this->getClTm(),
+            'clDur' => $this->getClDur(),
+            'clState' => $this->getClState(),
+            'clSche' => $this->getClSche(),
+            'clCfg' => $this->getClCfg(),
+            'uvOn' => $this->getUvOn(),
+            'uvOff' => $this->getUvOff(),
+            'uvWH' => $this->getUvWH(),
+            'uvCfg' => $this->getUvCfg(),
+            'outStateA' => $this->getOutStateA(),
+            'outStateB' => $this->getOutStateB(),
+            'devLock' => $this->getDevLock(),
         ];
-        if($this->getUpdState() == -1){
+        if ($this->getUpdState() == -1) {
             $data['updState'] = 0;
-        }else{
+        } else {
             $data['updState'] = $this->getUpdState();
         }
 
@@ -438,10 +439,11 @@ class FilterVatCtrlDeviceResp extends BaseRespPo
         $this->updState = $updState;
     }
 
-    public function check(){
-        foreach ($this->toDataArray() as $key=>$item){
-            if(is_null($item)){
-                return "缺少 ".$key." 属性";
+    public function check()
+    {
+        foreach ($this->toDataArray() as $key => $item) {
+            if (is_null($item)) {
+                return "缺少 " . $key . " 属性";
             }
         }
         return "";

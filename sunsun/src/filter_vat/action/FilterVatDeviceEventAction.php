@@ -21,12 +21,13 @@ use sunsun\filter_vat\resp\FilterVatDeviceEventResp;
  */
 class FilterVatDeviceEventAction
 {
-    public function logEvent($did,$client_id,FilterVatDeviceEventReq $req){
+    public function logEvent($did, $client_id, FilterVatDeviceEventReq $req)
+    {
         $eventType = $req->getCode();
-        $eventInfo = json_encode(['code_desc'=>$req->getCodeDesc()]);
+        $eventInfo = json_encode(['code_desc' => $req->getCodeDesc()]);
         $now = time();
         $dal = (new FilterVatDeviceEventDal());
-        $do  = new FilterVatDeviceEventModel();
+        $do = new FilterVatDeviceEventModel();
         $do->setDid($did);
         $do->setCreateTime($now);
         $do->setUpdateTime($now);

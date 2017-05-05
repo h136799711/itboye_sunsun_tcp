@@ -14,7 +14,7 @@ use sunsun\po\BaseRespPo;
 class HeatingRodUnknownResp extends BaseRespPo
 {
 
-    public function __construct( )
+    public function __construct()
     {
     }
 

@@ -13,11 +13,13 @@ use sunsun\heating_rod\model\HeatingRodTcpLogModel;
 
 class HeatingRodTcpLogHelper
 {
-    public static function logDebug($client_id,$message,$type='debug'){
-        self::log(null,$client_id,$message,$type);
+    public static function logDebug($client_id, $message, $type = 'debug')
+    {
+        self::log(null, $client_id, $message, $type);
     }
 
-    public static function log($db,$client_id,$message,$type='common'){
+    public static function log($db, $client_id, $message, $type = 'common')
+    {
 
         $dal = new HeatingRodTcpLogDal($db);
         $model = new  HeatingRodTcpLogModel();

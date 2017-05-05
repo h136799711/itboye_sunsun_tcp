@@ -23,20 +23,22 @@ class Aq806DeviceEventReq extends BaseReqPo
     private $dyn;
 
 
-    public function getEventInfo(){
+    public function getEventInfo()
+    {
         $codeDesc = $this->getCodeDesc();
         return [
-            'code'=>$codeDesc,
-            'ph'=>$this->getPh(),
-            't'=>$this->getT(),
-            'dyn'=>$this->getDyn()
+            'code' => $codeDesc,
+            'ph' => $this->getPh(),
+            't' => $this->getT(),
+            'dyn' => $this->getDyn()
         ];
     }
 
-    public function getDynDesc(){
-        if(empty($this->getDyn())) return "";
+    public function getDynDesc()
+    {
+        if (empty($this->getDyn())) return "";
         //照明灯动态
-        $light_on  = 1;
+        $light_on = 1;
         $light_off = 2;
         //杀菌灯动态
         $Germicidal_on = 4;
@@ -50,33 +52,34 @@ class Aq806DeviceEventReq extends BaseReqPo
         $desc = "";
         $dyn = intval($this->getDyn());
 
-        if(($dyn & $Surfing_pump_on) == $Surfing_pump_on){
+        if (($dyn & $Surfing_pump_on) == $Surfing_pump_on) {
             $desc .= "冲浪泵启动了;";
         }
-        if(($dyn & $Surfing_pump_off) == $Surfing_pump_off){
+        if (($dyn & $Surfing_pump_off) == $Surfing_pump_off) {
             $desc .= "冲浪泵关闭了;";
         }
 
-        if(($dyn & $Germicidal_on) == $Germicidal_on){
+        if (($dyn & $Germicidal_on) == $Germicidal_on) {
             $desc .= "杀菌灯打开了;";
         }
-        if(($dyn & $Germicidal_off) == $Germicidal_off){
+        if (($dyn & $Germicidal_off) == $Germicidal_off) {
             $desc .= "杀菌灯关闭了;";
         }
 
 
-        if(($dyn & $light_on) == $light_on){
+        if (($dyn & $light_on) == $light_on) {
             $desc .= "照明灯打开了;";
         }
-        if(($dyn & $light_off) == $light_off){
+        if (($dyn & $light_off) == $light_off) {
             $desc .= "照明灯关闭了;";
         }
 
         return $desc;
     }
 
-    public function getCodeDesc(){
-        switch ($this->code){
+    public function getCodeDesc()
+    {
+        switch ($this->code) {
             case 0:
                 return "无操作";
             case 1:
@@ -97,7 +100,8 @@ class Aq806DeviceEventReq extends BaseReqPo
                 return "数据推送";
             case 11:
                 return "动态提示";
-            default:break;
+            default:
+                break;
         }
         return "未知";
     }
@@ -117,7 +121,6 @@ class Aq806DeviceEventReq extends BaseReqPo
     {
         $this->dyn = $dyn;
     }
-
 
 
     /**
@@ -154,7 +157,6 @@ class Aq806DeviceEventReq extends BaseReqPo
     }
 
 
-
     /**
      * @return mixed
      */
@@ -172,24 +174,24 @@ class Aq806DeviceEventReq extends BaseReqPo
     }
 
 
-    public function __construct($data=null)
+    public function __construct($data = null)
     {
         $this->setReqType(Aq806ReqType::Event);
-        if(!empty($data)){
+        if (!empty($data)) {
             $this->setSn($data['sn']);
             $this->setCode($data['code']);
             $this->setT(-1);
             $this->setDyn(-1);
             $this->setPh(-1);
-            if(array_key_exists("t",$data)){
+            if (array_key_exists("t", $data)) {
                 $this->setT($data['t']);
             }
 
-            if(array_key_exists("dyn",$data)){
+            if (array_key_exists("dyn", $data)) {
                 $this->setDyn($data['dyn']);
             }
 
-            if(array_key_exists("ph",$data)){
+            if (array_key_exists("ph", $data)) {
                 $this->setPh($data['ph']);
             }
 
@@ -199,8 +201,8 @@ class Aq806DeviceEventReq extends BaseReqPo
     function toDataArray()
     {
         return [
-            'reqType'=>$this->getReqType(),
-            'sn'=>$this->getSn()
+            'reqType' => $this->getReqType(),
+            'sn' => $this->getSn()
         ];
     }
 

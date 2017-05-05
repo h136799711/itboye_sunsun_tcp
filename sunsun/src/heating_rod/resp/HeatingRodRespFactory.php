@@ -10,11 +10,12 @@ namespace sunsun\heating_rod\resp;
 
 class HeatingRodRespFactory
 {
-    public static  function create($resType,$jsonData){
+    public static function create($resType, $jsonData)
+    {
         $sn = $jsonData['sn'];
 
         $resp = null;
-        switch ($resType){
+        switch ($resType) {
             case HeatingRodRespType::Control:
                 $resp = new HeatingRodCtrlDeviceResp();
                 $resp->setData($jsonData);
@@ -31,7 +32,7 @@ class HeatingRodRespFactory
                 break;
         }
 
-        if($resp){
+        if ($resp) {
             $resp->setSn($sn);
         }
 

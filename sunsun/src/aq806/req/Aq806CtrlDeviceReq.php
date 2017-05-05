@@ -18,10 +18,10 @@ use sunsun\po\BaseReqPo;
 class Aq806CtrlDeviceReq extends BaseReqPo
 {
 
-    public function __construct($data=null)
+    public function __construct($data = null)
     {
         $this->setReqType(Aq806ReqType::Control);
-        if(!empty($data)){
+        if (!empty($data)) {
             $this->setSn($data['sn']);
         }
     }
@@ -33,46 +33,46 @@ class Aq806CtrlDeviceReq extends BaseReqPo
         $data['reqType'] = $this->getReqType();
         $data['sn'] = $this->getSn();
 
-        if(!is_null($this->getDevLock())){
-            $data['devLock']  = $this->getDevLock();
+        if (!is_null($this->getDevLock())) {
+            $data['devLock'] = $this->getDevLock();
         }
 
-        if(!is_null($this->getTmL())){
-            $data['tm_l']  = $this->getTmL();
+        if (!is_null($this->getTmL())) {
+            $data['tm_l'] = $this->getTmL();
         }
 
-        if(!is_null($this->getMode())){
-            $data['mode']  = $this->getMode();
+        if (!is_null($this->getMode())) {
+            $data['mode'] = $this->getMode();
         }
-        if(!is_null($this->getOutUvc())){
-            $data['out_uvc']  = $this->getOutUvc();
+        if (!is_null($this->getOutUvc())) {
+            $data['out_uvc'] = $this->getOutUvc();
         }
-        if(!is_null($this->getOutSp())){
-            $data['out_sp']  = $this->getOutSp();
+        if (!is_null($this->getOutSp())) {
+            $data['out_sp'] = $this->getOutSp();
         }
-        if(!is_null($this->getOutL())){
-            $data['out_l']  = $this->getOutL();
+        if (!is_null($this->getOutL())) {
+            $data['out_l'] = $this->getOutL();
         }
-        if(!is_null($this->getTMax())){
-            $data['tMax']  = $this->getTMax();
+        if (!is_null($this->getTMax())) {
+            $data['tMax'] = $this->getTMax();
         }
-        if(!is_null($this->getTh())){
-            $data['th']  = $this->getTh();
+        if (!is_null($this->getTh())) {
+            $data['th'] = $this->getTh();
         }
-        if(!is_null($this->getTl())){
-            $data['tl']  = $this->getTl();
+        if (!is_null($this->getTl())) {
+            $data['tl'] = $this->getTl();
         }
-        if(!is_null($this->getLPer())){
-            $data['l_per']  = $this->getLPer();
+        if (!is_null($this->getLPer())) {
+            $data['l_per'] = $this->getLPer();
         }
-        if(!is_null($this->getUvcPer())){
-            $data['uvc_per']  = $this->getUvcPer();
+        if (!is_null($this->getUvcPer())) {
+            $data['uvc_per'] = $this->getUvcPer();
         }
-        if(!is_null($this->getSpPer())){
-            $data['sp_per']  = $this->getSpPer();
+        if (!is_null($this->getSpPer())) {
+            $data['sp_per'] = $this->getSpPer();
         }
-        if(!is_null($this->getPushCfg())){
-            $data['push_cfg']  = $this->getPushCfg();
+        if (!is_null($this->getPushCfg())) {
+            $data['push_cfg'] = $this->getPushCfg();
         }
 
 
@@ -370,28 +370,29 @@ class Aq806CtrlDeviceReq extends BaseReqPo
         $this->devLock = $devLock;
     }
 
-    public function setData($data){
-        array_key_exists("devLock",$data) && $this->setDevLock($data['devLock']);
-        array_key_exists("pushCfg",$data) && $this->setPushCfg($data['pushCfg']);
-        array_key_exists("spPer",$data) && $this->setSpPer($data['spPer']);
-        array_key_exists("uvcPer",$data) && $this->setUvcPer($data['uvcPer']);
-        array_key_exists("lPer",$data) && $this->setLPer($data['lPer']);
-        array_key_exists("tl",$data) && $this->setTl($data['tl']);
-        array_key_exists("th",$data) && $this->setTh($data['th']);
-        array_key_exists("tMax",$data) && $this->setTMax($data['tMax']);
+    public function setData($data)
+    {
+        array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
+        array_key_exists("pushCfg", $data) && $this->setPushCfg($data['pushCfg']);
+        array_key_exists("spPer", $data) && $this->setSpPer($data['spPer']);
+        array_key_exists("uvcPer", $data) && $this->setUvcPer($data['uvcPer']);
+        array_key_exists("lPer", $data) && $this->setLPer($data['lPer']);
+        array_key_exists("tl", $data) && $this->setTl($data['tl']);
+        array_key_exists("th", $data) && $this->setTh($data['th']);
+        array_key_exists("tMax", $data) && $this->setTMax($data['tMax']);
 
-        array_key_exists("outL",$data) && $this->setOutL($data['outL']);
+        array_key_exists("outL", $data) && $this->setOutL($data['outL']);
 
-        array_key_exists("outSp",$data) && $this->setOutSp($data['outSp']);
-        array_key_exists("outUvc",$data) && $this->setOutUvc($data['outUvc']);
-        array_key_exists("mode",$data) && $this->setMode($data['mode']);
+        array_key_exists("outSp", $data) && $this->setOutSp($data['outSp']);
+        array_key_exists("outUvc", $data) && $this->setOutUvc($data['outUvc']);
+        array_key_exists("mode", $data) && $this->setMode($data['mode']);
 
-        array_key_exists("tmL",$data) && $this->setTmL($data['tmL']);
+        array_key_exists("tmL", $data) && $this->setTmL($data['tmL']);
 
-        array_key_exists("dCyc",$data) && $this->setDCyc($data['dCyc']);
-        array_key_exists("uv_wh",$data) && $this->setUvWh($data['uvWh']);
-        array_key_exists("pWh",$data) && $this->setPWh($data['pWh']);
-        array_key_exists("lWH",$data) && $this->setLWh($data['lWH']);
+        array_key_exists("dCyc", $data) && $this->setDCyc($data['dCyc']);
+        array_key_exists("uv_wh", $data) && $this->setUvWh($data['uvWh']);
+        array_key_exists("pWh", $data) && $this->setPWh($data['pWh']);
+        array_key_exists("lWH", $data) && $this->setLWh($data['lWH']);
 
 
     }

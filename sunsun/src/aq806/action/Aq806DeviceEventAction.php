@@ -9,13 +9,8 @@
 namespace sunsun\aq806\action;
 
 
-use GatewayWorker\Lib\Gateway;
-use sunsun\aq806\consts\EventTypeEnum;
 use sunsun\aq806\dal\Aq806DeviceEventDal;
-use sunsun\aq806\dal\Aq806TempHisDal;
 use sunsun\aq806\model\Aq806DeviceEventModel;
-use sunsun\aq806\model\Aq806DeviceModel;
-use sunsun\aq806\model\Aq806TempHisModel;
 use sunsun\aq806\req\Aq806DeviceEventReq;
 use sunsun\aq806\resp\Aq806DeviceEventResp;
 
@@ -26,12 +21,13 @@ use sunsun\aq806\resp\Aq806DeviceEventResp;
  */
 class Aq806DeviceEventAction
 {
-    public function logEvent($did,$client_id,Aq806DeviceEventReq $req){
+    public function logEvent($did, $client_id, Aq806DeviceEventReq $req)
+    {
         $eventType = $req->getCode();
-        $eventInfo = json_encode(['dyn'=>$req->getDyn(),'t'=>$req->getT(),'ph'=>$req->getPh(),'code_desc'=>'['.$req->getCodeDesc().'] '.$req->getDynDesc()]);
+        $eventInfo = json_encode(['dyn' => $req->getDyn(), 't' => $req->getT(), 'ph' => $req->getPh(), 'code_desc' => '[' . $req->getCodeDesc() . '] ' . $req->getDynDesc()]);
         $now = time();
         $dal = (new Aq806DeviceEventDal());
-        $do  = new Aq806DeviceEventModel();
+        $do = new Aq806DeviceEventModel();
         $do->setDid($did);
         $do->setCreateTime($now);
         $do->setUpdateTime($now);

@@ -135,7 +135,6 @@ class Aq806DeviceModel extends BaseModel
     }
 
 
-
     /**
      * @return mixed
      */
@@ -152,17 +151,18 @@ class Aq806DeviceModel extends BaseModel
         $this->updateTime = $updateTime;
     }
 
-    public function toDataArray(){
+    public function toDataArray()
+    {
         return [
-            'did'=>$this->getDid(),
-            'ver'=>$this->getVer(),
-            'pwd'=>$this->getPwd(),
-            'last_login_time'=>$this->getLastLoginTime(),
-            'hb'=>$this->getHb(),
-            'tcp_client_id'=>$this->getTcpClientId(),
-            'last_login_ip'=>$this->getLastLoginIp(),
-            'create_time'=>$this->getCreateTime(),
-            'update_time'=>$this->getUpdateTime()
+            'did' => $this->getDid(),
+            'ver' => $this->getVer(),
+            'pwd' => $this->getPwd(),
+            'last_login_time' => $this->getLastLoginTime(),
+            'hb' => $this->getHb(),
+            'tcp_client_id' => $this->getTcpClientId(),
+            'last_login_ip' => $this->getLastLoginIp(),
+            'create_time' => $this->getCreateTime(),
+            'update_time' => $this->getUpdateTime()
         ];
     }
 

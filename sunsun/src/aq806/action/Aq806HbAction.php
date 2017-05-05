@@ -19,7 +19,7 @@ use sunsun\aq806\resp\Aq806HbResp;
  */
 class Aq806HbAction
 {
-    public function heartBeat($clientId,Aq806HbReq $req)
+    public function heartBeat($clientId, Aq806HbReq $req)
     {
         return new Aq806HbResp($req);
     }

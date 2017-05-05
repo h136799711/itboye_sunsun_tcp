@@ -51,7 +51,6 @@ class FilterVatTcpLogModel extends BaseModel
     }
 
 
-
     /**
      * @return mixed
      */

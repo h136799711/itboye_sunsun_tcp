@@ -18,10 +18,10 @@ class HeatingRodLoginResp extends BaseRespPo
     private $tm;
     private $state;
 
-    public function __construct(HeatingRodLoginReq $req=null)
+    public function __construct(HeatingRodLoginReq $req = null)
     {
         $this->setRespType(HeatingRodRespType::Login);
-        if($req != null){
+        if ($req != null) {
             $this->setSn($req->getSn());
         }
     }
@@ -29,14 +29,16 @@ class HeatingRodLoginResp extends BaseRespPo
     /**
      * 设置登录成功状态
      */
-    public function setLoginSuccess(){
+    public function setLoginSuccess()
+    {
         $this->state = 0;
     }
 
     /**
      * 服务器拒绝该设备上线
      */
-    public function setLoginFail(){
+    public function setLoginFail()
+    {
         $this->state = 1;
     }
 
@@ -72,11 +74,11 @@ class HeatingRodLoginResp extends BaseRespPo
     function toDataArray()
     {
         return [
-            'resType'=>$this->getRespType(),
-            'sn'=>$this->getSn(),
-            'state'=>$this->state,
-            'tm'=>$this->getTm(),
-            'hb'=>$this->getHb()
+            'resType' => $this->getRespType(),
+            'sn' => $this->getSn(),
+            'state' => $this->state,
+            'tm' => $this->getTm(),
+            'hb' => $this->getHb()
         ];
     }
 

@@ -49,7 +49,6 @@ class LogModel extends BaseModel
     }
 
 
-
     /**
      * @return mixed
      */

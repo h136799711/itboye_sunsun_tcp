@@ -9,13 +9,12 @@
 namespace sunsun\filter_vat\resp;
 
 
-use sunsun\filter_vat\req\FilterVatLoginReq;
 use sunsun\po\BaseRespPo;
 
 class FilterVatUnknownResp extends BaseRespPo
 {
 
-    public function __construct( )
+    public function __construct()
     {
     }
 

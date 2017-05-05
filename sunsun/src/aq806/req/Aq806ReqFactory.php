@@ -11,9 +11,10 @@ namespace sunsun\aq806\req;
 
 class Aq806ReqFactory
 {
-    public static  function create($type,$data){
+    public static function create($type, $data)
+    {
         $req = null;
-        switch ($type){
+        switch ($type) {
             case Aq806ReqType::Login:
                 $req = new Aq806LoginReq($data);
                 break;

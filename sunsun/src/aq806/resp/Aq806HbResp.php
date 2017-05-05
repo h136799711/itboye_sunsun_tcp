@@ -20,10 +20,10 @@ use sunsun\po\BaseRespPo;
 class Aq806HbResp extends BaseRespPo
 {
 
-    public function __construct(Aq806HbReq $req=null)
+    public function __construct(Aq806HbReq $req = null)
     {
         $this->setRespType(Aq806RespType::Heartbeat);
-        if(!empty($req)){
+        if (!empty($req)) {
             $this->setSn($req->getSn());
         }
     }
@@ -31,8 +31,8 @@ class Aq806HbResp extends BaseRespPo
     public function toDataArray()
     {
         return [
-            'resType'=>$this->getRespType(),
-            'sn'=>$this->getSn()
+            'resType' => $this->getRespType(),
+            'sn' => $this->getSn()
         ];
     }
 }

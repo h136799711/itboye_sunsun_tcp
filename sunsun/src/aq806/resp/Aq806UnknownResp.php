@@ -14,7 +14,7 @@ use sunsun\po\BaseRespPo;
 class Aq806UnknownResp extends BaseRespPo
 {
 
-    public function __construct( )
+    public function __construct()
     {
     }
 

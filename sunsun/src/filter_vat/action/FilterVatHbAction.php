@@ -19,7 +19,7 @@ use sunsun\filter_vat\resp\FilterVatHbResp;
  */
 class FilterVatHbAction
 {
-    public function heartBeat($clientId,FilterVatHbReq $req)
+    public function heartBeat($clientId, FilterVatHbReq $req)
     {
         return new FilterVatHbResp($req);
     }

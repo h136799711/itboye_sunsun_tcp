@@ -18,7 +18,8 @@ class DbBackupHelper
      * @param $newTableName
      * @return string
      */
-    public static function backupSql($tableName,$newTableName){
+    public static function backupSql($tableName, $newTableName)
+    {
         $sql = "CREATE TABLE $newTableName LIKE $tableName";
         return $sql;
     }

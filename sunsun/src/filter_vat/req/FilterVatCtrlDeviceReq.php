@@ -18,10 +18,10 @@ use sunsun\po\BaseReqPo;
 class FilterVatCtrlDeviceReq extends BaseReqPo
 {
 
-    public function __construct($data=null)
+    public function __construct($data = null)
     {
         $this->setReqType(FilterVatReqType::Control);
-        if(!empty($data)){
+        if (!empty($data)) {
             $this->setSn($data['sn']);
         }
     }
@@ -33,44 +33,44 @@ class FilterVatCtrlDeviceReq extends BaseReqPo
         $data['reqType'] = $this->getReqType();
         $data['sn'] = $this->getSn();
 
-        if(!is_null($this->getClEn())){
+        if (!is_null($this->getClEn())) {
             $data['clEn'] = $this->getClEn();
         }
-        if(!is_null($this->getClWeek())) {
+        if (!is_null($this->getClWeek())) {
             $data['clWeek'] = $this->getClWeek();
         }
-        if(!is_null($this->getClTm())){
-            $data['clTm']  = $this->getClTm();
+        if (!is_null($this->getClTm())) {
+            $data['clTm'] = $this->getClTm();
         }
-        if(!is_null($this->getClDur())) {
+        if (!is_null($this->getClDur())) {
             $data['clDur'] = $this->getClDur();
         }
-        if(!is_null($this->getClState())) {
+        if (!is_null($this->getClState())) {
             $data['clState'] = $this->getClState();
         }
-        if(!is_null($this->getClCfg())) {
+        if (!is_null($this->getClCfg())) {
             $data['clCfg'] = $this->getClCfg();
         }
-        if(!is_null($this->getUvOn())) {
+        if (!is_null($this->getUvOn())) {
             $data['uvOn'] = $this->getUvOn();
         }
-        if(!is_null($this->getUvOff())) {
+        if (!is_null($this->getUvOff())) {
             $data['uvOff'] = $this->getUvOff();
         }
-        if(!is_null($this->getUvWH())) {
+        if (!is_null($this->getUvWH())) {
             $data['uvWH'] = $this->getUvWH();
         }
-        if(!is_null($this->getUvCfg())) {
+        if (!is_null($this->getUvCfg())) {
             $data['uvCfg'] = $this->getUvCfg();
         }
-        if(!is_null($this->getOutStateA())){
-            $data['outStateA']  = $this->getOutStateA();
+        if (!is_null($this->getOutStateA())) {
+            $data['outStateA'] = $this->getOutStateA();
         }
-        if(!is_null($this->getOutStateB())){
-            $data['outStateB']  = $this->getOutStateB();
+        if (!is_null($this->getOutStateB())) {
+            $data['outStateB'] = $this->getOutStateB();
         }
-        if(!is_null($this->getDevLock())){
-            $data['devLock']  = $this->getDevLock();
+        if (!is_null($this->getDevLock())) {
+            $data['devLock'] = $this->getDevLock();
         }
 
         return $data;
@@ -298,20 +298,21 @@ class FilterVatCtrlDeviceReq extends BaseReqPo
         $this->devLock = $devLock;
     }
 
-    public function setData($data){
-        array_key_exists("clEn",$data) && $this->setClEn($data['clEn']);
-        array_key_exists("clWeek",$data) && $this->setClWeek($data['clWeek']);
-        array_key_exists("clTm",$data) && $this->setClTm($data['clTm']);
-        array_key_exists("clDur",$data) && $this->setClDur($data['clDur']);
-        array_key_exists("clState",$data) && $this->setClState($data['clState']);
-        array_key_exists("clCfg",$data) && $this->setClCfg($data['clCfg']);
-        array_key_exists("uvOn",$data) && $this->setUvOn($data['uvOn']);
-        array_key_exists("uvOff",$data) && $this->setUvOff($data['uvOff']);
-        array_key_exists("uvWH",$data) && $this->setUvWH($data['uvWH']);
-        array_key_exists("uvCfg",$data) && $this->setUvCfg($data['uvCfg']);
-        array_key_exists("outStateA",$data) && $this->setOutStateA($data['outStateA']);
-        array_key_exists("outStateB",$data) && $this->setOutStateB($data['outStateB']);
-        array_key_exists("devLock",$data) && $this->setDevLock($data['devLock']);
+    public function setData($data)
+    {
+        array_key_exists("clEn", $data) && $this->setClEn($data['clEn']);
+        array_key_exists("clWeek", $data) && $this->setClWeek($data['clWeek']);
+        array_key_exists("clTm", $data) && $this->setClTm($data['clTm']);
+        array_key_exists("clDur", $data) && $this->setClDur($data['clDur']);
+        array_key_exists("clState", $data) && $this->setClState($data['clState']);
+        array_key_exists("clCfg", $data) && $this->setClCfg($data['clCfg']);
+        array_key_exists("uvOn", $data) && $this->setUvOn($data['uvOn']);
+        array_key_exists("uvOff", $data) && $this->setUvOff($data['uvOff']);
+        array_key_exists("uvWH", $data) && $this->setUvWH($data['uvWH']);
+        array_key_exists("uvCfg", $data) && $this->setUvCfg($data['uvCfg']);
+        array_key_exists("outStateA", $data) && $this->setOutStateA($data['outStateA']);
+        array_key_exists("outStateB", $data) && $this->setOutStateB($data['outStateB']);
+        array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
 
     }
 

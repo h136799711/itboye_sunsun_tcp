@@ -10,7 +10,6 @@ namespace sunsun\filter_vat\resp;
 
 
 use sunsun\filter_vat\req\FilterVatDeviceEventReq;
-use sunsun\filter_vat\req\FilterVatDeviceInfoReq;
 use sunsun\po\BaseRespPo;
 
 /**
@@ -22,11 +21,10 @@ class FilterVatDeviceEventResp extends BaseRespPo
 {
 
 
-
-    public function __construct(FilterVatDeviceEventReq $req=null)
+    public function __construct(FilterVatDeviceEventReq $req = null)
     {
         $this->setRespType(FilterVatRespType::Event);
-        if(!empty($req)){
+        if (!empty($req)) {
             $this->setSn($req->getSn());
         }
     }
@@ -52,9 +50,9 @@ class FilterVatDeviceEventResp extends BaseRespPo
     public function toDataArray()
     {
         return [
-            'resType'=>$this->getRespType(),
-            'sn'=>$this->getSn(),
-            'state'=>$this->getState()
+            'resType' => $this->getRespType(),
+            'sn' => $this->getSn(),
+            'state' => $this->getState()
         ];
     }
 

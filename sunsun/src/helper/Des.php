@@ -9,13 +9,13 @@
 namespace sunsun\helper;
 
 
-
 /**
  * DES
  * Class DesCrypt
  * @package app\vendor\Crypt
  */
-class Des{
+class Des
+{
 
 
     /**
@@ -25,9 +25,9 @@ class Des{
      * @return string <type>
      * @internal param $ <type> $value
      */
-    public static function encrypt ($value,$key)
+    public static function encrypt($value, $key)
     {
-        $ret = openssl_encrypt($value,"des-ecb",$key);
+        $ret = openssl_encrypt($value, "des-ecb", $key);
         return $ret;
     }
 
@@ -38,9 +38,9 @@ class Des{
      * @return string <type>
      * @internal param $ <type> $value
      */
-    public static function decrypt ($value,$key)
+    public static function decrypt($value, $key)
     {
-        return openssl_decrypt($value,"des-ecb",$key);
+        return openssl_decrypt($value, "des-ecb", $key);
     }
 
 }

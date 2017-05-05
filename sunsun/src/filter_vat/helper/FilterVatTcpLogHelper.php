@@ -14,11 +14,13 @@ use sunsun\filter_vat\model\FilterVatTcpLogModel;
 
 class FilterVatTcpLogHelper
 {
-    public static function logDebug($client_id,$message,$type='debug'){
-        self::log(null,$client_id,$message,$type);
+    public static function logDebug($client_id, $message, $type = 'debug')
+    {
+        self::log(null, $client_id, $message, $type);
     }
 
-    public static function log($db,$client_id,$message,$type='common'){
+    public static function log($db, $client_id, $message, $type = 'common')
+    {
 
         $dal = new FilterVatTcpLogDal($db);
         $model = new  FilterVatTcpLogModel();

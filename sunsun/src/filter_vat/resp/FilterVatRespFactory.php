@@ -10,11 +10,12 @@ namespace sunsun\filter_vat\resp;
 
 class FilterVatRespFactory
 {
-    public static  function create($resType,$jsonData){
+    public static function create($resType, $jsonData)
+    {
         $sn = $jsonData['sn'];
 
         $resp = null;
-        switch ($resType){
+        switch ($resType) {
             case FilterVatRespType::Control:
                 $resp = new FilterVatCtrlDeviceResp();
                 $resp->setData($jsonData);
@@ -31,7 +32,7 @@ class FilterVatRespFactory
                 break;
         }
 
-        if($resp){
+        if ($resp) {
             $resp->setSn($sn);
         }
 

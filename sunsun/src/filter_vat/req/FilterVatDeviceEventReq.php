@@ -19,14 +19,15 @@ class FilterVatDeviceEventReq extends BaseReqPo
 {
     private $code;
 
-    public function getCodeDesc(){
+    public function getCodeDesc()
+    {
 //        0：无操作
 //1：杀菌灯更换维护提示
 //2：杀菌灯异常报警（损坏）
 //3：清洗开启
 //4：清洗电机堵转异常
         //1. Language 多语言
-        switch ($this->code){
+        switch ($this->code) {
             case 0:
                 return "no action";
             case 1:
@@ -37,7 +38,8 @@ class FilterVatDeviceEventReq extends BaseReqPo
                 return "Cleaning open";
             case 4:
                 return "Cleaning motor abnormal rotation";
-            default:break;
+            default:
+                break;
         }
 
         return "Unknown ";
@@ -60,10 +62,10 @@ class FilterVatDeviceEventReq extends BaseReqPo
     }
 
 
-    public function __construct($data=null)
+    public function __construct($data = null)
     {
         $this->setReqType(FilterVatReqType::Event);
-        if(!empty($data)){
+        if (!empty($data)) {
             $this->setSn($data['sn']);
             $this->setCode($data['code']);
         }
@@ -72,8 +74,8 @@ class FilterVatDeviceEventReq extends BaseReqPo
     function toDataArray()
     {
         return [
-            'reqType'=>$this->getReqType(),
-            'sn'=>$this->getSn(),
+            'reqType' => $this->getReqType(),
+            'sn' => $this->getSn(),
 
         ];
     }

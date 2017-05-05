@@ -20,10 +20,10 @@ use sunsun\po\BaseRespPo;
 class FilterVatHbResp extends BaseRespPo
 {
 
-    public function __construct(FilterVatHbReq $req=null)
+    public function __construct(FilterVatHbReq $req = null)
     {
         $this->setRespType(FilterVatRespType::Heartbeat);
-        if(!empty($req)){
+        if (!empty($req)) {
             $this->setSn($req->getSn());
         }
     }
@@ -31,8 +31,8 @@ class FilterVatHbResp extends BaseRespPo
     public function toDataArray()
     {
         return [
-            'resType'=>$this->getRespType(),
-            'sn'=>$this->getSn()
+            'resType' => $this->getRespType(),
+            'sn' => $this->getSn()
         ];
     }
 }

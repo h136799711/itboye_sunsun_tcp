@@ -20,22 +20,24 @@ class HeatingRodDeviceEventReq extends BaseReqPo
     private $code;
     private $t;
 
-    public function getEventInfo(){
+    public function getEventInfo()
+    {
         $codeDesc = $this->getCodeDesc();
         return [
-            'code'=>$codeDesc,
-            't'=>$this->getT()
+            'code' => $codeDesc,
+            't' => $this->getT()
         ];
     }
 
-    public function getCodeDesc(){
+    public function getCodeDesc()
+    {
 //        0：无操作
 //1：实时温度推送（服务器记录温度）
 //2：加热棒过温异常
 //3：温度传感器1异常
 //4：温度传感器2异常
 //5：加热丝开路异常
-        switch ($this->code){
+        switch ($this->code) {
             case 0:
                 return "no action";
             case 1:
@@ -48,7 +50,8 @@ class HeatingRodDeviceEventReq extends BaseReqPo
                 return "Temperature sensor 2 anomaly";
             case 5:
                 return "Heating wire open circuit anomaly";
-            default:break;
+            default:
+                break;
         }
         return "Unknown";
     }
@@ -70,7 +73,6 @@ class HeatingRodDeviceEventReq extends BaseReqPo
     }
 
 
-
     /**
      * @return mixed
      */
@@ -88,10 +90,10 @@ class HeatingRodDeviceEventReq extends BaseReqPo
     }
 
 
-    public function __construct($data=null)
+    public function __construct($data = null)
     {
         $this->setReqType(HeatingRodReqType::Event);
-        if(!empty($data)){
+        if (!empty($data)) {
             $this->setSn($data['sn']);
             $this->setCode($data['code']);
             $this->setT($data['t']);
@@ -101,8 +103,8 @@ class HeatingRodDeviceEventReq extends BaseReqPo
     function toDataArray()
     {
         return [
-            'reqType'=>$this->getReqType(),
-            'sn'=>$this->getSn(),
+            'reqType' => $this->getReqType(),
+            'sn' => $this->getSn(),
 
         ];
     }

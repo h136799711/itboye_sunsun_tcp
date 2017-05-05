@@ -20,10 +20,10 @@ use sunsun\po\BaseRespPo;
 class HeatingRodHbResp extends BaseRespPo
 {
 
-    public function __construct(HeatingRodHbReq $req=null)
+    public function __construct(HeatingRodHbReq $req = null)
     {
         $this->setRespType(HeatingRodRespType::Heartbeat);
-        if(!empty($req)){
+        if (!empty($req)) {
             $this->setSn($req->getSn());
         }
     }
@@ -31,8 +31,8 @@ class HeatingRodHbResp extends BaseRespPo
     public function toDataArray()
     {
         return [
-            'resType'=>$this->getRespType(),
-            'sn'=>$this->getSn()
+            'resType' => $this->getRespType(),
+            'sn' => $this->getSn()
         ];
     }
 }

@@ -22,19 +22,20 @@ class HeatingRodDeviceUpdateResp extends BaseRespPo
 
     private $state;
 
-    public function __construct(HeatingRodDeviceUpdateReq $req=null)
+    public function __construct(HeatingRodDeviceUpdateReq $req = null)
     {
         $this->setRespType(HeatingRodRespType::FirmwareUpdate);
-        if(!empty($req)){
+        if (!empty($req)) {
             $this->setSn($req->getSn());
         }
     }
 
-    public function setData($data){
+    public function setData($data)
+    {
 
-        if(array_key_exists("state",$data)){
+        if (array_key_exists("state", $data)) {
             $this->setState($data['state']);
-        }else{
+        } else {
             //默认999
             $this->setState(999);
         }
@@ -43,8 +44,8 @@ class HeatingRodDeviceUpdateResp extends BaseRespPo
     public function toDataArray()
     {
         return [
-            'resType'=>$this->getRespType(),
-            'sn'=>$this->getSn()
+            'resType' => $this->getRespType(),
+            'sn' => $this->getSn()
         ];
     }
 

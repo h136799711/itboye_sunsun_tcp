@@ -14,56 +14,58 @@ use sunsun\heating_rod\resp\HeatingRodDeviceInfoResp;
 
 class ModelConverterHelper
 {
-    public static function convertToModelArray(HeatingRodDeviceInfoResp $resp){
+    public static function convertToModelArray(HeatingRodDeviceInfoResp $resp)
+    {
         $data = [];
-        if(!is_null($resp->getT())){
+        if (!is_null($resp->getT())) {
             $data['t'] = $resp->getT();
         }
-        if(!is_null($resp->getPwr())){
+        if (!is_null($resp->getPwr())) {
             $data['pwr'] = $resp->getPwr();
         }
-        if(!is_null($resp->getTSet())){
+        if (!is_null($resp->getTSet())) {
             $data['t_set'] = $resp->getTSet();
         }
-        if(!is_null($resp->getTCyc())){
+        if (!is_null($resp->getTCyc())) {
             $data['t_cyc'] = $resp->getTCyc();
         }
-        if(!is_null($resp->getCfg())){
+        if (!is_null($resp->getCfg())) {
             $data['cfg'] = $resp->getCfg();
         }
 
-        if(!is_null($resp->getDevLock())){
-            $data['dev_lock']  = $resp->getDevLock();
+        if (!is_null($resp->getDevLock())) {
+            $data['dev_lock'] = $resp->getDevLock();
         }
-        if(!is_null($resp->getUpdState()) && $resp->getUpdState() > -1){
+        if (!is_null($resp->getUpdState()) && $resp->getUpdState() > -1) {
             $data['upd_state'] = $resp->getUpdState();
-        }else{
+        } else {
             $data['upd_state'] = 0;
         }
 
         return $data;
     }
 
-    public static function convertToModelArrayOfCtrlDeviceResp(HeatingRodCtrlDeviceResp $resp){
+    public static function convertToModelArrayOfCtrlDeviceResp(HeatingRodCtrlDeviceResp $resp)
+    {
         $data = [];
-        if(!is_null($resp->getDevLock())){
+        if (!is_null($resp->getDevLock())) {
             $data['dev_lock'] = $resp->getDevLock();
         }
-        if(!is_null($resp->getTSet())) {
+        if (!is_null($resp->getTSet())) {
             $data['t_set'] = $resp->getTSet();
         }
-        if(!is_null($resp->getTCyc())){
-            $data['t_cyc']  = $resp->getTCyc();
+        if (!is_null($resp->getTCyc())) {
+            $data['t_cyc'] = $resp->getTCyc();
         }
-        if(!is_null($resp->getCfg())) {
+        if (!is_null($resp->getCfg())) {
             $data['cfg'] = $resp->getCfg();
         }
-        if(!is_null($resp->getDevLock())){
-            $data['dev_lock']  = $resp->getDevLock();
+        if (!is_null($resp->getDevLock())) {
+            $data['dev_lock'] = $resp->getDevLock();
         }
-        if(!is_null($resp->getUpdState()) && $resp->getUpdState() > -1){
-            $data['upd_state']  = $resp->getUpdState();
-        }else{
+        if (!is_null($resp->getUpdState()) && $resp->getUpdState() > -1) {
+            $data['upd_state'] = $resp->getUpdState();
+        } else {
             $data['upd_state'] = 0;
         }
 

@@ -10,10 +10,10 @@ namespace sunsun\filter_vat\action;
 
 
 use sunsun\filter_vat\dal\FilterVatDeviceDal;
+use sunsun\filter_vat\helper\ModelConverterHelper;
 use sunsun\filter_vat\resp\FilterVatCtrlDeviceResp;
 use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
-use sunsun\filter_vat\helper\ModelConverterHelper;
 
 class FilterVatDeviceCtrlAction
 {
@@ -25,17 +25,18 @@ class FilterVatDeviceCtrlAction
      * @param FilterVatCtrlDeviceResp $resp
      * @return array
      */
-    public function updateInfo($did,$clientId,FilterVatCtrlDeviceResp $resp){
+    public function updateInfo($did, $clientId, FilterVatCtrlDeviceResp $resp)
+    {
         $check = $resp->check();
-        if(!empty($check)){
+        if (!empty($check)) {
             return ResultHelper::fail($check);
         }
         //更新设备信息
         $updateEntity = ModelConverterHelper::convertToModelArrayOfCtrlDeviceResp($resp);
         $dal = new FilterVatDeviceDal();
-        LogHelper::logDebug($clientId,'updateEntity'.json_encode($updateEntity));
+        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
 
-        $ret = $dal->updateByDid($did,$updateEntity);
+        $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
     }
 

@@ -10,7 +10,6 @@ namespace sunsun\aq806\resp;
 
 
 use sunsun\aq806\req\Aq806CtrlDeviceReq;
-use sunsun\aq806\req\Aq806ReqType;
 use sunsun\po\BaseRespPo;
 
 /**
@@ -420,73 +419,74 @@ class Aq806CtrlDeviceResp extends BaseRespPo
      */
     private $updState;
 
-    public function __construct(Aq806CtrlDeviceReq $req=null)
+    public function __construct(Aq806CtrlDeviceReq $req = null)
     {
         $this->setRespType(Aq806RespType::Control);
-        if(!empty($req)){
+        if (!empty($req)) {
             $this->setSn($req->getSn());
         }
     }
 
-    public function setData($data){
-        array_key_exists("sn",$data) && $this->setSn($data['sn']);
-        array_key_exists("t",$data) && $this->setT($data['t']);
-        array_key_exists("ph",$data) && $this->setPh($data['ph']);
-        array_key_exists("out",$data) && $this->setOut($data['out']);
-        array_key_exists("tMax",$data) && $this->setTMax($data['tMax']);
-        array_key_exists("fault",$data) && $this->setFault($data['fault']);
-        array_key_exists("th",$data) && $this->setTh($data['th']);
-        array_key_exists("tl",$data) && $this->setTl($data['tl']);
-        array_key_exists("p_p",$data) && $this->setPP($data['p_p']);
-        array_key_exists("uvc_p",$data) && $this->setUvcP($data['uvc_p']);
-        array_key_exists("sp_p",$data) && $this->setSpP($data['sp_p']);
-        array_key_exists("l_p",$data) && $this->setLP($data['l_p']);
-        array_key_exists("l_per",$data) && $this->setLPer($data['l_per']);
-        array_key_exists("uvc_per",$data) && $this->setUvcPer($data['uvc_per']);
-        array_key_exists("sp_per",$data) && $this->setSpPer($data['sp_per']);
-        array_key_exists("exDev",$data) && $this->setExDev($data['exDev']);
-        array_key_exists("devLock",$data) && $this->setDevLock($data['devLock']);
+    public function setData($data)
+    {
+        array_key_exists("sn", $data) && $this->setSn($data['sn']);
+        array_key_exists("t", $data) && $this->setT($data['t']);
+        array_key_exists("ph", $data) && $this->setPh($data['ph']);
+        array_key_exists("out", $data) && $this->setOut($data['out']);
+        array_key_exists("tMax", $data) && $this->setTMax($data['tMax']);
+        array_key_exists("fault", $data) && $this->setFault($data['fault']);
+        array_key_exists("th", $data) && $this->setTh($data['th']);
+        array_key_exists("tl", $data) && $this->setTl($data['tl']);
+        array_key_exists("p_p", $data) && $this->setPP($data['p_p']);
+        array_key_exists("uvc_p", $data) && $this->setUvcP($data['uvc_p']);
+        array_key_exists("sp_p", $data) && $this->setSpP($data['sp_p']);
+        array_key_exists("l_p", $data) && $this->setLP($data['l_p']);
+        array_key_exists("l_per", $data) && $this->setLPer($data['l_per']);
+        array_key_exists("uvc_per", $data) && $this->setUvcPer($data['uvc_per']);
+        array_key_exists("sp_per", $data) && $this->setSpPer($data['sp_per']);
+        array_key_exists("exDev", $data) && $this->setExDev($data['exDev']);
+        array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
         $this->setUpdState(-1);
-        array_key_exists("updState",$data) && $this->setUpdState($data['updState']);
+        array_key_exists("updState", $data) && $this->setUpdState($data['updState']);
 
-        array_key_exists("push_cfg",$data) && $this->setPushCfg($data['push_cfg']);
-        array_key_exists("d_cyc",$data) && $this->setDCyc($data['d_cyc']);
-        array_key_exists("uv_wh",$data) && $this->setUvWh($data['uv_wh']);
-        array_key_exists("p_wh",$data) && $this->setPWh($data['p_wh']);
-        array_key_exists("l_wh",$data) && $this->setLWh($data['l_wh']);
+        array_key_exists("push_cfg", $data) && $this->setPushCfg($data['push_cfg']);
+        array_key_exists("d_cyc", $data) && $this->setDCyc($data['d_cyc']);
+        array_key_exists("uv_wh", $data) && $this->setUvWh($data['uv_wh']);
+        array_key_exists("p_wh", $data) && $this->setPWh($data['p_wh']);
+        array_key_exists("l_wh", $data) && $this->setLWh($data['l_wh']);
     }
 
     public function toDataArray()
     {
 
         $data = [
-            'resType'=>$this->getRespType(),
-            'sn'=>$this->getSn(),
-            't'=>$this->getT(),
-            'ph'=>$this->getPh(),
-            'out'=>$this->getOut(),
-            'tMax'=>$this->getTMax(),
-            'fault'=>$this->getFault(),
-            'th'=>$this->getTh(),
-            'tl'=>$this->getTl(),
-            'p_p'=>$this->getPP(),
-            'uvc_p'=>$this->getUvcP(),
-            'sp_p'=>$this->getSpP(),
-            'l_p'=>$this->getLP(),
-            'l_per'=>$this->getLPer(),
-            'uvc_per'=>$this->getUvcPer(),
-            'sp_per'=>$this->getSpPer(),
-            'exDev'=>$this->getExDev(),
-            'devLock'=>$this->getDevLock(),
-            'push_cfg'=>$this->getPushCfg(),
-            'd_cyc'=>$this->getDCyc(),
-            'uv_wh'=>$this->getUvWh(),
-            'p_wh'=>$this->getPWh(),
-            'l_wh'=>$this->getLWh()
+            'resType' => $this->getRespType(),
+            'sn' => $this->getSn(),
+            't' => $this->getT(),
+            'ph' => $this->getPh(),
+            'out' => $this->getOut(),
+            'tMax' => $this->getTMax(),
+            'fault' => $this->getFault(),
+            'th' => $this->getTh(),
+            'tl' => $this->getTl(),
+            'p_p' => $this->getPP(),
+            'uvc_p' => $this->getUvcP(),
+            'sp_p' => $this->getSpP(),
+            'l_p' => $this->getLP(),
+            'l_per' => $this->getLPer(),
+            'uvc_per' => $this->getUvcPer(),
+            'sp_per' => $this->getSpPer(),
+            'exDev' => $this->getExDev(),
+            'devLock' => $this->getDevLock(),
+            'push_cfg' => $this->getPushCfg(),
+            'd_cyc' => $this->getDCyc(),
+            'uv_wh' => $this->getUvWh(),
+            'p_wh' => $this->getPWh(),
+            'l_wh' => $this->getLWh()
         ];
-        if($this->getUpdState() == -1){
+        if ($this->getUpdState() == -1) {
             $data['updState'] = 0;
-        }else{
+        } else {
             $data['updState'] = $this->getUpdState();
         }
 
@@ -525,10 +525,11 @@ class Aq806CtrlDeviceResp extends BaseRespPo
         $this->updState = $updState;
     }
 
-    public function check(){
-        foreach ($this->toDataArray() as $key=>$item){
-            if(is_null($item)){
-                return "缺少 ".$key." 属性";
+    public function check()
+    {
+        foreach ($this->toDataArray() as $key => $item) {
+            if (is_null($item)) {
+                return "缺少 " . $key . " 属性";
             }
         }
         return "";

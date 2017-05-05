@@ -16,27 +16,33 @@ class FilterVatDeviceDal extends BaseDal
 {
     protected $tableName = "sunsun_filter_vat_device";
 
-    public function insert(FilterVatDeviceModel $do){
+    public function insert(FilterVatDeviceModel $do)
+    {
         self::$db->insert($this->tableName)->cols($do->toDataArray())->query();
     }
 
-    public function update($id,$entity){
-        return self::$db->update($this->tableName)->cols($entity)->where('id='.$id)->query();
+    public function update($id, $entity)
+    {
+        return self::$db->update($this->tableName)->cols($entity)->where('id=' . $id)->query();
     }
 
-    public function updateByDid($did,$entity){
+    public function updateByDid($did, $entity)
+    {
         return self::$db->update($this->tableName)->cols($entity)->where(" did= '$did' ")->query();
     }
 
-    public function getInfoByClientId($tcp_client_id){
+    public function getInfoByClientId($tcp_client_id)
+    {
         return self::$db->select("`id`, `did`, `ver`, `pwd`, `last_login_time`, `hb`, `tcp_client_id`, `last_login_ip`, `create_time`, `update_time`")->from($this->tableName)->where(" tcp_client_id= '$tcp_client_id' ")->row();
     }
 
-    public function getInfoByDid($did){
+    public function getInfoByDid($did)
+    {
         return self::$db->select("`id`, `did`, `ver`, `pwd`, `last_login_time`, `hb`, `tcp_client_id`, `last_login_ip`, `create_time`, `update_time`")->from($this->tableName)->where(" did= '$did' ")->row();
     }
 
-    public function logoutByClientId($tcp_client_id){
+    public function logoutByClientId($tcp_client_id)
+    {
 
         $sql = "UPDATE `sunsun_filter_vat_device` SET `tcp_client_id` = '' ";
         $sql .= "WHERE  `tcp_client_id`='$tcp_client_id'";
@@ -44,15 +50,16 @@ class FilterVatDeviceDal extends BaseDal
         return $row_count;
     }
 
-    public function loginByTcpClientId($tcp_client_id,$loginIp){
+    public function loginByTcpClientId($tcp_client_id, $loginIp)
+    {
         $result = $this->getInfoByClientId($tcp_client_id);
-        if($result === false) return false;
+        if ($result === false) return false;
         $id = $result['id'];
         $entity = [];
 //        $entity['last_login_time'] = time();
-        $entity['update_time']   = time();
+        $entity['update_time'] = time();
 //        $entity['last_login_ip'] = $loginIp;
-        $this->update($id,$entity);
+        $this->update($id, $entity);
         return $result;
     }
 

@@ -9,13 +9,8 @@
 namespace sunsun\heating_rod\action;
 
 
-use GatewayWorker\Lib\Gateway;
-use sunsun\heating_rod\consts\EventTypeEnum;
 use sunsun\heating_rod\dal\HeatingRodDeviceEventDal;
-use sunsun\heating_rod\dal\HeatingRodTempHisDal;
 use sunsun\heating_rod\model\HeatingRodDeviceEventModel;
-use sunsun\heating_rod\model\HeatingRodDeviceModel;
-use sunsun\heating_rod\model\HeatingRodTempHisModel;
 use sunsun\heating_rod\req\HeatingRodDeviceEventReq;
 use sunsun\heating_rod\resp\HeatingRodDeviceEventResp;
 
@@ -26,12 +21,13 @@ use sunsun\heating_rod\resp\HeatingRodDeviceEventResp;
  */
 class HeatingRodDeviceEventAction
 {
-    public function logEvent($did,$client_id,HeatingRodDeviceEventReq $req){
+    public function logEvent($did, $client_id, HeatingRodDeviceEventReq $req)
+    {
         $eventType = $req->getCode();
-        $eventInfo = json_encode(['code_desc'=>$req->getCodeDesc(),'t'=>$req->getT()]);
+        $eventInfo = json_encode(['code_desc' => $req->getCodeDesc(), 't' => $req->getT()]);
         $now = time();
         $dal = (new HeatingRodDeviceEventDal());
-        $do  = new HeatingRodDeviceEventModel();
+        $do = new HeatingRodDeviceEventModel();
         $do->setDid($did);
         $do->setCreateTime($now);
         $do->setUpdateTime($now);

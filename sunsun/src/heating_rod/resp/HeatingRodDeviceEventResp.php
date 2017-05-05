@@ -10,7 +10,6 @@ namespace sunsun\heating_rod\resp;
 
 
 use sunsun\heating_rod\req\HeatingRodDeviceEventReq;
-use sunsun\heating_rod\req\HeatingRodDeviceInfoReq;
 use sunsun\po\BaseRespPo;
 
 /**
@@ -22,11 +21,10 @@ class HeatingRodDeviceEventResp extends BaseRespPo
 {
 
 
-
-    public function __construct(HeatingRodDeviceEventReq $req=null)
+    public function __construct(HeatingRodDeviceEventReq $req = null)
     {
         $this->setRespType(HeatingRodRespType::Event);
-        if(!empty($req)){
+        if (!empty($req)) {
             $this->setSn($req->getSn());
         }
     }
@@ -52,9 +50,9 @@ class HeatingRodDeviceEventResp extends BaseRespPo
     public function toDataArray()
     {
         return [
-            'resType'=>$this->getRespType(),
-            'sn'=>$this->getSn(),
-            'state'=>$this->getState()
+            'resType' => $this->getRespType(),
+            'sn' => $this->getSn(),
+            'state' => $this->getState()
         ];
     }
 

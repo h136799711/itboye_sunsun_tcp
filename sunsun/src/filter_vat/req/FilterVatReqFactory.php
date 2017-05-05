@@ -11,9 +11,10 @@ namespace sunsun\filter_vat\req;
 
 class FilterVatReqFactory
 {
-    public static  function create($type,$data){
+    public static function create($type, $data)
+    {
         $req = null;
-        switch ($type){
+        switch ($type) {
             case FilterVatReqType::Login:
                 $req = new FilterVatLoginReq($data);
                 break;

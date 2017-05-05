@@ -11,9 +11,10 @@ namespace sunsun\heating_rod\req;
 
 class HeatingRodReqFactory
 {
-    public static  function create($type,$data){
+    public static function create($type, $data)
+    {
         $req = null;
-        switch ($type){
+        switch ($type) {
             case HeatingRodReqType::Login:
                 $req = new HeatingRodLoginReq($data);
                 break;

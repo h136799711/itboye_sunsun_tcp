@@ -10,11 +10,12 @@ namespace sunsun\aq806\resp;
 
 class Aq806RespFactory
 {
-    public static  function create($resType,$jsonData){
+    public static function create($resType, $jsonData)
+    {
         $sn = $jsonData['sn'];
 
         $resp = null;
-        switch ($resType){
+        switch ($resType) {
             case Aq806RespType::Control:
                 $resp = new Aq806CtrlDeviceResp();
                 $resp->setData($jsonData);
@@ -31,7 +32,7 @@ class Aq806RespFactory
                 break;
         }
 
-        if($resp){
+        if ($resp) {
             $resp->setSn($sn);
         }
 

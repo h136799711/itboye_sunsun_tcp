@@ -10,7 +10,6 @@ namespace sunsun\aq806\resp;
 
 
 use sunsun\aq806\req\Aq806DeviceEventReq;
-use sunsun\aq806\req\Aq806DeviceInfoReq;
 use sunsun\po\BaseRespPo;
 
 /**
@@ -22,11 +21,10 @@ class Aq806DeviceEventResp extends BaseRespPo
 {
 
 
-
-    public function __construct(Aq806DeviceEventReq $req=null)
+    public function __construct(Aq806DeviceEventReq $req = null)
     {
         $this->setRespType(Aq806RespType::Event);
-        if(!empty($req)){
+        if (!empty($req)) {
             $this->setSn($req->getSn());
         }
     }
@@ -52,9 +50,9 @@ class Aq806DeviceEventResp extends BaseRespPo
     public function toDataArray()
     {
         return [
-            'resType'=>$this->getRespType(),
-            'sn'=>$this->getSn(),
-            'state'=>$this->getState()
+            'resType' => $this->getRespType(),
+            'sn' => $this->getSn(),
+            'state' => $this->getState()
         ];
     }
 

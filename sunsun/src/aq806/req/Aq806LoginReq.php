@@ -18,10 +18,10 @@ class Aq806LoginReq extends BaseReqPo
     private $pwd;
 
 
-    public function __construct($data=null)
+    public function __construct($data = null)
     {
         $this->setReqType(Aq806ReqType::Login);
-        if(!empty($data)){
+        if (!empty($data)) {
             $this->setSn($data['sn']);
             $this->setDid($data['did']);
             $this->setVer($data['ver']);
@@ -80,11 +80,11 @@ class Aq806LoginReq extends BaseReqPo
     function toDataArray()
     {
         return [
-            'reqType'=>$this->getReqType(),
-            'sn'=>$this->getSn(),
-            'did'=>$this->getDid(),
-            'ver'=>$this->getVer(),
-            'pwd'=>$this->getPwd(),
+            'reqType' => $this->getReqType(),
+            'sn' => $this->getSn(),
+            'did' => $this->getDid(),
+            'ver' => $this->getVer(),
+            'pwd' => $this->getPwd(),
         ];
     }
 

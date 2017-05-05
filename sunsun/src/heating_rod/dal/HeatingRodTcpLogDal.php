@@ -15,16 +15,18 @@ class HeatingRodTcpLogDal extends BaseDal
 {
     protected $tableName = "sunsun_heating_rod_tcp_log";
 
-    public function insert(HeatingRodTcpLogModel $do){
+    public function insert(HeatingRodTcpLogModel $do)
+    {
         self::$db->insert($this->tableName)->cols(array(
-            'owner'=>$do->getOwner(),
-            'body'=>$do->getBody(),
-            'level'=>$do->getLevel(),
-            'type'=>$do->getType(),
-            'create_time'=>$do->getCreateTime()))->query();
+            'owner' => $do->getOwner(),
+            'body' => $do->getBody(),
+            'level' => $do->getLevel(),
+            'type' => $do->getType(),
+            'create_time' => $do->getCreateTime()))->query();
     }
 
-    public function clearAll(){
+    public function clearAll()
+    {
         $this->truncateTable($this->tableName);
     }
 }

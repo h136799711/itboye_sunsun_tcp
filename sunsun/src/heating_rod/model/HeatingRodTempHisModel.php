@@ -65,11 +65,12 @@ class HeatingRodTempHisModel extends BaseModel
         $this->create_time = $create_time;
     }
 
-    public function toDataArray(){
+    public function toDataArray()
+    {
         return [
-            'did'=>$this->getDid(),
-            'create_time'=>$this->getCreateTime(),
-            'temp'=>$this->getTemp(),
+            'did' => $this->getDid(),
+            'create_time' => $this->getCreateTime(),
+            'temp' => $this->getTemp(),
         ];
     }
 }

@@ -18,10 +18,10 @@ use sunsun\po\BaseReqPo;
 class FilterVatDeviceInfoReq extends BaseReqPo
 {
 
-    public function __construct($data=null)
+    public function __construct($data = null)
     {
         $this->setReqType(FilterVatReqType::DeviceInfo);
-        if(!empty($data)){
+        if (!empty($data)) {
             $this->setSn($data['sn']);
         }
     }
@@ -29,8 +29,8 @@ class FilterVatDeviceInfoReq extends BaseReqPo
     function toDataArray()
     {
         return [
-            'reqType'=>$this->getReqType(),
-            'sn'=>$this->getSn(),
+            'reqType' => $this->getReqType(),
+            'sn' => $this->getSn(),
         ];
     }
 

@@ -51,7 +51,6 @@ class HeatingRodTcpLogModel extends BaseModel
     }
 
 
-
     /**
      * @return mixed
      */

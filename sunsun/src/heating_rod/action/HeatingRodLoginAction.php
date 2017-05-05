@@ -9,36 +9,33 @@
 namespace sunsun\heating_rod\action;
 
 
-use GatewayWorker\Lib\Gateway;
 use sunsun\decoder\SunsunTDS;
 use sunsun\heating_rod\dal\HeatingRodDeviceDal;
 use sunsun\heating_rod\req\HeatingRodLoginReq;
-use sunsun\heating_rod\resp\HeatingRodDeviceInfoResp;
 use sunsun\heating_rod\resp\HeatingRodLoginResp;
 use sunsun\helper\LogHelper;
-use sunsun\helper\ResultHelper;
-use sunsun\heating_rod\helper\ModelConverterHelper;
 
 class HeatingRodLoginAction
 {
-    public function login($did,$clientId,HeatingRodLoginReq $req){
+    public function login($did, $clientId, HeatingRodLoginReq $req)
+    {
         $resp = new  HeatingRodLoginResp();
         $resp->setSn($req->getSn());
         $resp->setHb(30);
         $dal = new HeatingRodDeviceDal();
         $result = $dal->getInfoByDid($did);
-        if(empty($result)){
+        if (empty($result)) {
             $resp->setLoginFail();
             return $resp;
         }
         $pwd = $result['pwd'];
-        $hb  = $result['hb'];
+        $hb = $result['hb'];
         $resp->setHb($hb);
         //更新设备信息
         $encryptPwd = $req->getPwd();
 
-        $originPwd = SunsunTDS::isLegalPwd($encryptPwd,$pwd);
-        if(empty($originPwd)){
+        $originPwd = SunsunTDS::isLegalPwd($encryptPwd, $pwd);
+        if (empty($originPwd)) {
             $resp->setLoginFail();
             return $resp;
         }
@@ -46,15 +43,15 @@ class HeatingRodLoginAction
         //更新控制密码
         $time = time();
         $entity = [
-            'ctrl_pwd'=>$originPwd,
-            'last_login_time'=> $time,
-            'update_time'=> $time,
+            'ctrl_pwd' => $originPwd,
+            'last_login_time' => $time,
+            'update_time' => $time,
         ];
 
         $dal = new HeatingRodDeviceDal();
-        LogHelper::logDebug($clientId,'updateEntity'.json_encode($entity));
+        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($entity));
 
-        $ret = $dal->updateByDid($did,$entity);
+        $ret = $dal->updateByDid($did, $entity);
 
         $resp->setLoginSuccess();
 

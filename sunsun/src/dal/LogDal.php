@@ -14,16 +14,18 @@ class LogDal extends BaseDal
 {
     protected $tableName = "sunsun_log";
 
-    public function insert(LogModel $do){
+    public function insert(LogModel $do)
+    {
         self::$db->insert($this->tableName)->cols(array(
-            'owner'=>$do->getOwner(),
-            'body'=>$do->getBody(),
-            'level'=>$do->getLevel(),
-            'type'=>$do->getType(),
-            'create_time'=>$do->getCreateTime()))->query();
+            'owner' => $do->getOwner(),
+            'body' => $do->getBody(),
+            'level' => $do->getLevel(),
+            'type' => $do->getType(),
+            'create_time' => $do->getCreateTime()))->query();
     }
 
-    public function clearAll(){
+    public function clearAll()
+    {
         $this->truncateTable($this->tableName);
     }
 }

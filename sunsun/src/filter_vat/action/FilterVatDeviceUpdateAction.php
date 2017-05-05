@@ -23,16 +23,17 @@ class FilterVatDeviceUpdateAction
      * @param FilterVatDeviceUpdateResp $resp
      * @return array
      */
-    public function updateInfo($did,$clientId,FilterVatDeviceUpdateResp $resp){
+    public function updateInfo($did, $clientId, FilterVatDeviceUpdateResp $resp)
+    {
 
         //更新设备信息
         $updateEntity = [
-            'device_state'=>$resp->getState()
+            'device_state' => $resp->getState()
         ];
         $dal = new FilterVatDeviceDal();
-        LogHelper::logDebug($clientId,'updateEntity'.json_encode($updateEntity));
+        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
 
-        $ret = $dal->updateByDid($did,$updateEntity);
+        $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
     }
 

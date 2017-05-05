@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * This file is part of workerman.
  *
@@ -13,35 +13,28 @@
  */
 require_once __DIR__ . '/loader.php';
 
-use Bootstrap\StatisticProvider;
-use Bootstrap\StatisticWorker;
-use \Workerman\Worker;
-use \Workerman\WebServer;
+use Workerman\Worker;
 
 // recv udp broadcast
 $udp_finder = new Worker("Text://0.0.0.0:55858");
 $udp_finder->name = 'StatisticFinder';
 $udp_finder->transport = 'udp';
-$udp_finder->onMessage = function ($connection, $data)
-{
+$udp_finder->onMessage = function ($connection, $data) {
     $data = json_decode($data, true);
-    if(empty($data))
-    {
+    if (empty($data)) {
         return false;
     }
 
     // 无法解析的包
-    if(empty($data['cmd']) || $data['cmd'] != 'REPORT_IP' )
-    {
+    if (empty($data['cmd']) || $data['cmd'] != 'REPORT_IP') {
         return false;
     }
 
     // response
-    return $connection->send(json_encode(array('result'=>'ok')));
+    return $connection->send(json_encode(array('result' => 'ok')));
 };
 
 // 如果不是在根目录启动，则运行runAll方法
-if(!defined('GLOBAL_START'))
-{
+if (!defined('GLOBAL_START')) {
     Worker::runAll();
 }

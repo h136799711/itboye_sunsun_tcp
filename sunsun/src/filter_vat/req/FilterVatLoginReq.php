@@ -18,10 +18,10 @@ class FilterVatLoginReq extends BaseReqPo
     private $pwd;
 
 
-    public function __construct($data=null)
+    public function __construct($data = null)
     {
         $this->setReqType(FilterVatReqType::Login);
-        if(!empty($data)){
+        if (!empty($data)) {
             $this->setSn($data['sn']);
             $this->setDid($data['did']);
             $this->setVer($data['ver']);
@@ -80,11 +80,11 @@ class FilterVatLoginReq extends BaseReqPo
     function toDataArray()
     {
         return [
-            'reqType'=>$this->getReqType(),
-            'sn'=>$this->getSn(),
-            'did'=>$this->getDid(),
-            'ver'=>$this->getVer(),
-            'pwd'=>$this->getPwd(),
+            'reqType' => $this->getReqType(),
+            'sn' => $this->getSn(),
+            'did' => $this->getDid(),
+            'ver' => $this->getVer(),
+            'pwd' => $this->getPwd(),
         ];
     }
 

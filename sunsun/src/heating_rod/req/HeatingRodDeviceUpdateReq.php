@@ -22,10 +22,10 @@ class HeatingRodDeviceUpdateReq extends BaseReqPo
     private $len;//固件字节长度
 
 
-    public function __construct($data=null)
+    public function __construct($data = null)
     {
         $this->setReqType(HeatingRodReqType::FirmwareUpdate);
-        if(!empty($data)){
+        if (!empty($data)) {
             $this->setSn($data['sn']);
         }
     }
@@ -33,10 +33,10 @@ class HeatingRodDeviceUpdateReq extends BaseReqPo
     function toDataArray()
     {
         return [
-            'reqType'=>$this->getReqType(),
-            'sn'=>$this->getSn(),
-            'url'=>$this->getUrl(),
-            'len'=>$this->getLen()
+            'reqType' => $this->getReqType(),
+            'sn' => $this->getSn(),
+            'url' => $this->getUrl(),
+            'len' => $this->getLen()
         ];
     }
 

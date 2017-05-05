@@ -51,7 +51,6 @@ class Aq806TcpLogModel extends BaseModel
     }
 
 
-
     /**
      * @return mixed
      */

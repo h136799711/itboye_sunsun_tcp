@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * This file is part of workerman.
  *
@@ -14,16 +14,13 @@
 require_once __DIR__ . '/loader.php';
 
 use Bootstrap\StatisticProvider;
-use Bootstrap\StatisticWorker;
-use \Workerman\Worker;
-use \Workerman\WebServer;
+use Workerman\Worker;
 
 // StatisticProvider
 $statistic_provider = new StatisticProvider("Text://0.0.0.0:55858");
 $statistic_provider->name = 'StatisticProvider';
 
 // 如果不是在根目录启动，则运行runAll方法
-if(!defined('GLOBAL_START'))
-{
+if (!defined('GLOBAL_START')) {
     Worker::runAll();
 }

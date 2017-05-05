@@ -41,42 +41,43 @@ class HeatingRodCtrlDeviceResp extends BaseRespPo
     private $updState;
 
 
-    public function __construct(HeatingRodCtrlDeviceReq $req=null)
+    public function __construct(HeatingRodCtrlDeviceReq $req = null)
     {
         $this->setRespType(HeatingRodRespType::Control);
-        if(!empty($req)){
+        if (!empty($req)) {
             $this->setSn($req->getSn());
         }
     }
 
-    public function setData($data){
-        array_key_exists("sn",$data) && $this->setSn($data['sn']);
-        array_key_exists("t",$data) && $this->setT($data['t']);
-        array_key_exists("pwr",$data) && $this->setPwr($data['pwr']);
-        array_key_exists("tSet",$data) && $this->setTSet($data['tSet']);
-        array_key_exists("tCyc",$data) && $this->setTCyc($data['tCyc']);
-        array_key_exists("cfg",$data) && $this->setCfg($data['cfg']);
-        array_key_exists("devLock",$data) && $this->setDevLock($data['devLock']);
+    public function setData($data)
+    {
+        array_key_exists("sn", $data) && $this->setSn($data['sn']);
+        array_key_exists("t", $data) && $this->setT($data['t']);
+        array_key_exists("pwr", $data) && $this->setPwr($data['pwr']);
+        array_key_exists("tSet", $data) && $this->setTSet($data['tSet']);
+        array_key_exists("tCyc", $data) && $this->setTCyc($data['tCyc']);
+        array_key_exists("cfg", $data) && $this->setCfg($data['cfg']);
+        array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
         $this->setUpdState(-1);
-        array_key_exists("updState",$data) && $this->setUpdState($data['updState']);
+        array_key_exists("updState", $data) && $this->setUpdState($data['updState']);
     }
 
     public function toDataArray()
     {
 
         $data = [
-            'resType'=>$this->getRespType(),
-            'sn'=>$this->getSn(),
-            't'=>$this->getT(),
-            'pwr'=>$this->getPwr(),
-            'tSet'=>$this->getTSet(),
-            'tCyc'=>$this->getTCyc(),
-            'cfg'=>$this->getCfg(),
-            'devLock'=>$this->getDevLock(),
+            'resType' => $this->getRespType(),
+            'sn' => $this->getSn(),
+            't' => $this->getT(),
+            'pwr' => $this->getPwr(),
+            'tSet' => $this->getTSet(),
+            'tCyc' => $this->getTCyc(),
+            'cfg' => $this->getCfg(),
+            'devLock' => $this->getDevLock(),
         ];
-        if($this->getUpdState() == -1){
+        if ($this->getUpdState() == -1) {
             $data['updState'] = 0;
-        }else{
+        } else {
             $data['updState'] = $this->getUpdState();
         }
 
@@ -164,7 +165,6 @@ class HeatingRodCtrlDeviceResp extends BaseRespPo
     }
 
 
-
     /**
      * @return mixed
      */
@@ -197,10 +197,11 @@ class HeatingRodCtrlDeviceResp extends BaseRespPo
         $this->updState = $updState;
     }
 
-    public function check(){
-        foreach ($this->toDataArray() as $key=>$item){
-            if(is_null($item)){
-                return "缺少 ".$key." 属性";
+    public function check()
+    {
+        foreach ($this->toDataArray() as $key => $item) {
+            if (is_null($item)) {
+                return "缺少 " . $key . " 属性";
             }
         }
         return "";

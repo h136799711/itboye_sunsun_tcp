@@ -13,11 +13,13 @@ use sunsun\aq806\model\Aq806TcpLogModel;
 
 class Aq806TcpLogHelper
 {
-    public static function logDebug($client_id,$message,$type='debug'){
-        self::log(null,$client_id,$message,$type);
+    public static function logDebug($client_id, $message, $type = 'debug')
+    {
+        self::log(null, $client_id, $message, $type);
     }
 
-    public static function log($db,$client_id,$message,$type='common'){
+    public static function log($db, $client_id, $message, $type = 'common')
+    {
 
         $dal = new Aq806TcpLogDal($db);
         $model = new  Aq806TcpLogModel();

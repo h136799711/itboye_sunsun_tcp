@@ -18,10 +18,10 @@ use sunsun\po\BaseReqPo;
 class HeatingRodCtrlDeviceReq extends BaseReqPo
 {
 
-    public function __construct($data=null)
+    public function __construct($data = null)
     {
         $this->setReqType(HeatingRodReqType::Control);
-        if(!empty($data)){
+        if (!empty($data)) {
             $this->setSn($data['sn']);
         }
     }
@@ -33,17 +33,17 @@ class HeatingRodCtrlDeviceReq extends BaseReqPo
         $data['reqType'] = $this->getReqType();
         $data['sn'] = $this->getSn();
 
-        if(!is_null($this->getDevLock())){
-            $data['devLock']  = $this->getDevLock();
+        if (!is_null($this->getDevLock())) {
+            $data['devLock'] = $this->getDevLock();
         }
-        if(!is_null($this->getCfg())){
-            $data['cfg']  = $this->getCfg();
+        if (!is_null($this->getCfg())) {
+            $data['cfg'] = $this->getCfg();
         }
-        if(!is_null($this->getTCyc())){
-            $data['tCyc']  = $this->getTCyc();
+        if (!is_null($this->getTCyc())) {
+            $data['tCyc'] = $this->getTCyc();
         }
-        if(!is_null($this->getTSet())){
-            $data['tSet']  = $this->getTSet();
+        if (!is_null($this->getTSet())) {
+            $data['tSet'] = $this->getTSet();
         }
 
 
@@ -104,7 +104,6 @@ class HeatingRodCtrlDeviceReq extends BaseReqPo
     }
 
 
-
     /**
      * @return mixed
      */
@@ -121,11 +120,12 @@ class HeatingRodCtrlDeviceReq extends BaseReqPo
         $this->devLock = $devLock;
     }
 
-    public function setData($data){
-        array_key_exists("tSet",$data) && $this->setTSet($data['tSet']);
-        array_key_exists("tCyc",$data) && $this->setTCyc($data['tCyc']);
-        array_key_exists("cfg",$data) && $this->setCfg($data['cfg']);
-        array_key_exists("devLock",$data) && $this->setDevLock($data['devLock']);
+    public function setData($data)
+    {
+        array_key_exists("tSet", $data) && $this->setTSet($data['tSet']);
+        array_key_exists("tCyc", $data) && $this->setTCyc($data['tCyc']);
+        array_key_exists("cfg", $data) && $this->setCfg($data['cfg']);
+        array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
     }
 
 

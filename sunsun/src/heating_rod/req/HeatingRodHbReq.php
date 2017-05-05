@@ -19,10 +19,10 @@ use sunsun\po\BaseReqPo;
 class HeatingRodHbReq extends BaseReqPo
 {
 
-    public function __construct($data=null)
+    public function __construct($data = null)
     {
         $this->setReqType(HeatingRodReqType::Heartbeat);
-        if(!empty($data)){
+        if (!empty($data)) {
             $this->setSn($data['sn']);
         }
     }
@@ -30,8 +30,8 @@ class HeatingRodHbReq extends BaseReqPo
     function toDataArray()
     {
         return [
-            'reqType'=>$this->getReqType(),
-            'sn'=>$this->getSn(),
+            'reqType' => $this->getReqType(),
+            'sn' => $this->getSn(),
         ];
     }
 
