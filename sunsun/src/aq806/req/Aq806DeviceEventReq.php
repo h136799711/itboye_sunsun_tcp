@@ -19,12 +19,15 @@ class Aq806DeviceEventReq extends BaseReqPo
 {
     private $code;
     private $ph;
+    private $t;
+
 
     public function getEventInfo(){
         $codeDesc = $this->getCodeDesc();
         return [
             'code'=>$codeDesc,
-            'ph'=>$this->getPh()
+            'ph'=>$this->getPh(),
+            't'=>$this->getT()
         ];
     }
 
@@ -48,11 +51,28 @@ class Aq806DeviceEventReq extends BaseReqPo
             case 7:
                 return "水温过高";
             case 10:
-                return "ph推送";
+                return "数据推送";
             default:break;
         }
         return "未知";
     }
+
+    /**
+     * @return mixed
+     */
+    public function getT()
+    {
+        return $this->t;
+    }
+
+    /**
+     * @param mixed $t
+     */
+    public function setT($t)
+    {
+        $this->t = $t;
+    }
+
 
     /**
      * @return mixed
