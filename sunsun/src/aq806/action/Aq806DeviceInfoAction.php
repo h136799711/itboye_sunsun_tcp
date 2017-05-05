@@ -9,7 +9,6 @@
 namespace sunsun\aq806\action;
 
 
-use GatewayWorker\Lib\Gateway;
 use sunsun\aq806\dal\Aq806DeviceDal;
 use sunsun\aq806\resp\Aq806DeviceInfoResp;
 use sunsun\helper\LogHelper;
