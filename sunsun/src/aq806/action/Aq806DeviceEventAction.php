@@ -28,7 +28,7 @@ class Aq806DeviceEventAction
 {
     public function logEvent($did,$client_id,Aq806DeviceEventReq $req){
         $eventType = $req->getCode();
-        $eventInfo = json_encode(['t'=>$req->getT(),'ph'=>$req->getPh(),'code_desc'=>$req->getCodeDesc()]);
+        $eventInfo = json_encode(['dyn'=>$req->getDyn(),'t'=>$req->getT(),'ph'=>$req->getPh(),'code_desc'=>$req->getCodeDesc()]);
         $now = time();
         $dal = (new Aq806DeviceEventDal());
         $do  = new Aq806DeviceEventModel();

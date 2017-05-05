@@ -20,6 +20,7 @@ class Aq806DeviceEventReq extends BaseReqPo
     private $code;
     private $ph;
     private $t;
+    private $dyn;
 
 
     public function getEventInfo(){
@@ -27,7 +28,8 @@ class Aq806DeviceEventReq extends BaseReqPo
         return [
             'code'=>$codeDesc,
             'ph'=>$this->getPh(),
-            't'=>$this->getT()
+            't'=>$this->getT(),
+            'dyn'=>$this->getDyn()
         ];
     }
 
@@ -56,6 +58,24 @@ class Aq806DeviceEventReq extends BaseReqPo
         }
         return "未知";
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDyn()
+    {
+        return $this->dyn;
+    }
+
+    /**
+     * @param mixed $dyn
+     */
+    public function setDyn($dyn)
+    {
+        $this->dyn = $dyn;
+    }
+
+
 
     /**
      * @return mixed
@@ -115,6 +135,21 @@ class Aq806DeviceEventReq extends BaseReqPo
         if(!empty($data)){
             $this->setSn($data['sn']);
             $this->setCode($data['code']);
+            $this->setT(-1);
+            $this->setDyn(-1);
+            $this->setPh(-1);
+            if(array_key_exists("t",$data)){
+                $this->setT($data['t']);
+            }
+
+            if(array_key_exists("dyn",$data)){
+                $this->setDyn($data['dyn']);
+            }
+
+            if(array_key_exists("ph",$data)){
+                $this->setPh($data['ph']);
+            }
+
         }
     }
 
