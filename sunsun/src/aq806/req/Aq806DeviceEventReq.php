@@ -52,6 +52,13 @@ class Aq806DeviceEventReq extends BaseReqPo
         $desc = "";
         $dyn = intval($this->getDyn());
 
+        if (($dyn & $Surfing_pump_auto) == $Surfing_pump_auto) {
+            $desc .= "进入自动模式;";
+        }
+        if (($dyn & $Surfing_pump_manual) == $Surfing_pump_manual) {
+            $desc .= "进入手动模式;";
+        }
+
         if (($dyn & $Surfing_pump_on) == $Surfing_pump_on) {
             $desc .= "冲浪泵启动了;";
         }
