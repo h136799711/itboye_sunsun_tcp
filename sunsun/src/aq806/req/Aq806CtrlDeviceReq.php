@@ -38,7 +38,7 @@ class Aq806CtrlDeviceReq extends BaseReqPo
         }
 
         if (!is_null($this->getTmL())) {
-            $data['tm_l'] = $this->getTmL();
+            $data['tm_l'] = "".$this->getTmL();
         }
 
         if (!is_null($this->getMode())) {
