@@ -354,7 +354,7 @@ class Aq806CtrlDeviceResp extends BaseRespPo
      */
     public function setLPer($l_per)
     {
-        $this->l_per = $l_per;
+        $this->l_per = preg_replace('/\s/', '', $l_per);
     }
 
     /**
@@ -370,7 +370,7 @@ class Aq806CtrlDeviceResp extends BaseRespPo
      */
     public function setUvcPer($uvc_per)
     {
-        $this->uvc_per = $uvc_per;
+        $this->uvc_per = preg_replace('/\s/', '', $uvc_per);
     }
 
     /**
@@ -386,7 +386,7 @@ class Aq806CtrlDeviceResp extends BaseRespPo
      */
     public function setSpPer($sp_per)
     {
-        $this->sp_per = $sp_per;
+        $this->sp_per = preg_replace('/\s/', '', $sp_per);
     }
 
     /**
