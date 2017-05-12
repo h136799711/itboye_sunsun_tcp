@@ -532,7 +532,7 @@ class Aq806DeviceInfoResp extends BaseRespPo
     {
         foreach ($this->toDataArray() as $key => $item) {
             if (is_null($item)) {
-                return "缺少 " . $key . " 属性";
+                return  $key . " is null value";
             }
         }
         return "";
