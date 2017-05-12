@@ -370,7 +370,7 @@ class Aq806CtrlDeviceResp extends BaseRespPo
      */
     public function setUvcPer($uvc_per)
     {
-        $this->uvc_per = preg_replace('/\s/', '', $uvc_per);
+        $this->uvc_per = json_decode(preg_replace('/\s/', '', $uvc_per),JSON_OBJECT_AS_ARRAY);
     }
 
     /**
