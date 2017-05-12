@@ -133,7 +133,7 @@ class ModelConverterHelper
             $data['p_p'] = $resp->getPP();
         }
         if (!is_null($resp->getUvcP())) {
-            $data['uvc_p'] = $resp->getUvcP();
+            $data['uvc_p'] = ($resp->getUvcP());
         }
         if (!is_null($resp->getSpP())) {
             $data['sp_p'] = $resp->getSpP();
