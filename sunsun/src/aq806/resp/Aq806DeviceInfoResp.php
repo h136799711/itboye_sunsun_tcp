@@ -531,9 +531,9 @@ class Aq806DeviceInfoResp extends BaseRespPo
     public function check()
     {
         foreach ($this->toDataArray() as $key => $item) {
-            if (is_null($item)) {
-                return  $key . " is null value";
-            }
+//            if (is_null($item)) {
+//                return  $key . " is null value";
+//            }
         }
         return "";
     }
