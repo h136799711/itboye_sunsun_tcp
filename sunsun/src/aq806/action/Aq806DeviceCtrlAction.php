@@ -35,7 +35,7 @@ class Aq806DeviceCtrlAction
         //更新设备信息
         $updateEntity = ModelConverterHelper::convertToModelArrayOfCtrlDeviceResp($resp);
         $dal = new Aq806DeviceDal();
-        Aq806TcpLogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
+        Aq806TcpLogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity),"Aq806DeviceCtrlAction");
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
     }
