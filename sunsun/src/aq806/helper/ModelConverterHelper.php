@@ -69,7 +69,7 @@ class ModelConverterHelper
             }
         }
         if (!is_null($resp->getExDev())) {
-            $data['exDev'] = $resp->getExDev();
+            $data['ex_dev'] = $resp->getExDev();
         }
 
         if (!is_null($resp->getDevLock())) {
