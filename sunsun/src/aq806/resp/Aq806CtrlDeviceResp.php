@@ -371,8 +371,6 @@ class Aq806CtrlDeviceResp extends BaseRespPo
      */
     public function setUvcPer($uvc_per)
     {
-
-        Aq806TcpLogHelper::logDebug('test', json_encode($uvc_per),"Aq806DeviceCtrlAction");
         $this->uvc_per = $uvc_per;
     }
 
