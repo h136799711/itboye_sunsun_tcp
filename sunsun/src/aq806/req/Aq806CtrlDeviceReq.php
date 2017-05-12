@@ -401,7 +401,7 @@ class Aq806CtrlDeviceReq extends BaseReqPo
         array_key_exists("tmL", $data) && $this->setTmL($data['tmL']);
 
         array_key_exists("dCyc", $data) && $this->setDCyc($data['dCyc']);
-        array_key_exists("uv_wh", $data) && $this->setUvWh($data['uvWh']);
+        array_key_exists("uvWh", $data) && $this->setUvWh($data['uvWh']);
         array_key_exists("pWh", $data) && $this->setPWh($data['pWh']);
         array_key_exists("lWH", $data) && $this->setLWh($data['lWH']);
 
