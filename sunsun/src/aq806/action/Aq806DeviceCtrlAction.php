@@ -10,6 +10,7 @@ namespace sunsun\aq806\action;
 
 
 use sunsun\aq806\dal\Aq806DeviceDal;
+use sunsun\aq806\helper\Aq806TcpLogHelper;
 use sunsun\aq806\helper\ModelConverterHelper;
 use sunsun\aq806\resp\Aq806CtrlDeviceResp;
 use sunsun\helper\LogHelper;
@@ -34,8 +35,7 @@ class Aq806DeviceCtrlAction
         //更新设备信息
         $updateEntity = ModelConverterHelper::convertToModelArrayOfCtrlDeviceResp($resp);
         $dal = new Aq806DeviceDal();
-        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
-
+        Aq806TcpLogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
     }
