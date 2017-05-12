@@ -143,21 +143,15 @@ class ModelConverterHelper
         }
         if (!is_null($resp->getLPer())) {
             $data['l_per'] = $resp->getLPer();
-            if (is_array($data['l_per'])) {
-                $data['l_per'] = json_encode($data['l_per']);
-            }
+            $data['l_per'] = json_encode($data['l_per']);
         }
         if (!is_null($resp->getUvcPer())) {
             $data['uvc_per'] = $resp->getUvcPer();
-            if (is_array($data['uvc_per'])) {
-                $data['uvc_per'] = json_encode($data['uvc_per']);
-            }
+            $data['uvc_per'] = json_encode($data['uvc_per']);
         }
         if (!is_null($resp->getSpPer())) {
             $data['sp_per'] = $resp->getSpPer();
-            if (is_array($data['sp_per'])) {
-                $data['sp_per'] = json_encode($data['sp_per']);
-            }
+            $data['sp_per'] = json_encode($data['sp_per']);
         }
         if (!is_null($resp->getExDev())) {
             $data['ex_dev'] = $resp->getExDev();
