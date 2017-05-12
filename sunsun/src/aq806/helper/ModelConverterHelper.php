@@ -147,7 +147,7 @@ class ModelConverterHelper
         }
         if (!is_null($resp->getUvcPer())) {
             $data['uvc_per'] = $resp->getUvcPer();
-            $data['uvc_per'] = serialize($data['uvc_per']);
+            $data['uvc_per'] = json_encode($data['uvc_per']);
         }
         if (!is_null($resp->getSpPer())) {
             $data['sp_per'] = $resp->getSpPer();
