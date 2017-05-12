@@ -9,6 +9,7 @@
 namespace sunsun\aq806\resp;
 
 
+use sunsun\aq806\helper\Aq806TcpLogHelper;
 use sunsun\aq806\req\Aq806CtrlDeviceReq;
 use sunsun\po\BaseRespPo;
 
@@ -370,7 +371,9 @@ class Aq806CtrlDeviceResp extends BaseRespPo
      */
     public function setUvcPer($uvc_per)
     {
-        $this->uvc_per = json_decode(preg_replace('/\s/', '', $uvc_per),JSON_OBJECT_AS_ARRAY);
+
+        Aq806TcpLogHelper::logDebug('test', serialize($uvc_per),"Aq806DeviceCtrlAction");
+        $this->uvc_per = json_decode( $uvc_per ,JSON_OBJECT_AS_ARRAY);
     }
 
     /**
