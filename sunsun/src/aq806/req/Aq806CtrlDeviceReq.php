@@ -74,7 +74,18 @@ class Aq806CtrlDeviceReq extends BaseReqPo
         if (!is_null($this->getPushCfg())) {
             $data['push_cfg'] = $this->getPushCfg();
         }
-
+        if (!is_null($this->getDCyc())) {
+            $data['d_cyc'] = $this->getDCyc();
+        }
+        if (!is_null($this->getUvWh())) {
+            $data['uv_wh'] = $this->getUvWh();
+        }
+        if (!is_null($this->getPWh())) {
+            $data['p_wh'] = $this->getPWh();
+        }
+        if (!is_null($this->getLWh())) {
+            $data['l_wh'] = $this->getLWh();
+        }
 
         return $data;
     }
