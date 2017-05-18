@@ -36,7 +36,8 @@ class Aq806DeviceEventReq extends BaseReqPo
 
     public function getDynDesc()
     {
-        if (empty($this->getDyn())) return "";
+        $dyn = intval($this->getDyn());
+        if (empty($this->getDyn()) || $dyn < 0) return "";
         //照明灯动态
         $light_on = 1;
         $light_off = 2;
@@ -50,7 +51,6 @@ class Aq806DeviceEventReq extends BaseReqPo
         $Surfing_pump_auto = 64;
         $Surfing_pump_manual = 128;
         $desc = "";
-        $dyn = intval($this->getDyn());
 
         if (($dyn & $Surfing_pump_auto) == $Surfing_pump_auto) {
             $desc .= "进入自动模式;";
