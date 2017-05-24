@@ -14,35 +14,30 @@ class Aph300RespType
     /**
      * 登录
      */
-    const Login = 301;
+    const Login = 401;
 
     /**
      * 心跳包
      */
-    const Heartbeat = 302;
+    const Heartbeat = 402;
 
     /**
      * 设备信息
      */
-    const DeviceInfo = 303;
+    const DeviceInfo = 403;
 
     /**
      * 设置请求
      */
-    const Control = 304;
+    const Control = 404;
 
     /**
      * 推送请求
      */
-    const Event = 305;
+    const Event = 405;
 
     /**
      *  固件更新
      */
-    const FirmwareUpdate = 306;
-
-    /**
-     *
-     */
-    const Logout = 999;
+    const FirmwareUpdate = 406;
 }

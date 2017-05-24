@@ -18,7 +18,7 @@ use Workerman\Worker;
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
 // gateway 进程，这里使用Text协议，可以用telnet测试
-$gateway = new Gateway("tcp://0.0.0.0:8284");
+$gateway = new Gateway("tcp://0.0.0.0:8285");
 // gateway名称，status方便查看,过滤桶
 $gateway->name = 'aph300_gateway';
 // gateway进程数
@@ -27,9 +27,9 @@ $gateway->count = 4;
 $gateway->lanIp = '101.37.37.167';
 // 内部通讯起始端口，假如$gateway->count=4，起始端口为3900
 // 则一般会使用 4个端口作为内部通讯端口
-$gateway->startPort = 3400;
+$gateway->startPort = 4100;
 // 服务注册地址
-$gateway->registerAddress = '127.0.0.1:1238';
+$gateway->registerAddress = '127.0.0.1:1240';
 
 // 心跳间隔
 $gateway->pingInterval = 0;
