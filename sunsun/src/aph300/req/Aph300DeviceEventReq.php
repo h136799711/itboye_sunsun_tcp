@@ -20,7 +20,6 @@ class Aph300DeviceEventReq extends BaseReqPo
     private $code;
     private $ph;
     private $t;
-    private $dyn;
 
 
     public function getEventInfo()
@@ -29,60 +28,10 @@ class Aph300DeviceEventReq extends BaseReqPo
         return [
             'code' => $codeDesc,
             'ph' => $this->getPh(),
-            't' => $this->getT(),
-            'dyn' => $this->getDyn()
+            't' => $this->getT()
         ];
     }
 
-    public function getDynDesc()
-    {
-        $dyn = intval($this->getDyn());
-        if (empty($this->getDyn()) || $dyn < 0) return "";
-        //照明灯动态
-        $light_on = 1;
-        $light_off = 2;
-        //杀菌灯动态
-        $Germicidal_on = 4;
-        $Germicidal_off = 8;
-        //冲浪泵动态
-        $Surfing_pump_on = 16;
-        $Surfing_pump_off = 32;
-        //模式动态
-        $Surfing_pump_auto = 64;
-        $Surfing_pump_manual = 128;
-        $desc = "";
-
-        if (($dyn & $Surfing_pump_auto) == $Surfing_pump_auto) {
-            $desc .= "进入自动模式;";
-        }
-        if (($dyn & $Surfing_pump_manual) == $Surfing_pump_manual) {
-            $desc .= "进入手动模式;";
-        }
-
-        if (($dyn & $Surfing_pump_on) == $Surfing_pump_on) {
-            $desc .= "冲浪泵启动了;";
-        }
-        if (($dyn & $Surfing_pump_off) == $Surfing_pump_off) {
-            $desc .= "冲浪泵关闭了;";
-        }
-
-        if (($dyn & $Germicidal_on) == $Germicidal_on) {
-            $desc .= "杀菌灯打开了;";
-        }
-        if (($dyn & $Germicidal_off) == $Germicidal_off) {
-            $desc .= "杀菌灯关闭了;";
-        }
-
-
-        if (($dyn & $light_on) == $light_on) {
-            $desc .= "照明灯打开了;";
-        }
-        if (($dyn & $light_off) == $light_off) {
-            $desc .= "照明灯关闭了;";
-        }
-
-        return $desc;
-    }
 
     public function getCodeDesc()
     {
@@ -90,44 +39,21 @@ class Aph300DeviceEventReq extends BaseReqPo
             case 0:
                 return "无操作";
             case 1:
-                return "冲浪水泵异常";
+                return "实时数据推送";
             case 2:
-                return "备用电源异常";
+                return "高温报警";
             case 3:
-                return "照明灯异常";
+                return "低温报警";
             case 4:
-                return "杀菌灯异常";
+                return "PH过低报警";
             case 5:
-                return "水位过低";
-            case 6:
-                return "水温过低";
-            case 7:
-                return "水温过高";
-            case 10:
-                return "数据推送";
-            case 11:
-                return "动态提示";
+                return "PH过高报警";
             default:
                 break;
         }
         return "未知";
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDyn()
-    {
-        return $this->dyn;
-    }
-
-    /**
-     * @param mixed $dyn
-     */
-    public function setDyn($dyn)
-    {
-        $this->dyn = $dyn;
-    }
 
 
     /**
@@ -188,14 +114,9 @@ class Aph300DeviceEventReq extends BaseReqPo
             $this->setSn($data['sn']);
             $this->setCode($data['code']);
             $this->setT(-1);
-            $this->setDyn(-1);
             $this->setPh(-1);
             if (array_key_exists("t", $data)) {
                 $this->setT($data['t']);
-            }
-
-            if (array_key_exists("dyn", $data)) {
-                $this->setDyn($data['dyn']);
             }
 
             if (array_key_exists("ph", $data)) {
