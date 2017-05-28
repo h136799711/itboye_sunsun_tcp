@@ -24,7 +24,7 @@ class HeatingRodDeviceEventAction
     public function logEvent($did, $client_id, HeatingRodDeviceEventReq $req)
     {
         $eventType = $req->getCode();
-        $eventInfo = json_encode(['code_desc' => $req->getCodeDesc(), 't' => $req->getT()]);
+        $eventInfo = json_encode(['t' => $req->getT()]);
         $now = time();
         $dal = (new HeatingRodDeviceEventDal());
         $do = new HeatingRodDeviceEventModel();

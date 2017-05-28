@@ -24,7 +24,7 @@ class FilterVatDeviceEventAction
     public function logEvent($did, $client_id, FilterVatDeviceEventReq $req)
     {
         $eventType = $req->getCode();
-        $eventInfo = json_encode(['code_desc' => $req->getCodeDesc()]);
+        $eventInfo = json_encode([]);
         $now = time();
         $dal = (new FilterVatDeviceEventDal());
         $do = new FilterVatDeviceEventModel();

@@ -24,7 +24,7 @@ class Aph300DeviceEventAction
     public function logEvent($did, $client_id, Aph300DeviceEventReq $req)
     {
         $eventType = $req->getCode();
-        $eventInfo = json_encode(['t' => $req->getT(), 'ph' => $req->getPh(), 'code_desc' => $req->getCodeDesc()]);
+        $eventInfo = json_encode(['t' => $req->getT(), 'ph' => $req->getPh()]);
         $now = time();
         $dal = (new Aph300DeviceEventDal());
         $do = new Aph300DeviceEventModel();
