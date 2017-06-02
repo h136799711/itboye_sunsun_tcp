@@ -22,12 +22,6 @@ class ModelConverterHelper
     public static function convertToModelArray(WaterPumpDeviceInfoResp $resp)
     {
         $data = [];
-        if (!is_null($resp->getT())) {
-            $data['t'] = $resp->getT();
-        }
-        if (!is_null($resp->getPh())) {
-            $data['ph'] = $resp->getPh();
-        }
 
         if (!is_null($resp->getDevLock())) {
             $data['dev_lock'] = $resp->getDevLock();
@@ -38,34 +32,21 @@ class ModelConverterHelper
             $data['upd_state'] = 0;
         }
 
-        if (!is_null($resp->getPushCfg())) {
-            $data['push_cfg'] = $resp->getPushCfg();
-        }
 
-        if (!is_null($resp->getDCyc())) {
-            $data['d_cyc'] = $resp->getDCyc();
+        if (!is_null($resp->getPwr())) {
+            $data['pwr'] = $resp->getPwr();
         }
-
-        if (!is_null($resp->getPhCmd())) {
-            $data['ph_cmd'] = $resp->getPhCmd();
+        if (!is_null($resp->getSpd())) {
+            $data['spd'] = $resp->getSpd();
         }
-        if (!is_null($resp->getPhSche())) {
-            $data['ph_sche'] = $resp->getPhSche();
+        if (!is_null($resp->getGear())) {
+            $data['gear'] = $resp->getGear();
         }
-        if (!is_null($resp->getPhDly())) {
-            $data['ph_dly'] = $resp->getPhDly();
+        if (!is_null($resp->getICyc())) {
+            $data['i_cyc'] = $resp->getICyc();
         }
-        if (!is_null($resp->getPhh())) {
-            $data['phh'] = $resp->getPhh();
-        }
-        if (!is_null($resp->getPhl())) {
-            $data['phl'] = $resp->getPhl();
-        }
-
-        if (!is_null($resp->getTh())) {
-            $data['th'] = $resp->getTh();
-        }if (!is_null($resp->getTl())) {
-            $data['tl'] = $resp->getTl();
+        if (!is_null($resp->getCfg())) {
+            $data['cfg'] = $resp->getCfg();
         }
 
         return $data;
@@ -74,12 +55,6 @@ class ModelConverterHelper
     public static function convertToModelArrayOfCtrlDeviceResp(WaterPumpCtrlDeviceResp $resp)
     {
         $data = [];
-        if (!is_null($resp->getT())) {
-            $data['t'] = $resp->getT();
-        }
-        if (!is_null($resp->getPh())) {
-            $data['ph'] = $resp->getPh();
-        }
 
         if (!is_null($resp->getDevLock())) {
             $data['dev_lock'] = $resp->getDevLock();
@@ -90,34 +65,20 @@ class ModelConverterHelper
             $data['upd_state'] = 0;
         }
 
-        if (!is_null($resp->getPushCfg())) {
-            $data['push_cfg'] = $resp->getPushCfg();
+        if (!is_null($resp->getPwr())) {
+            $data['pwr'] = $resp->getPwr();
         }
-
-        if (!is_null($resp->getDCyc())) {
-            $data['d_cyc'] = $resp->getDCyc();
+        if (!is_null($resp->getSpd())) {
+            $data['spd'] = $resp->getSpd();
         }
-
-        if (!is_null($resp->getPhCmd())) {
-            $data['ph_cmd'] = $resp->getPhCmd();
+        if (!is_null($resp->getGear())) {
+            $data['gear'] = $resp->getGear();
         }
-        if (!is_null($resp->getPhSche())) {
-            $data['ph_sche'] = $resp->getPhSche();
+        if (!is_null($resp->getICyc())) {
+            $data['i_cyc'] = $resp->getICyc();
         }
-        if (!is_null($resp->getPhDly())) {
-            $data['ph_dly'] = $resp->getPhDly();
-        }
-        if (!is_null($resp->getPhh())) {
-            $data['phh'] = $resp->getPhh();
-        }
-        if (!is_null($resp->getPhl())) {
-            $data['phl'] = $resp->getPhl();
-        }
-
-        if (!is_null($resp->getTh())) {
-            $data['th'] = $resp->getTh();
-        }if (!is_null($resp->getTl())) {
-            $data['tl'] = $resp->getTl();
+        if (!is_null($resp->getCfg())) {
+            $data['cfg'] = $resp->getCfg();
         }
 
         return $data;
