@@ -48,6 +48,9 @@ class ModelConverterHelper
         if (!is_null($resp->getCfg())) {
             $data['cfg'] = $resp->getCfg();
         }
+        if (!is_null($resp->getType())) {
+            $data['type'] = $resp->getType();
+        }
 
         return $data;
     }
