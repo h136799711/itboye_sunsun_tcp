@@ -51,6 +51,12 @@ class ModelConverterHelper
         if (!is_null($resp->getType())) {
             $data['type'] = $resp->getType();
         }
+        if (!is_null($resp->getState())) {
+            $data['state'] = $resp->getState();
+        }
+        if (!is_null($resp->getFault())) {
+            $data['fault'] = $resp->getFault();
+        }
 
         return $data;
     }
@@ -82,6 +88,15 @@ class ModelConverterHelper
         }
         if (!is_null($resp->getCfg())) {
             $data['cfg'] = $resp->getCfg();
+        }
+        if (!is_null($resp->getType())) {
+            $data['type'] = $resp->getType();
+        }
+        if (!is_null($resp->getState())) {
+            $data['state'] = $resp->getState();
+        }
+        if (!is_null($resp->getFault())) {
+            $data['fault'] = $resp->getFault();
         }
 
         return $data;
