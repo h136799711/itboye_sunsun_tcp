@@ -41,6 +41,8 @@ class WaterPumpDeviceInfoResp extends BaseRespPo
         array_key_exists("pwr", $data) && $this->setPwr($data['pwr']);
         array_key_exists("spd", $data) && $this->setSpd($data['spd']);
         array_key_exists("type", $data) && $this->setType($data['type']);
+        array_key_exists("state", $data) && $this->setState($data['state']);
+        array_key_exists("fault", $data) && $this->setFault($data['fault']);
 
     }
 
@@ -56,7 +58,9 @@ class WaterPumpDeviceInfoResp extends BaseRespPo
             'iCyc'=>$this->getICyc(),
             'cfg'=>$this->getCfg(),
             'devLock'=>$this->getDevLock(),
-            'type'=>$this->getType()
+            'type'=>$this->getType(),
+            'state'=>$this->getState(),
+            'fault'=>$this->getFault()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;
@@ -90,6 +94,40 @@ class WaterPumpDeviceInfoResp extends BaseRespPo
     private $iCyc;
     private $cfg;
     private $type;
+    private $state;
+    private $fault;
+
+    /**
+     * @return mixed
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param mixed $state
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFault()
+    {
+        return $this->fault;
+    }
+
+    /**
+     * @param mixed $fault
+     */
+    public function setFault($fault)
+    {
+        $this->fault = $fault;
+    }
 
     /**
      * @return mixed
