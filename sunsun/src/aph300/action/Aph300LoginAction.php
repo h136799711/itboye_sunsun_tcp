@@ -43,6 +43,7 @@ class Aph300LoginAction
         //更新控制密码
         $time = time();
         $entity = [
+            'offline_notify'=>1,
             'ctrl_pwd' => $originPwd,
             'last_login_time' => $time,
             'update_time' => $time,

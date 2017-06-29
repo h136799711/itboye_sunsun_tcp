@@ -46,6 +46,7 @@ class WaterPumpLoginAction
             'ctrl_pwd' => $originPwd,
             'last_login_time' => $time,
             'update_time' => $time,
+            'offline_notify'=>1,
         ];
 
         $dal = new WaterPumpDeviceDal();

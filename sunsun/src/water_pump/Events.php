@@ -295,7 +295,8 @@ class Events
             'last_login_time' => self::$activeTime,
             'update_time' => self::$activeTime,
             'last_login_ip' => self::getClientIp(),
-            'tcp_client_id' => $client_id
+            'tcp_client_id' => $client_id,
+            'offline_notify'=>1,
         ];
         $dal->update($id, $entity);
         //更新

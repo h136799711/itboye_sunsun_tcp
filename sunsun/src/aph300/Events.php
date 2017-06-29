@@ -291,6 +291,7 @@ class Events
 
         //更新控制密码
         $entity = [
+            'offline_notify'=>1,
             'ctrl_pwd' => $originPwd,
             'last_login_time' => self::$activeTime,
             'update_time' => self::$activeTime,
