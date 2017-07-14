@@ -86,10 +86,19 @@ class Aq806CtrlDeviceReq extends BaseReqPo
         if (!is_null($this->getLWh())) {
             $data['l_wh'] = $this->getLWh();
         }
+        if (!is_null($this->getPhCmd())) {
+            $data['ph_cmd'] = $this->getPhCmd();
+        }
 
         return $data;
     }
 
+    /**
+     * PH校准命令
+     * @var
+     * @add 2017-07-14 新增属性
+     */
+    private $ph_cmd;
     private $tmL;
     private $mode;
     private $outUvc;
@@ -107,6 +116,23 @@ class Aq806CtrlDeviceReq extends BaseReqPo
     private $uvWh;
     private $pWh;
     private $lWh;
+
+    /**
+     * @return mixed
+     */
+    public function getPhCmd()
+    {
+        return $this->ph_cmd;
+    }
+
+    /**
+     * @param mixed $ph_cmd
+     */
+    public function setPhCmd($ph_cmd)
+    {
+        $this->ph_cmd = $ph_cmd;
+    }
+
 
     /**
      * @return mixed
@@ -404,6 +430,7 @@ class Aq806CtrlDeviceReq extends BaseReqPo
         array_key_exists("uvWh", $data) && $this->setUvWh($data['uvWh']);
         array_key_exists("pWh", $data) && $this->setPWh($data['pWh']);
         array_key_exists("lWh", $data) && $this->setLWh($data['lWh']);
+        array_key_exists("phCmd", $data) && $this->setLWh($data['phCmd']);
 
 
     }
