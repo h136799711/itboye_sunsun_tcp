@@ -20,6 +20,58 @@ use sunsun\po\BaseRespPo;
 class FilterVatDeviceInfoResp extends BaseRespPo
 {
 
+    private $obPer;
+    private $oaOnTm;
+    private $oaOffTm;
+
+    /**
+     * @return mixed
+     */
+    public function getObPer()
+    {
+        return $this->obPer;
+    }
+
+    /**
+     * @param mixed $obPer
+     */
+    public function setObPer($obPer)
+    {
+        $this->obPer = $obPer;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getOaOnTm()
+    {
+        return $this->oaOnTm;
+    }
+
+    /**
+     * @param mixed $oaOnTm
+     */
+    public function setOaOnTm($oaOnTm)
+    {
+        $this->oaOnTm = $oaOnTm;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOaOffTm()
+    {
+        return $this->oaOffTm;
+    }
+
+    /**
+     * @param mixed $oaOffTm
+     */
+    public function setOaOffTm($oaOffTm)
+    {
+        $this->oaOffTm = $oaOffTm;
+    }
 
     private $t;
 

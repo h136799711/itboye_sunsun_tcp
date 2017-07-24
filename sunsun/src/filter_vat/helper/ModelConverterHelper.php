@@ -68,6 +68,17 @@ class ModelConverterHelper
             $data['upd_state'] = 0;
         }
 
+        if (!is_null($resp->getOaOffTm())) {
+            $data['oa_off_tm'] = $resp->getOaOffTm();
+        }
+        if (!is_null($resp->getOaOnTm())) {
+            $data['oa_on_tm'] = $resp->getOaOnTm();
+        }
+        if (!is_null($resp->getObPer())) {
+            $data['ob_per'] = $resp->getObPer();
+            $data['ob_per'] = json_encode($data['ob_per']);
+        }
+
         return $data;
     }
 
