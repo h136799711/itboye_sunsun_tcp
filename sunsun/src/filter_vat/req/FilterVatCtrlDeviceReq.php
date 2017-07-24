@@ -72,10 +72,22 @@ class FilterVatCtrlDeviceReq extends BaseReqPo
         if (!is_null($this->getDevLock())) {
             $data['devLock'] = $this->getDevLock();
         }
+        if (!is_null($this->getOaOnTm())) {
+            $data['oaOnTm'] = $this->getOaOnTm();
+        }
+        if (!is_null($this->getOaOffTm())) {
+            $data['oaOffTm'] = $this->getOaOffTm();
+        }
+        if (!is_null($this->getObPer())) {
+            $data['obPer'] = $this->getObPer();
+        }
 
         return $data;
     }
 
+    private $obPer;
+    private $oaOnTm;
+    private $oaOffTm;
     private $clEn;
     private $clWeek;
     private $clTm;
@@ -89,6 +101,55 @@ class FilterVatCtrlDeviceReq extends BaseReqPo
     private $outStateA;
     private $outStateB;
     private $devLock;
+
+    /**
+     * @return mixed
+     */
+    public function getObPer()
+    {
+        return $this->obPer;
+    }
+
+    /**
+     * @param mixed $obPer
+     */
+    public function setObPer($obPer)
+    {
+        $this->obPer = $obPer;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOaOnTm()
+    {
+        return $this->oaOnTm;
+    }
+
+    /**
+     * @param mixed $oaOnTm
+     */
+    public function setOaOnTm($oaOnTm)
+    {
+        $this->oaOnTm = $oaOnTm;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOaOffTm()
+    {
+        return $this->oaOffTm;
+    }
+
+    /**
+     * @param mixed $oaOffTm
+     */
+    public function setOaOffTm($oaOffTm)
+    {
+        $this->oaOffTm = $oaOffTm;
+    }
+
 
     /**
      * @return mixed
@@ -313,6 +374,12 @@ class FilterVatCtrlDeviceReq extends BaseReqPo
         array_key_exists("outStateA", $data) && $this->setOutStateA($data['outStateA']);
         array_key_exists("outStateB", $data) && $this->setOutStateB($data['outStateB']);
         array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
+
+        array_key_exists("oaOnTm", $data) && $this->setOaOnTm($data['oaOnTm']);
+
+        array_key_exists("oaOffTm", $data) && $this->setOaOffTm($data['oaOffTm']);
+
+        array_key_exists("obPer", $data) && $this->setObPer($data['obPer']);
 
     }
 

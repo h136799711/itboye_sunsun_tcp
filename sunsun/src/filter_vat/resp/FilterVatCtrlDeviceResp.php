@@ -140,6 +140,11 @@ class FilterVatCtrlDeviceResp extends BaseRespPo
     private $updState;
 
 
+    private $obPer;
+    private $oaOnTm;
+    private $oaOffTm;
+
+
     public function __construct(FilterVatCtrlDeviceReq $req = null)
     {
         $this->setRespType(FilterVatRespType::Control);
@@ -167,6 +172,10 @@ class FilterVatCtrlDeviceResp extends BaseRespPo
         array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
         $this->setUpdState(-1);
         array_key_exists("updState", $data) && $this->setUpdState($data['updState']);
+        array_key_exists("oaOnTm", $data) && $this->setOaOnTm($data['oaOnTm']);
+        array_key_exists("oaOffTm", $data) && $this->setOaOffTm($data['oaOffTm']);
+        array_key_exists("obPer", $data) && $this->setObPer($data['obPer']);
+
     }
 
     public function toDataArray()
@@ -189,6 +198,9 @@ class FilterVatCtrlDeviceResp extends BaseRespPo
             'outStateA' => $this->getOutStateA(),
             'outStateB' => $this->getOutStateB(),
             'devLock' => $this->getDevLock(),
+            'oaOffTm' => $this->getOaOffTm(),
+            'oaOnTm' => $this->getOaOnTm(),
+            'obPer' => $this->getObPer()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;
@@ -199,6 +211,55 @@ class FilterVatCtrlDeviceResp extends BaseRespPo
         return $data;
     }
 
+
+    /**
+     * @return mixed
+     */
+    public function getObPer()
+    {
+        return $this->obPer;
+    }
+
+    /**
+     * @param mixed $obPer
+     */
+    public function setObPer($obPer)
+    {
+        $this->obPer = $obPer;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getOaOnTm()
+    {
+        return $this->oaOnTm;
+    }
+
+    /**
+     * @param mixed $oaOnTm
+     */
+    public function setOaOnTm($oaOnTm)
+    {
+        $this->oaOnTm = $oaOnTm;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOaOffTm()
+    {
+        return $this->oaOffTm;
+    }
+
+    /**
+     * @param mixed $oaOffTm
+     */
+    public function setOaOffTm($oaOffTm)
+    {
+        $this->oaOffTm = $oaOffTm;
+    }
     /**
      * @return int
      */

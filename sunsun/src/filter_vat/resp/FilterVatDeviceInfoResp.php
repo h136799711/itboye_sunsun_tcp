@@ -224,6 +224,9 @@ class FilterVatDeviceInfoResp extends BaseRespPo
         array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
         $this->setUpdState(-1);
         array_key_exists("updState", $data) && $this->setUpdState($data['updState']);
+        array_key_exists("oaOnTm", $data) && $this->setOaOnTm($data['oaOnTm']);
+        array_key_exists("oaOffTm", $data) && $this->setOaOffTm($data['oaOffTm']);
+        array_key_exists("obPer", $data) && $this->setObPer($data['obPer']);
     }
 
     public function toDataArray()
@@ -247,6 +250,9 @@ class FilterVatDeviceInfoResp extends BaseRespPo
             'outStateB' => $this->getOutStateB(),
             'devLock' => $this->getDevLock(),
             't' => $this->getT(),
+            'oaOffTm' => $this->getOaOffTm(),
+            'oaOnTm' => $this->getOaOnTm(),
+            'obPer' => $this->getObPer()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;
