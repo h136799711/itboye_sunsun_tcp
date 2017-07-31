@@ -42,7 +42,7 @@ class Aq806LoginAction
 
         //更新控制密码
         $time = time();
-        $ver = $result['ver'];
+        $ver = $req->getVer();
         $entity = [
             'ver'=>$ver,
             'offline_notify'=>1,

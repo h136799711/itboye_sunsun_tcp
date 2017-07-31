@@ -291,7 +291,7 @@ class Events
 
         //更新控制密码
         // 增加 设备类型
-        $ver = $result['ver'];
+        $ver = $req->getVer();
         $entity = [
             'ver'=>$ver,
             'device_type'=>$deviceType,
