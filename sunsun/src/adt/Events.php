@@ -276,7 +276,7 @@ class Events
             return false;
         }
 
-        self::log($client_id, "login=".json_encode($result),'login');
+        self::log($client_id, "login=".json_encode($data),'login');
         $id = $result['id'];
         $pwd = $result['pwd'];
         $deviceType = $result['type'];
