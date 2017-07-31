@@ -39,3 +39,9 @@ gateway进程端口：8286
 gateway内部服务端口 4200 - 4204
 
 
+## adt
+register服务使用端口: 1242
+gateway进程端口：8287
+gateway内部服务端口 4300 - 4304
+
+
