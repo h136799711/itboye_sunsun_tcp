@@ -148,12 +148,10 @@ class Events
             $cnt = $result['cnt'];
             $pwd = "";
             if ($cnt == 0) {
-                self::log($client_id, "login start");
                 //第一次请求
                 $pwd = self::$commonPwd;
                 $result = self::login($client_id, $message, $pwd);
 
-                self::log($client_id, "login complete");
             } else {
                 self::log($client_id, "other process");
                 //其它请求
@@ -278,6 +276,7 @@ class Events
             return false;
         }
 
+        self::log($client_id, "login=".json_encode($result),'login');
         $id = $result['id'];
         $pwd = $result['pwd'];
         $hb = $result['hb'];//心跳周期（单位：秒）
