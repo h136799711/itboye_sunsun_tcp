@@ -292,7 +292,9 @@ class Events
 
         //更新控制密码
         // 增加 设备类型
+        $ver = $result['ver'];
         $entity = [
+            'ver'=>$ver,
             'device_type'=>$deviceType,
             'offline_notify'=>1,
             'ctrl_pwd' => $originPwd,

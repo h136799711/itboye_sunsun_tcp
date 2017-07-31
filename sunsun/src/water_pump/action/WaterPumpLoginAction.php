@@ -42,7 +42,9 @@ class WaterPumpLoginAction
 
         //更新控制密码
         $time = time();
+        $ver = $result['ver'];
         $entity = [
+            'ver'=>$ver,
             'ctrl_pwd' => $originPwd,
             'last_login_time' => $time,
             'update_time' => $time,

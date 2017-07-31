@@ -306,7 +306,9 @@ class Events
         $data['origin_pwd'] = $originPwd;
 
         //更新控制密码
+        $ver = $result['ver'];
         $entity = [
+            'ver'=>$ver,
             'offline_notify'=>1,
             'ctrl_pwd' => $originPwd,
             'last_login_time' => self::$activeTime,
