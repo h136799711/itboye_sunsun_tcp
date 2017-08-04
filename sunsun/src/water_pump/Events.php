@@ -293,7 +293,7 @@ class Events
         $ver = $req->getVer();
         $entity = [
             'ver'=>$ver,
-            'type'=>$type,
+            'device_type'=>$type,
             'ctrl_pwd' => $originPwd,
             'last_login_time' => self::$activeTime,
             'update_time' => self::$activeTime,
