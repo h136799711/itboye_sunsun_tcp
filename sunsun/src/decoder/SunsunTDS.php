@@ -192,6 +192,6 @@ class SunsunTDS
      */
     public static function encodePwd($data,$encodePwd){
         $encodeData = Des::encrypt('P:'.$data, $encodePwd);
-        return base64_encode($encodeData);
+        return ($encodeData);
     }
 }
