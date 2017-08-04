@@ -183,4 +183,15 @@ class SunsunTDS
             return false;
         }
     }
+
+    /**
+     * 加密密码
+     * @param $data
+     * @param $encodePwd
+     * @return string
+     */
+    public static function encodePwd($data,$encodePwd){
+        $encodeData = Des::encrypt('P:'.$data, $encodePwd);
+        return base64_encode($encodeData);
+    }
 }
