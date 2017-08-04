@@ -283,7 +283,7 @@ class Events
         $hb = $result['hb'];//心跳周期（单位：秒）
         $originPwd = \sunsun\decoder\SunsunTDS::isLegalPwd($data['pwd'], $pwd);
         if (empty($originPwd)) {
-            self::jsonError($client_id, $data['pwd'].'the control password decode fail', []);
+            self::jsonError($client_id, $data['pwd'].'the control password decode fail,key='.$pwd, []);
             return false;
         }
 
