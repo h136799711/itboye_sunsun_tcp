@@ -27,7 +27,11 @@ class WaterPumpLoginReq extends BaseReqPo
             $this->setDid($data['did']);
             $this->setVer($data['ver']);
             $this->setPwd($data['pwd']);
-            $this->setType($data['type']);
+            if(array_key_exists('type',$data)){
+                $this->setType($data['type']);
+            }else{
+                $this->setType('-999');
+            }
         }
     }
 
