@@ -288,11 +288,12 @@ class Events
         }
 
         $data['origin_pwd'] = $originPwd;
-
+        $type = $req->getType();
         //更新控制密码
         $ver = $req->getVer();
         $entity = [
             'ver'=>$ver,
+            'type'=>$type,
             'ctrl_pwd' => $originPwd,
             'last_login_time' => self::$activeTime,
             'update_time' => self::$activeTime,

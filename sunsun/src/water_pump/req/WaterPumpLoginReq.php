@@ -16,6 +16,7 @@ class WaterPumpLoginReq extends BaseReqPo
     private $did;
     private $ver;
     private $pwd;
+    private $type;
 
 
     public function __construct($data = null)
@@ -26,8 +27,26 @@ class WaterPumpLoginReq extends BaseReqPo
             $this->setDid($data['did']);
             $this->setVer($data['ver']);
             $this->setPwd($data['pwd']);
+            $this->setType($data['type']);
         }
     }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
 
     /**
      * @return mixed

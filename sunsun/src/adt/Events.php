@@ -279,7 +279,7 @@ class Events
         self::log($client_id, "login=".json_encode($data),'login');
         $id = $result['id'];
         $pwd = $result['pwd'];
-        $deviceType = $result['type'];
+        $deviceType = $req->getType();
         $hb = $result['hb'];//心跳周期（单位：秒）
         $originPwd = \sunsun\decoder\SunsunTDS::isLegalPwd($data['pwd'], $pwd);
         if (empty($originPwd)) {
