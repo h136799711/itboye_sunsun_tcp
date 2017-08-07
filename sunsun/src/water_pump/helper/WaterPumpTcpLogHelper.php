@@ -20,15 +20,16 @@ class WaterPumpTcpLogHelper
 
     public static function log($db, $client_id, $message, $type = 'common')
     {
+        if(defined('SUNSUN_ENV') && SUNSUN_ENV != 'debug'){
+            $dal = new WaterPumpTcpLogDal($db);
+            $model = new  WaterPumpTcpLogModel();
 
-        $dal = new WaterPumpTcpLogDal($db);
-        $model = new  WaterPumpTcpLogModel();
-
-        $model->setBody(json_encode($message));
-        $model->setCreateTime(time());
-        $model->setType($type);
-        $model->setLevel(1);
-        $model->setOwner($client_id);
-        $dal->insert($model);
+            $model->setBody(json_encode($message));
+            $model->setCreateTime(time());
+            $model->setType($type);
+            $model->setLevel(1);
+            $model->setOwner($client_id);
+            $dal->insert($model);
+        }
     }
 }
