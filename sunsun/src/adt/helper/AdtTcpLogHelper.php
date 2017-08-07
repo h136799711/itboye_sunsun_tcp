@@ -21,14 +21,16 @@ class AdtTcpLogHelper
     public static function log($db, $client_id, $message, $type = 'common')
     {
 
-        $dal = new AdtTcpLogDal($db);
-        $model = new  AdtTcpLogModel();
+        if(defined('SUNSUN_ENV') && SUNSUN_ENV == 'debug') {
+            $dal = new AdtTcpLogDal($db);
+            $model = new  AdtTcpLogModel();
 
-        $model->setBody(json_encode($message));
-        $model->setCreateTime(time());
-        $model->setType($type);
-        $model->setLevel(1);
-        $model->setOwner($client_id);
-        $dal->insert($model);
+            $model->setBody(json_encode($message));
+            $model->setCreateTime(time());
+            $model->setType($type);
+            $model->setLevel(1);
+            $model->setOwner($client_id);
+            $dal->insert($model);
+        }
     }
 }

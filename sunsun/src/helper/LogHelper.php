@@ -22,14 +22,16 @@ class LogHelper
     public static function log($db, $client_id, $message, $type = 'common')
     {
 
-        $dal = new LogDal($db);
-        $model = new  LogModel();
+        if(defined('SUNSUN_ENV') && SUNSUN_ENV == 'debug') {
+            $dal = new LogDal($db);
+            $model = new  LogModel();
 
-        $model->setBody(json_encode($message));
-        $model->setCreateTime(time());
-        $model->setType($type);
-        $model->setLevel(1);
-        $model->setOwner($client_id);
-        $dal->insert($model);
+            $model->setBody(json_encode($message));
+            $model->setCreateTime(time());
+            $model->setType($type);
+            $model->setLevel(1);
+            $model->setOwner($client_id);
+            $dal->insert($model);
+        }
     }
 }

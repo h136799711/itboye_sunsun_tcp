@@ -21,14 +21,16 @@ class HeatingRodTcpLogHelper
     public static function log($db, $client_id, $message, $type = 'common')
     {
 
-        $dal = new HeatingRodTcpLogDal($db);
-        $model = new  HeatingRodTcpLogModel();
+        if(defined('SUNSUN_ENV') && SUNSUN_ENV == 'debug') {
+            $dal = new HeatingRodTcpLogDal($db);
+            $model = new  HeatingRodTcpLogModel();
 
-        $model->setBody(json_encode($message));
-        $model->setCreateTime(time());
-        $model->setType($type);
-        $model->setLevel(1);
-        $model->setOwner($client_id);
-        $dal->insert($model);
+            $model->setBody(json_encode($message));
+            $model->setCreateTime(time());
+            $model->setType($type);
+            $model->setLevel(1);
+            $model->setOwner($client_id);
+            $dal->insert($model);
+        }
     }
 }
