@@ -47,18 +47,6 @@ class Events
 
     public static function onWorkerStart($businessWorker)
     {
-        $time_interval = 30;
-        \Workerman\Lib\Timer::add($time_interval, function () {
-            $allSessions = Gateway::getAllClientSessions();
-            $nowTime = time();
-            foreach ($allSessions as $clientId => $session) {
-                $lastActiveTime = $session['last_active_time'];
-                if ($nowTime - $lastActiveTime > self::$inactiveTimeInterval) {
-                    $msg = "adt tcp server waiting for more than " . self::$inactiveTimeInterval . " seconds";
-                    self::closeChannel($clientId, $msg);
-                }
-            }
-        });
     }
 
     /**
