@@ -139,18 +139,17 @@ class Events
 
             // 0. 记录日志信息
             self::log($client_id, $message);
-            //TODO： 需要根据设备、设备版本 来进行处理
-            // -1. 更新client
-            $result = self::getTcpClientDal()->getInfo($client_id);
 
-            if ($result === false) {
-                self::jsonError($client_id, "tcp channel closed", []);
-                return;
+            // -1. 更新client
+            if(array_key_exists('is_first', $_SESSION)){
+                $_SESSION['is_first'] = 1;
+            }else{
+                $_SESSION['is_first'] = 0;
             }
-            $client_id = $result['client_id'];
-            $cnt = $result['cnt'];
+            $is_first = $_SESSION['is_first'];
+
             $pwd = "";
-            if ($cnt == 0) {
+            if ($is_first == 0) {
                 self::log($client_id, "login start");
                 //第一次请求
                 $pwd = self::$commonPwd;
@@ -161,7 +160,7 @@ class Events
                 self::log($client_id, "other process");
                 //其它请求
                 // 1. 获取密钥
-                $result = self::getEncryptPwd($result);
+                $result = self::getEncryptPwd($client_id);
                 if ($result === false) {
                     self::jsonError($client_id, "get encrypt password failed", null);
                     return;
@@ -320,12 +319,12 @@ class Events
 
     /**
      * 获取加密密钥
-     * @param $result
+     * @param $client_id
      * @return array|bool
+     * @internal param $result
      */
-    private static function getEncryptPwd($result)
+    private static function getEncryptPwd($client_id)
     {
-        $client_id = $result['client_id'];
         $result = self::getClientDal()->loginByTcpClientId($client_id, self::getClientIp());
         if ($result === false) return false;
         return $result;
