@@ -29,7 +29,7 @@ $gateway->lanIp = '101.37.37.167';
 // 则一般会使用 4个端口作为内部通讯端口
 $gateway->startPort = 43000;
 // 服务注册地址
-$gateway->registerAddress = '127.0.0.1:1202';
+$gateway->registerAddress = '127.0.0.1:1212';
 
 // 心跳间隔
 $gateway->pingInterval = 0;
