@@ -43,7 +43,7 @@ class Events
     private static $commonPwd = "1234bcda";
 
     //tcp通道无数据传输的最大时间
-    public static $inactiveTimeInterval = 120;
+    public static $inactiveTimeInterval = 600;
 
     public static $tcpClientDal;
 
@@ -62,7 +62,7 @@ class Events
         self::getTcpClientDal()->clearAll();
         //清空日志
 //        (new \sunsun\aph300\dal\Aph300TcpLogDal(self::$db))->clearAll();
-        $time_interval = 240;
+        $time_interval = 30;
         \Workerman\Lib\Timer::add($time_interval, function () {
             $allSessions = Gateway::getAllClientSessions();
             $nowTime = time();

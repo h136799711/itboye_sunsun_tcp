@@ -43,7 +43,7 @@ class Events
     private static $commonPwd = "1234bcda";
 
     //tcp通道无数据传输的最大时间
-    public static $inactiveTimeInterval = 120;
+    public static $inactiveTimeInterval = 600;
 
     public static $tcpClientDal;
 
