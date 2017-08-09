@@ -80,6 +80,7 @@ class Events
     public static function onMessage($client_id, $message)
     {
         $count = \GatewayClient\Gateway::getAllClientCount();
+        echo 'linking tcp client = '.$count;
         self::jsonSuc($client_id, 'success' , 'count='.$count);
     }
 
