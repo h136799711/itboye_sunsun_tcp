@@ -109,7 +109,7 @@ class Events
     public static function onConnect($client_id)
     {
         // 向当前client_id发送数据
-        self::log($client_id, 'onConnect');
+//        self::log($client_id, 'onConnect');
 //        self::getTcpClientDal()->insert($client_id);
 
     }
@@ -131,7 +131,7 @@ class Events
     public static function onMessage($client_id, $message)
     {
         try {
-            self::log($client_id, serialize($message), "origin_message");
+            self::log($client_id, json_encode($message), "origin_message");
             self::$activeTime = time();
 //            $_SESSION['last_active_time'] = self::$activeTime;
 //            $_SESSION['last_recv_message'] = gmdate("Y/m/d H:i:s", self::$activeTime);
