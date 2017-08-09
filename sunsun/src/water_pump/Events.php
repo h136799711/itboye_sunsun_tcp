@@ -347,6 +347,14 @@ class Events
     private static function jsonError($client_id, $msg, $data)
     {
         self::log($client_id, $msg, \sunsun\consts\LogType::Error);
+        $dal = new \sunsun\water_pump\dal\WaterPumpTcpLogDal(self::$db);
+        $model = new  \sunsun\water_pump\model\WaterPumpTcpLogModel();
+        $model->setBody(json_encode($msg));
+        $model->setCreateTime(time());
+        $model->setType('error');
+        $model->setLevel(1);
+        $model->setOwner($client_id);
+        $dal->insert($model);
         Gateway::closeClient($client_id);
     }
 
