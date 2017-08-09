@@ -2,9 +2,9 @@
 #@author hebidu <email:346551990@qq.com>
 #监控过滤桶gateway、worker是否存活,定时执行该代码通过crontab
 mainString="workerman"
-gateway="server_gateway"
-worker="server_worker"
-register="start_server_register.php"
+gateway="sserver_gateway"
+worker="sserver_worker"
+register="start_sserver_register.php"
 
 #echo `ps -fe | grep ${mainString}  | grep ${gateway}  | grep -v grep`
 registerFindStr=$(ps -fe | grep ${register}  | grep -v grep)
