@@ -32,9 +32,9 @@ $gateway->startPort = 3400;
 $gateway->registerAddress = '127.0.0.1:1238';
 
 // 心跳间隔
-$gateway->pingInterval = 0;
+$gateway->pingInterval = 30;
 
-$gateway->pingNotResponseLimit = 0;
+$gateway->pingNotResponseLimit = 5;
 
 $gateway->pingData = '';
 /* 

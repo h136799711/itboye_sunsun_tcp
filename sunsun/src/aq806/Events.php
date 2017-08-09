@@ -42,9 +42,6 @@ class Events
     //通用密码
     private static $commonPwd = "1234bcda";
 
-    //tcp通道无数据传输的最大时间
-    public static $inactiveTimeInterval = 600;
-
     public static $tcpClientDal;
 
     public static $clientDal;
@@ -58,34 +55,6 @@ class Events
         self::$db = new \Workerman\MySQL\Connection(SUNSUN_WORKER_HOST, SUNSUN_WORKER_PORT, SUNSUN_WORKER_USER, SUNSUN_WORKER_PASSWORD, SUNSUN_WORKER_DB_NAME);
         //记录Worker启动信息
         self::log($businessWorker->id, 'aq806 WorkerStart ');
-        //清空首登设备
-        self::getTcpClientDal()->clearAll();
-        //清空日志
-//        (new \sunsun\aq806\dal\Aq806TcpLogDal(self::$db))->clearAll();
-        $time_interval = 30;
-        \Workerman\Lib\Timer::add($time_interval, function () {
-            $allSessions = Gateway::getAllClientSessions();
-            $nowTime = time();
-            foreach ($allSessions as $clientId => $session) {
-                $lastActiveTime = $session['last_active_time'];
-                if ($nowTime - $lastActiveTime > self::$inactiveTimeInterval) {
-                    $msg = "aq806 tcp server waiting for more than " . self::$inactiveTimeInterval . " seconds";
-                    self::closeChannel($clientId, $msg);
-                }
-            }
-        });
-    }
-
-    /**
-     * 获取 tcp_client 日志
-     * @return \sunsun\aq806\dal\Aq806TcpClientDal
-     */
-    public static function getTcpClientDal()
-    {
-        if (self::$tcpClientDal == null) {
-            self::$tcpClientDal = new \sunsun\aq806\dal\Aq806TcpClientDal(self::$db);
-        }
-        return self::$tcpClientDal;
     }
 
     /**
@@ -108,12 +77,14 @@ class Events
      */
     public static function onConnect($client_id)
     {
-        // 向当前client_id发送数据
-        self::log($client_id, 'onConnect');
-        self::getTcpClientDal()->insert($client_id);
-
     }
 
+    protected static function isLoginRequest(){
+        if(!array_key_exists('is_first', $_SESSION)){
+            $_SESSION['is_first'] = 0;
+        }
+        return $_SESSION['is_first'] == 0;
+    }
 
     /**
      * 当客户端发来消息时触发
@@ -124,30 +95,21 @@ class Events
     {
         try {
 
-            self::log($client_id, serialize($message), "origin_message");
             self::$activeTime = time();
-            $_SESSION['last_active_time'] = self::$activeTime;
-            $_SESSION['last_recv_message'] = gmdate("Y/m/d H:i:s", self::$activeTime);
+            if(empty($message)){
+                self::log($client_id, 'message is empty', []);
+                return;
+            }
             //非字符串消息
             if (!is_string($message)) {
                 self::jsonError($client_id, 'invalid message format', []);
                 return;
             }
-
             // 0. 记录日志信息
             self::log($client_id, $message);
             //TODO： 需要根据设备、设备版本 来进行处理
-            // -1. 更新client
-            $result = self::getTcpClientDal()->getInfo($client_id);
-
-            if ($result === false) {
-                self::jsonError($client_id, "tcp channel closed", []);
-                return;
-            }
-            $client_id = $result['client_id'];
-            $cnt = $result['cnt'];
             $pwd = "";
-            if ($cnt == 0) {
+            if (self::isLoginRequest()) {
                 self::log($client_id, "login start");
                 //第一次请求
                 $pwd = self::$commonPwd;
@@ -158,7 +120,7 @@ class Events
                 self::log($client_id, "other process");
                 //其它请求
                 // 1. 获取密钥
-                $result = self::getEncryptPwd($result);
+                $result = self::getEncryptPwd($client_id);
                 if ($result === false) {
                     self::jsonError($client_id, "get encrypt password failed", null);
                     return;
@@ -302,7 +264,7 @@ class Events
         ];
         $dal->update($id, $entity);
         //更新
-        self::getTcpClientDal()->update($client_id);
+        $_SESSION['is_first'] = 1;
         //设置返回响应包
 
         //3. Device 这里替换成具体设备的登录响应类
@@ -317,12 +279,11 @@ class Events
 
     /**
      * 获取加密密钥
-     * @param $result
+     * @param $client_id
      * @return array|bool
      */
-    private static function getEncryptPwd($result)
+    private static function getEncryptPwd($client_id)
     {
-        $client_id = $result['client_id'];
         $result = self::getClientDal()->loginByTcpClientId($client_id, self::getClientIp());
         if ($result === false) return false;
         return $result;
@@ -364,7 +325,7 @@ class Events
     private static function closeChannel($clientId, $closeMsg)
     {
         //1. tcp_client 删除记录
-        self::getTcpClientDal()->delete($clientId);
+        unset($_SESSION['is_first']);
         //2. client 登出记录
         self::getClientDal()->logoutByClientId($clientId);
         //3. tcp通道关闭
@@ -372,7 +333,6 @@ class Events
         //4. 日志记录
         self::log($clientId, $closeMsg, \sunsun\consts\LogType::CloseChannel);
     }
-
 
     /**
      * 日志记录
@@ -382,7 +342,6 @@ class Events
      */
     public static function log($client_id, $message, $type = 'common')
     {
-//        \sunsun\helper\LogHelper::log(self::$db,$client_id,$message,'aq806'.$type);
         \sunsun\aq806\helper\Aq806TcpLogHelper::log(self::$db, $client_id, $message, 'aq806' . $type);
     }
 }
