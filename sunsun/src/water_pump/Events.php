@@ -21,7 +21,7 @@
 
 date_default_timezone_set("Etc/GMT");
 
-define("SUNSUN_ENV", "production");//debug|production 模式
+define("SUNSUN_ENV", "debug");//debug | production 模式
 define("SUNSUN_WORKER_HOST", "101.37.37.167");
 define("SUNSUN_WORKER_PORT", "3306");
 define("SUNSUN_WORKER_USER", "sunsun");
@@ -123,7 +123,6 @@ class Events
     public static function onMessage($client_id, $message)
     {
         try {
-
             self::log($client_id, serialize($message), "origin_message");
             self::$activeTime = time();
             $_SESSION['last_active_time'] = self::$activeTime;
@@ -347,14 +346,7 @@ class Events
     private static function jsonError($client_id, $msg, $data)
     {
         self::log($client_id, $msg, \sunsun\consts\LogType::Error);
-        $dal = new \sunsun\water_pump\dal\WaterPumpTcpLogDal(self::$db);
-        $model = new  \sunsun\water_pump\model\WaterPumpTcpLogModel();
-        $model->setBody(serialize($msg));
-        $model->setCreateTime(time());
-        $model->setType('error');
-        $model->setLevel(1);
-        $model->setOwner($client_id);
-        $dal->insert($model);
+
         Gateway::closeClient($client_id);
     }
 
