@@ -127,6 +127,10 @@ class Events
             self::$activeTime = time();
             $_SESSION['last_active_time'] = self::$activeTime;
             $_SESSION['last_recv_message'] = gmdate("Y/m/d H:i:s", self::$activeTime);
+            if(empty($message)){
+                self::log($client_id, 'message is empty', []);
+                return;
+            }
             //非字符串消息
             if (!is_string($message)) {
                 self::jsonError($client_id, 'invalid message format', []);
