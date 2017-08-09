@@ -62,7 +62,7 @@ class Events
         self::getTcpClientDal()->clearAll();
         //清空日志
 //        (new \sunsun\aph300\dal\Aph300TcpLogDal(self::$db))->clearAll();
-        $time_interval = 30;
+        $time_interval = 240;
         \Workerman\Lib\Timer::add($time_interval, function () {
             $allSessions = Gateway::getAllClientSessions();
             $nowTime = time();
