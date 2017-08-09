@@ -114,6 +114,14 @@ class Events
 
     }
 
+    protected static function isLoginRequest(){
+        if(array_key_exists('is_first', $_SESSION)){
+            $_SESSION['is_first'] = 1;
+        }else{
+            $_SESSION['is_first'] = 0;
+        }
+        return $_SESSION['is_first'] == 0;
+    }
 
     /**
      * 当客户端发来消息时触发
@@ -141,15 +149,10 @@ class Events
             self::log($client_id, $message);
 
             // -1. 更新client
-            if(array_key_exists('is_first', $_SESSION)){
-                $_SESSION['is_first'] = 1;
-            }else{
-                $_SESSION['is_first'] = 0;
-            }
-            $is_first = $_SESSION['is_first'];
+
 
             $pwd = "";
-            if ($is_first == 0) {
+            if (self::isLoginRequest()) {
                 self::log($client_id, "login start");
                 //第一次请求
                 $pwd = self::$commonPwd;
@@ -304,7 +307,7 @@ class Events
         ];
         $dal->update($id, $entity);
         //更新
-        self::getTcpClientDal()->update($client_id);
+//        self::getTcpClientDal()->update($client_id);
         //设置返回响应包
 
         //3. Device 这里替换成具体设备的登录响应类
@@ -367,7 +370,7 @@ class Events
     private static function closeChannel($clientId, $closeMsg)
     {
         //1. tcp_client 删除记录
-        self::getTcpClientDal()->delete($clientId);
+        unset($_SESSION['is_first']);
         //2. client 登出记录
         self::getClientDal()->logoutByClientId($clientId);
         //3. tcp通道关闭
@@ -385,7 +388,6 @@ class Events
      */
     public static function log($client_id, $message, $type = 'common')
     {
-//        \sunsun\helper\LogHelper::log(self::$db,$client_id,$message,'water_pump'.$type);
         \sunsun\water_pump\helper\WaterPumpTcpLogHelper::log(self::$db, $client_id, $message, 'water_pump' . $type);
     }
 }
