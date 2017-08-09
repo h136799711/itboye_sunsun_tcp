@@ -83,9 +83,7 @@ class Events
     }
 
     protected static function isLoginRequest(){
-        if(array_key_exists('is_first', $_SESSION)){
-            $_SESSION['is_first'] = 1;
-        }else{
+        if(!array_key_exists('is_first', $_SESSION)){
             $_SESSION['is_first'] = 0;
         }
         return $_SESSION['is_first'] == 0;
@@ -269,6 +267,7 @@ class Events
             'offline_notify'=>1,
         ];
         $dal->update($id, $entity);
+        $_SESSION['is_first'] = 1;
         //设置返回响应包
         //3. Device 这里替换成具体设备的登录响应类
         $resp = new \sunsun\water_pump\resp\WaterPumpLoginResp();
