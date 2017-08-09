@@ -59,7 +59,7 @@ class Events
         //记录Worker启动信息
         self::log($businessWorker->id, 'water_pump WorkerStart ');
         //清空首登设备
-        self::getTcpClientDal()->clearAll();
+//        self::getTcpClientDal()->clearAll();
         //清空日志
 //        (new \sunsun\water_pump\dal\WaterPumpTcpLogDal(self::$db))->clearAll();
 //        $time_interval = 2400;
@@ -80,13 +80,13 @@ class Events
      * 获取 tcp_client 日志
      * @return \sunsun\water_pump\dal\WaterPumpTcpClientDal
      */
-    public static function getTcpClientDal()
-    {
-        if (self::$tcpClientDal == null) {
-            self::$tcpClientDal = new \sunsun\water_pump\dal\WaterPumpTcpClientDal(self::$db);
-        }
-        return self::$tcpClientDal;
-    }
+//    public static function getTcpClientDal()
+//    {
+//        if (self::$tcpClientDal == null) {
+//            self::$tcpClientDal = new \sunsun\water_pump\dal\WaterPumpTcpClientDal(self::$db);
+//        }
+//        return self::$tcpClientDal;
+//    }
 
     /**
      * 获取设备dal类
@@ -110,7 +110,7 @@ class Events
     {
         // 向当前client_id发送数据
         self::log($client_id, 'onConnect');
-        self::getTcpClientDal()->insert($client_id);
+//        self::getTcpClientDal()->insert($client_id);
 
     }
 
