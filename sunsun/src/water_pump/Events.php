@@ -272,7 +272,6 @@ class Events
         $req = \sunsun\water_pump\req\WaterPumpReqFactory::create(\sunsun\water_pump\req\WaterPumpReqType::Login, $data);
         $did = $req->getDid();
         if (empty($did)) {
-            self::jsonError($client_id, 'which did is empty'.$originData, []);
             return false;
         }
         $result = $dal->getInfoByDid($did);
