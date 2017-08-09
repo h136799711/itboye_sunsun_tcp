@@ -256,7 +256,7 @@ class Events
             return false;
         }
         if (!$result->isValid()) {
-            self::jsonError($client_id, 'the data format is invalid'.json_encode($result->getTdsOriginData()), []);
+            self::jsonError($client_id, 'the data format is invalid'.$message, []);
             return false;
         }
         //{"reqType": "1","sn": "0","did": "10000001","ver": "V1.0","pwd": "gigw+DAcMITN4SuEe6JmkA=="}
@@ -269,7 +269,7 @@ class Events
         $req = \sunsun\water_pump\req\WaterPumpReqFactory::create(\sunsun\water_pump\req\WaterPumpReqType::Login, $data);
         $did = $req->getDid();
         if (empty($did)) {
-            self::jsonError($client_id, 'which did is empty'.json_encode($data), []);
+            self::jsonError($client_id, 'which did is empty'.json_encode($originData), []);
             return false;
         }
         $result = $dal->getInfoByDid($did);
