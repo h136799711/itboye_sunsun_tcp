@@ -50,6 +50,21 @@ class AdtCtrlDeviceReq extends BaseReqPo
         if (!is_null($this->getPushCfg())) {
             $data['push_cfg'] = $this->getPushCfg();
         }
+        if (!is_null($this->getR())) {
+            $data['r'] = $this->getR();
+        }
+        if (!is_null($this->getG())) {
+            $data['g'] = $this->getG();
+        }
+        if (!is_null($this->getB())) {
+            $data['b'] = $this->getB();
+        }
+        if (!is_null($this->getW())) {
+            $data['w'] = $this->getW();
+        }
+        if (!is_null($this->getSw())) {
+            $data['sw'] = $this->getSw();
+        }
 
         return $data;
     }
@@ -58,6 +73,91 @@ class AdtCtrlDeviceReq extends BaseReqPo
     private $devLock;
     private $mode;
     private $per;
+    private $r;
+    private $g;
+    private $b;
+    private $w;
+    private $sw;
+
+    /**
+     * @return mixed
+     */
+    public function getR()
+    {
+        return $this->r;
+    }
+
+    /**
+     * @param mixed $r
+     */
+    public function setR($r)
+    {
+        $this->r = $r;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getG()
+    {
+        return $this->g;
+    }
+
+    /**
+     * @param mixed $g
+     */
+    public function setG($g)
+    {
+        $this->g = $g;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getB()
+    {
+        return $this->b;
+    }
+
+    /**
+     * @param mixed $b
+     */
+    public function setB($b)
+    {
+        $this->b = $b;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getW()
+    {
+        return $this->w;
+    }
+
+    /**
+     * @param mixed $w
+     */
+    public function setW($w)
+    {
+        $this->w = $w;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSw()
+    {
+        return $this->sw;
+    }
+
+    /**
+     * @param mixed $sw
+     */
+    public function setSw($sw)
+    {
+        $this->sw = $sw;
+    }
 
     /**
      * @return mixed

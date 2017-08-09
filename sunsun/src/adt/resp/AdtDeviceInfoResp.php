@@ -20,6 +20,7 @@ use sunsun\po\BaseRespPo;
 class AdtDeviceInfoResp extends BaseRespPo
 {
 
+    private $sw;// 总开关 20170809 增加
     private $w;
     private $r;
     private $g;
@@ -40,6 +41,22 @@ class AdtDeviceInfoResp extends BaseRespPo
      * 101：更新失败，硬件重启后该字段隐藏
      */
     private $updState;
+
+    /**
+     * @return mixed
+     */
+    public function getSw()
+    {
+        return $this->sw;
+    }
+
+    /**
+     * @param mixed $sw
+     */
+    public function setSw($sw)
+    {
+        $this->sw = $sw;
+    }
 
     /**
      * @return mixed
@@ -179,6 +196,7 @@ class AdtDeviceInfoResp extends BaseRespPo
         array_key_exists("g", $data) && $this->setG($data['g']);
         array_key_exists("b", $data) && $this->setB($data['b']);
         array_key_exists("w", $data) && $this->setW($data['w']);
+        array_key_exists("sw", $data) && $this->setSw($data['sw']);
     }
 
     public function toDataArray()
@@ -194,7 +212,8 @@ class AdtDeviceInfoResp extends BaseRespPo
             'b'=>$this->getB(),
             'w'=>$this->getW(),
             'mode'=>$this->getMode(),
-            'per'=>$this->getPer()
+            'per'=>$this->getPer(),
+            'sw'=>$this->getSw()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;

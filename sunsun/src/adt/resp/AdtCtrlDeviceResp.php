@@ -21,6 +21,7 @@ use sunsun\po\BaseRespPo;
 class AdtCtrlDeviceResp extends BaseRespPo
 {
 
+    private $sw;
     private $w;
     private $r;
     private $g;
@@ -28,6 +29,23 @@ class AdtCtrlDeviceResp extends BaseRespPo
     private $mode;
     private $per;
     private $pushCfg;
+
+    /**
+     * @return mixed
+     */
+    public function getSw()
+    {
+        return $this->sw;
+    }
+
+    /**
+     * @param mixed $sw
+     */
+    public function setSw($sw)
+    {
+        $this->sw = $sw;
+    }
+
     /**
      * 设备锁机状态
      * 0：未锁机，可局域网查找
@@ -176,6 +194,7 @@ class AdtCtrlDeviceResp extends BaseRespPo
         array_key_exists("g", $data) && $this->setG($data['g']);
         array_key_exists("b", $data) && $this->setB($data['b']);
         array_key_exists("w", $data) && $this->setW($data['w']);
+        array_key_exists("sw", $data) && $this->setSw($data['sw']);
     }
 
     public function toDataArray()
@@ -189,6 +208,7 @@ class AdtCtrlDeviceResp extends BaseRespPo
             'g'=>$this->getG(),
             'b'=>$this->getB(),
             'w'=>$this->getW(),
+            'sw'=>$this->getSw(),
             'mode'=>$this->getMode(),
             'per'=>$this->getPer()
         ];

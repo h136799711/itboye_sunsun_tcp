@@ -33,6 +33,9 @@ class ModelConverterHelper
         if (!is_null($resp->getW())) {
             $data['w'] = $resp->getW();
         }
+        if (!is_null($resp->getSw())) {
+            $data['sw'] = $resp->getSw();
+        }
 
         if (!is_null($resp->getPer())) {
             $data['per'] = $resp->getPer();
@@ -76,6 +79,9 @@ class ModelConverterHelper
         }
         if (!is_null($resp->getW())) {
             $data['w'] = $resp->getW();
+        }
+        if (!is_null($resp->getSw())) {
+            $data['sw'] = $resp->getSw();
         }
 
         if (!is_null($resp->getPer())) {
