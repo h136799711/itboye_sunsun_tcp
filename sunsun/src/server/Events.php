@@ -79,7 +79,8 @@ class Events
      */
     public static function onMessage($client_id, $message)
     {
-        self::jsonSuc($client_id, 'success' , 'success');
+        $count = \GatewayClient\Gateway::getAllClientCount();
+        self::jsonSuc($client_id, 'success' , 'count='.$count);
     }
 
     /**
