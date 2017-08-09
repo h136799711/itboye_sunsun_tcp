@@ -58,35 +58,7 @@ class Events
         self::$db = new \Workerman\MySQL\Connection(SUNSUN_WORKER_HOST, SUNSUN_WORKER_PORT, SUNSUN_WORKER_USER, SUNSUN_WORKER_PASSWORD, SUNSUN_WORKER_DB_NAME);
         //记录Worker启动信息
         self::log($businessWorker->id, 'water_pump WorkerStart ');
-        //清空首登设备
-//        self::getTcpClientDal()->clearAll();
-        //清空日志
-//        (new \sunsun\water_pump\dal\WaterPumpTcpLogDal(self::$db))->clearAll();
-//        $time_interval = 2400;
-//        \Workerman\Lib\Timer::add($time_interval, function () {
-//            $allSessions = Gateway::getAllClientSessions();
-//            $nowTime = time();
-//            foreach ($allSessions as $clientId => $session) {
-//                $lastActiveTime = $session['last_active_time'];
-//                if ($nowTime - $lastActiveTime > self::$inactiveTimeInterval) {
-//                    $msg = "water_pump tcp server waiting for more than " . self::$inactiveTimeInterval . " seconds";
-//                    self::closeChannel($clientId, $msg);
-//                }
-//            }
-//        });
     }
-
-    /**
-     * 获取 tcp_client 日志
-     * @return \sunsun\water_pump\dal\WaterPumpTcpClientDal
-     */
-//    public static function getTcpClientDal()
-//    {
-//        if (self::$tcpClientDal == null) {
-//            self::$tcpClientDal = new \sunsun\water_pump\dal\WaterPumpTcpClientDal(self::$db);
-//        }
-//        return self::$tcpClientDal;
-//    }
 
     /**
      * 获取设备dal类
@@ -108,10 +80,6 @@ class Events
      */
     public static function onConnect($client_id)
     {
-        // 向当前client_id发送数据
-//        self::log($client_id, 'onConnect');
-//        self::getTcpClientDal()->insert($client_id);
-
     }
 
     protected static function isLoginRequest(){
@@ -133,8 +101,6 @@ class Events
         try {
             self::log($client_id, json_encode($message), "origin_message");
             self::$activeTime = time();
-//            $_SESSION['last_active_time'] = self::$activeTime;
-//            $_SESSION['last_recv_message'] = gmdate("Y/m/d H:i:s", self::$activeTime);
             if(empty($message)){
                 self::log($client_id, 'message is empty', []);
                 return;
@@ -147,9 +113,6 @@ class Events
 
             // 0. 记录日志信息
             self::log($client_id, $message);
-
-            // -1. 更新client
-
 
             $pwd = "";
             if (self::isLoginRequest()) {
@@ -306,10 +269,7 @@ class Events
             'offline_notify'=>1,
         ];
         $dal->update($id, $entity);
-        //更新
-//        self::getTcpClientDal()->update($client_id);
         //设置返回响应包
-
         //3. Device 这里替换成具体设备的登录响应类
         $resp = new \sunsun\water_pump\resp\WaterPumpLoginResp();
         $resp->setSn($req->getSn());
