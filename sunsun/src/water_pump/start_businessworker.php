@@ -18,7 +18,7 @@ use Workerman\Worker;
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
 // 文件监控
-require_once __DIR__ . '/file_monitor.php';
+//require_once __DIR__ . '/file_monitor.php';
 
 // bussinessWorker 进程
 $worker = new BusinessWorker();
