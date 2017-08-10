@@ -59,20 +59,20 @@ class Events
         //记录Worker启动信息
         self::log($businessWorker->id, 'water_pump WorkerStart ');
         $time_interval = 10;
-        \Workerman\Lib\Timer::add($time_interval, function () {
-            $allSessions = Gateway::getAllClientSessions();
-            $nowTime = time();
-            foreach ($allSessions as $clientId => &$session) {
-                if(!array_key_exists('last_active_time',$session)){
-                    $session['last_active_time'] = $nowTime;
-                }
-                $lastActiveTime = $session['last_active_time'];
-                if ($nowTime - $lastActiveTime > self::$inactiveTimeInterval) {
-                    $msg = "water_pump tcp server waiting for more than " . self::$inactiveTimeInterval . " seconds";
-                    self::closeChannel($clientId, $msg);
-                }
-            }
-        });
+//        \Workerman\Lib\Timer::add($time_interval, function () {
+//            $allSessions = Gateway::getAllClientSessions();
+//            $nowTime = time();
+//            foreach ($allSessions as $clientId => &$session) {
+//                if(!array_key_exists('last_active_time',$session)){
+//                    $session['last_active_time'] = $nowTime;
+//                }
+//                $lastActiveTime = $session['last_active_time'];
+//                if ($nowTime - $lastActiveTime > self::$inactiveTimeInterval) {
+//                    $msg = "water_pump tcp server waiting for more than " . self::$inactiveTimeInterval . " seconds";
+//                    self::closeChannel($clientId, $msg);
+//                }
+//            }
+//        });
     }
 
     /**
