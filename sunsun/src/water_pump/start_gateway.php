@@ -22,7 +22,7 @@ $gateway = new Gateway("tcp://0.0.0.0:8286");
 // gateway名称，status方便查看,过滤桶
 $gateway->name = 'water_pump_gateway';
 // gateway进程数
-$gateway->count = 4;
+$gateway->count = 6;
 // 本机ip，分布式部署时使用内网ip
 $gateway->lanIp = '101.37.37.167';
 // 内部通讯起始端口，假如$gateway->count=4，起始端口为3900
