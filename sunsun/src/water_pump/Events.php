@@ -325,8 +325,7 @@ class Events
     private static function jsonError($client_id, $msg, $data)
     {
         self::log($client_id, $msg, \sunsun\consts\LogType::Error);
-
-        Gateway::closeClient($client_id);
+        self::closeChannel($client_id, $msg);
     }
 
     private static function jsonSuc($client_id, $msg, $data)
