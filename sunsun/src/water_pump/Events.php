@@ -43,7 +43,7 @@ class Events
     private static $commonPwd = "1234bcda";
 
     //tcp通道无数据传输的最大时间
-//    public static $inactiveTimeInterval = 600;
+    public static $inactiveTimeInterval = 600;
 
     public static $tcpClientDal;
 
@@ -58,6 +58,21 @@ class Events
         self::$db = new \Workerman\MySQL\Connection(SUNSUN_WORKER_HOST, SUNSUN_WORKER_PORT, SUNSUN_WORKER_USER, SUNSUN_WORKER_PASSWORD, SUNSUN_WORKER_DB_NAME);
         //记录Worker启动信息
         self::log($businessWorker->id, 'water_pump WorkerStart ');
+        $time_interval = 10;
+        \Workerman\Lib\Timer::add($time_interval, function () {
+            $allSessions = Gateway::getAllClientSessions();
+            $nowTime = time();
+            foreach ($allSessions as $clientId => &$session) {
+                if(!array_key_exists('last_active_time',$session)){
+                    $session['last_active_time'] = $nowTime;
+                }
+                $lastActiveTime = $session['last_active_time'];
+                if ($nowTime - $lastActiveTime > self::$inactiveTimeInterval) {
+                    $msg = "water_pump tcp server waiting for more than " . self::$inactiveTimeInterval . " seconds";
+                    self::closeChannel($clientId, $msg);
+                }
+            }
+        });
     }
 
     /**
@@ -316,6 +331,8 @@ class Events
 
     private static function jsonSuc($client_id, $msg, $data)
     {
+        // 只记录成功的时间
+        $_SESSION['last_active_time'] = self::$activeTime;
         self::log($client_id, $msg . ',' . serialize($data), \sunsun\consts\LogType::Success);
         Gateway::sendToClient($client_id, $data);
     }
