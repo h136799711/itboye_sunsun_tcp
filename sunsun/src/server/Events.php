@@ -326,7 +326,7 @@ class Events
     private static function closeChannel($client_id, $closeMsg)
     {
         //1. tcp_client 删除记录
-        unset($_SESSION['is_first']);
+//        unset($_SESSION['is_first']);
 
         $session = Gateway::getSession($client_id);
         if(is_array($session) && array_key_exists('did', $session)){
@@ -334,13 +334,13 @@ class Events
         }
         if(empty($did)){
             $result = (new \sunsun\dal\DeviceTcpClientDal())->getInfoByClientId($client_id);
-            if(is_array($session) && array_key_exists('did', $session)) {
+            if(is_array($result) && array_key_exists('did', $result)) {
                 $did = $result['did'];
             }
         }
         if(!empty($did)){
             \sunsun\server\device\DeviceFactory::getDeviceDal($did) ->logoutByClientId($client_id);
-        }
+        } 
         //3. tcp通道关闭
         Gateway::closeClient($client_id);
     }
