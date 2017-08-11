@@ -11,6 +11,7 @@
  * @link http://www.workerman.net/
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 use GatewayWorker\BusinessWorker;
 use Workerman\Worker;
 
@@ -22,7 +23,7 @@ $worker = new BusinessWorker();
 // worker名称
 $worker->name = 'sserver_worker';
 // bussinessWorker进程数量
-$worker->count = 4;
+$worker->count = 8;
 // 服务注册地址
 $worker->registerAddress = '127.0.0.1:1212';
 
