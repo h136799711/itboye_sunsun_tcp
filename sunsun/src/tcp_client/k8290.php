@@ -11,11 +11,20 @@ namespace sunsun\tcp_client;
 use Workerman\Lib\Timer;
 use Workerman\Worker;
 
-require_once __DIR__ . '/../../../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 // 设置为当前脚本目录
 chdir(dirname(__FILE__));
-
+$start = 0;
+$size = 1;
+if(count($argv) >= 2) {
+    $start = $argv[1];
+}
+if(count($argv) >= 3) {
+    $size = $argv[2];
+}
+define('START', $start);
+define('SIZE', $size);
 function createTcp($tcpDevice){
 
     $tcpDevice->onConnect = function($tcpDevice)
@@ -130,8 +139,8 @@ $task->onError = function($connection, $code, $msg)
 // 进程启动时异步建立一个到www.baidu.com连接对象，并发送数据获取数据
 $task->onWorkerStart = function($task)
 {
-    $start = 0;//$input->getOption('start');
-    $size = 12;//$input->getOption('size');
+    $start = START;
+    $size = SIZE;
     $clients = initClients();
     $sockets = [];
     if(count($clients) < $size){
