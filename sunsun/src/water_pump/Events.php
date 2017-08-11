@@ -228,7 +228,7 @@ class Events
      * @param $pwd
      * @return bool|\sunsun\water_pump\resp\WaterPumpLoginResp
      */
-    private static function login($client_id, $message, $pwd)
+    private static function login($client_id, $message, &$pwd)
     {
 
         $result = \sunsun\decoder\SunsunTDS::decode($message, $pwd);
