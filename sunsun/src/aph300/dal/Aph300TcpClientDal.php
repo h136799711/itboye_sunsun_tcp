@@ -9,9 +9,7 @@
 namespace sunsun\aph300\dal;
 
 
-use sunsun\dal\BaseDal;
-
-class Aph300TcpClientDal extends BaseDal
+class Aph300TcpClientDal extends Aph300BaseDal
 {
     public function insert($client_id)
     {

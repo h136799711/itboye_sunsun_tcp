@@ -10,7 +10,7 @@ use sunsun\dal\BaseDal;
  * @author hebidu <email:346551990@qq.com>
  * @package sunsun\aph300\dal
  */
-class Aph300TempHisDal extends BaseDal
+class Aph300TempHisDal extends Aph300BaseDal
 {
     protected $tableName = "sunsun_aph300_temp_his";
 

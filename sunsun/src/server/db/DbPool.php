@@ -48,6 +48,14 @@ class DbPool
      */
     public function getDb($did){
         $type = substr($did,0,3);
+        return $this->getDbByType($type);
+    }
+    /**
+     * 根据type获取指定的数据库链接
+     * @param $type
+     * @return mixed
+     */
+    public function getDbByType($type){
         switch ($type){
             case DeviceType::Did_FilterVat:
                 break;

@@ -8,12 +8,10 @@
 
 namespace sunsun\aph300\dal;
 
-
 use sunsun\aph300\model\Aph300DeviceEventModel;
-use sunsun\dal\BaseDal;
 use sunsun\helper\DbBackupHelper;
 
-class Aph300DeviceEventDal extends BaseDal
+class Aph300DeviceEventDal extends Aph300BaseDal
 {
     protected $tableName = "sunsun_aph300_device_event";
 

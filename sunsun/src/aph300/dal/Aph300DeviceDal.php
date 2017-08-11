@@ -10,9 +10,8 @@ namespace sunsun\aph300\dal;
 
 
 use sunsun\aph300\model\Aph300DeviceModel;
-use sunsun\dal\BaseDal;
 
-class Aph300DeviceDal extends BaseDal
+class Aph300DeviceDal extends Aph300BaseDal
 {
     protected $tableName = "sunsun_aph300_device";
 

@@ -3,7 +3,6 @@
 namespace sunsun\aph300\dal;
 
 use sunsun\aph300\model\Aph300TcpLogModel;
-use sunsun\dal\BaseDal;
 
 /**
  * Created by PhpStorm.
@@ -11,7 +10,7 @@ use sunsun\dal\BaseDal;
  * Date: 2017-03-10
  * Time: 12:16
  */
-class Aph300TcpLogDal extends BaseDal
+class Aph300TcpLogDal extends Aph300BaseDal
 {
     protected $tableName = "sunsun_aph300_tcp_log";
 
