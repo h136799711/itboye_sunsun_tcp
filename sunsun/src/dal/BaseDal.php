@@ -22,11 +22,8 @@ class BaseDal
             self::$db = $db;
         } else
             if (!(self::$db instanceof MySQL\Connection)) {
-                $db = \Events::$db;
-                if ($db != null) {
-                    $db = \Events::$db;
-                } else {
-//            self::$db = new \Workerman\MySQL\Connection(SUNSUN_WORKER_HOST, SUNSUN_WORKER_PORT, SUNSUN_WORKER_USER, SUNSUN_WORKER_PASSWORD, SUNSUN_WORKER_DB_NAME);
+                if(property_exists('Events','db')){
+                    self::$db = \Events::$db;
                 }
             }
     }

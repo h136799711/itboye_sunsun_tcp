@@ -16,6 +16,12 @@ class AdtDeviceDal extends BaseDal
 {
     protected $tableName = "sunsun_adt_device";
 
+    public function __construct($db = null)
+    {
+
+        parent::__construct($db);
+    }
+
     public function insert(AdtDeviceModel $do)
     {
         self::$db->insert($this->tableName)->cols($do->toDataArray())->query();

@@ -43,6 +43,7 @@ class Events
     //接收到数据的最近一次时间
     private static $activeTime;
     private static $port;
+    public static $db;//
 
 
     public static function onWorkerStart($businessWorker)

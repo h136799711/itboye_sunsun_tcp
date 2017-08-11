@@ -14,44 +14,32 @@ use sunsun\adt\dal\AdtDeviceDal;
 use sunsun\adt\req\AdtReqFactory;
 use sunsun\adt\req\AdtReqType;
 use sunsun\adt\resp\AdtLoginResp;
-use sunsun\adt\resp\AdtRespFactory;
-use sunsun\adt\resp\AdtRespType;
 use sunsun\aph300\action\Aph300ProcessAction;
 use sunsun\aph300\dal\Aph300DeviceDal;
 use sunsun\aph300\req\Aph300ReqFactory;
 use sunsun\aph300\req\Aph300ReqType;
 use sunsun\aph300\resp\Aph300LoginResp;
-use sunsun\aph300\resp\Aph300RespFactory;
-use sunsun\aph300\resp\Aph300RespType;
 use sunsun\aq806\action\Aq806ProcessAction;
 use sunsun\aq806\dal\Aq806DeviceDal;
 use sunsun\aq806\req\Aq806ReqFactory;
 use sunsun\aq806\req\Aq806ReqType;
 use sunsun\aq806\resp\Aq806LoginResp;
-use sunsun\aq806\resp\Aq806RespFactory;
-use sunsun\aq806\resp\Aq806RespType;
 use sunsun\filter_vat\action\FilterVatProcessAction;
 use sunsun\filter_vat\dal\FilterVatDeviceDal;
 use sunsun\filter_vat\req\FilterVatReqFactory;
 use sunsun\filter_vat\req\FilterVatReqType;
 use sunsun\filter_vat\resp\FilterVatLoginResp;
-use sunsun\filter_vat\resp\FilterVatRespFactory;
-use sunsun\filter_vat\resp\FilterVatRespType;
 use sunsun\heating_rod\action\HeatingRodProcessAction;
 use sunsun\heating_rod\dal\HeatingRodDeviceDal;
 use sunsun\heating_rod\req\HeatingRodReqFactory;
 use sunsun\heating_rod\req\HeatingRodReqType;
 use sunsun\heating_rod\resp\HeatingRodLoginResp;
-use sunsun\heating_rod\resp\HeatingRodRespFactory;
-use sunsun\heating_rod\resp\HeatingRodRespType;
 use sunsun\server\consts\DeviceType;
 use sunsun\water_pump\action\WaterPumpProcessAction;
 use sunsun\water_pump\dal\WaterPumpDeviceDal;
 use sunsun\water_pump\req\WaterPumpReqFactory;
 use sunsun\water_pump\req\WaterPumpReqType;
 use sunsun\water_pump\resp\WaterPumpLoginResp;
-use sunsun\water_pump\resp\WaterPumpRespFactory;
-use sunsun\water_pump\resp\WaterPumpRespType;
 
 class DeviceFactory
 {
@@ -63,6 +51,10 @@ class DeviceFactory
      */
     public static function getPublicPwd($port=8286){
         return '1234bcda';
+    }
+
+    public static function getDb(){
+
     }
 
     /**

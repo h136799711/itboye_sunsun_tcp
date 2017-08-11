@@ -9,6 +9,7 @@
 namespace sunsun\server\db;
 
 
+use sunsun\server\consts\DeviceType;
 use Workerman\MySQL\Connection;
 
 define("SUNSUN_WORKER_HOST", "101.37.37.167");
@@ -46,6 +47,23 @@ class DbPool
      * @return mixed
      */
     public function getDb($did){
+        $type = substr($did,0,3);
+        switch ($type){
+            case DeviceType::Did_FilterVat:
+                break;
+            case DeviceType::Did_HeatingRod:
+                break;
+            case DeviceType::Did_AQ806:
+                break;
+            case DeviceType::Did_APH300:
+                break;
+            case DeviceType::Did_WaterPump:
+                break;
+            case DeviceType::Did_ADT:
+                break;
+            default:
+                break;
+        }
         return $this->db;
     }
 
