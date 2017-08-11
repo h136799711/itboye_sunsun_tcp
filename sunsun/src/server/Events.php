@@ -166,7 +166,8 @@ class Events
         self::log($clientId, $originData, 'origin_data');
         $jsonDecode = json_decode($originData, JSON_OBJECT_AS_ARRAY);
         //1. Device 这里替换成具体设备的process类
-        $resp = (new \sunsun\water_pump\action\WaterPumpProcessAction())->process($did, $clientId, $jsonDecode);
+        $action = \sunsun\server\device\DeviceFactory::createProcessAction($did);
+        $resp = $action->process($did,$clientId,$jsonDecode);
         return $resp;
     }
 
