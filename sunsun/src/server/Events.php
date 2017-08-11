@@ -234,7 +234,7 @@ class Events
         $did = $data['did'];
         // 设置did
         $_SESSION['did'] = $did;
-        $req =  \sunsun\server\device\DeviceFactory::createLoginReq($did);
+        $req =  \sunsun\server\device\DeviceFactory::createLoginReq($did,$data);
         if (empty($did)) {
             return false;
         }
