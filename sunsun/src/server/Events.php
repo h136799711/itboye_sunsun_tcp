@@ -255,12 +255,10 @@ class Events
         }
 
         $data['origin_pwd'] = $originPwd;
-        $type = $req->getType();
         //更新控制密码
         $ver = $req->getVer();
         $entity = [
             'ver'=>$ver,
-            'device_type'=>$type,
             'ctrl_pwd' => $originPwd,
             'last_login_time' => self::$activeTime,
             'update_time' => self::$activeTime,
@@ -268,6 +266,10 @@ class Events
             'tcp_client_id' => $client_id,
             'offline_notify'=>1,
         ];
+        if(method_exists($req,'getType')){
+            $type = $req->getType();
+            $entity['device_type'] = $type;
+        }
         $dal->update($id, $entity);
         $_SESSION['is_first'] = 1;
         //设置返回响应包
