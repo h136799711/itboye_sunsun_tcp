@@ -10,9 +10,8 @@ namespace sunsun\aq806\dal;
 
 
 use sunsun\aq806\model\Aq806DeviceModel;
-use sunsun\dal\BaseDal;
 
-class Aq806DeviceDal extends BaseDal
+class Aq806DeviceDal extends Aq806BaseDal
 {
     protected $tableName = "sunsun_aq806_device";
 

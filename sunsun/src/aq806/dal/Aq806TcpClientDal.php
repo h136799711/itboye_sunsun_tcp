@@ -9,9 +9,7 @@
 namespace sunsun\aq806\dal;
 
 
-use sunsun\dal\BaseDal;
-
-class Aq806TcpClientDal extends BaseDal
+class Aq806TcpClientDal extends Aq806BaseDal
 {
     public function insert($client_id)
     {

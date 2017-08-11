@@ -3,14 +3,13 @@
 namespace sunsun\aq806\dal;
 
 use sunsun\aq806\model\Aq806TempHisModel;
-use sunsun\dal\BaseDal;
 
 /**
  * Class Aq806TempHisDal
  * @author hebidu <email:346551990@qq.com>
  * @package sunsun\aq806\dal
  */
-class Aq806TempHisDal extends BaseDal
+class Aq806TempHisDal extends Aq806BaseDal
 {
     protected $tableName = "sunsun_aq806_temp_his";
 

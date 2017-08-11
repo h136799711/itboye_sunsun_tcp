@@ -10,10 +10,9 @@ namespace sunsun\aq806\dal;
 
 
 use sunsun\aq806\model\Aq806DeviceEventModel;
-use sunsun\dal\BaseDal;
 use sunsun\helper\DbBackupHelper;
 
-class Aq806DeviceEventDal extends BaseDal
+class Aq806DeviceEventDal extends Aq806BaseDal
 {
     protected $tableName = "sunsun_aq806_device_event";
 

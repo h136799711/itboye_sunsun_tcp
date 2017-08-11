@@ -3,7 +3,6 @@
 namespace sunsun\aq806\dal;
 
 use sunsun\aq806\model\Aq806TcpLogModel;
-use sunsun\dal\BaseDal;
 
 /**
  * Created by PhpStorm.
@@ -11,7 +10,7 @@ use sunsun\dal\BaseDal;
  * Date: 2017-03-10
  * Time: 12:16
  */
-class Aq806TcpLogDal extends BaseDal
+class Aq806TcpLogDal extends Aq806BaseDal
 {
     protected $tableName = "sunsun_aq806_tcp_log";
 
