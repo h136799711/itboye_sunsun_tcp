@@ -9,11 +9,10 @@
 namespace sunsun\water_pump\dal;
 
 
-use sunsun\water_pump\model\WaterPumpDeviceEventModel;
-use sunsun\dal\BaseDal;
 use sunsun\helper\DbBackupHelper;
+use sunsun\water_pump\model\WaterPumpDeviceEventModel;
 
-class WaterPumpDeviceEventDal extends BaseDal
+class WaterPumpDeviceEventDal extends WaterPumpBaseDal
 {
     protected $tableName = "sunsun_water_pump_device_event";
 

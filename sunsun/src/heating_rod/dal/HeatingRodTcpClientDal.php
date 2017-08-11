@@ -9,9 +9,7 @@
 namespace sunsun\heating_rod\dal;
 
 
-use sunsun\dal\BaseDal;
-
-class HeatingRodTcpClientDal extends BaseDal
+class HeatingRodTcpClientDal extends HeatingRodBaseDal
 {
     public function insert($client_id)
     {

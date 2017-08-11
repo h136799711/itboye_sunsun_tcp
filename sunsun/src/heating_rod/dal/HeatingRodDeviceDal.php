@@ -9,10 +9,9 @@
 namespace sunsun\heating_rod\dal;
 
 
-use sunsun\dal\BaseDal;
 use sunsun\heating_rod\model\HeatingRodDeviceModel;
 
-class HeatingRodDeviceDal extends BaseDal
+class HeatingRodDeviceDal extends HeatingRodBaseDal
 {
     protected $tableName = "sunsun_heating_rod_device";
 

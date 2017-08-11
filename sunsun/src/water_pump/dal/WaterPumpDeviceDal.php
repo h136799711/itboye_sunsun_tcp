@@ -10,9 +10,8 @@ namespace sunsun\water_pump\dal;
 
 
 use sunsun\water_pump\model\WaterPumpDeviceModel;
-use sunsun\dal\BaseDal;
 
-class WaterPumpDeviceDal extends BaseDal
+class WaterPumpDeviceDal extends WaterPumpBaseDal
 {
     protected $tableName = "sunsun_water_pump_device";
 

@@ -9,9 +9,7 @@
 namespace sunsun\filter_vat\dal;
 
 
-use sunsun\dal\BaseDal;
-
-class FilterVatTcpClientDal extends BaseDal
+class FilterVatTcpClientDal extends FilterVatBaseDal
 {
     public function insert($client_id)
     {

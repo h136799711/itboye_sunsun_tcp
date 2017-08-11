@@ -2,7 +2,6 @@
 
 namespace sunsun\heating_rod\dal;
 
-use sunsun\dal\BaseDal;
 use sunsun\heating_rod\model\HeatingRodTcpLogModel;
 
 /**
@@ -11,7 +10,7 @@ use sunsun\heating_rod\model\HeatingRodTcpLogModel;
  * Date: 2017-03-10
  * Time: 12:16
  */
-class HeatingRodTcpLogDal extends BaseDal
+class HeatingRodTcpLogDal extends HeatingRodBaseDal
 {
     protected $tableName = "sunsun_heating_rod_tcp_log";
 

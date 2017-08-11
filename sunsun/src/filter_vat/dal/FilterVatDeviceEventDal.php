@@ -9,11 +9,10 @@
 namespace sunsun\filter_vat\dal;
 
 
-use sunsun\dal\BaseDal;
 use sunsun\filter_vat\model\FilterVatDeviceEventModel;
 use sunsun\helper\DbBackupHelper;
 
-class FilterVatDeviceEventDal extends BaseDal
+class FilterVatDeviceEventDal extends FilterVatBaseDal
 {
     protected $tableName = "sunsun_filter_vat_device_event";
 

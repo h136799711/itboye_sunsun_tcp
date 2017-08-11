@@ -3,7 +3,6 @@
 namespace sunsun\water_pump\dal;
 
 use sunsun\water_pump\model\WaterPumpTcpLogModel;
-use sunsun\dal\BaseDal;
 
 /**
  * Created by PhpStorm.
@@ -11,7 +10,7 @@ use sunsun\dal\BaseDal;
  * Date: 2017-03-10
  * Time: 12:16
  */
-class WaterPumpTcpLogDal extends BaseDal
+class WaterPumpTcpLogDal extends WaterPumpBaseDal
 {
     protected $tableName = "sunsun_water_pump_tcp_log";
 

@@ -9,10 +9,9 @@
 namespace sunsun\filter_vat\dal;
 
 
-use sunsun\dal\BaseDal;
 use sunsun\filter_vat\model\FilterVatDeviceModel;
 
-class FilterVatDeviceDal extends BaseDal
+class FilterVatDeviceDal extends FilterVatBaseDal
 {
     protected $tableName = "sunsun_filter_vat_device";
 

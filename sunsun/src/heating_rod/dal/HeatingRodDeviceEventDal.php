@@ -9,11 +9,10 @@
 namespace sunsun\heating_rod\dal;
 
 
-use sunsun\dal\BaseDal;
 use sunsun\heating_rod\model\HeatingRodDeviceEventModel;
 use sunsun\helper\DbBackupHelper;
 
-class HeatingRodDeviceEventDal extends BaseDal
+class HeatingRodDeviceEventDal extends HeatingRodBaseDal
 {
     protected $tableName = "sunsun_heating_rod_device_event";
 

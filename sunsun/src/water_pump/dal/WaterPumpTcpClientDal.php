@@ -9,9 +9,7 @@
 namespace sunsun\water_pump\dal;
 
 
-use sunsun\dal\BaseDal;
-
-class WaterPumpTcpClientDal extends BaseDal
+class WaterPumpTcpClientDal extends WaterPumpBaseDal
 {
     public function insert($client_id)
     {

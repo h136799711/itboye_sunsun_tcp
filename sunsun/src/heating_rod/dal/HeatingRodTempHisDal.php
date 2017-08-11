@@ -2,7 +2,6 @@
 
 namespace sunsun\heating_rod\dal;
 
-use sunsun\dal\BaseDal;
 use sunsun\heating_rod\model\HeatingRodTempHisModel;
 
 /**
@@ -10,7 +9,7 @@ use sunsun\heating_rod\model\HeatingRodTempHisModel;
  * @author hebidu <email:346551990@qq.com>
  * @package sunsun\heating_rod\dal
  */
-class HeatingRodTempHisDal extends BaseDal
+class HeatingRodTempHisDal extends HeatingRodBaseDal
 {
     protected $tableName = "sunsun_heating_rod_temp_his";
 

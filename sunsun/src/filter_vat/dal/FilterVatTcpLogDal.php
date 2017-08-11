@@ -2,7 +2,6 @@
 
 namespace sunsun\filter_vat\dal;
 
-use sunsun\dal\BaseDal;
 use sunsun\filter_vat\model\FilterVatTcpLogModel;
 
 /**
@@ -11,7 +10,7 @@ use sunsun\filter_vat\model\FilterVatTcpLogModel;
  * Date: 2017-03-10
  * Time: 12:16
  */
-class FilterVatTcpLogDal extends BaseDal
+class FilterVatTcpLogDal extends FilterVatBaseDal
 {
     protected $tableName = "sunsun_filter_vat_tcp_log";
 
