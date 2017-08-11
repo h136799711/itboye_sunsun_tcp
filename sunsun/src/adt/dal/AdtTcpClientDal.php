@@ -9,9 +9,7 @@
 namespace sunsun\adt\dal;
 
 
-use sunsun\dal\BaseDal;
-
-class AdtTcpClientDal extends BaseDal
+class AdtTcpClientDal extends AdtBaseDal
 {
     public function insert($client_id)
     {

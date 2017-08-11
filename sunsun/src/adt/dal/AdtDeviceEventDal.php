@@ -10,10 +10,9 @@ namespace sunsun\adt\dal;
 
 
 use sunsun\adt\model\AdtDeviceEventModel;
-use sunsun\dal\BaseDal;
 use sunsun\helper\DbBackupHelper;
 
-class AdtDeviceEventDal extends BaseDal
+class AdtDeviceEventDal extends AdtBaseDal
 {
     protected $tableName = "sunsun_adt_device_event";
 

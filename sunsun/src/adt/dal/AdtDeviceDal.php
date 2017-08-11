@@ -8,11 +8,9 @@
 
 namespace sunsun\adt\dal;
 
-
 use sunsun\adt\model\AdtDeviceModel;
-use sunsun\dal\BaseDal;
 
-class AdtDeviceDal extends BaseDal
+class AdtDeviceDal extends AdtBaseDal
 {
     protected $tableName = "sunsun_adt_device";
 

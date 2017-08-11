@@ -3,7 +3,6 @@
 namespace sunsun\adt\dal;
 
 use sunsun\adt\model\AdtTcpLogModel;
-use sunsun\dal\BaseDal;
 
 /**
  * Created by PhpStorm.
@@ -11,7 +10,7 @@ use sunsun\dal\BaseDal;
  * Date: 2017-03-10
  * Time: 12:16
  */
-class AdtTcpLogDal extends BaseDal
+class AdtTcpLogDal extends AdtBaseDal
 {
     protected $tableName = "sunsun_adt_tcp_log";
 
