@@ -22,6 +22,7 @@
 date_default_timezone_set("Etc/GMT");
 
 define("SUNSUN_ENV", "production");//debug|production 模式
+define("CommonPassword", "1234bcda");//
 
 use GatewayWorker\Lib\Gateway;
 
@@ -43,21 +44,6 @@ class Events
     private static $activeTime;
     private static $port;
 
-    /**
-     * 获取数据库链接
-     * @param $client_id
-     * @return \sunsun\server\db\DbPool
-     */
-    public static function getDb($client_id=''){
-        if(!empty($client_id)){
-            $session = Gateway::getSession($client_id);
-            if(array_key_exists('did',$session)){
-                $did = $session['did'];
-                return self::$dbPool->getDb($did);
-            }
-        }
-        return self::$dbPool->getGlobalDb();
-    }
 
     public static function onWorkerStart($businessWorker)
     {
@@ -65,54 +51,6 @@ class Events
         self::$port = $businessWorker->port;
         //记录Worker启动信息
         self::log($businessWorker->id,'listen on '.self::$port, 'worker');
-    }
-
-    /**
-     * 日志记录
-     * @param string $client_id 通道编号
-     * @param string $message 日志内容
-     * @param string $type 日志类型
-     */
-    public static function log($client_id, $message, $type = 'common')
-    {
-        \sunsun\helper\LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
-    }
-
-    /**
-     * 返回错误信息
-     * @param $client_id
-     * @param $msg
-     * @param $data
-     */
-    private static function jsonError($client_id, $msg, $data)
-    {
-        self::log($client_id, $msg, \sunsun\consts\LogType::Error);
-        self::closeChannel($client_id, $msg);
-    }
-
-    /**
-     * 返回正确信息
-     * @param $client_id
-     * @param $msg
-     * @param $data
-     */
-    private static function jsonSuc($client_id, $msg, $data)
-    {
-        // 只记录成功的时间
-        $_SESSION['last_active_time'] = self::$activeTime;
-        self::log($client_id, $msg . ',' . serialize($data), \sunsun\consts\LogType::Success);
-        Gateway::sendToClient($client_id, $data);
-    }
-
-    /**
-     * 该次请求是否作为登录请求处理
-     * @return bool
-     */
-    protected static function isLoginRequest(){
-        if(!array_key_exists('is_first', $_SESSION)){
-            $_SESSION['is_first'] = 0;
-        }
-        return $_SESSION['is_first'] == 0;
     }
 
     /**
@@ -152,9 +90,8 @@ class Events
             $pwd = "";
             if (self::isLoginRequest()) {
                 self::log($client_id, "login start");
-                Gateway::
                 //第一次请求
-                $pwd = \sunsun\server\device\DeviceFactory::getPublicPwd($this->);
+                $pwd = CommonPassword;
                 $result = self::login($client_id, $message, $pwd);
 
                 self::log($client_id, "login complete");
@@ -222,9 +159,126 @@ class Events
 
     //============================帮助方法
 
+    private static function process($did, $clientId, $originData)
+    {
+        //处理请求
+        self::log($clientId, $originData, 'origin_data');
+        $jsonDecode = json_decode($originData, JSON_OBJECT_AS_ARRAY);
+        //1. Device 这里替换成具体设备的process类
+        $resp = (new \sunsun\water_pump\action\WaterPumpProcessAction())->process($did, $clientId, $jsonDecode);
+        return $resp;
+    }
 
+    /**
+     * 获取加密密钥
+     * @param $client_id
+     * @return array|bool
+     * @internal param $result
+     */
+    private static function getEncryptPwd($client_id)
+    {
+        $session = Gateway::getSession($client_id);
+        $result = false;
+        if(array_key_exists('did', $session)){
+            $did = $session['did'];
+            $result = \sunsun\server\device\DeviceFactory::getDeviceDal($did) ->loginByTcpClientId($client_id, self::getClientIp());
+        }
+        return $result;
+    }
 
+    /**
+     * 获取数据库链接
+     * @param $client_id
+     * @return \sunsun\server\db\DbPool
+     */
+    public static function getDb($client_id=''){
+        if(!empty($client_id)){
+            $session = Gateway::getSession($client_id);
+            if(array_key_exists('did',$session)){
+                $did = $session['did'];
+                return self::$dbPool->getDb($did);
+            }
+        }
+        return self::$dbPool->getGlobalDb();
+    }
 
+    /**
+     * 设备登录
+     * @param $client_id
+     * @param $message
+     * @param $pwd
+     * @return bool|\sunsun\water_pump\resp\WaterPumpLoginResp
+     */
+    private static function login($client_id, $message, &$pwd)
+    {
+
+        $result = \sunsun\decoder\SunsunTDS::decode($message, $pwd);
+        if ($result == null) {
+            self::jsonError($client_id, 'decode fail', []);
+            return false;
+        }
+        if (!$result->isValid()) {
+            self::jsonError($client_id, 'the data format is invalid'.$message, []);
+            return false;
+        }
+        //{"reqType": "1","sn": "0","did": "10000001","ver": "V1.0","pwd": "gigw+DAcMITN4SuEe6JmkA=="}
+        $originData = $result->getTdsOriginData();
+
+        $data = json_decode($originData, JSON_OBJECT_AS_ARRAY);
+        if(!array_key_exists('did',$data)){
+            self::jsonError($client_id, 'the did is need', []);
+            return false;
+        }
+        //2. Device 这里替换成具体设备的请求工厂类
+        $did = $data['did'];
+        // 设置did
+        $_SESSION['did'] = $did;
+        $req =  \sunsun\server\device\DeviceFactory::createLoginReq($did);
+        if (empty($did)) {
+            return false;
+        }
+        $dal = \sunsun\server\device\DeviceFactory::getDeviceDal($did);
+        $result = $dal->getInfoByDid($did);
+        if (empty($result)) {
+            self::jsonError($client_id, 'which did=' . $did . 'is not exists', []);
+            return false;
+        }
+
+        $id = $result['id'];
+        $pwd = $result['pwd'];
+        $hb = $result['hb'];//心跳周期（单位：秒）
+        $originPwd = \sunsun\decoder\SunsunTDS::isLegalPwd($data['pwd'], $pwd);
+        if (empty($originPwd)) {
+            self::jsonError($client_id, $data['pwd'].'the control password decode fail,key='.$pwd, []);
+            return false;
+        }
+
+        $data['origin_pwd'] = $originPwd;
+        $type = $req->getType();
+        //更新控制密码
+        $ver = $req->getVer();
+        $entity = [
+            'ver'=>$ver,
+            'device_type'=>$type,
+            'ctrl_pwd' => $originPwd,
+            'last_login_time' => self::$activeTime,
+            'update_time' => self::$activeTime,
+            'last_login_ip' => self::getClientIp(),
+            'tcp_client_id' => $client_id,
+            'offline_notify'=>1,
+        ];
+        $dal->update($id, $entity);
+        $_SESSION['is_first'] = 1;
+        //设置返回响应包
+        //3. Device 这里替换成具体设备的登录响应类
+        $resp = \sunsun\server\device\DeviceFactory::createLoginResp($did);
+        $resp->setSn($req->getSn());
+        $resp->setLoginSuccess();
+        $resp->setHb($hb);
+        //绑定did 和 client_id
+        Gateway::bindUid($client_id, $did);
+        return $resp;
+    }
 
     /**
      * 获取客服端ip
@@ -232,29 +286,77 @@ class Events
      */
     private static function getClientIp()
     {
-
         if ($_SERVER && array_key_exists("REMOTE_ADDR", $_SERVER)) {
             return $_SERVER['REMOTE_ADDR'];
         }
-
         return "";
     }
 
+    /**
+     * 关闭
+     * @param $client_id
+     * @param $closeMsg
+     */
+    private static function closeChannel($client_id, $closeMsg)
+    {
+        //1. tcp_client 删除记录
+        unset($_SESSION['is_first']);
+
+        $session = Gateway::getSession($client_id);
+        if(array_key_exists('did', $session)){
+            $did = $session['did'];
+            \sunsun\server\device\DeviceFactory::getDeviceDal($did) ->logoutByClientId($client_id);
+        }
+        //3. tcp通道关闭
+        Gateway::closeClient($client_id);
+    }
+
+    /**
+     * 日志记录
+     * @param string $client_id 通道编号
+     * @param string $message 日志内容
+     * @param string $type 日志类型
+     */
+    public static function log($client_id, $message, $type = 'common')
+    {
+        \sunsun\helper\LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
+    }
+
+    /**
+     * 返回错误信息
+     * @param $client_id
+     * @param $msg
+     * @param $data
+     */
+    private static function jsonError($client_id, $msg, $data)
+    {
+        self::log($client_id, $msg, \sunsun\consts\LogType::Error);
+        self::closeChannel($client_id, $msg);
+    }
+
+    /**
+     * 返回正确信息
+     * @param $client_id
+     * @param $msg
+     * @param $data
+     */
     private static function jsonSuc($client_id, $msg, $data)
     {
+        // 只记录成功的时间
+        $_SESSION['last_active_time'] = self::$activeTime;
+        self::log($client_id, $msg . ',' . serialize($data), \sunsun\consts\LogType::Success);
         Gateway::sendToClient($client_id, $data);
     }
 
-
     /**
-     * 关闭
-     * @param $clientId
-     * @param $closeMsg
+     * 该次请求是否作为登录请求处理
+     * @return bool
      */
-    private static function closeChannel($clientId, $closeMsg)
-    {
-        //3. tcp通道关闭
-        Gateway::closeClient($clientId);
+    protected static function isLoginRequest(){
+        if(!array_key_exists('is_first', $_SESSION)){
+            $_SESSION['is_first'] = 0;
+        }
+        return $_SESSION['is_first'] == 0;
     }
 
 }

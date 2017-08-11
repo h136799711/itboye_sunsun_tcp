@@ -25,6 +25,8 @@ $worker->name = 'sserver_worker';
 $worker->count = 4;
 // 服务注册地址
 $worker->registerAddress = '127.0.0.1:1212';
+
+$worker->eventHandler = "Events";
 // 进程启动时设置一个定时器，定时向所有客户端连接发送数据
 $worker->onWorkerStart = function ($worker) {
     // 定时，每10秒一次，
