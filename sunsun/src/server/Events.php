@@ -273,6 +273,7 @@ class Events
         }
         $dal->update($id, $entity);
         $_SESSION['is_first'] = 1;
+        self::loginSuccess($client_id,$did);
         //设置返回响应包
         //3. Device 这里替换成具体设备的登录响应类
         $resp = \sunsun\server\device\DeviceFactory::createLoginResp($did);
@@ -283,6 +284,27 @@ class Events
         Gateway::bindUid($client_id, $did);
         return $resp;
     }
+
+    /**
+     * 登录成功后进行操作
+     * @param $client_id
+     * @param $did
+     */
+    private static function loginSuccess($client_id,$did){
+        $dal = new \sunsun\dal\DeviceTcpClientDal(\sunsun\server\db\DbPool::getInstance()->getGlobalDb());
+        $result = $dal->getInfoByDid($did);
+        if (empty($result)) {
+            // insert
+            $po = new \sunsun\model\DeviceTcpClientModel();
+            $po->setDid($did);
+            $po->setTcpClientId($client_id);
+            $dal->insert($po);
+        }else{
+            // update
+            $dal->updateByDid($did,['tcp_client_id'=>$client_id]);
+        }
+    }
+
 
     /**
      * 获取客服端ip
@@ -307,8 +329,16 @@ class Events
         unset($_SESSION['is_first']);
 
         $session = Gateway::getSession($client_id);
-        if(array_key_exists('did', $session)){
+        if(is_array($session) && array_key_exists('did', $session)){
             $did = $session['did'];
+        }
+        if(empty($did)){
+            $result = (new \sunsun\dal\DeviceTcpClientDal())->getInfoByClientId($client_id);
+            if(is_array($session) && array_key_exists('did', $session)) {
+                $did = $result['did'];
+            }
+        }
+        if(!empty($did)){
             \sunsun\server\device\DeviceFactory::getDeviceDal($did) ->logoutByClientId($client_id);
         }
         //3. tcp通道关闭
