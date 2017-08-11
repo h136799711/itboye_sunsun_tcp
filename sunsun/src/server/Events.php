@@ -50,7 +50,7 @@ class Events
         self::$dbPool = \sunsun\server\db\DbPool::getInstance();
         self::$port = $businessWorker->port;
         //记录Worker启动信息
-        self::log($businessWorker->id,'listen on '.self::$port, 'worker');
+        \sunsun\helper\LogHelper::log(self::getDb(), $businessWorker->id, 'listen on '.self::$port, 'server_worker');
     }
 
     /**
