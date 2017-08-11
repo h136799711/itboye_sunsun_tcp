@@ -21,7 +21,7 @@
 
 date_default_timezone_set("Etc/GMT");
 
-define("SUNSUN_ENV", "production");//debug|production 模式
+define("SUNSUN_ENV", "debug");//debug|production 模式
 define("CommonPassword", "1234bcda");//
 
 use GatewayWorker\Lib\Gateway;
