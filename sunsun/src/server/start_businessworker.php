@@ -27,7 +27,7 @@ $worker->count = 8;
 // 服务注册地址
 $worker->registerAddress = '127.0.0.1:1212';
 
-$worker->eventHandler = "Events";
+$worker->eventHandler = "\sunsun\server\business\Events";
 // 进程启动时设置一个定时器，定时向所有客户端连接发送数据
 $worker->onWorkerStart = function ($worker) {
     // 定时，每10秒一次，

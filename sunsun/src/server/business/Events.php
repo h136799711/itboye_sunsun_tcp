@@ -1,16 +1,13 @@
 <?php
 /**
- * This file is part of workerman.
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the MIT-LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @author walkor<walkor@workerman.net>
- * @copyright walkor<walkor@workerman.net>
- * @link http://www.workerman.net/
- * @license http://www.opensource.org/licenses/mit-license.php MIT License
+ * Created by PhpStorm.
+ * User: hebidu
+ * Date: 2017-08-14
+ * Time: 14:21
  */
+
+namespace sunsun\server\business;
+
 
 /**
  * 用于检测业务代码死循环或者长时间阻塞等问题
@@ -25,6 +22,13 @@ define("SUNSUN_ENV", "production");//debug|production 模式
 define("CommonPassword", "1234bcda");//
 
 use GatewayWorker\Lib\Gateway;
+use sunsun\consts\LogType;
+use sunsun\dal\DeviceTcpClientDal;
+use sunsun\decoder\SunsunTDS;
+use sunsun\helper\LogHelper;
+use sunsun\model\DeviceTcpClientModel;
+use sunsun\server\db\DbPool;
+use sunsun\server\device\DeviceFactory;
 
 /**
  * 主逻辑
@@ -48,10 +52,10 @@ class Events
 
     public static function onWorkerStart($businessWorker)
     {
-        self::$dbPool = \sunsun\server\db\DbPool::getInstance();
+        self::$dbPool = DbPool::getInstance();
         self::$port = $businessWorker->port;
         //记录Worker启动信息
-        \sunsun\helper\LogHelper::log(self::getDb(), $businessWorker->id, 'listen on '.self::$port, 'server_worker');
+        LogHelper::log(self::getDb(), $businessWorker->id, 'listen on '.self::$port, 'server_worker');
     }
 
     /**
@@ -107,7 +111,7 @@ class Events
                 }
                 $pwd = $result['pwd'];
                 $did = $result['did'];
-                $result = \sunsun\decoder\SunsunTDS::decode($message, $pwd);
+                $result = SunsunTDS::decode($message, $pwd);
                 if (empty($result)) {
                     self::jsonError($client_id, 'fail decode the data ', []);
                     return;
@@ -134,7 +138,7 @@ class Events
             self::log($client_id, json_encode($result), "return");
             if (method_exists($result, "toDataArray")) {
                 // 4. 加密数据
-                $encodeData = \sunsun\decoder\SunsunTDS::encode($result->toDataArray(), $pwd);
+                $encodeData = SunsunTDS::encode($result->toDataArray(), $pwd);
                 self::jsonSuc($client_id, serialize($result), $encodeData);
 
             } else {
@@ -142,7 +146,7 @@ class Events
             }
 
 
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             self::log($client_id, $ex->getTraceAsString(), "exception");
             self::jsonError($client_id, $ex->getMessage(), []);
         }
@@ -166,7 +170,7 @@ class Events
         self::log($clientId, $originData, 'origin_data');
         $jsonDecode = json_decode($originData, JSON_OBJECT_AS_ARRAY);
         //1. Device 这里替换成具体设备的process类
-        $action = \sunsun\server\device\DeviceFactory::createProcessAction($did);
+        $action = DeviceFactory::createProcessAction($did);
         $resp = $action->process($did,$clientId,$jsonDecode);
         return $resp;
     }
@@ -183,7 +187,7 @@ class Events
         $result = false;
         if(array_key_exists('did', $session)){
             $did = $session['did'];
-            $result = \sunsun\server\device\DeviceFactory::getDeviceDal($did) ->loginByTcpClientId($client_id, self::getClientIp());
+            $result = DeviceFactory::getDeviceDal($did) ->loginByTcpClientId($client_id, self::getClientIp());
         }
         return $result;
     }
@@ -214,7 +218,7 @@ class Events
     private static function login($client_id, $message, &$pwd)
     {
 
-        $result = \sunsun\decoder\SunsunTDS::decode($message, $pwd);
+        $result = SunsunTDS::decode($message, $pwd);
         if ($result == null) {
             self::jsonError($client_id, 'decode fail', []);
             return false;
@@ -235,11 +239,11 @@ class Events
         $did = $data['did'];
         // 设置did
         $_SESSION['did'] = $did;
-        $req =  \sunsun\server\device\DeviceFactory::createLoginReq($did,$data);
+        $req =  DeviceFactory::createLoginReq($did,$data);
         if (empty($did)) {
             return false;
         }
-        $dal = \sunsun\server\device\DeviceFactory::getDeviceDal($did);
+        $dal = DeviceFactory::getDeviceDal($did);
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {
             self::jsonError($client_id, 'which did=' . $did . 'is not exists', []);
@@ -249,7 +253,7 @@ class Events
         $id = $result['id'];
         $pwd = $result['pwd'];
         $hb = $result['hb'];//心跳周期（单位：秒）
-        $originPwd = \sunsun\decoder\SunsunTDS::isLegalPwd($data['pwd'], $pwd);
+        $originPwd = SunsunTDS::isLegalPwd($data['pwd'], $pwd);
         if (empty($originPwd)) {
             self::jsonError($client_id, $data['pwd'].'the control password decode fail,key='.$pwd, []);
             return false;
@@ -276,7 +280,7 @@ class Events
         self::loginSuccess($client_id,$did);
         //设置返回响应包
         //3. Device 这里替换成具体设备的登录响应类
-        $resp = \sunsun\server\device\DeviceFactory::createLoginResp($did);
+        $resp = DeviceFactory::createLoginResp($did);
         $resp->setSn($req->getSn());
         $resp->setLoginSuccess();
         $resp->setHb($hb);
@@ -293,11 +297,11 @@ class Events
      * @param $did
      */
     private static function loginSuccess($client_id,$did){
-        $dal = new \sunsun\dal\DeviceTcpClientDal(\sunsun\server\db\DbPool::getInstance()->getGlobalDb());
+        $dal = new DeviceTcpClientDal(DbPool::getInstance()->getGlobalDb());
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {
             // insert
-            $po = new \sunsun\model\DeviceTcpClientModel();
+            $po = new  DeviceTcpClientModel();
             $po->setDid($did);
             $po->setTcpClientId($client_id);
             $dal->insert($po);
@@ -327,22 +331,19 @@ class Events
      */
     private static function closeChannel($client_id, $closeMsg)
     {
-        //1. tcp_client 删除记录
-//        unset($_SESSION['is_first']);
-
         $session = Gateway::getSession($client_id);
         if(is_array($session) && array_key_exists('did', $session)){
             $did = $session['did'];
         }
         if(empty($did)){
-            $result = (new \sunsun\dal\DeviceTcpClientDal())->getInfoByClientId($client_id);
+            $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
             if(is_array($result) && array_key_exists('did', $result)) {
                 $did = $result['did'];
             }
         }
         if(!empty($did)){
-            \sunsun\server\device\DeviceFactory::getDeviceDal($did) ->logoutByClientId($client_id);
-        } 
+            DeviceFactory::getDeviceDal($did)->logoutByClientId($client_id);
+        }
         //3. tcp通道关闭
         Gateway::closeClient($client_id);
     }
@@ -355,7 +356,7 @@ class Events
      */
     public static function log($client_id, $message, $type = 'common')
     {
-        \sunsun\helper\LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
+        LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
     }
 
     /**
@@ -366,7 +367,7 @@ class Events
      */
     private static function jsonError($client_id, $msg, $data)
     {
-        self::log($client_id, $msg, \sunsun\consts\LogType::Error);
+        self::log($client_id, $msg, LogType::Error);
         self::closeChannel($client_id, $msg);
     }
 
@@ -380,7 +381,7 @@ class Events
     {
         // 只记录成功的时间
         $_SESSION['last_active_time'] = self::$activeTime;
-        self::log($client_id, $msg . ',' . serialize($data), \sunsun\consts\LogType::Success);
+        self::log($client_id, $msg . ',' . serialize($data), LogType::Success);
         Gateway::sendToClient($client_id, $data);
     }
 
