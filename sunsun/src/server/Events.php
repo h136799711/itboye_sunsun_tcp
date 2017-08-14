@@ -282,6 +282,8 @@ class Events
         $resp->setHb($hb);
         //绑定did 和 client_id
         Gateway::bindUid($client_id, $did);
+        $group = substr($did,0 ,3);
+        Gateway::joinGroup($client_id,$group);
         return $resp;
     }
 
