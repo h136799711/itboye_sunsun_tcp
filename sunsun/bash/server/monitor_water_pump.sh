@@ -7,7 +7,7 @@ gateway="water_pump_gateway_8286"
 #echo `ps -fe | grep ${mainString}  | grep ${gateway}  | grep -v grep`
 gatewayFindStr=$(ps -fe | grep ${gateway}  | grep -v grep)
 #ret=`echo $?`
-if [ "${gatewayFindStr}" == ""]
+if [ "${gatewayFindStr}" == "" ]
 then
 timestamp=`date '+%Y-%m-%d %H:%M:%S'`
 echo "water_pump gateway is need restart process....."
