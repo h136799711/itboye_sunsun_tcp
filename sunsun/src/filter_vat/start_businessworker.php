@@ -11,6 +11,7 @@
  * @link http://www.workerman.net/
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 use GatewayWorker\BusinessWorker;
 use Workerman\Worker;
 
@@ -26,6 +27,8 @@ $worker = new BusinessWorker();
 $worker->name = 'filter_vat_worker';
 // bussinessWorker进程数量
 $worker->count = 4;
+// 设置业务处理类
+$worker->eventHandler = "\sunsun\server\business\Events";
 // 服务注册地址
 $worker->registerAddress = '127.0.0.1:1237';
 // 进程启动时设置一个定时器，定时向所有客户端连接发送数据
