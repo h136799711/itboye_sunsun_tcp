@@ -2,7 +2,7 @@
 #@author hebidu <email:346551990@qq.com>
 #监控变频水泵gateway、worker是否存活,定时执行该代码通过crontab
 mainString="workerman"
-gateway="water_pump_gateway_8286"
+gateway="all_water_pump_gateway"
 
 #echo `ps -fe | grep ${mainString}  | grep ${gateway}  | grep -v grep`
 gatewayFindStr=$(ps -fe | grep ${gateway}  | grep -v grep)
