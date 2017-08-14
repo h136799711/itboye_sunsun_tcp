@@ -11,6 +11,7 @@
  * @link http://www.workerman.net/
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 use GatewayWorker\BusinessWorker;
 use Workerman\Worker;
 
@@ -24,6 +25,7 @@ require_once __DIR__ . '/file_monitor.php';
 $worker = new BusinessWorker();
 // worker名称
 $worker->name = 'adt_worker';
+$worker->eventHandler = "\sunsun\server\business\Events";
 // bussinessWorker进程数量
 $worker->count = 4;
 // 服务注册地址
