@@ -44,7 +44,7 @@ class WaterPumpCtrlDeviceResp extends BaseRespPo
         array_key_exists("type", $data) && $this->setType($data['type']);
         array_key_exists("state", $data) && $this->setState($data['state']);
         array_key_exists("fault", $data) && $this->setFault($data['fault']);
-
+        array_key_exists("fcd", $data) && $this->setFcd($data['fcd']);
     }
 
     public function toDataArray()
@@ -61,7 +61,8 @@ class WaterPumpCtrlDeviceResp extends BaseRespPo
             'devLock'=>$this->getDevLock(),
             'type'=>$this->getType(),
             'state'=>$this->getState(),
-            'fault'=>$this->getFault()
+            'fault'=>$this->getFault(),
+            'fcd'=>$this->getFcd()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;
@@ -97,6 +98,23 @@ class WaterPumpCtrlDeviceResp extends BaseRespPo
     private $type;
     private $state;
     private $fault;
+    private $fcd;
+
+    /**
+     * @return mixed
+     */
+    public function getFcd()
+    {
+        return $this->fcd;
+    }
+
+    /**
+     * @param mixed $fcd
+     */
+    public function setFcd($fcd)
+    {
+        $this->fcd = $fcd;
+    }
 
     /**
      * @return mixed

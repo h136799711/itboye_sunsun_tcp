@@ -9,11 +9,11 @@
 namespace sunsun\water_pump\action;
 
 
+use sunsun\decoder\SunsunTDS;
+use sunsun\helper\LogHelper;
 use sunsun\water_pump\dal\WaterPumpDeviceDal;
 use sunsun\water_pump\req\WaterPumpLoginReq;
 use sunsun\water_pump\resp\WaterPumpLoginResp;
-use sunsun\decoder\SunsunTDS;
-use sunsun\helper\LogHelper;
 
 class WaterPumpLoginAction
 {
@@ -21,7 +21,7 @@ class WaterPumpLoginAction
     {
         $resp = new  WaterPumpLoginResp();
         $resp->setSn($req->getSn());
-        $resp->setHb(30);
+        $resp->setHb(120);
         $dal = new WaterPumpDeviceDal();
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {

@@ -9,11 +9,11 @@
 namespace sunsun\water_pump\action;
 
 
+use sunsun\helper\ResultHelper;
 use sunsun\water_pump\dal\WaterPumpDeviceDal;
 use sunsun\water_pump\helper\ModelConverterHelper;
+use sunsun\water_pump\helper\WaterPumpTcpLogHelper;
 use sunsun\water_pump\resp\WaterPumpDeviceInfoResp;
-use sunsun\helper\LogHelper;
-use sunsun\helper\ResultHelper;
 
 class WaterPumpDeviceInfoAction
 {
@@ -26,7 +26,7 @@ class WaterPumpDeviceInfoAction
         //更新设备信息
         $updateEntity = ModelConverterHelper::convertToModelArray($resp);
         $dal = new WaterPumpDeviceDal();
-        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
+        WaterPumpTcpLogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
 
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
