@@ -289,6 +289,9 @@ class FilterVatCtrlDeviceResp extends BaseRespPo
      */
     public function setClWeek($clWeek)
     {
+        if($clWeek == -1){
+            $clWeek = 64;
+        }
         $this->clWeek = $clWeek;
     }
 
@@ -321,6 +324,9 @@ class FilterVatCtrlDeviceResp extends BaseRespPo
      */
     public function setClDur($clDur)
     {
+        if($clDur == -1){
+            $clDur = 120;
+        }
         $this->clDur = $clDur;
     }
 
