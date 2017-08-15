@@ -169,7 +169,7 @@ class Events
     private static function process($did, $clientId, $originData)
     {
         //处理请求
-        self::log($clientId, $originData, 'origin_data');
+        self::log($did, $originData, 'process');
         $jsonDecode = json_decode($originData, JSON_OBJECT_AS_ARRAY);
         //1. Device 这里替换成具体设备的process类
         $action = DeviceFactory::createProcessAction($did);
