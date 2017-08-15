@@ -17,8 +17,10 @@ namespace sunsun\server\business;
 #declare(ticks=1);
 
 date_default_timezone_set("Etc/GMT");
-
-define("SUNSUN_ENV", "production");//debug|production 模式
+// 外部没有定义过则默认正式环境
+if(!defined('SUNSUN_ENV')){
+    define("SUNSUN_ENV", "production");//debug|production 模式
+}
 define("CommonPassword", "1234bcda");//
 
 use GatewayWorker\Lib\Gateway;
