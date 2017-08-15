@@ -21,12 +21,13 @@ class WaterPumpDeviceInfoAction
     {
         $check = $resp->check();
         if (!empty($check)) {
+            WaterPumpTcpLogHelper::logDebug($did, 'WaterPumpDeviceInfoAction_updateInfo_'.$check);
             return ResultHelper::fail($check);
         }
         //更新设备信息
         $updateEntity = ModelConverterHelper::convertToModelArray($resp);
         $dal = new WaterPumpDeviceDal();
-        WaterPumpTcpLogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
+        WaterPumpTcpLogHelper::logDebug($did, 'updateEntity' . json_encode($updateEntity));
 
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
