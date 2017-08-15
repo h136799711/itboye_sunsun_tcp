@@ -9,7 +9,6 @@
 namespace sunsun\aph300\resp;
 
 
-use sunsun\aph300\helper\Aph300TcpLogHelper;
 use sunsun\aph300\req\Aph300CtrlDeviceReq;
 use sunsun\po\BaseRespPo;
 
@@ -327,11 +326,11 @@ class Aph300CtrlDeviceResp extends BaseRespPo
 
     public function check()
     {
-        foreach ($this->toDataArray() as $key => $item) {
+//        foreach ($this->toDataArray() as $key => $item) {
 //            if (is_null($item)) {
 //                return "缺少 " . $key . " 属性";
 //            }
-        }
+//        }
         return "";
     }
 

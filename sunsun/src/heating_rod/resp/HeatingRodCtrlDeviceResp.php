@@ -199,11 +199,11 @@ class HeatingRodCtrlDeviceResp extends BaseRespPo
 
     public function check()
     {
-        foreach ($this->toDataArray() as $key => $item) {
-            if (is_null($item)) {
-                return "缺少 " . $key . " 属性";
-            }
-        }
+//        foreach ($this->toDataArray() as $key => $item) {
+//            if (is_null($item)) {
+//                return "缺少 " . $key . " 属性";
+//            }
+//        }
         return "";
     }
 

@@ -258,11 +258,11 @@ class AdtDeviceInfoResp extends BaseRespPo
 
     public function check()
     {
-        foreach ($this->toDataArray() as $key => $item) {
+//        foreach ($this->toDataArray() as $key => $item) {
 //            if (is_null($item)) {
 //                return  $key . " is null value";
 //            }
-        }
+//        }
         return "";
     }
 

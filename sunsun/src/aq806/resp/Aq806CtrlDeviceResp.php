@@ -9,7 +9,6 @@
 namespace sunsun\aq806\resp;
 
 
-use sunsun\aq806\helper\Aq806TcpLogHelper;
 use sunsun\aq806\req\Aq806CtrlDeviceReq;
 use sunsun\po\BaseRespPo;
 
@@ -528,11 +527,11 @@ class Aq806CtrlDeviceResp extends BaseRespPo
 
     public function check()
     {
-        foreach ($this->toDataArray() as $key => $item) {
+//        foreach ($this->toDataArray() as $key => $item) {
 //            if (is_null($item)) {
 //                return "缺少 " . $key . " 属性";
 //            }
-        }
+//        }
         return "";
     }
 

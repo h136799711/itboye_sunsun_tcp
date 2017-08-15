@@ -9,7 +9,6 @@
 namespace sunsun\adt\resp;
 
 
-use sunsun\adt\helper\AdtTcpLogHelper;
 use sunsun\adt\req\AdtCtrlDeviceReq;
 use sunsun\po\BaseRespPo;
 
@@ -255,11 +254,11 @@ class AdtCtrlDeviceResp extends BaseRespPo
 
     public function check()
     {
-        foreach ($this->toDataArray() as $key => $item) {
+//        foreach ($this->toDataArray() as $key => $item) {
 //            if (is_null($item)) {
 //                return "缺少 " . $key . " 属性";
 //            }
-        }
+//        }
         return "";
     }
 
