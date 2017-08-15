@@ -90,7 +90,7 @@ class ModelConverterHelper
             $data['cfg'] = $resp->getCfg();
         }
         if (!is_null($resp->getType())) {
-            $data['type'] = $resp->getType();
+            $data['device_type'] = $resp->getType();
         }
         if (!is_null($resp->getState())) {
             $data['state'] = $resp->getState();
