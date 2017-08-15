@@ -17,6 +17,7 @@ use sunsun\aph300\resp\Aph300RespType;
 use sunsun\aph300\resp\Aph300UnknownResp;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
+use sunsun\server\business\Events;
 
 /**
  * Class Aph300ProcessAction
@@ -83,7 +84,7 @@ class Aph300ProcessAction
         }
 
         if (!ResultHelper::isSuccess($result)) {
-            \Events::log($clientId, $result['msg'], 'response_error');
+            Events::log($clientId, $result['msg'], 'response_error');
         } else {
             //TODO: 响应请求成功后，暂时返回一个心跳包或者不返回
 //            $retResp = new Aph300HbResp();

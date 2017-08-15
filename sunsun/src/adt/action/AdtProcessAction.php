@@ -17,6 +17,7 @@ use sunsun\adt\resp\AdtRespType;
 use sunsun\adt\resp\AdtUnknownResp;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
+use sunsun\server\business\Events;
 
 /**
  * Class AdtProcessAction
@@ -83,7 +84,7 @@ class AdtProcessAction
         }
 
         if (!ResultHelper::isSuccess($result)) {
-            \Events::log($clientId, $result['msg'], 'response_error');
+            Events::log($clientId, $result['msg'], 'response_error');
         } else {
             //TODO: 响应请求成功后，暂时返回一个心跳包或者不返回
 //            $retResp = new AdtHbResp();

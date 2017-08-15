@@ -3,6 +3,7 @@
 
 namespace sunsun\dal;
 
+use sunsun\server\business\Events;
 use Workerman\MySQL;
 
 
@@ -22,7 +23,10 @@ class BaseDal
             self::$db = $db;
         } else
             if (!(self::$db instanceof MySQL\Connection)) {
-                if(property_exists('Events','db')){
+                if(property_exists('\sunsun\server\business\Events','db')){
+                    self::$db = Events::$db;
+                }
+                elseif(property_exists('Events','db')){
                     self::$db = \Events::$db;
                 }
             }

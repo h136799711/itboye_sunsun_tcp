@@ -9,14 +9,15 @@
 namespace sunsun\water_pump\action;
 
 
+use sunsun\helper\ResultHelper;
+use sunsun\po\BaseRespPo;
+use sunsun\server\business\Events;
 use sunsun\water_pump\req\WaterPumpReqFactory;
 use sunsun\water_pump\req\WaterPumpReqType;
 use sunsun\water_pump\resp\WaterPumpHbResp;
 use sunsun\water_pump\resp\WaterPumpRespFactory;
 use sunsun\water_pump\resp\WaterPumpRespType;
 use sunsun\water_pump\resp\WaterPumpUnknownResp;
-use sunsun\helper\ResultHelper;
-use sunsun\po\BaseRespPo;
 
 /**
  * Class WaterPumpProcessAction
@@ -83,7 +84,7 @@ class WaterPumpProcessAction
         }
 
         if (!ResultHelper::isSuccess($result)) {
-            \Events::log($clientId, $result['msg'], 'response_error');
+            Events::log($clientId, $result['msg'], 'response_error');
         } else {
             //TODO: 响应请求成功后，暂时返回一个心跳包或者不返回
 //            $retResp = new WaterPumpHbResp();
