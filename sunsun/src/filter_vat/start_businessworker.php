@@ -15,6 +15,8 @@
 use GatewayWorker\BusinessWorker;
 use Workerman\Worker;
 
+define("SUNSUN_ENV", "debug");//debug|production 模式
+
 // 自动加载类
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
