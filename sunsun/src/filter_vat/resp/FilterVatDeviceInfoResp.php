@@ -293,6 +293,9 @@ class FilterVatDeviceInfoResp extends BaseRespPo
      */
     public function setClWeek($clWeek)
     {
+        if($clWeek == -1){
+            $clWeek = 64;
+        }
         $this->clWeek = $clWeek;
     }
 
@@ -303,7 +306,6 @@ class FilterVatDeviceInfoResp extends BaseRespPo
     {
         return $this->clTm;
     }
-
     /**
      * @param string $clTm
      */
@@ -325,6 +327,9 @@ class FilterVatDeviceInfoResp extends BaseRespPo
      */
     public function setClDur($clDur)
     {
+        if($clDur == -1){
+            $clDur = 120;//默认清洗时间
+        }
         $this->clDur = $clDur;
     }
 
