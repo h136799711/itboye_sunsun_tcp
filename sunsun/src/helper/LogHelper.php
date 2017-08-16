@@ -22,7 +22,7 @@ class LogHelper
     public static function log($db, $client_id, $message, $type = 'common')
     {
 
-        if($type == 'debug' || ((defined('SUNSUN_ENV') && SUNSUN_ENV == 'debug'))) {
+        if($type == 'error' || ((defined('SUNSUN_ENV') && SUNSUN_ENV == 'debug'))) {
             $dal = new LogDal($db);
             $model = new  LogModel();
 
