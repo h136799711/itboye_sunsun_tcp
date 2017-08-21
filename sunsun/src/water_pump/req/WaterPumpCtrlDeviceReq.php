@@ -48,6 +48,9 @@ class WaterPumpCtrlDeviceReq extends BaseReqPo
         if (!is_null($this->getState())) {
             $data['state'] = $this->getState();
         }
+        if (!is_null($this->getFcd())) {
+            $data['fcd'] = $this->getFcd();
+        }
 
         return $data;
     }
@@ -59,6 +62,7 @@ class WaterPumpCtrlDeviceReq extends BaseReqPo
         array_key_exists("iCyc", $data) && $this->setICyc($data['iCyc']);
         array_key_exists("cfg", $data) && $this->setCfg($data['cfg']);
         array_key_exists("state", $data) && $this->setCfg($data['state']);
+        array_key_exists("fcd", $data) && $this->setFcd($data['fcd']);
     }
 
 
@@ -67,6 +71,23 @@ class WaterPumpCtrlDeviceReq extends BaseReqPo
     private $iCyc;
     private $cfg;
     private $state;
+    private $fcd;
+
+    /**
+     * @return mixed
+     */
+    public function getFcd()
+    {
+        return $this->fcd;
+    }
+
+    /**
+     * @param mixed $fcd
+     */
+    public function setFcd($fcd)
+    {
+        $this->fcd = $fcd;
+    }
 
     /**
      * @return mixed
