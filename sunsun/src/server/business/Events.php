@@ -310,7 +310,7 @@ class Events
             $dal->insert($po);
         }else{
             // update
-            $dal->updateByDid($did,['tcp_client_id'=>$client_id]);
+            $dal->updateByDid($did,['tcp_client_id'=>$client_id,'prev_login_time'=>time()]);
         }
     }
 
