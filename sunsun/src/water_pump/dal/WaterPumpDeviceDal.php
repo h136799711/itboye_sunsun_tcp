@@ -25,6 +25,18 @@ class WaterPumpDeviceDal extends WaterPumpBaseDal
         return self::$db->update($this->tableName)->cols($entity)->where('id=' . $id)->query();
     }
 
+    /**
+     * 更新设备在线时间，根据心跳来统计
+     * @param $did
+     * @return mixed
+     */
+    public function updateOnlineTime($did)
+    {
+        $sql = "UPDATE `sunsun_water_pump_device` SET `online_time` = `online_time` + `hb` ";
+        $sql .= "WHERE  `did`='$did'";
+        $row_count = self::$db->query($sql);
+        return $row_count;
+    }
     public function updateByDid($did, $entity)
     {
         return self::$db->update($this->tableName)->cols($entity)->where(" did= '$did' ")->query();

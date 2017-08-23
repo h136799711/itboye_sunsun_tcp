@@ -9,6 +9,7 @@
 namespace sunsun\water_pump\action;
 
 
+use sunsun\water_pump\dal\WaterPumpDeviceDal;
 use sunsun\water_pump\req\WaterPumpHbReq;
 use sunsun\water_pump\resp\WaterPumpHbResp;
 
@@ -19,8 +20,9 @@ use sunsun\water_pump\resp\WaterPumpHbResp;
  */
 class WaterPumpHbAction
 {
-    public function heartBeat($clientId, WaterPumpHbReq $req)
+    public function heartBeat($did, $clientId, WaterPumpHbReq $req)
     {
+        (new WaterPumpDeviceDal())->updateByDid()
         return new WaterPumpHbResp($req);
     }
 }

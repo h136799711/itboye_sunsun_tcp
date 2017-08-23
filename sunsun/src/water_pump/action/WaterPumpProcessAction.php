@@ -118,7 +118,7 @@ class WaterPumpProcessAction
                 break;
             //心跳请求
             case WaterPumpReqType::Heartbeat:
-                $resp = (new WaterPumpHbAction())->heartBeat($clientId, $req);
+                $resp = (new WaterPumpHbAction())->heartBeat($did,$clientId, $req);
                 break;
             case WaterPumpReqType::Event:
                 $resp = (new WaterPumpDeviceEventAction())->logEvent($did, $clientId, $req);
