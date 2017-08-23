@@ -13,7 +13,24 @@ class DeviceTcpClientModel extends BaseModel
 {
     private $did;
     private $tcp_client_id;
+    private $prev_login_time;
 
+    /**
+     * @return mixed
+     */
+    public function getPrevLoginTime()
+    {
+        return $this->prev_login_time;
+    }
+
+    /**
+     * @param mixed $prev_login_time
+     */
+    public function setPrevLoginTime($prev_login_time)
+    {
+        $this->prev_login_time = $prev_login_time;
+    }
+    
     /**
      * @return mixed
      */
