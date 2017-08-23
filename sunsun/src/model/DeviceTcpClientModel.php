@@ -30,7 +30,7 @@ class DeviceTcpClientModel extends BaseModel
     {
         $this->prev_login_time = $prev_login_time;
     }
-    
+
     /**
      * @return mixed
      */

@@ -21,7 +21,7 @@ class DeviceTcpClientDal extends BaseDal
 
     public function getInfoByClientId($tcp_client_id)
     {
-        return self::$db->select("`id`, `did`, `tcp_client_id`")->from($this->tableName)->where(" tcp_client_id= '$tcp_client_id' ")->row();
+        return self::$db->select("`id`, `did`, `tcp_client_id`, `prev_login_time`")->from($this->tableName)->where(" tcp_client_id= '$tcp_client_id' ")->row();
     }
 
     public function getInfoByDid($did)
@@ -41,7 +41,8 @@ class DeviceTcpClientDal extends BaseDal
     {
         self::$db->insert($this->tableName)->cols(array(
             'did' => $do->getDid(),
-            'tcp_client_id' => $do->getTcpClientId()))->query();
+            'tcp_client_id' => $do->getTcpClientId(),
+            'prev_login_time' => $do->getPrevLoginTime()))->query();
     }
 
     public function clearAll()

@@ -306,6 +306,7 @@ class Events
             $po = new  DeviceTcpClientModel();
             $po->setDid($did);
             $po->setTcpClientId($client_id);
+            $po->setPrevLoginTime(time());
             $dal->insert($po);
         }else{
             // update
