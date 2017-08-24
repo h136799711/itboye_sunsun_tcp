@@ -20,7 +20,6 @@ use sunsun\water_pump\req\WaterPumpDeviceInfoReq;
 class WaterPumpDeviceInfoResp extends BaseRespPo
 {
 
-
     public function __construct(WaterPumpDeviceInfoReq $req = null)
     {
         $this->setRespType(WaterPumpRespType::DeviceInfo);
@@ -44,6 +43,7 @@ class WaterPumpDeviceInfoResp extends BaseRespPo
         array_key_exists("state", $data) && $this->setState($data['state']);
         array_key_exists("fault", $data) && $this->setFault($data['fault']);
         array_key_exists("fcd", $data) && $this->setFcd($data['fcd']);
+        array_key_exists("wh", $data) && $this->setWh($data['wh']);
 
     }
 
@@ -62,6 +62,7 @@ class WaterPumpDeviceInfoResp extends BaseRespPo
             'type'=>$this->getType(),
             'state'=>$this->getState(),
             'fault'=>$this->getFault(),
+            'wh'=>$this->getWh(),
             'fcd'=>$this->getFcd()
         ];
         if ($this->getUpdState() == -1) {
@@ -99,6 +100,23 @@ class WaterPumpDeviceInfoResp extends BaseRespPo
     private $state;
     private $fault;
     private $fcd;
+    private $wh;
+
+    /**
+     * @return mixed
+     */
+    public function getWh()
+    {
+        return $this->wh;
+    }
+
+    /**
+     * @param mixed $wh
+     */
+    public function setWh($wh)
+    {
+        $this->wh = $wh;
+    }
 
     /**
      * @return mixed
