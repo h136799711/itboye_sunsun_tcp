@@ -31,8 +31,10 @@ class ModelConverterHelper
         } else {
             $data['upd_state'] = 0;
         }
-
-
+        
+        if (!is_null($resp->getWh())) {
+            $data['wh'] = $resp->getWh();
+        }
         if (!is_null($resp->getPwr())) {
             $data['pwr'] = $resp->getPwr();
         }
@@ -74,6 +76,9 @@ class ModelConverterHelper
             $data['upd_state'] = 0;
         }
 
+        if (!is_null($resp->getWh())) {
+            $data['wh'] = $resp->getWh();
+        }
         if (!is_null($resp->getPwr())) {
             $data['pwr'] = $resp->getPwr();
         }
