@@ -56,6 +56,9 @@ class ModelConverterHelper
         if (!is_null($resp->getState())) {
             $data['state'] = $resp->getState();
         }
+        if (!is_null($resp->getFcd())) {
+            $data['fcd'] = $resp->getFcd();
+        }
         if (!is_null($resp->getFault())) {
             $data['fault'] = $resp->getFault();
         }
@@ -99,6 +102,9 @@ class ModelConverterHelper
         }
         if (!is_null($resp->getState())) {
             $data['state'] = $resp->getState();
+        }
+        if (!is_null($resp->getFcd())) {
+            $data['fcd'] = $resp->getFcd();
         }
         if (!is_null($resp->getFault())) {
             $data['fault'] = $resp->getFault();
