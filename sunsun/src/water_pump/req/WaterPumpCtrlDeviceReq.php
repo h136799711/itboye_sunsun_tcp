@@ -64,7 +64,7 @@ class WaterPumpCtrlDeviceReq extends BaseReqPo
         array_key_exists("gear", $data) && $this->setGear($data['gear']);
         array_key_exists("iCyc", $data) && $this->setICyc($data['iCyc']);
         array_key_exists("cfg", $data) && $this->setCfg($data['cfg']);
-        array_key_exists("state", $data) && $this->setCfg($data['state']);
+        array_key_exists("state", $data) && $this->setState($data['state']);
         array_key_exists("fcd", $data) && $this->setFcd($data['fcd']);
         array_key_exists("wh", $data) && $this->setWh($data['wh']);
     }
