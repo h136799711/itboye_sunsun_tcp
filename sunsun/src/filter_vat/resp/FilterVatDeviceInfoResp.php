@@ -194,6 +194,11 @@ class FilterVatDeviceInfoResp extends BaseRespPo
      */
     private $updState;
 
+    private $oaPer;
+    private $wsOnTm;
+    private $wsOffTm;
+
+
 
     public function __construct(FilterVatDeviceInfoReq $req = null)
     {
@@ -227,6 +232,9 @@ class FilterVatDeviceInfoResp extends BaseRespPo
         array_key_exists("oaOnTm", $data) && $this->setOaOnTm($data['oaOnTm']);
         array_key_exists("oaOffTm", $data) && $this->setOaOffTm($data['oaOffTm']);
         array_key_exists("obPer", $data) && $this->setObPer($data['obPer']);
+        array_key_exists("oaPer", $data) && $this->setOaPer($data['oaPer']);
+        array_key_exists("wsOffTm", $data) && $this->setWsOffTm($data['wsOffTm']);
+        array_key_exists("wsOnTm", $data) && $this->setWsOnTm($data['wsOnTm']);
     }
 
     public function toDataArray()
@@ -250,8 +258,9 @@ class FilterVatDeviceInfoResp extends BaseRespPo
             'outStateB' => $this->getOutStateB(),
             'devLock' => $this->getDevLock(),
             't' => $this->getT(),
-            'oaOffTm' => $this->getOaOffTm(),
-            'oaOnTm' => $this->getOaOnTm(),
+            'oaPer' => $this->getOaPer(),
+            'wsOffTm' => $this->getWsOffTm(),
+            'wsOnTm' => $this->getWsOnTm(),
             'obPer' => $this->getObPer()
         ];
         if ($this->getUpdState() == -1) {
@@ -263,6 +272,53 @@ class FilterVatDeviceInfoResp extends BaseRespPo
         return $data;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getOaPer()
+    {
+        return $this->oaPer;
+    }
+
+    /**
+     * @param mixed $oaPer
+     */
+    public function setOaPer($oaPer)
+    {
+        $this->oaPer = $oaPer;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWsOnTm()
+    {
+        return $this->wsOnTm;
+    }
+
+    /**
+     * @param mixed $wsOnTm
+     */
+    public function setWsOnTm($wsOnTm)
+    {
+        $this->wsOnTm = $wsOnTm;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWsOffTm()
+    {
+        return $this->wsOffTm;
+    }
+
+    /**
+     * @param mixed $wsOffTm
+     */
+    public function setWsOffTm($wsOffTm)
+    {
+        $this->wsOffTm = $wsOffTm;
+    }
 
     /**
      * @return int

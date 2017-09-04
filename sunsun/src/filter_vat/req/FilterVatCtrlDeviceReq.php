@@ -72,22 +72,26 @@ class FilterVatCtrlDeviceReq extends BaseReqPo
         if (!is_null($this->getDevLock())) {
             $data['devLock'] = $this->getDevLock();
         }
-        if (!is_null($this->getOaOnTm())) {
-            $data['oaOnTm'] = $this->getOaOnTm();
+        if (!is_null($this->getWsOnTm())) {
+            $data['wsOnTm'] = $this->getWsOnTm();
         }
-        if (!is_null($this->getOaOffTm())) {
-            $data['oaOffTm'] = $this->getOaOffTm();
+        if (!is_null($this->getWsOffTm())) {
+            $data['wsOffTm'] = $this->getWsOffTm();
         }
         if (!is_null($this->getObPer())) {
             $data['obPer'] = $this->getObPer();
+        }
+        if (!is_null($this->getOaPer())) {
+            $data['oaPer'] = $this->getOaPer();
         }
 
         return $data;
     }
 
     private $obPer;
-    private $oaOnTm;
-    private $oaOffTm;
+    private $oaPer;
+    private $wsOnTm;
+    private $wsOffTm;
     private $clEn;
     private $clWeek;
     private $clTm;
@@ -105,6 +109,54 @@ class FilterVatCtrlDeviceReq extends BaseReqPo
     /**
      * @return mixed
      */
+    public function getOaPer()
+    {
+        return $this->oaPer;
+    }
+
+    /**
+     * @param mixed $oaPer
+     */
+    public function setOaPer($oaPer)
+    {
+        $this->oaPer = $oaPer;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWsOnTm()
+    {
+        return $this->wsOnTm;
+    }
+
+    /**
+     * @param mixed $wsOnTm
+     */
+    public function setWsOnTm($wsOnTm)
+    {
+        $this->wsOnTm = $wsOnTm;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWsOffTm()
+    {
+        return $this->wsOffTm;
+    }
+
+    /**
+     * @param mixed $wsOffTm
+     */
+    public function setWsOffTm($wsOffTm)
+    {
+        $this->wsOffTm = $wsOffTm;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getObPer()
     {
         return $this->obPer;
@@ -117,39 +169,6 @@ class FilterVatCtrlDeviceReq extends BaseReqPo
     {
         $this->obPer = $obPer;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getOaOnTm()
-    {
-        return $this->oaOnTm;
-    }
-
-    /**
-     * @param mixed $oaOnTm
-     */
-    public function setOaOnTm($oaOnTm)
-    {
-        $this->oaOnTm = $oaOnTm;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOaOffTm()
-    {
-        return $this->oaOffTm;
-    }
-
-    /**
-     * @param mixed $oaOffTm
-     */
-    public function setOaOffTm($oaOffTm)
-    {
-        $this->oaOffTm = $oaOffTm;
-    }
-
 
     /**
      * @return mixed
@@ -374,12 +393,10 @@ class FilterVatCtrlDeviceReq extends BaseReqPo
         array_key_exists("outStateA", $data) && $this->setOutStateA($data['outStateA']);
         array_key_exists("outStateB", $data) && $this->setOutStateB($data['outStateB']);
         array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
-
-        array_key_exists("oaOnTm", $data) && $this->setOaOnTm($data['oaOnTm']);
-
-        array_key_exists("oaOffTm", $data) && $this->setOaOffTm($data['oaOffTm']);
-
+        array_key_exists("wsOnTm", $data) && $this->setWsOnTm($data['wsOnTm']);
+        array_key_exists("wsOffTm", $data) && $this->setWsOffTm($data['wsOffTm']);
         array_key_exists("obPer", $data) && $this->setObPer($data['obPer']);
+        array_key_exists("oaPer", $data) && $this->setOaPer($data['oaPer']);
 
     }
 

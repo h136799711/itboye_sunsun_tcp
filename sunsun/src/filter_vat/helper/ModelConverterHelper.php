@@ -68,16 +68,23 @@ class ModelConverterHelper
             $data['upd_state'] = 0;
         }
 
-        if (!is_null($resp->getOaOffTm())) {
-            $data['oa_off_tm'] = $resp->getOaOffTm();
+        if (!is_null($resp->getWsOffTm())) {
+            $data['ws_off_tm'] = $resp->getWsOffTm();
         }
-        if (!is_null($resp->getOaOnTm())) {
-            $data['oa_on_tm'] = $resp->getOaOnTm();
+        if (!is_null($resp->getWsOnTm())) {
+            $data['ws_on_tm'] = $resp->getWsOnTm();
         }
+
         if (!is_null($resp->getObPer())) {
             $data['ob_per'] = $resp->getObPer();
             if (is_array($data['ob_per'])) {
                 $data['ob_per'] = json_encode($data['ob_per']);
+            }
+        }
+        if (!is_null($resp->getOaPer())) {
+            $data['oa_per'] = $resp->getOaPer();
+            if (is_array($data['oa_per'])) {
+                $data['oa_per'] = json_encode($data['oa_per']);
             }
         }
 
@@ -134,16 +141,24 @@ class ModelConverterHelper
         } else {
             $data['upd_state'] = 0;
         }
-        if (!is_null($resp->getOaOffTm())) {
-            $data['oa_off_tm'] = $resp->getOaOffTm();
+
+        if (!is_null($resp->getWsOffTm())) {
+            $data['ws_off_tm'] = $resp->getWsOffTm();
         }
-        if (!is_null($resp->getOaOnTm())) {
-            $data['oa_on_tm'] = $resp->getOaOnTm();
+        if (!is_null($resp->getWsOnTm())) {
+            $data['ws_on_tm'] = $resp->getWsOnTm();
         }
+
         if (!is_null($resp->getObPer())) {
             $data['ob_per'] = $resp->getObPer();
             if (is_array($data['ob_per'])) {
                 $data['ob_per'] = json_encode($data['ob_per']);
+            }
+        }
+        if (!is_null($resp->getOaPer())) {
+            $data['oa_per'] = $resp->getOaPer();
+            if (is_array($data['oa_per'])) {
+                $data['oa_per'] = json_encode($data['oa_per']);
             }
         }
         return $data;
