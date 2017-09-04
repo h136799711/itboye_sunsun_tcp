@@ -45,7 +45,7 @@ class WaterPumpCtrlDeviceResp extends BaseRespPo
         array_key_exists("state", $data) && $this->setState($data['state']);
         array_key_exists("fault", $data) && $this->setFault($data['fault']);
         array_key_exists("fcd", $data) && $this->setFcd($data['fcd']);
-        array_key_exists("wh", $data) && $this->setFcd($data['wh']);
+        array_key_exists("wh", $data) && $this->setWh($data['wh']);
     }
 
     public function toDataArray()
