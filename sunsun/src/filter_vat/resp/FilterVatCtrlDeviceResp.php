@@ -146,6 +146,7 @@ class FilterVatCtrlDeviceResp extends BaseRespPo
     private $oaOffTm;
     private $wsOnTm;
     private $wsOffTm;
+    private $uvState;
 
 
     public function __construct(FilterVatCtrlDeviceReq $req = null)
@@ -181,6 +182,7 @@ class FilterVatCtrlDeviceResp extends BaseRespPo
         array_key_exists("oaPer", $data) && $this->setOaPer($data['oaPer']);
         array_key_exists("wsOffTm", $data) && $this->setWsOffTm($data['wsOffTm']);
         array_key_exists("wsOnTm", $data) && $this->setWsOnTm($data['wsOnTm']);
+        array_key_exists("uvState", $data) && $this->setUvState($data['uvState']);
 
     }
 
@@ -207,7 +209,8 @@ class FilterVatCtrlDeviceResp extends BaseRespPo
             'oaPer' => $this->getOaPer(),
             'wsOffTm' => $this->getWsOffTm(),
             'wsOnTm' => $this->getWsOnTm(),
-            'obPer' => $this->getObPer()
+            'obPer' => $this->getObPer(),
+            'uvState'=>$this->getUvState()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;
@@ -216,6 +219,22 @@ class FilterVatCtrlDeviceResp extends BaseRespPo
         }
 
         return $data;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUvState()
+    {
+        return $this->uvState;
+    }
+
+    /**
+     * @param mixed $uvState
+     */
+    public function setUvState($uvState)
+    {
+        $this->uvState = $uvState;
     }
 
     /**

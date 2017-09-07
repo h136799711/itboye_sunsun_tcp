@@ -74,6 +74,9 @@ class ModelConverterHelper
         if (!is_null($resp->getWsOnTm())) {
             $data['ws_on_tm'] = $resp->getWsOnTm();
         }
+        if (!is_null($resp->getUvState())) {
+            $data['uv_state'] = $resp->getUvState();
+        }
 
         if (!is_null($resp->getObPer())) {
             $data['ob_per'] = $resp->getObPer();
@@ -147,6 +150,9 @@ class ModelConverterHelper
         }
         if (!is_null($resp->getWsOnTm())) {
             $data['ws_on_tm'] = $resp->getWsOnTm();
+        }
+        if (!is_null($resp->getUvState())) {
+            $data['uv_state'] = $resp->getUvState();
         }
 
         if (!is_null($resp->getObPer())) {

@@ -84,6 +84,9 @@ class FilterVatCtrlDeviceReq extends BaseReqPo
         if (!is_null($this->getOaPer())) {
             $data['oaPer'] = $this->getOaPer();
         }
+        if (!is_null($this->getUvState())) {
+            $data['uvState'] = $this->getUvState();
+        }
 
         return $data;
     }
@@ -105,6 +108,23 @@ class FilterVatCtrlDeviceReq extends BaseReqPo
     private $outStateA;
     private $outStateB;
     private $devLock;
+    private $uvState;
+
+    /**
+     * @return mixed
+     */
+    public function getUvState()
+    {
+        return $this->uvState;
+    }
+
+    /**
+     * @param mixed $uvState
+     */
+    public function setUvState($uvState)
+    {
+        $this->uvState = $uvState;
+    }
 
     /**
      * @return mixed
@@ -397,6 +417,7 @@ class FilterVatCtrlDeviceReq extends BaseReqPo
         array_key_exists("wsOffTm", $data) && $this->setWsOffTm($data['wsOffTm']);
         array_key_exists("obPer", $data) && $this->setObPer($data['obPer']);
         array_key_exists("oaPer", $data) && $this->setOaPer($data['oaPer']);
+        array_key_exists("uvState", $data) && $this->setUvState($data['uvState']);
 
     }
 
