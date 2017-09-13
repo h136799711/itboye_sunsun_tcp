@@ -73,16 +73,16 @@ class FilterVatCtrlDeviceReq extends BaseReqPo
             $data['devLock'] = $this->getDevLock();
         }
         if (!is_null($this->getWsOnTm())) {
-            $data['wsOnTm'] = $this->getWsOnTm();
+            $data['ws_on_tm'] = $this->getWsOnTm();
         }
         if (!is_null($this->getWsOffTm())) {
-            $data['wsOffTm'] = $this->getWsOffTm();
+            $data['ws_off_tm'] = $this->getWsOffTm();
         }
         if (!is_null($this->getObPer())) {
-            $data['obPer'] = $this->getObPer();
+            $data['ob_per'] = $this->getObPer();
         }
         if (!is_null($this->getOaPer())) {
-            $data['oaPer'] = $this->getOaPer();
+            $data['oa_per'] = $this->getOaPer();
         }
         if (!is_null($this->getUvState())) {
             $data['uvState'] = $this->getUvState();
