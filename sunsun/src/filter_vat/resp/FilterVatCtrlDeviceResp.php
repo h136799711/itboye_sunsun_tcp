@@ -176,12 +176,10 @@ class FilterVatCtrlDeviceResp extends BaseRespPo
         array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
         $this->setUpdState(-1);
         array_key_exists("updState", $data) && $this->setUpdState($data['updState']);
-        array_key_exists("oaOnTm", $data) && $this->setOaOnTm($data['oaOnTm']);
-        array_key_exists("oaOffTm", $data) && $this->setOaOffTm($data['oaOffTm']);
-        array_key_exists("obPer", $data) && $this->setObPer($data['obPer']);
-        array_key_exists("oaPer", $data) && $this->setOaPer($data['oaPer']);
-        array_key_exists("wsOffTm", $data) && $this->setWsOffTm($data['wsOffTm']);
-        array_key_exists("wsOnTm", $data) && $this->setWsOnTm($data['wsOnTm']);
+        array_key_exists("ob_per", $data) && $this->setObPer($data['ob_per']);
+        array_key_exists("oa_per", $data) && $this->setOaPer($data['oa_per']);
+        array_key_exists("ws_off_tm", $data) && $this->setWsOffTm($data['ws_off_tm']);
+        array_key_exists("ws_on_tm", $data) && $this->setWsOnTm($data['ws_on_tm']);
         array_key_exists("uvState", $data) && $this->setUvState($data['uvState']);
 
     }

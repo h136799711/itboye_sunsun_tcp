@@ -69,6 +69,7 @@ class FilterVatCtrlDeviceReq extends BaseReqPo
         if (!is_null($this->getOutStateB())) {
             $data['outStateB'] = $this->getOutStateB();
         }
+
         if (!is_null($this->getDevLock())) {
             $data['devLock'] = $this->getDevLock();
         }
