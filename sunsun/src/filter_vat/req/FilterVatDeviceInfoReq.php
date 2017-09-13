@@ -35,6 +35,7 @@ class FilterVatDeviceInfoReq extends BaseReqPo
         return [
             'reqType' => $this->getReqType(),
             'sn' => $this->getSn(),
+            'rang'=>$this->getRange()
         ];
     }
 
