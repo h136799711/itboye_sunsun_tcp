@@ -32,7 +32,9 @@ class FilterVatDeviceInfoAction
         if($avg > 12345679.999){
             $avg = 12345679.999;
         }
-        $updateEntity['delay_avg'] = $avg;
+        if($avg > 0) {
+            $updateEntity['delay_avg'] = $avg;
+        }
         LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
 
         $ret = $dal->updateByDid($did, $updateEntity);
@@ -45,6 +47,7 @@ class FilterVatDeviceInfoAction
         $session = Gateway::getSession($clientId);
         if(!array_key_exists('delay',$session)){
             $session['delay'] = [];
+            return 0;
         }else{
             $cnt = 5;//暂时统计次数
             $delay = $session['delay'];
