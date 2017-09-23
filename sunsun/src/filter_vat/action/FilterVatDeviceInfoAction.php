@@ -53,11 +53,11 @@ class FilterVatDeviceInfoAction
             $trueCnt = 0;
             foreach ($delay as $key=>&$vo) {
                 if ($sn == $vo['sn']) {
-                    $vo['d'] = microtime(true) - $vo['s'];
+                    $vo['d'] = microtime(true);
                 }
                 if($key >= $cnt) break;
                 $trueCnt++;
-                $totalDelayMs += (1000 * $vo['d']);
+                $totalDelayMs += (1000 * ($vo['d'] - $vo['s']));
             }
             $delay['avg'] = $totalDelayMs / $trueCnt;
             // 暂定前5次获取设备信息的通信延时
