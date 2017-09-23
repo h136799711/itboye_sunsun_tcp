@@ -29,6 +29,9 @@ class FilterVatDeviceInfoAction
         $updateEntity = ModelConverterHelper::convertToModelArray($resp);
         $dal = new FilterVatDeviceDal();
         $avg = $this->logRespTime($clientId,$resp);
+        if($avg > 12345679.999){
+            $avg = 12345679.999;
+        }
         $updateEntity['delay_avg'] = $avg;
         LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
 
