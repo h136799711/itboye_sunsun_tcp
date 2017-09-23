@@ -59,7 +59,6 @@ class FilterVatProcessAction
     private function response($did, $clientId, $jsonData)
     {
         $resType = $jsonData['resType'];
-        $sn = $jsonData['sn'];
         $resp = FilterVatRespFactory::create($resType, $jsonData);
         $retResp = null;
         if (empty($resp)) {

@@ -51,7 +51,6 @@ class Events
     private static $port;
     public static $db;//
 
-
     public static function onWorkerStart($businessWorker)
     {
         self::$dbPool = DbPool::getInstance();
