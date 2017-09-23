@@ -59,13 +59,13 @@ class FilterVatDeviceInfoAction
                 $trueCnt++;
                 $totalDelayMs += (1000 * ($vo['d'] - $vo['s']));
             }
-            $delay['avg'] = $totalDelayMs / $trueCnt;
+            $delayAvg = $totalDelayMs / $trueCnt;
             // 暂定前5次获取设备信息的通信延时
             if(count($delay) > $cnt) {
                 array_pop($delay);
             }
             Gateway::setSession($clientId,$session);
-            return $delay['avg'];
+            return $delayAvg;
         }
 
     }
