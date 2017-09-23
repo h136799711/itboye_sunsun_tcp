@@ -59,10 +59,15 @@ class FilterVatDeviceInfoAction
                     $vo['d'] = microtime(true);
                 }
                 if($key >= $cnt) break;
-                $trueCnt++;
-                $totalDelayMs += (1000 * ($vo['d'] - $vo['s']));
+                if($vo['d'] > $vo['s']) {
+                    $trueCnt++;
+                    $totalDelayMs += (1000 * ($vo['d'] - $vo['s']));
+                }
             }
-            $delayAvg = $totalDelayMs / $trueCnt;
+            $delayAvg = 0;
+            if($trueCnt > 0) {
+                $delayAvg = $totalDelayMs / $trueCnt;
+            }
             // 暂定前5次获取设备信息的通信延时
             if(count($delay) > $cnt) {
                 array_pop($delay);
