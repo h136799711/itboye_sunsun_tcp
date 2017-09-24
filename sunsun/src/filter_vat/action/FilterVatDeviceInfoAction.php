@@ -58,7 +58,7 @@ class FilterVatDeviceInfoAction
 //            foreach ($delay as $key=>&$vo) {
                 $vo = $session['delay'][$key];
                 if(!array_key_exists('d',$vo)) {
-                    $session['delay'][$key]['d'] = '123456';
+                    $session['delay'][$key]['d'] = 0;
                 }
                 if ($sn == $vo['sn']) {
                     $vo['d'] = microtime(true);
