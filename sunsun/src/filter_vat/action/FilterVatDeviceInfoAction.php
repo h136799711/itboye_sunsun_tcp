@@ -61,7 +61,7 @@ class FilterVatDeviceInfoAction
                     $vo['sn2'] = $sn;
                 }
                 if($key >= $cnt) break;
-                if($vo['d'] > $vo['s']) {
+                if(array_key_exists('d',$vo) && $vo['d'] > $vo['s']) {
                     $trueCnt++;
                     $totalDelayMs += (1000 * ($vo['d'] - $vo['s']));
                 }
