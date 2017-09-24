@@ -54,7 +54,7 @@ class FilterVatDeviceInfoAction
             // 请求序号要相同，虽然有一定概率错误，但不影响
             $totalDelayMs = 0;
             $trueCnt = 0;
-            foreach ($delay as $key=>$vo) {
+            foreach ($delay as $key=>&$vo) {
                 if ($sn == $vo['sn']) {
                     $vo['d'] = microtime(true);
                 }else{
