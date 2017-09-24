@@ -1,49 +1,22 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: 1
- * Date: 2017-03-13
- * Time: 22:11
+ * User: hebidu
+ * Date: 2017-09-24
+ * Time: 18:18
  */
 
-namespace sunsun\filter_vat\action;
+namespace sunsun\helper;
 
 
 use GatewayWorker\Lib\Gateway;
-use sunsun\filter_vat\dal\FilterVatDeviceDal;
-use sunsun\filter_vat\helper\ModelConverterHelper;
-use sunsun\filter_vat\resp\FilterVatDeviceInfoResp;
-use sunsun\helper\DevToServerDelayHelper;
-use sunsun\helper\LogHelper;
-use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
 
-class FilterVatDeviceInfoAction
+class DevToServerDelayHelper
 {
-    public function updateInfo($did, $clientId, FilterVatDeviceInfoResp $resp)
-    {
-        $check = $resp->check();
-        if (!empty($check)) {
-            return ResultHelper::fail($check);
-        }
-        //更新设备信息
-        $updateEntity = ModelConverterHelper::convertToModelArray($resp);
-        $dal = new FilterVatDeviceDal();
-        $avg = DevToServerDelayHelper::logRespTime($clientId,$resp);
-        if($avg > 12345679.999){
-            $avg = 12345679.999;
-        }
-        if($avg > 0) {
-            $updateEntity['delay_avg'] = $avg;
-        }
-        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
-
-        $ret = $dal->updateByDid($did, $updateEntity);
-        return ResultHelper::success($ret);
-    }
 
     // 记录并统计最近几次的通信延时
-    private function logRespTime($clientId,BaseRespPo $resp){
+    public static  function logRespTime($clientId,BaseRespPo $resp){
         $sn = $resp->getSn();
         $session = Gateway::getSession($clientId);
         if(!array_key_exists('delay',$session)){
@@ -86,6 +59,4 @@ class FilterVatDeviceInfoAction
         }
 
     }
-
-
 }
