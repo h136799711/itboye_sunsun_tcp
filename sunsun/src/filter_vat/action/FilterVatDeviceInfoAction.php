@@ -69,6 +69,7 @@ class FilterVatDeviceInfoAction
             $delayAvg = 0;
             if($trueCnt > 0) {
                 $delayAvg = $totalDelayMs / $trueCnt;
+                $session['delay_avg'] = $delayAvg;
             }
             // 暂定前5次获取设备信息的通信延时
             if(count($delay) > $cnt) {
