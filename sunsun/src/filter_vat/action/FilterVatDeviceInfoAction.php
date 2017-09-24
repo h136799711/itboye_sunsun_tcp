@@ -54,18 +54,19 @@ class FilterVatDeviceInfoAction
             // 请求序号要相同，虽然有一定概率错误，但不影响
             $totalDelayMs = 0;
             $trueCnt = 0;
-            foreach ($delay as $key=>&$vo) {
-                $session['delay'][0]['sn1'] = 1;
+            for ($key=0;$key<count($delay);$key++){
+//            foreach ($delay as $key=>&$vo) {
+                $vo = $delay[$key];
+//                $session['delay'][0]['sn1'] = 1;
                 if ($sn == $vo['sn']) {
                     $vo['d'] = microtime(true);
-                }else{
-                    $vo['sn2'] = $sn;
                 }
                 if($key >= $cnt) break;
                 if(array_key_exists('d',$vo) && $vo['d'] > $vo['s']) {
                     $trueCnt++;
                     $totalDelayMs += (1000 * ($vo['d'] - $vo['s']));
                 }
+                $delay[$key] = $vo;
             }
             $delayAvg = 0;
             if($trueCnt > 0) {
