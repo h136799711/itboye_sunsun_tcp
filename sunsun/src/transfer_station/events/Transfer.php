@@ -13,6 +13,7 @@ use sunsun\helper\LogHelper;
 use sunsun\server\db\DbPool;
 use sunsun\transfer_station\controller\DeviceTransferCtrl;
 
+
 /**
  * 主逻辑
  * 主要是处理 onConnect onMessage onClose 三个方法
@@ -21,14 +22,16 @@ use sunsun\transfer_station\controller\DeviceTransferCtrl;
 class Transfer
 {
 
-    private static $port;
-
+    /**
+     * @var  \sunsun\server\db\DbPool
+     */
+    private static $dbPool;
 
     public static function onWorkerStart($businessWorker)
     {
-        self::$port = $businessWorker->port;
+        self::$dbPool = DbPool::getInstance();
         //记录Worker启动信息
-        LogHelper::log(self::getDb(), $businessWorker->id, 'listen on ' . self::$port, 'transfer');
+        LogHelper::log(self::getDb(), $businessWorker->id, 'listen on 8299', 'transfer');
     }
 
     /**
@@ -39,6 +42,8 @@ class Transfer
      */
     public static function onConnect($client_id)
     {
+        LogHelper::log(self::getDb(), '$client_id', 'onConnect'.$client_id, 'transfer_on_connect');
+        Gateway::sendToClient($client_id,'connect '.$client_id);
     }
 
 
@@ -51,6 +56,7 @@ class Transfer
     {
         try {
 
+            Gateway::sendToClient($client_id,'receive'.$message);
             if (empty($message)) {
                 return;
             }
@@ -89,7 +95,7 @@ class Transfer
      */
     public static function getDb($client_id = '')
     {
-        return DbPool::getInstance()->getGlobalDb();
+        return self::$dbPool->getGlobalDb();
     }
 
     /**
