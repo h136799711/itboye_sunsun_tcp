@@ -21,7 +21,7 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 // gateway 进程，这里使用Text协议，可以用telnet测试
 $gateway = new Gateway("tcp://0.0.0.0:8291");
 // gateway名称，status方便查看,过滤桶
-$gateway->name = 'water_pump_gateway';
+$gateway->name = 'transfer_station_gateway';
 // gateway进程数
 $gateway->count = 8;
 // 本机ip，分布式部署时使用内网ip
