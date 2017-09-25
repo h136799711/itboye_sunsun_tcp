@@ -7,21 +7,18 @@
  */
 namespace  sunsun\transfer_station\events;
 
-date_default_timezone_set("Etc/GMT");
-
 use GatewayWorker\Lib\Gateway;
 use sunsun\consts\LogType;
 use sunsun\helper\LogHelper;
 use sunsun\server\db\DbPool;
 use sunsun\transfer_station\controller\DeviceTransferCtrl;
 
-
 /**
  * 主逻辑
  * 主要是处理 onConnect onMessage onClose 三个方法
  * onConnect 和 onClose 如果不需要可以不用实现并删除
  */
-class Transfer
+class Events
 {
 
     /**
