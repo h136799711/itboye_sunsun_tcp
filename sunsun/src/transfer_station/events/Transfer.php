@@ -11,6 +11,7 @@ use GatewayWorker\Lib\Gateway;
 use sunsun\consts\LogType;
 use sunsun\helper\LogHelper;
 use sunsun\server\db\DbPool;
+use sunsun\transfer_station\controller\DeviceTransferCtrl;
 
 /**
  * 主逻辑
@@ -59,8 +60,14 @@ class Transfer
                 return;
             }
 
+            $ctrl = new DeviceTransferCtrl();
+            $result = $ctrl->process($client_id,$message);
 
-
+            if ($result['status']){
+               self::jsonSuc($client_id,'success',$result['info']);
+            }else{
+                self::jsonError($client_id, $result['info'], []);
+            }
 
         } catch (\Exception $ex) {
             self::jsonError($client_id, $ex->getMessage(), []);
@@ -123,6 +130,18 @@ class Transfer
     {
         self::log($client_id, $msg, LogType::Error);
         Gateway::closeClient($client_id);
+    }
+
+    /**
+     * 返回成功信息
+     * @param $client_id
+     * @param $msg
+     * @param $data
+     */
+    private static function jsonSuc($client_id, $msg, $data)
+    {
+        self::log($client_id, $msg, LogType::Error);
+        Gateway::sendToClient($client_id,json_encode($data));
     }
 
 }
