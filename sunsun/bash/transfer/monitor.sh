@@ -4,7 +4,7 @@
 mainString="workerman"
 gateway="transfer_station_gateway"
 worker="transfer_station_worker"
-register="start_transfer_station_register.php"
+register="start_transfer_register.php"
 
 #echo `ps -fe | grep ${mainString}  | grep ${gateway}  | grep -v grep`
 registerFindStr=$(ps -fe | grep ${register}  | grep -v grep)
