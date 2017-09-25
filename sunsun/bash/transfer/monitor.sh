@@ -3,7 +3,7 @@
 #监控过滤桶gateway、worker是否存活,定时执行该代码通过crontab
 mainString="workerman"
 gateway="transfer_station_gateway"
-worker="transfer_station_worker"
+worker="transfer_worker"
 register="start_transfer_register.php"
 
 #echo `ps -fe | grep ${mainString}  | grep ${gateway}  | grep -v grep`
