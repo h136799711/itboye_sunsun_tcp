@@ -21,10 +21,6 @@ use sunsun\transfer_station\controller\DeviceTransferCtrl;
 class Transfer
 {
 
-    //tcp通道无数据传输的最大时间
-    public static $inactiveTimeInterval = 600;
-    //接收到数据的最近一次时间
-    private static $activeTime;
     private static $port;
 
 
@@ -55,14 +51,13 @@ class Transfer
     {
         try {
 
-            self::$activeTime = time();
             if (empty($message)) {
                 return;
             }
 
             $ctrl = new DeviceTransferCtrl();
             $result = $ctrl->process($client_id,$message);
-
+            self::log($client_id,json_encode($result),'transfer');
             if ($result['status']){
                self::jsonSuc($client_id,'success',$result['info']);
             }else{
