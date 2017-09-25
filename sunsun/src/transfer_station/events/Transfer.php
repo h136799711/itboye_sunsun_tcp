@@ -124,6 +124,7 @@ class Transfer
     private static function jsonError($client_id, $msg, $data)
     {
         self::log($client_id, $msg, LogType::Error);
+        Gateway::sendToClient($client_id,$msg);
         Gateway::closeClient($client_id);
     }
 
