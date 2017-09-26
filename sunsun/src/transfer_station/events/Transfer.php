@@ -31,7 +31,7 @@ class Transfer
 
     public static function onWorkerStart($businessWorker)
     {
-        self::$dbPool = DbPool::getInstance();
+//        self::$dbPool = DbPool::getInstance();
         //记录Worker启动信息
        // LogHelper::log(self::getDb(), $businessWorker->id, 'listen on 8299', 'transfer');
     }
@@ -45,7 +45,7 @@ class Transfer
     public static function onConnect($client_id)
     {
      //   LogHelper::log(self::getDb(), '$client_id', 'onConnect'.$client_id, 'transfer_on_connect');
-        Gateway::sendToClient($client_id,'connect '.$client_id);
+        Gateway::sendToClient($client_id,($client_id));
     }
 
 
@@ -56,26 +56,26 @@ class Transfer
      */
     public static function onMessage($client_id, $message)
     {
-        try {
-
-            Gateway::sendToClient($client_id,'receive'.$message);
-            if (empty($message)) {
-                return;
-            }
-
-            $ctrl = new DeviceTransferCtrl();
-            $result = $ctrl->process($client_id,$message);
-            self::log($client_id,json_encode($result),'transfer');
-            if ($result['status']){
-               self::jsonSuc($client_id,'success',$result['info']);
-            }else{
-                self::jsonError($client_id, $result['info'], []);
-            }
-
-        } catch (\Exception $ex) {
-            self::jsonError($client_id, $ex->getMessage(), []);
-        }
-        return;
+//        try {
+//
+//            Gateway::sendToClient($client_id,'receive'.$message);
+//            if (empty($message)) {
+//                return;
+//            }
+//
+//            $ctrl = new DeviceTransferCtrl();
+//            $result = $ctrl->process($client_id,$message);
+//            self::log($client_id,json_encode($result),'transfer');
+//            if ($result['status']){
+//               self::jsonSuc($client_id,'success',$result['info']);
+//            }else{
+//                self::jsonError($client_id, $result['info'], []);
+//            }
+//
+//        } catch (\Exception $ex) {
+//            self::jsonError($client_id, $ex->getMessage(), []);
+//        }
+//        return;
     }
 
     /**
@@ -86,7 +86,7 @@ class Transfer
      */
     public static function log($client_id, $message, $type = 'common')
     {
-        LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
+//        LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
     }
 
     //============================帮助方法
@@ -96,35 +96,10 @@ class Transfer
      * @param $client_id
      * @return \sunsun\server\db\DbPool
      */
-    public static function getDb($client_id = '')
-    {
-        return self::$dbPool->getGlobalDb();
-    }
-
-    /**
-     * 返回成功信息
-     * @param $client_id
-     * @param $msg
-     * @param $data
-     */
-    private static function jsonSuc($client_id, $msg, $data)
-    {
-        self::log($client_id, $msg, LogType::Error);
-        Gateway::sendToClient($client_id,json_encode($data));
-    }
-
-    /**
-     * 返回错误信息
-     * @param $client_id
-     * @param $msg
-     * @param $data
-     */
-    private static function jsonError($client_id, $msg, $data)
-    {
-        self::log($client_id, $msg, LogType::Error);
-        Gateway::sendToClient($client_id,$msg);
-        Gateway::closeClient($client_id);
-    }
+//    public static function getDb($client_id = '')
+//    {
+//        return self::$dbPool->getGlobalDb();
+//    }
 
     /**
      * 当用户断开连接时触发
@@ -137,15 +112,40 @@ class Transfer
     }
 
     /**
+     * 返回成功信息
+     * @param $client_id
+     * @param $msg
+     * @param $data
+     */
+    private static function jsonSuc($client_id, $msg, $data)
+    {
+//        self::log($client_id, $msg, LogType::Error);
+        Gateway::sendToClient($client_id,json_encode($data));
+    }
+
+    /**
+     * 返回错误信息
+     * @param $client_id
+     * @param $msg
+     * @param $data
+     */
+    private static function jsonError($client_id, $msg, $data)
+    {
+//        self::log($client_id, $msg, LogType::Error);
+        Gateway::sendToClient($client_id,$msg);
+//        Gateway::closeClient($client_id);
+    }
+
+    /**
      * 获取客服端ip
      * @return string
      */
-    private static function getClientIp()
-    {
-        if ($_SERVER && array_key_exists("REMOTE_ADDR", $_SERVER)) {
-            return $_SERVER['REMOTE_ADDR'];
-        }
-        return "";
-    }
+//    private static function getClientIp()
+//    {
+//        if ($_SERVER && array_key_exists("REMOTE_ADDR", $_SERVER)) {
+//            return $_SERVER['REMOTE_ADDR'];
+//        }
+//        return "";
+//    }
 
 }
