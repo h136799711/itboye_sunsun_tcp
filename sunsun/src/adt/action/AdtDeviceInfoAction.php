@@ -12,6 +12,7 @@ namespace sunsun\adt\action;
 use sunsun\adt\dal\AdtDeviceDal;
 use sunsun\adt\helper\ModelConverterHelper;
 use sunsun\adt\resp\AdtDeviceInfoResp;
+use sunsun\helper\DevToServerDelayHelper;
 use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
 
@@ -26,6 +27,13 @@ class AdtDeviceInfoAction
         //更新设备信息
         $updateEntity = ModelConverterHelper::convertToModelArray($resp);
         $dal = new AdtDeviceDal();
+        $avg = DevToServerDelayHelper::logRespTime($clientId,$resp);
+        if($avg > 12345679.999){
+            $avg = 12345679.999;
+        }
+        if($avg > 0) {
+            $updateEntity['delay_avg'] = $avg;
+        }
         LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
 
         $ret = $dal->updateByDid($did, $updateEntity);
