@@ -67,7 +67,7 @@ class Events
             $ctrl = new DeviceTransferCtrl();
             $result = $ctrl->process($client_id,$message);
             self::log($client_id,json_encode($result),'transfer');
-            if ($result['status']){
+            if (intval($result['code']) == 0){
                self::jsonSuc($client_id,'success',$result['info']);
             }else{
                 self::jsonError($client_id, $result['info'], []);

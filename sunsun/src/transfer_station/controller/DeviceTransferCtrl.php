@@ -22,8 +22,7 @@ class DeviceTransferCtrl
 
         if(array_key_exists('t',$jsonDecode)){
             $t = $jsonDecode['t'];
-            unset($jsonDecode['t']);
-            return $this->innerProcess($client_id,$t,$jsonDecode);
+            return $this->innerProcess($client_id,strval($t),$jsonDecode);
         }
 
 
