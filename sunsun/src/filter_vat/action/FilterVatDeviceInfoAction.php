@@ -15,6 +15,7 @@ use sunsun\filter_vat\resp\FilterVatDeviceInfoResp;
 use sunsun\helper\DevToServerDelayHelper;
 use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
+use sunsun\transfer_station\client\TransferClient;
 
 class FilterVatDeviceInfoAction
 {
@@ -35,6 +36,8 @@ class FilterVatDeviceInfoAction
             $updateEntity['delay_avg'] = $avg;
         }
         LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
+        // 向中转通道发送信息
+        TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());
 
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);

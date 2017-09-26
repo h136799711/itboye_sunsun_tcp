@@ -35,6 +35,8 @@ class FilterVatDeviceCtrlAction
         $updateEntity = ModelConverterHelper::convertToModelArrayOfCtrlDeviceResp($resp);
         $dal = new FilterVatDeviceDal();
         LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
+        // 向中转通道发送信息
+        TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());
 
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
