@@ -66,13 +66,7 @@ class Events
 
             $ctrl = new DeviceTransferCtrl();
             $result = $ctrl->process($client_id,$message);
-            self::log($client_id,json_encode($result),'transfer');
-            if (intval($result['code']) == 0){
-               self::jsonSuc($client_id,'success',$result['info']);
-            }else{
-                self::jsonError($client_id, $result['info'], []);
-            }
-
+            Gateway::sendToClient($client_id,json_encode($result));
         } catch (\Exception $ex) {
             self::jsonError($client_id, $ex->getMessage(), []);
         }
@@ -80,29 +74,6 @@ class Events
     }
 
     //============================帮助方法
-
-    /**
-     * 日志记录
-     * @param string $client_id 通道编号
-     * @param string $message 日志内容
-     * @param string $type 日志类型
-     */
-    public static function log($client_id, $message, $type = 'common')
-    {
-        LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
-    }
-
-    /**
-     * 返回成功信息
-     * @param $client_id
-     * @param $msg
-     * @param $data
-     */
-    private static function jsonSuc($client_id, $msg, $data)
-    {
-        self::log($client_id, $msg, LogType::Error);
-        Gateway::sendToClient($client_id,json_encode($data));
-    }
 
     /**
      * 返回错误信息
@@ -125,6 +96,29 @@ class Events
     {
         //3. tcp通道关闭
         Gateway::closeClient($client_id);
+    }
+
+    /**
+     * 返回成功信息
+     * @param $client_id
+     * @param $msg
+     * @param $data
+     */
+    private static function jsonSuc($client_id, $msg, $data)
+    {
+        self::log($client_id, $msg, LogType::Error);
+        Gateway::sendToClient($client_id,json_encode($data));
+    }
+
+    /**
+     * 日志记录
+     * @param string $client_id 通道编号
+     * @param string $message 日志内容
+     * @param string $type 日志类型
+     */
+    public static function log($client_id, $message, $type = 'common')
+    {
+        LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
     }
 
     /**
