@@ -25,9 +25,19 @@ class Events
 
     public static function onWorkerStart($businessWorker)
     {
-//        self::$dbPool = DbPool::getInstance();
+        self::$dbPool = DbPool::getInstance();
         //记录Worker启动信息
-        // LogHelper::log(self::getDb(), $businessWorker->id, 'listen on 8299', 'transfer');
+         LogHelper::log(self::getDb(), $businessWorker->id, 'listen on 8300', 'transfer');
+    }
+
+    /**
+     * 获取数据库链接
+     * @param $client_id
+     * @return \sunsun\server\db\DbPool
+     */
+    public static function getDb($client_id = '')
+    {
+        return self::$dbPool->getGlobalDb();
     }
 
     /**
@@ -38,10 +48,7 @@ class Events
      */
     public static function onConnect($client_id)
     {
-        //   LogHelper::log(self::getDb(), '$client_id', 'onConnect'.$client_id, 'transfer_on_connect');
-        Gateway::sendToClient($client_id,($client_id));
     }
-
 
     /**
      * 当客户端发来消息时触发
@@ -72,6 +79,8 @@ class Events
         return;
     }
 
+    //============================帮助方法
+
     /**
      * 日志记录
      * @param string $client_id 通道编号
@@ -80,20 +89,8 @@ class Events
      */
     public static function log($client_id, $message, $type = 'common')
     {
-//        LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
+        LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
     }
-
-    //============================帮助方法
-
-    /**
-     * 获取数据库链接
-     * @param $client_id
-     * @return \sunsun\server\db\DbPool
-     */
-//    public static function getDb($client_id = '')
-//    {
-//        return self::$dbPool->getGlobalDb();
-//    }
 
     /**
      * 返回成功信息
@@ -103,7 +100,7 @@ class Events
      */
     private static function jsonSuc($client_id, $msg, $data)
     {
-//        self::log($client_id, $msg, LogType::Error);
+        self::log($client_id, $msg, LogType::Error);
         Gateway::sendToClient($client_id,json_encode($data));
     }
 
