@@ -28,7 +28,7 @@ $worker = new BusinessWorker();
 $worker->name = 'transfer_worker';
 // bussinessWorker进程数量
 $worker->count = 4;
-$worker->eventHandler = "\sunsun\transfer_station\events\Transfer";
+//$worker->eventHandler = "\sunsun\transfer_station\events\Transfer";
 // 服务注册地址
 $worker->registerAddress = '127.0.0.1:1250';
 // 进程启动时设置一个定时器，定时向所有客户端连接发送数据
