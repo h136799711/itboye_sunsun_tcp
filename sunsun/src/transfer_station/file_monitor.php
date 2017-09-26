@@ -14,7 +14,7 @@ $monitor_dir = realpath(__DIR__ . '/');
 
 // worker
 $worker = new Worker();
-$worker->name = 'water_pump_file_monitor';
+$worker->name = 'transfer_file_monitor';
 $worker->reloadable = false;
 $last_mtime = time();
 
