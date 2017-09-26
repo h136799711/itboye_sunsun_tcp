@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: hebidu
- * Date: 2017-09-25
- * Time: 15:19
- */
 namespace  sunsun\transfer_station\events;
 
 use GatewayWorker\Lib\Gateway;
@@ -16,12 +10,6 @@ use GatewayWorker\Lib\Gateway;
  */
 class Events
 {
-
-    /**
-     * @var  \sunsun\server\db\DbPool
-     */
-    private static $dbPool;
-
     public static function onWorkerStart($businessWorker)
     {
     }
@@ -34,7 +22,7 @@ class Events
      */
     public static function onConnect($client_id)
     {
-        Gateway::sendToClient($client_id,'connect '.$client_id);
+        Gateway::sendToClient($client_id,$client_id);
     }
 
 
@@ -46,20 +34,13 @@ class Events
     public static function onMessage($client_id, $message)
     {
         Gateway::sendToClient($client_id,'receive'.$message);
-        return;
     }
 
     /**
      * 当用户断开连接时触发
      * @param int $client_id 连接id
      */
-    public static function onClose($client_id)
-    {
-        //3. tcp通道关闭
+    public static function onClose($client_id){
         Gateway::closeClient($client_id);
     }
-
-    //============================帮助方法
-
-
 }
