@@ -21,7 +21,7 @@ class TransferClient
      * @param $data
      * @param $sn
      */
-    public function sendMessageToGroup($group,$data,$sn){
+    public static function sendMessageToGroup($group,$data,$sn){
         $ret['t'] = RespMsgType::Info;
         $ret['d'] = $data;
         $ret['sn'] = $sn;

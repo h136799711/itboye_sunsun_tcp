@@ -15,6 +15,7 @@ use sunsun\aq806\helper\ModelConverterHelper;
 use sunsun\aq806\resp\Aq806CtrlDeviceResp;
 use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
+use sunsun\transfer_station\client\TransferClient;
 
 class Aq806DeviceCtrlAction
 {
@@ -37,6 +38,8 @@ class Aq806DeviceCtrlAction
         $dal = new Aq806DeviceDal();
         Aq806TcpLogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity),"Aq806DeviceCtrlAction");
         $ret = $dal->updateByDid($did, $updateEntity);
+        // 向中转通道发送信息
+        TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());
         return ResultHelper::success($ret);
     }
 
