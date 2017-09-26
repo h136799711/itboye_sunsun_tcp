@@ -1,5 +1,4 @@
 <?php
-namespace  sunsun\transfer_station\events;
 
 use GatewayWorker\Lib\Gateway;
 
