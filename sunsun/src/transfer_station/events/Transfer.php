@@ -33,7 +33,7 @@ class Transfer
     {
         self::$dbPool = DbPool::getInstance();
         //记录Worker启动信息
-        LogHelper::log(self::getDb(), $businessWorker->id, 'listen on 8299', 'transfer');
+       // LogHelper::log(self::getDb(), $businessWorker->id, 'listen on 8299', 'transfer');
     }
 
     /**
@@ -44,7 +44,7 @@ class Transfer
      */
     public static function onConnect($client_id)
     {
-        LogHelper::log(self::getDb(), '$client_id', 'onConnect'.$client_id, 'transfer_on_connect');
+     //   LogHelper::log(self::getDb(), '$client_id', 'onConnect'.$client_id, 'transfer_on_connect');
         Gateway::sendToClient($client_id,'connect '.$client_id);
     }
 
@@ -79,13 +79,14 @@ class Transfer
     }
 
     /**
-     * 当用户断开连接时触发
-     * @param int $client_id 连接id
+     * 日志记录
+     * @param string $client_id 通道编号
+     * @param string $message 日志内容
+     * @param string $type 日志类型
      */
-    public static function onClose($client_id)
+    public static function log($client_id, $message, $type = 'common')
     {
-        //3. tcp通道关闭
-        Gateway::closeClient($client_id);
+        LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
     }
 
     //============================帮助方法
@@ -101,26 +102,15 @@ class Transfer
     }
 
     /**
-     * 获取客服端ip
-     * @return string
+     * 返回成功信息
+     * @param $client_id
+     * @param $msg
+     * @param $data
      */
-    private static function getClientIp()
+    private static function jsonSuc($client_id, $msg, $data)
     {
-        if ($_SERVER && array_key_exists("REMOTE_ADDR", $_SERVER)) {
-            return $_SERVER['REMOTE_ADDR'];
-        }
-        return "";
-    }
-
-    /**
-     * 日志记录
-     * @param string $client_id 通道编号
-     * @param string $message 日志内容
-     * @param string $type 日志类型
-     */
-    public static function log($client_id, $message, $type = 'common')
-    {
-        LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
+        self::log($client_id, $msg, LogType::Error);
+        Gateway::sendToClient($client_id,json_encode($data));
     }
 
     /**
@@ -137,15 +127,25 @@ class Transfer
     }
 
     /**
-     * 返回成功信息
-     * @param $client_id
-     * @param $msg
-     * @param $data
+     * 当用户断开连接时触发
+     * @param int $client_id 连接id
      */
-    private static function jsonSuc($client_id, $msg, $data)
+    public static function onClose($client_id)
     {
-        self::log($client_id, $msg, LogType::Error);
-        Gateway::sendToClient($client_id,json_encode($data));
+        //3. tcp通道关闭
+        Gateway::closeClient($client_id);
+    }
+
+    /**
+     * 获取客服端ip
+     * @return string
+     */
+    private static function getClientIp()
+    {
+        if ($_SERVER && array_key_exists("REMOTE_ADDR", $_SERVER)) {
+            return $_SERVER['REMOTE_ADDR'];
+        }
+        return "";
     }
 
 }
