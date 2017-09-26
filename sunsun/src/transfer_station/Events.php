@@ -59,13 +59,13 @@ class Events
     {
         try {
 
-            Gateway::sendToClient($client_id,'receive'.$message);
             if (empty($message)) {
                 return;
             }
 
             $ctrl = new DeviceTransferCtrl();
             $result = $ctrl->process($client_id,$message);
+            self::log($client_id,json_encode($result),'transfer');
             Gateway::sendToClient($client_id,json_encode($result));
         } catch (\Exception $ex) {
             self::jsonError($client_id, $ex->getMessage(), []);
@@ -74,6 +74,17 @@ class Events
     }
 
     //============================帮助方法
+
+    /**
+     * 日志记录
+     * @param string $client_id 通道编号
+     * @param string $message 日志内容
+     * @param string $type 日志类型
+     */
+    public static function log($client_id, $message, $type = 'common')
+    {
+        LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
+    }
 
     /**
      * 返回错误信息
@@ -108,17 +119,6 @@ class Events
     {
         self::log($client_id, $msg, LogType::Error);
         Gateway::sendToClient($client_id,json_encode($data));
-    }
-
-    /**
-     * 日志记录
-     * @param string $client_id 通道编号
-     * @param string $message 日志内容
-     * @param string $type 日志类型
-     */
-    public static function log($client_id, $message, $type = 'common')
-    {
-        LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
     }
 
     /**
