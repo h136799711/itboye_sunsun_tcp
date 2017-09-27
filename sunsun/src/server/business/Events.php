@@ -197,7 +197,7 @@ class Events
                     if (array_key_exists('last_get_info', $session)) {
                         $lastGetInfoTime = $session['last_get_info'];
                         if (microtime() - $lastGetInfoTime <= 1) {
-                            return;
+                            continue;
                         }
                     }
                     $pwd = '';
@@ -215,9 +215,8 @@ class Events
                         FactoryClient::getInfo($client_id, $did, $pwd);
                     }
 
-                    Gateway::updateSession($client_id, ['last_get_info' => microtime(true)]);
                     // 2. 更新会话信息，用于调试查看，可以去掉这一句
-                    Gateway::updateSession($client_id, ['app_cnt' => $cnt]);
+                    Gateway::updateSession($client_id, ['last_get_info' => microtime(true),'app_cnt' => $cnt]);
                 }
             }
         });
