@@ -71,13 +71,17 @@ class Events
     public static function onConnect($client_id)
     {
         // 每10秒执行一次
-        $time_interval = 1;
+        $time_interval = 3;
         $connect_time = time();
         // 给connection对象临时添加一个timer_id属性保存定时器id
         $_SESSION['timer_id'] = Timer::add($time_interval, function() use($connect_time,$client_id)
         {
             $session = Gateway::getSession($client_id);
             if(!empty($session) && is_array($session) && array_key_exists('did',$session)){
+                $lastGetInfoTime = $session['last_get_info'];
+                if(microtime() - $lastGetInfoTime <= 1){
+                    return;
+                }
                 $pwd = '';
                 if(array_key_exists('pwd',$session)){
                     $pwd = $session['pwd'];
@@ -93,6 +97,7 @@ class Events
                     FactoryClient::getInfo($client_id,$did,$pwd);
                 }
 
+                Gateway::updateSession($client_id,['last_get_info'=>microtime(true)]);
                 // 2. 更新会话信息，用于调试查看，可以去掉这一句
                 Gateway::updateSession($client_id,['app_cnt'=>$cnt]);
             }
