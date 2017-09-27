@@ -31,7 +31,9 @@ use sunsun\helper\LogHelper;
 use sunsun\model\DeviceTcpClientModel;
 use sunsun\server\db\DbPool;
 use sunsun\server\device\DeviceFactory;
+use sunsun\transfer_station\client\FactoryClient;
 use sunsun\transfer_station\client\TransferClient;
+use Workerman\Lib\Timer;
 
 /**
  * 主逻辑
@@ -58,13 +60,6 @@ class Events
         self::$port = $businessWorker->port;
         //记录Worker启动信息
         LogHelper::log(self::getDb(), $businessWorker->id, 'listen on '.self::$port, 'server_worker');
-        self::loopDeviceInfo();
-    }
-
-    /**
-     * 循环获取在线设备信息
-     */
-    public static function loopDeviceInfo(){
     }
 
     /**
@@ -75,6 +70,28 @@ class Events
      */
     public static function onConnect($client_id)
     {
+        // 每10秒执行一次
+        $time_interval = 1;
+        $connect_time = time();
+        // 给connection对象临时添加一个timer_id属性保存定时器id
+        $_SESSION['timer_id'] = Timer::add($time_interval, function() use($connect_time,$client_id)
+        {
+            $session = Gateway::getSession($client_id);
+            if(!empty($session) && is_array($session) && array_key_exists('did',$session)){
+                $pwd = '';
+                if(array_key_exists('pwd',$session)){
+                    $pwd = $session['pwd'];
+                }
+                $did = $session['did'];
+                $cnt = TransferClient::totalClientByGroup($did);
+                if($cnt > 0){
+                    // 1. 仅当链接数大于0时，才向设备请求获取设备信息
+                    FactoryClient::getInfo($did,$pwd);
+                }
+                // 2. 更新会话信息，用于调试查看，可以去掉这一句
+                Gateway::updateSession($client_id,['app_cnt'=>$cnt]);
+            }
+        });
     }
 
 
@@ -133,9 +150,6 @@ class Events
                 // 3. 处理业务逻辑
                 $result = self::process($did, $client_id, $result->getTdsOriginData());
 
-                // 4. 设置有多少个app连接了该设备
-                $cnt = TransferClient::totalClientByGroup($did);
-                Gateway::updateSession($client_id,['app_cnt'=>$cnt]);
             }
 
             if (empty($result)) {
@@ -171,7 +185,25 @@ class Events
      */
     public static function onClose($client_id)
     {
-        self::closeChannel($client_id, "tcp client close the channel");
+        // 删除定时器
+        $session = $_SESSION;
+        if(is_array($session) && array_key_exists('timer_id', $session)){
+            $timer_id = $session['timer_id'];
+            Timer::del($timer_id);
+        }
+
+        if(is_array($session) && array_key_exists('did', $session)){
+            $did = $session['did'];
+        }
+        if(empty($did)){
+            $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
+            if(is_array($result) && array_key_exists('did', $result)) {
+                $did = $result['did'];
+            }
+        }
+        if(!empty($did)) {
+            DeviceFactory::getDeviceDal($did)->logoutByClientId($client_id);
+        }
     }
 
     //============================帮助方法
@@ -264,6 +296,7 @@ class Events
 
         $id = $result['id'];
         $pwd = $result['pwd'];
+        $_SESSION['pwd'] = $pwd;
         $hb = $result['hb'];//心跳周期（单位：秒）
         $originPwd = SunsunTDS::isLegalPwd($data['pwd'], $pwd);
         if (empty($originPwd)) {
@@ -344,19 +377,6 @@ class Events
      */
     private static function closeChannel($client_id, $closeMsg)
     {
-        $session = Gateway::getSession($client_id);
-        if(is_array($session) && array_key_exists('did', $session)){
-            $did = $session['did'];
-        }
-        if(empty($did)){
-            $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
-            if(is_array($result) && array_key_exists('did', $result)) {
-                $did = $result['did'];
-            }
-        }
-        if(!empty($did)){
-            DeviceFactory::getDeviceDal($did)->logoutByClientId($client_id);
-        }
         //3. tcp通道关闭
         Gateway::closeClient($client_id);
     }
