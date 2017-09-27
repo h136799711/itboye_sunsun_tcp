@@ -70,8 +70,9 @@ class DeviceTransferCtrl
         if(empty($did) || empty($pre_did) || empty($token) || empty($uid)){
             return ResultHelper::fail('did|token|uid invalid');
         }
+        
         //1. 登出上一个组
-        Gateway::joinGroup($client_id,$pre_did);
+        Gateway::leaveGroup($client_id,$pre_did);
         //2. 登入新的组
         Gateway::joinGroup($client_id,$did);
 
