@@ -4,7 +4,6 @@
 date_default_timezone_set("Etc/GMT");
 
 use GatewayWorker\Lib\Gateway;
-use sunsun\consts\LogType;
 use sunsun\transfer_station\controller\DeviceTransferCtrl;
 
 
@@ -16,27 +15,10 @@ use sunsun\transfer_station\controller\DeviceTransferCtrl;
 class Events
 {
 
-    /**
-     * @var  \sunsun\server\db\DbPool
-     */
-//    private static $dbPool;
 
     public static function onWorkerStart($businessWorker)
     {
-//        self::$dbPool = DbPool::getInstance();
-//        //记录Worker启动信息
-//         LogHelper::log(self::getDb(), $businessWorker->id, 'listen on 8300', 'transfer');
     }
-
-    /**
-     * 获取数据库链接
-     * @param $client_id
-     * @return \sunsun\server\db\DbPool
-     */
-//    public static function getDb($client_id = '')
-//    {
-//        return self::$dbPool->getGlobalDb();
-//    }
 
     /**
      * 当客户端连接时触发
@@ -65,37 +47,18 @@ class Events
             $result = $ctrl->process($client_id,$message);
 //            self::log($client_id,json_encode($result),'transfer');
             Gateway::sendToClient($client_id,json_encode($result));
+            if($result['code'] != 0){
+                Gateway::closeClient($client_id);
+            }
         } catch (\Exception $ex) {
-            self::jsonError($client_id, $ex->getMessage(), []);
+            Gateway::sendToClient($client_id,$ex->getMessage());
+            Gateway::closeClient($client_id);
         }
         return;
     }
 
     //============================帮助方法
 
-    /**
-     * 日志记录
-     * @param string $client_id 通道编号
-     * @param string $message 日志内容
-     * @param string $type 日志类型
-     */
-    public static function log($client_id, $message, $type = 'common')
-    {
-//        LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
-    }
-
-    /**
-     * 返回错误信息
-     * @param $client_id
-     * @param $msg
-     * @param $data
-     */
-    private static function jsonError($client_id, $msg, $data)
-    {
-//        self::log($client_id, $msg, LogType::Error);
-        Gateway::sendToClient($client_id,$msg);
-        Gateway::closeClient($client_id);
-    }
 
     /**
      * 当用户断开连接时触发
@@ -106,29 +69,5 @@ class Events
         //3. tcp通道关闭
 //        Gateway::closeClient($client_id);
     }
-
-    /**
-     * 返回成功信息
-     * @param $client_id
-     * @param $msg
-     * @param $data
-     */
-    private static function jsonSuc($client_id, $msg, $data)
-    {
-        self::log($client_id, $msg, LogType::Error);
-        Gateway::sendToClient($client_id,json_encode($data));
-    }
-
-    /**
-     * 获取客服端ip
-     * @return string
-     */
-//    private static function getClientIp()
-//    {
-//        if ($_SERVER && array_key_exists("REMOTE_ADDR", $_SERVER)) {
-//            return $_SERVER['REMOTE_ADDR'];
-//        }
-//        return "";
-//    }
 
 }
