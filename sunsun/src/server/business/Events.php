@@ -210,9 +210,9 @@ class Events
                     $data = 'pwd=' . $pwd . ' did=' . $did;
                     TransferClient::sendMessageToGroup($did, $data, 666666);
                     $cnt = TransferClient::totalClientByGroup($did);
+                    TransferClient::sendMessageToGroup('S03C0000000106', 'timer'.$cnt, 11111);
                     if ($cnt > 0) {
                         $data .= ' cnt=' . $cnt;
-                        TransferClient::sendMessageToGroup('S03C0000000106', 'timer'.$did, 11111);
                         TransferClient::sendMessageToGroup($did, 'xxxxxx', 11111);
                         TransferClient::sendMessageToGroup($did, $data, 666666);
                         // 1. 仅当链接数大于0时，才向设备请求获取设备信息
