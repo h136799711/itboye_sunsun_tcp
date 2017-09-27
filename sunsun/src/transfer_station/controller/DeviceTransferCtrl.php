@@ -51,32 +51,19 @@ class DeviceTransferCtrl
 
     private function login($client_id, $data){
         $did = array_key_exists('did',$data) ? $data['did']:'';
+        $pre_did = array_key_exists('pre_did',$data) ? $data['pre_did']:'';
         $token = array_key_exists('token',$data) ? $data['token']:'';
         $uid = array_key_exists('uid',$data) ? $data['uid']:'';
         // TODO token暂时不用
         if(empty($did) || empty($token) || empty($uid)){
             return ResultHelper::fail('did|token|uid invalid');
         }
+        if(!empty($pre_did)){
+            Gateway::leaveGroup($client_id, $pre_did);
+        }
         // client_id 加入到 did
         Gateway::joinGroup($client_id,$did);
         return ResultHelper::success('login success');
-    }
-
-    private function switchGroup($client_id,$data){
-        $did = array_key_exists('did',$data) ? $data['did']:'';
-        $pre_did = array_key_exists('pre_did',$data) ? $data['pre_did']:'';
-        $token = array_key_exists('token',$data) ? $data['token']:'';
-        $uid = array_key_exists('uid',$data) ? $data['uid']:'';
-        if(empty($did) || empty($pre_did) || empty($token) || empty($uid)){
-            return ResultHelper::fail('did|token|uid invalid');
-        }
-
-        //1. 登出上一个组
-        Gateway::leaveGroup($client_id,$pre_did);
-        //2. 登入新的组
-        Gateway::joinGroup($client_id,$did);
-
-        return ResultHelper::success('switch success');
     }
 
 }
