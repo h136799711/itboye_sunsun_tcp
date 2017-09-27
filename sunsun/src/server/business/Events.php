@@ -189,7 +189,7 @@ class Events
 
     private static function loopDeviceInfo(){
 
-        Timer::add(3, function()
+        Timer::add(2, function()
         {
             try{
             $allSessions = Gateway::getAllClientSessions();
@@ -198,7 +198,7 @@ class Events
                 if (!empty($session) && is_array($session) && array_key_exists('did', $session)) {
                     if (array_key_exists('last_get_info', $session)) {
                         $lastGetInfoTime = $session['last_get_info'];
-                        if (microtime(true) - $lastGetInfoTime <= 1) {
+                        if (microtime(true) - $lastGetInfoTime <= 3) {
                             continue;
                         }
                     }
