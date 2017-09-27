@@ -208,7 +208,7 @@ class Events
                     }
                     $did = $session['did'];
                     $data = 'pwd=' . $pwd . ' did=' . $did;
-                    TransferClient::sendMessageToGroup($did, $data, 666666);
+//                    TransferClient::sendMessageToGroup($did, $data, 666666);
                     $cnt = TransferClient::totalClientByGroup($did);
 //                    TransferClient::sendMessageToGroup('S03C0000000106', $did.'timer'.$cnt, 33333);
                     if ($cnt > 0) {
