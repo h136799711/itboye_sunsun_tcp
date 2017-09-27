@@ -13,8 +13,8 @@ use sunsun\adt\dal\AdtDeviceDal;
 use sunsun\adt\helper\AdtTcpLogHelper;
 use sunsun\adt\helper\ModelConverterHelper;
 use sunsun\adt\resp\AdtCtrlDeviceResp;
-use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
+use sunsun\transfer_station\client\TransferClient;
 
 class AdtDeviceCtrlAction
 {
@@ -36,6 +36,8 @@ class AdtDeviceCtrlAction
         $updateEntity = ModelConverterHelper::convertToModelArrayOfCtrlDeviceResp($resp);
         $dal = new AdtDeviceDal();
         AdtTcpLogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity),"AdtDeviceCtrlAction");
+        // 向中转通道发送信息
+        TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
     }

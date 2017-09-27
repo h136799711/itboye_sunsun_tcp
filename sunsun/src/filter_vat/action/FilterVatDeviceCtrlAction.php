@@ -14,6 +14,7 @@ use sunsun\filter_vat\helper\ModelConverterHelper;
 use sunsun\filter_vat\resp\FilterVatCtrlDeviceResp;
 use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
+use sunsun\transfer_station\client\TransferClient;
 
 class FilterVatDeviceCtrlAction
 {

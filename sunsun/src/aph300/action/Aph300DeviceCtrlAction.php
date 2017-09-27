@@ -13,8 +13,8 @@ use sunsun\aph300\dal\Aph300DeviceDal;
 use sunsun\aph300\helper\Aph300TcpLogHelper;
 use sunsun\aph300\helper\ModelConverterHelper;
 use sunsun\aph300\resp\Aph300CtrlDeviceResp;
-use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
+use sunsun\transfer_station\client\TransferClient;
 
 class Aph300DeviceCtrlAction
 {
@@ -36,6 +36,8 @@ class Aph300DeviceCtrlAction
         $updateEntity = ModelConverterHelper::convertToModelArrayOfCtrlDeviceResp($resp);
         $dal = new Aph300DeviceDal();
         Aph300TcpLogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity),"Aph300DeviceCtrlAction");
+        // 向中转通道发送信息
+        TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
     }

@@ -14,6 +14,7 @@ use sunsun\heating_rod\helper\ModelConverterHelper;
 use sunsun\heating_rod\resp\HeatingRodCtrlDeviceResp;
 use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
+use sunsun\transfer_station\client\TransferClient;
 
 class HeatingRodDeviceCtrlAction
 {
@@ -36,6 +37,8 @@ class HeatingRodDeviceCtrlAction
         $dal = new HeatingRodDeviceDal();
         LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
 
+        // 向中转通道发送信息
+        TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
     }

@@ -15,6 +15,7 @@ use sunsun\adt\resp\AdtDeviceInfoResp;
 use sunsun\helper\DevToServerDelayHelper;
 use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
+use sunsun\transfer_station\client\TransferClient;
 
 class AdtDeviceInfoAction
 {
@@ -36,6 +37,8 @@ class AdtDeviceInfoAction
         }
         LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
 
+        // 向中转通道发送信息
+        TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
     }

@@ -11,6 +11,7 @@ namespace sunsun\water_pump\action;
 
 use sunsun\helper\DevToServerDelayHelper;
 use sunsun\helper\ResultHelper;
+use sunsun\transfer_station\client\TransferClient;
 use sunsun\water_pump\dal\WaterPumpDeviceDal;
 use sunsun\water_pump\helper\ModelConverterHelper;
 use sunsun\water_pump\helper\WaterPumpTcpLogHelper;
@@ -37,6 +38,8 @@ class WaterPumpDeviceInfoAction
         }
         WaterPumpTcpLogHelper::logDebug($did, 'updateEntity' . json_encode($updateEntity));
 
+        // 向中转通道发送信息
+        TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
     }
