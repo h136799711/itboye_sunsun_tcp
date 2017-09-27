@@ -10,7 +10,6 @@ namespace sunsun\transfer_station\controller;
 
 
 use GatewayWorker\Lib\Gateway;
-use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
 
 class DeviceTransferCtrl
@@ -20,7 +19,6 @@ class DeviceTransferCtrl
         if($jsonDecode === false){
             return ResultHelper::fail('unknown message');
         }
-        LogHelper::logDebug($client_id,json_encode($jsonDecode),'transfer process');
         if(array_key_exists('t',$jsonDecode)){
             $t = $jsonDecode['t'];
             return $this->innerProcess($client_id,strval($t),$jsonDecode);
@@ -35,9 +33,6 @@ class DeviceTransferCtrl
                 return $this->hb($client_id,$data);
             case ReqMsgType::Login:
                 return $this->login($client_id,$data);
-                break;
-            case ReqMsgType::SwitchGroup:
-                return $this->switchGroup($client_id,$data);
                 break;
             default:
                 return ResultHelper::fail('unknown message type');
