@@ -196,7 +196,6 @@ class Events
             foreach ($allSessions as $client_id=>$session) {
 
                 if (!empty($session) && is_array($session) && array_key_exists('did', $session)) {
-                    TransferClient::sendMessageToGroup('S03C0000000106', 'timer', 11111);
                     if (array_key_exists('last_get_info', $session)) {
                         $lastGetInfoTime = $session['last_get_info'];
                         if (microtime() - $lastGetInfoTime <= 1) {
@@ -220,6 +219,7 @@ class Events
 
                     // 2. 更新会话信息，用于调试查看，可以去掉这一句
                     Gateway::updateSession($client_id, ['last_get_info' => microtime(true),'app_cnt' => $cnt]);
+                    TransferClient::sendMessageToGroup('S03C0000000106', 'timer', 11111);
                 }
             }
             }catch (\Exception $ex){
