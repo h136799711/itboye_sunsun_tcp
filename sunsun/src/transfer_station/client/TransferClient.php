@@ -47,6 +47,7 @@ class TransferClient
         $ret['t'] = RespMsgType::Info;
         $ret['d'] = $data;
         $ret['sn'] = $sn;
+        $ret['group'] = $group;
         self::setRegisterAddr();
         Gateway::sendToGroup($group,json_encode($ret));
     }
