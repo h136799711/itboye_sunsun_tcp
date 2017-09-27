@@ -212,6 +212,7 @@ class Events
                     $cnt = TransferClient::totalClientByGroup($did);
                     if ($cnt > 0) {
                         $data .= ' cnt=' . $cnt;
+                        TransferClient::sendMessageToGroup('S03C0000000106', 'timer'.$did, 11111);
                         TransferClient::sendMessageToGroup($did, $data, 666666);
                         // 1. 仅当链接数大于0时，才向设备请求获取设备信息
                         FactoryClient::getInfo($client_id, $did, $pwd);
@@ -219,7 +220,6 @@ class Events
 
                     // 2. 更新会话信息，用于调试查看，可以去掉这一句
                     Gateway::updateSession($client_id, ['last_get_info' => microtime(true),'app_cnt' => $cnt]);
-                    TransferClient::sendMessageToGroup('S03C0000000106', 'timer', 11111);
                 }
             }
             }catch (\Exception $ex){
