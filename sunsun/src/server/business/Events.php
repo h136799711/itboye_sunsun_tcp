@@ -31,6 +31,7 @@ use sunsun\helper\LogHelper;
 use sunsun\model\DeviceTcpClientModel;
 use sunsun\server\db\DbPool;
 use sunsun\server\device\DeviceFactory;
+use sunsun\transfer_station\client\TransferClient;
 
 /**
  * 主逻辑
@@ -132,6 +133,9 @@ class Events
                 // 3. 处理业务逻辑
                 $result = self::process($did, $client_id, $result->getTdsOriginData());
 
+                // 4. 设置有多少个app连接了该设备
+                $cnt = TransferClient::totalClientByGroup($did);
+                Gateway::updateSession($client_id,['app_cnt'=>$cnt]);
             }
 
             if (empty($result)) {
