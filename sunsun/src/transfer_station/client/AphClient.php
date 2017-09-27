@@ -13,11 +13,13 @@ use sunsun\aph300\dal\Aph300DeviceDal;
 use sunsun\aph300\req\Aph300DeviceInfoReq;
 use sunsun\decoder\SunsunTDS;
 
-Gateway::$registerAddress = "101.37.37.167:1240";
 
 class AphClient  extends BaseClient
 {
 
+    private function setRegisterAddr(){
+        Gateway::$registerAddress = "101.37.37.167:1240";
+    }
     public function getInfo($client_id,$did, $pwd=''){
         if(empty($pwd)){
             $pwd = $this->getDevicePwd($did);
@@ -25,6 +27,7 @@ class AphClient  extends BaseClient
         $req = new Aph300DeviceInfoReq();
         $req->setSn($this->getSn());
         $data = SunsunTDS::encode($req->toDataArray(), $pwd);
+        $this->setRegisterAddr();
         Gateway::sendToClient($client_id,$data);
     }
 

@@ -17,6 +17,9 @@ Gateway::$registerAddress = "101.37.37.167:1242";
 
 class AdtClient extends BaseClient
 {
+    private function setRegisterAddr(){
+        Gateway::$registerAddress = "101.37.37.167:1240";
+    }
     public function getInfo($client_id, $did, $pwd=''){
         if(empty($pwd)){
             $pwd = $this->getDevicePwd($did);
@@ -24,6 +27,7 @@ class AdtClient extends BaseClient
         $req = new AdtDeviceInfoReq();
         $req->setSn($this->getSn());
         $data = SunsunTDS::encode($req->toDataArray(), $pwd);
+        $this->setRegisterAddr();
         Gateway::sendToClient($client_id,$data);
     }
 

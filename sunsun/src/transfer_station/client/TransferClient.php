@@ -11,17 +11,19 @@ namespace sunsun\transfer_station\client;
 use GatewayClient\Gateway;
 use sunsun\transfer_station\controller\RespMsgType;
 
-Gateway::$registerAddress = "101.37.37.167:1250";
 
 class TransferClient
 {
-
+    private static function setRegisterAddr(){
+        Gateway::$registerAddress = "101.37.37.167:1250";
+    }
     /**
      * 获取分组内有多少个客户端链接
      * @param $did
      * @return bool
      */
     public static function totalClientByGroup($did){
+        self::setRegisterAddr();
         return Gateway::getClientCountByGroup($did);
     }
     /**
@@ -30,6 +32,7 @@ class TransferClient
      * @return bool
      */
     public static function hasAppOnline($did){
+        self::setRegisterAddr();
         $cnt = Gateway::getClientCountByGroup($did);
         return $cnt > 0;
     }
@@ -44,6 +47,7 @@ class TransferClient
         $ret['t'] = RespMsgType::Info;
         $ret['d'] = $data;
         $ret['sn'] = $sn;
+        self::setRegisterAddr();
         Gateway::sendToGroup($group,json_encode($ret));
     }
 }

@@ -13,10 +13,13 @@ use sunsun\decoder\SunsunTDS;
 use sunsun\water_pump\dal\WaterPumpDeviceDal;
 use sunsun\water_pump\req\WaterPumpDeviceInfoReq;
 
-Gateway::$registerAddress = "101.37.37.167:1241";
 
 class WaterPumpClient extends BaseClient
 {
+
+    private function setRegisterAddr(){
+        Gateway::$registerAddress = "101.37.37.167:1239";
+    }
 
     public function getInfo($client_id, $did, $pwd=''){
         if(empty($pwd)){
@@ -25,6 +28,7 @@ class WaterPumpClient extends BaseClient
         $req = new WaterPumpDeviceInfoReq();
         $req->setSn($this->getSn());
         $data = SunsunTDS::encode($req->toDataArray(), $pwd);
+        $this->setRegisterAddr();
         Gateway::sendToClient($client_id,$data);
     }
 

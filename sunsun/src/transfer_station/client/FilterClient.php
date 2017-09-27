@@ -13,10 +13,12 @@ use sunsun\decoder\SunsunTDS;
 use sunsun\filter_vat\dal\FilterVatDeviceDal;
 use sunsun\filter_vat\req\FilterVatDeviceInfoReq;
 
-Gateway::$registerAddress = "101.37.37.167:1237";
-
 class FilterClient extends BaseClient
 {
+    private  function setRegisterAddr(){
+        Gateway::$registerAddress = "101.37.37.167:1237";
+    }
+
     public function getInfo($client_id,$did, $pwd=''){
         if(empty($pwd)){
             $pwd = $this->getDevicePwd($did);
@@ -24,6 +26,7 @@ class FilterClient extends BaseClient
         $req = new FilterVatDeviceInfoReq();
         $req->setSn($this->getSn());
         $data = SunsunTDS::encode($req->toDataArray(), $pwd);
+        $this->setRegisterAddr();
         Gateway::sendToClient($client_id,$data);
     }
 

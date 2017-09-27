@@ -13,10 +13,13 @@ use sunsun\aq806\dal\Aq806DeviceDal;
 use sunsun\aq806\req\Aq806DeviceInfoReq;
 use sunsun\decoder\SunsunTDS;
 
-Gateway::$registerAddress = "101.37.37.167:1238";
 
 class Aq806Client extends BaseClient
 {
+    private function setRegisterAddr(){
+        Gateway::$registerAddress = "101.37.37.167:1238";
+    }
+
     public function getInfo($client_id,$did, $pwd=''){
         if(empty($pwd)){
             $pwd = $this->getDevicePwd($did);
@@ -24,6 +27,7 @@ class Aq806Client extends BaseClient
         $req = new Aq806DeviceInfoReq();
         $req->setSn($this->getSn());
         $data = SunsunTDS::encode($req->toDataArray(), $pwd);
+        $this->setRegisterAddr();
         Gateway::sendToClient($client_id,$data);
     }
 

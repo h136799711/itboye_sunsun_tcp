@@ -13,10 +13,12 @@ use sunsun\decoder\SunsunTDS;
 use sunsun\heating_rod\dal\HeatingRodDeviceDal;
 use sunsun\heating_rod\req\HeatingRodDeviceInfoReq;
 
-Gateway::$registerAddress = "101.37.37.167:1239";
 
 class HeatingRodClient extends BaseClient
 {
+    private function setRegisterAddr(){
+        Gateway::$registerAddress = "101.37.37.167:1239";
+    }
     public function getInfo($client_id,$did, $pwd=''){
         if(empty($pwd)){
             $pwd = $this->getDevicePwd($did);
@@ -24,6 +26,7 @@ class HeatingRodClient extends BaseClient
         $req = new HeatingRodDeviceInfoReq();
         $req->setSn($this->getSn());
         $data = SunsunTDS::encode($req->toDataArray(), $pwd);
+        $this->setRegisterAddr();
         Gateway::sendToClient($client_id,$data);
     }
 
