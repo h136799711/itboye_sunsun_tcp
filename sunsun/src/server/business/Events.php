@@ -57,6 +57,13 @@ class Events
         self::$port = $businessWorker->port;
         //记录Worker启动信息
         LogHelper::log(self::getDb(), $businessWorker->id, 'listen on '.self::$port, 'server_worker');
+        self::loopDeviceInfo();
+    }
+
+    /**
+     * 循环获取在线设备信息
+     */
+    public static function loopDeviceInfo(){
     }
 
     /**

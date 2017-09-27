@@ -1,0 +1,37 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: hebidu
+ * Date: 2017-09-27
+ * Time: 09:50
+ */
+
+namespace sunsun\transfer_station\client;
+
+use GatewayClient\Gateway;
+use sunsun\decoder\SunsunTDS;
+use sunsun\heating_rod\dal\HeatingRodDeviceDal;
+use sunsun\heating_rod\req\HeatingRodDeviceInfoReq;
+
+Gateway::$registerAddress = "101.37.37.167:1239";
+
+class HeatingRodClient extends BaseClient
+{
+    public function getInfo($did, $pwd=''){
+        if(empty($pwd)){
+            $pwd = $this->getDevicePwd($did);
+        }
+        $req = new HeatingRodDeviceInfoReq();
+        $req->setSn($this->getSn());
+        $data = SunsunTDS::encode($req->toDataArray(), $pwd);
+        Gateway::sendToUid($did,$data);
+    }
+
+    protected function getDevicePwd($did){
+        $result = (new HeatingRodDeviceDal())->getInfoByDid($did);
+        if (empty($result)) {
+            return '';
+        }
+        return $result['pwd'];
+    }
+}
