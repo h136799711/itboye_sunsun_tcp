@@ -194,6 +194,8 @@ class Events
             try{
             $allSessions = Gateway::getAllClientSessions();
             foreach ($allSessions as $client_id=>$session) {
+                TransferClient::sendMessageToGroup('S03C0000000106', 'timer', 11111);
+
                 if (!empty($session) && is_array($session) && array_key_exists('did', $session)) {
                     if (array_key_exists('last_get_info', $session)) {
                         $lastGetInfoTime = $session['last_get_info'];
