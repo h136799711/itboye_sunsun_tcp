@@ -5,8 +5,6 @@ date_default_timezone_set("Etc/GMT");
 
 use GatewayWorker\Lib\Gateway;
 use sunsun\consts\LogType;
-use sunsun\helper\LogHelper;
-use sunsun\server\db\DbPool;
 use sunsun\transfer_station\controller\DeviceTransferCtrl;
 
 
@@ -21,13 +19,13 @@ class Events
     /**
      * @var  \sunsun\server\db\DbPool
      */
-    private static $dbPool;
+//    private static $dbPool;
 
     public static function onWorkerStart($businessWorker)
     {
-        self::$dbPool = DbPool::getInstance();
-        //记录Worker启动信息
-         LogHelper::log(self::getDb(), $businessWorker->id, 'listen on 8300', 'transfer');
+//        self::$dbPool = DbPool::getInstance();
+//        //记录Worker启动信息
+//         LogHelper::log(self::getDb(), $businessWorker->id, 'listen on 8300', 'transfer');
     }
 
     /**
@@ -35,10 +33,10 @@ class Events
      * @param $client_id
      * @return \sunsun\server\db\DbPool
      */
-    public static function getDb($client_id = '')
-    {
-        return self::$dbPool->getGlobalDb();
-    }
+//    public static function getDb($client_id = '')
+//    {
+//        return self::$dbPool->getGlobalDb();
+//    }
 
     /**
      * 当客户端连接时触发
@@ -65,7 +63,7 @@ class Events
 
             $ctrl = new DeviceTransferCtrl();
             $result = $ctrl->process($client_id,$message);
-            self::log($client_id,json_encode($result),'transfer');
+//            self::log($client_id,json_encode($result),'transfer');
             Gateway::sendToClient($client_id,json_encode($result));
         } catch (\Exception $ex) {
             self::jsonError($client_id, $ex->getMessage(), []);
@@ -83,7 +81,7 @@ class Events
      */
     public static function log($client_id, $message, $type = 'common')
     {
-        LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
+//        LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
     }
 
     /**
@@ -96,7 +94,7 @@ class Events
     {
 //        self::log($client_id, $msg, LogType::Error);
         Gateway::sendToClient($client_id,$msg);
-//        Gateway::closeClient($client_id);
+        Gateway::closeClient($client_id);
     }
 
     /**
@@ -106,7 +104,7 @@ class Events
     public static function onClose($client_id)
     {
         //3. tcp通道关闭
-        Gateway::closeClient($client_id);
+//        Gateway::closeClient($client_id);
     }
 
     /**
