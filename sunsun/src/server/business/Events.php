@@ -78,9 +78,11 @@ class Events
         {
             $session = Gateway::getSession($client_id);
             if(!empty($session) && is_array($session) && array_key_exists('did',$session)){
-                $lastGetInfoTime = $session['last_get_info'];
-                if(microtime() - $lastGetInfoTime <= 1){
-                    return;
+                if(array_key_exists('last_get_info',$session)){
+                    $lastGetInfoTime = $session['last_get_info'];
+                    if(microtime() - $lastGetInfoTime <= 1){
+                        return;
+                    }
                 }
                 $pwd = '';
                 if(array_key_exists('pwd',$session)){
