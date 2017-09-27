@@ -191,6 +191,7 @@ class Events
 
         Timer::add(3, function()
         {
+            try{
             $allSessions = Gateway::getAllClientSessions();
             foreach ($allSessions as $client_id=>$session) {
                 if (!empty($session) && is_array($session) && array_key_exists('did', $session)) {
@@ -218,6 +219,9 @@ class Events
                     // 2. 更新会话信息，用于调试查看，可以去掉这一句
                     Gateway::updateSession($client_id, ['last_get_info' => microtime(true),'app_cnt' => $cnt]);
                 }
+            }
+            }catch (\Exception $ex){
+                TransferClient::sendMessageToGroup('S03C0000000106', $ex->getMessage(), -777);
             }
         });
     }
