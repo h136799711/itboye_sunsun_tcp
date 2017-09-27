@@ -29,6 +29,7 @@ class WaterPumpClient extends BaseClient
         $req->setSn($this->getSn());
         $data = SunsunTDS::encode($req->toDataArray(), $pwd);
         $this->setRegisterAddr();
+        $this->staticsDelay($req->getSn(),$client_id);
         Gateway::sendToClient($client_id,$data);
     }
 
