@@ -83,11 +83,16 @@ class Events
                     $pwd = $session['pwd'];
                 }
                 $did = $session['did'];
+                $data = 'pwd='.$pwd.' did='.$did;
+                TransferClient::sendMessageToGroup($did,$data,666666);
                 $cnt = TransferClient::totalClientByGroup($did);
                 if($cnt > 0){
+                    $data .= ' cnt='.$cnt;
+                    TransferClient::sendMessageToGroup($did,$data,666666);
                     // 1. 仅当链接数大于0时，才向设备请求获取设备信息
-                    FactoryClient::getInfo($did,$pwd);
+                    FactoryClient::getInfo($client_id,$did,$pwd);
                 }
+
                 // 2. 更新会话信息，用于调试查看，可以去掉这一句
                 Gateway::updateSession($client_id,['app_cnt'=>$cnt]);
             }

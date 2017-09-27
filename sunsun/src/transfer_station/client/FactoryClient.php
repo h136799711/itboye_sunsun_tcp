@@ -13,26 +13,26 @@ use sunsun\server\consts\DeviceType;
 
 class FactoryClient
 {
-    public static function getInfo($did,$pwd){
+    public static function getInfo($client_id,$did,$pwd){
         $type = DeviceType::getDeviceType($did);
         switch ($type){
             case DeviceType::Did_FilterVat:
-                (new FilterClient())->getInfo($did,$pwd);
+                (new FilterClient())->getInfo($client_id,$did,$pwd);
                 break;
             case DeviceType::Did_WaterPump:
-                (new WaterPumpClient())->getInfo($did,$pwd);
+                (new WaterPumpClient())->getInfo($client_id,$did,$pwd);
                 break;
             case DeviceType::Did_AQ806:
-                (new Aq806Client())->getInfo($did,$pwd);
+                (new Aq806Client())->getInfo($client_id,$did,$pwd);
                 break;
             case DeviceType::Did_APH300:
-                (new AphClient())->getInfo($did,$pwd);
+                (new AphClient())->getInfo($client_id,$did,$pwd);
                 break;
             case DeviceType::Did_HeatingRod:
-                (new HeatingRodClient())->getInfo($did,$pwd);
+                (new HeatingRodClient())->getInfo($client_id,$did,$pwd);
                 break;
             case DeviceType::Did_ADT:
-                (new AdtClient())->getInfo($did,$pwd);
+                (new AdtClient())->getInfo($client_id,$did,$pwd);
                 break;
             default:
 
