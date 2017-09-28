@@ -50,13 +50,55 @@ class Events
     //tcp通道无数据传输的最大时间
     public static $inactiveTimeInterval = 600;
     //接收到数据的最近一次时间
-    private static $activeTime;
-    public static $db;//
+public static $db;
+        private static $activeTime;//
 
     public static function onWorkerStart($businessWorker)
     {
         self::$dbPool = DbPool::getInstance();
         self::loopDeviceInfo();
+    }
+
+    private static function loopDeviceInfo(){
+
+        Timer::add(2, function()
+        {
+            try{
+            $allSessions = Gateway::getAllClientSessions();
+            foreach ($allSessions as $client_id=>$session) {
+
+                if (!empty($session) && is_array($session) && array_key_exists('did', $session)) {
+                    if (array_key_exists('last_get_info', $session)) {
+                        $lastGetInfoTime = $session['last_get_info'];
+                        if (microtime(true) - $lastGetInfoTime <= 3) {
+                            continue;
+                        }
+                    }
+                    $pwd = '';
+                    if (array_key_exists('pwd', $session)) {
+                        $pwd = $session['pwd'];
+                    }
+                    $did = $session['did'];
+//                    $data = 'pwd=' . $pwd . ' did=' . $did;
+//                    TransferClient::sendMessageToGroup($did, $data, 666666);
+                    $cnt = TransferClient::totalClientByGroup($did);
+//                    TransferClient::sendMessageToGroup('S03C0000000106', $did.'timer'.$cnt, 33333);
+                    if ($cnt > 0) {
+//                        $data .= ' cnt=' . $cnt;
+//                        TransferClient::sendMessageToGroup($did, 'xxxxxx', 11111);
+//                        TransferClient::sendMessageToGroup($did, $data, 666666);
+                        // 1. 仅当链接数大于0时，才向设备请求获取设备信息
+                        FactoryClient::getInfo($client_id, $did, $pwd);
+                    }
+
+                    // 2. 更新会话信息，用于调试查看，可以去掉这一句
+                    Gateway::updateSession($client_id, ['last_get_info' => microtime(true),'app_cnt' => $cnt]);
+                }
+            }
+            }catch (\Exception $ex){
+                TransferClient::sendMessageToGroup('S03C0000000106', $ex->getMessage(), -777);
+            }
+        });
     }
 
     /**
@@ -68,7 +110,6 @@ class Events
     public static function onConnect($client_id)
     {
     }
-
 
     /**
      * 当客户端发来消息时触发
@@ -154,110 +195,17 @@ class Events
         return;
     }
 
-    /**
-     * 当用户断开连接时触发
-     * @param int $client_id 连接id
-     */
-    public static function onClose($client_id)
-    {
-        // 删除定时器
-        $session = $_SESSION;
-
-        if(is_array($session) && array_key_exists('did', $session)){
-            $did = $session['did'];
-        }
-        if(empty($did)){
-            $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
-            if(is_array($result) && array_key_exists('did', $result)) {
-                $did = $result['did'];
-            }
-        }
-        if(!empty($did)) {
-            DeviceFactory::getDeviceDal($did)->logoutByClientId($client_id);
-        }
-    }
-
     //============================帮助方法
 
-    private static function loopDeviceInfo(){
-
-        Timer::add(2, function()
-        {
-            try{
-            $allSessions = Gateway::getAllClientSessions();
-            foreach ($allSessions as $client_id=>$session) {
-
-                if (!empty($session) && is_array($session) && array_key_exists('did', $session)) {
-                    if (array_key_exists('last_get_info', $session)) {
-                        $lastGetInfoTime = $session['last_get_info'];
-                        if (microtime(true) - $lastGetInfoTime <= 3) {
-                            continue;
-                        }
-                    }
-                    $pwd = '';
-                    if (array_key_exists('pwd', $session)) {
-                        $pwd = $session['pwd'];
-                    }
-                    $did = $session['did'];
-//                    $data = 'pwd=' . $pwd . ' did=' . $did;
-//                    TransferClient::sendMessageToGroup($did, $data, 666666);
-                    $cnt = TransferClient::totalClientByGroup($did);
-//                    TransferClient::sendMessageToGroup('S03C0000000106', $did.'timer'.$cnt, 33333);
-                    if ($cnt > 0) {
-//                        $data .= ' cnt=' . $cnt;
-//                        TransferClient::sendMessageToGroup($did, 'xxxxxx', 11111);
-//                        TransferClient::sendMessageToGroup($did, $data, 666666);
-                        // 1. 仅当链接数大于0时，才向设备请求获取设备信息
-                        FactoryClient::getInfo($client_id, $did, $pwd);
-                    }
-
-                    // 2. 更新会话信息，用于调试查看，可以去掉这一句
-                    Gateway::updateSession($client_id, ['last_get_info' => microtime(true),'app_cnt' => $cnt]);
-                }
-            }
-            }catch (\Exception $ex){
-                TransferClient::sendMessageToGroup('S03C0000000106', $ex->getMessage(), -777);
-            }
-        });
-    }
-
-    private static function process($did, $clientId, $originData)
-    {
-        //处理请求
-        self::log($did, $originData, 'process');
-        $jsonDecode = json_decode($originData, JSON_OBJECT_AS_ARRAY);
-        //1. Device 这里替换成具体设备的process类
-        $action = DeviceFactory::createProcessAction($did);
-        $resp = $action->process($did,$clientId,$jsonDecode);
-        return $resp;
-    }
-
     /**
-     * 获取加密密钥
-     * @param $client_id
-     * @return array|bool
-     * @internal param $result
+     * 日志记录
+     * @param string $client_id 通道编号
+     * @param string $message 日志内容
+     * @param string $type 日志类型
      */
-    private static function getEncryptPwd($client_id)
+    public static function log($client_id, $message, $type = 'common')
     {
-        $session = Gateway::getSession($client_id);
-        $result = false;
-        if(array_key_exists('did', $session)){
-            $did = $session['did'];
-            if(array_key_exists('pwd', $session)){
-                $pwd = $session['pwd'];
-                $result = ['did'=>$did,'pwd'=>$pwd];
-            }
-        } else {
-            // 如果丢失了会话,则恢复did,pwd2个参数
-            $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
-            if(is_array($result) && array_key_exists('did', $result)) {
-                $did = $result['did'];
-                $pwd = $result['pwd'];
-                Gateway::updateSession($client_id,['did'=>$did,'pwd'=>$pwd]);
-            }
-        }
-        return $result;
+        LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
     }
 
     /**
@@ -274,6 +222,40 @@ class Events
             }
         }
         return self::$dbPool->getGlobalDb();
+    }
+
+    /**
+     * 返回错误信息
+     * @param $client_id
+     * @param $msg
+     * @param $data
+     */
+    private static function jsonError($client_id, $msg, $data)
+    {
+        self::log($client_id, $msg, LogType::Error);
+        self::closeChannel($client_id, $msg);
+    }
+
+    /**
+     * 关闭
+     * @param $client_id
+     * @param $closeMsg
+     */
+    private static function closeChannel($client_id, $closeMsg)
+    {
+        //3. tcp通道关闭
+        Gateway::closeClient($client_id);
+    }
+
+    /**
+     * 该次请求是否作为登录请求处理
+     * @return bool
+     */
+    protected static function isLoginRequest(){
+        if(!array_key_exists('is_first', $_SESSION)){
+            $_SESSION['is_first'] = 0;
+        }
+        return $_SESSION['is_first'] == 0;
     }
 
     /**
@@ -364,6 +346,18 @@ class Events
     }
 
     /**
+     * 获取客服端ip
+     * @return string
+     */
+    private static function getClientIp()
+    {
+        if ($_SERVER && array_key_exists("REMOTE_ADDR", $_SERVER)) {
+            return $_SERVER['REMOTE_ADDR'];
+        }
+        return "";
+    }
+
+    /**
      * 登录成功后进行操作
      * @param $client_id
      * @param $did
@@ -384,51 +378,43 @@ class Events
         }
     }
 
-
     /**
-     * 获取客服端ip
-     * @return string
+     * 获取加密密钥
+     * @param $client_id
+     * @return array|bool
+     * @internal param $result
      */
-    private static function getClientIp()
+    private static function getEncryptPwd($client_id)
     {
-        if ($_SERVER && array_key_exists("REMOTE_ADDR", $_SERVER)) {
-            return $_SERVER['REMOTE_ADDR'];
+        $session = Gateway::getSession($client_id);
+        $result = false;
+        if(array_key_exists('did', $session)){
+            $did = $session['did'];
+            if(array_key_exists('pwd', $session)){
+                $pwd = $session['pwd'];
+                $result = ['did'=>$did,'pwd'=>$pwd];
+            }
+        } else {
+            // 如果丢失了会话,则恢复did,pwd2个参数
+//            $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
+//            if(is_array($result) && array_key_exists('did', $result)) {
+//                $did = $result['did'];
+//                $pwd = $result['pwd'];
+//                Gateway::updateSession($client_id,['did'=>$did,'pwd'=>$pwd]);
+//            }
         }
-        return "";
+        return $result;
     }
 
-    /**
-     * 关闭
-     * @param $client_id
-     * @param $closeMsg
-     */
-    private static function closeChannel($client_id, $closeMsg)
+    private static function process($did, $clientId, $originData)
     {
-        //3. tcp通道关闭
-        Gateway::closeClient($client_id);
-    }
-
-    /**
-     * 日志记录
-     * @param string $client_id 通道编号
-     * @param string $message 日志内容
-     * @param string $type 日志类型
-     */
-    public static function log($client_id, $message, $type = 'common')
-    {
-        LogHelper::log(self::getDb($client_id), $client_id, $message, 'server_' . $type);
-    }
-
-    /**
-     * 返回错误信息
-     * @param $client_id
-     * @param $msg
-     * @param $data
-     */
-    private static function jsonError($client_id, $msg, $data)
-    {
-        self::log($client_id, $msg, LogType::Error);
-        self::closeChannel($client_id, $msg);
+        //处理请求
+        self::log($did, $originData, 'process');
+        $jsonDecode = json_decode($originData, JSON_OBJECT_AS_ARRAY);
+        //1. Device 这里替换成具体设备的process类
+        $action = DeviceFactory::createProcessAction($did);
+        $resp = $action->process($did,$clientId,$jsonDecode);
+        return $resp;
     }
 
     /**
@@ -446,14 +432,26 @@ class Events
     }
 
     /**
-     * 该次请求是否作为登录请求处理
-     * @return bool
+     * 当用户断开连接时触发
+     * @param int $client_id 连接id
      */
-    protected static function isLoginRequest(){
-        if(!array_key_exists('is_first', $_SESSION)){
-            $_SESSION['is_first'] = 0;
+    public static function onClose($client_id)
+    {
+        // 删除定时器
+        $session = $_SESSION;
+
+        if(is_array($session) && array_key_exists('did', $session)){
+            $did = $session['did'];
         }
-        return $_SESSION['is_first'] == 0;
+        if(empty($did)){
+            $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
+            if(is_array($result) && array_key_exists('did', $result)) {
+                $did = $result['did'];
+            }
+        }
+        if(!empty($did)) {
+            DeviceFactory::getDeviceDal($did)->logoutByClientId($client_id);
+        }
     }
 
 }
