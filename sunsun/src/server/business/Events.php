@@ -51,15 +51,11 @@ class Events
     public static $inactiveTimeInterval = 600;
     //接收到数据的最近一次时间
     private static $activeTime;
-    private static $port;
     public static $db;//
 
     public static function onWorkerStart($businessWorker)
     {
         self::$dbPool = DbPool::getInstance();
-        self::$port = $businessWorker->port;
-        //记录Worker启动信息
-        LogHelper::log(self::getDb(), $businessWorker->id, 'listen on '.self::$port, 'server_worker');
         self::loopDeviceInfo();
     }
 
@@ -166,10 +162,6 @@ class Events
     {
         // 删除定时器
         $session = $_SESSION;
-        if(is_array($session) && array_key_exists('timer_id', $session)){
-            $timer_id = $session['timer_id'];
-            Timer::del($timer_id);
-        }
 
         if(is_array($session) && array_key_exists('did', $session)){
             $did = $session['did'];
@@ -252,7 +244,18 @@ class Events
         $result = false;
         if(array_key_exists('did', $session)){
             $did = $session['did'];
-            $result = DeviceFactory::getDeviceDal($did) ->loginByTcpClientId($client_id, self::getClientIp());
+            if(array_key_exists('pwd', $session)){
+                $pwd = $session['pwd'];
+                $result = ['did'=>$did,'pwd'=>$pwd];
+            }
+        } else {
+            // 如果丢失了会话,则恢复did,pwd2个参数
+            $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
+            if(is_array($result) && array_key_exists('did', $result)) {
+                $did = $result['did'];
+                $pwd = $result['pwd'];
+                Gateway::updateSession($client_id,['did'=>$did,'pwd'=>$pwd]);
+            }
         }
         return $result;
     }
@@ -337,11 +340,13 @@ class Events
             'tcp_client_id' => $client_id,
             'offline_notify'=>1,
         ];
+        // 部分设备有这个device_type 参数
         if(method_exists($req,'getType')){
             $type = $req->getType();
             $entity['device_type'] = $type;
         }
         $dal->update($id, $entity);
+        // 是第一次请求，作为登录请求
         $_SESSION['is_first'] = 1;
         self::loginSuccess($client_id,$did);
         //设置返回响应包
@@ -352,6 +357,7 @@ class Events
         $resp->setHb($hb);
         //绑定did 和 client_id
         Gateway::bindUid($client_id, $did);
+        // 同一种类型的did，分配到同一个组
         $group = substr($did,0 ,3);
         Gateway::joinGroup($client_id,$group);
         return $resp;
