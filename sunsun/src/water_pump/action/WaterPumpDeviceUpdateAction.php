@@ -9,10 +9,10 @@
 namespace sunsun\water_pump\action;
 
 
-use sunsun\water_pump\dal\WaterPumpDeviceDal;
-use sunsun\water_pump\resp\WaterPumpDeviceUpdateResp;
 use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
+use sunsun\water_pump\dal\WaterPumpDeviceDal;
+use sunsun\water_pump\resp\WaterPumpDeviceUpdateResp;
 
 class WaterPumpDeviceUpdateAction
 {
@@ -33,6 +33,7 @@ class WaterPumpDeviceUpdateAction
         $dal = new WaterPumpDeviceDal();
         LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
 
+        $updateEntity['update_time'] = time();
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
     }

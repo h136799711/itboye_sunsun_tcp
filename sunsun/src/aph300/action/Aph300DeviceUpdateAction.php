@@ -11,7 +11,6 @@ namespace sunsun\aph300\action;
 
 use sunsun\aph300\dal\Aph300DeviceDal;
 use sunsun\aph300\resp\Aph300DeviceUpdateResp;
-use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
 
 class Aph300DeviceUpdateAction
@@ -31,8 +30,8 @@ class Aph300DeviceUpdateAction
             'device_state' => $resp->getState()
         ];
         $dal = new Aph300DeviceDal();
-        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
-
+//        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
+        $updateEntity['update_time'] = time();
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
     }

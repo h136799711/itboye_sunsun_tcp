@@ -24,7 +24,7 @@ class AdtDeviceEventAction
     public function logEvent($did, $client_id, AdtDeviceEventReq $req)
     {
         $eventType = $req->getCode();
-        $eventInfo = json_encode(['dyn' => $req->getDyn(), 't' => $req->getT(), 'ph' => $req->getPh()]);
+        $eventInfo = json_encode([]);
         $now = time();
         $dal = (new AdtDeviceEventDal());
         $do = new AdtDeviceEventModel();

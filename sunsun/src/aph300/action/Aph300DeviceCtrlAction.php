@@ -38,6 +38,7 @@ class Aph300DeviceCtrlAction
         Aph300TcpLogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity),"Aph300DeviceCtrlAction");
         // 向中转通道发送信息
         TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());
+        $updateEntity['update_time'] = time();
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
     }

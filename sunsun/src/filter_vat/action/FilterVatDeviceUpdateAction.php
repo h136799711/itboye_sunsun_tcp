@@ -33,6 +33,7 @@ class FilterVatDeviceUpdateAction
         $dal = new FilterVatDeviceDal();
         LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
 
+        $updateEntity['update_time'] = time();
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
     }

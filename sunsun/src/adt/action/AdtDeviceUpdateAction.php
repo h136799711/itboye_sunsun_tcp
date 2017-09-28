@@ -28,7 +28,8 @@ class AdtDeviceUpdateAction
 
         //更新设备信息
         $updateEntity = [
-            'device_state' => $resp->getState()
+            'device_state' => $resp->getState(),
+            'update_time'=>time()
         ];
         $dal = new AdtDeviceDal();
         LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
