@@ -396,12 +396,12 @@ public static $db;
             }
         } else {
             // 如果丢失了会话,则恢复did,pwd2个参数
-//            $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
-//            if(is_array($result) && array_key_exists('did', $result)) {
-//                $did = $result['did'];
-//                $pwd = $result['pwd'];
-//                Gateway::updateSession($client_id,['did'=>$did,'pwd'=>$pwd]);
-//            }
+            $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
+            if(is_array($result) && array_key_exists('did', $result)) {
+                $did = $result['did'];
+                $pwd = $result['pwd'];
+                Gateway::updateSession($client_id,['did'=>$did,'pwd'=>$pwd]);
+            }
         }
         return $result;
     }
@@ -452,6 +452,8 @@ public static $db;
         if(!empty($did)) {
             DeviceFactory::getDeviceDal($did)->logoutByClientId($client_id);
         }
+        
+        Gateway::closeClient($client_id);
     }
 
 }
