@@ -418,6 +418,7 @@ public static $db;
 
     private static function process($did, $clientId, $originData)
     {
+        $_SESSION['last_active_time'] = self::$activeTime;
         //处理请求
         self::log($did, $originData, 'process');
         $jsonDecode = json_decode($originData, JSON_OBJECT_AS_ARRAY);
@@ -436,7 +437,6 @@ public static $db;
     private static function jsonSuc($client_id, $msg, $data)
     {
         // 只记录成功的时间
-        $_SESSION['last_active_time'] = self::$activeTime;
         self::log($client_id, $msg . ',' . serialize($data), LogType::Success);
         Gateway::sendToClient($client_id, $data);
     }
