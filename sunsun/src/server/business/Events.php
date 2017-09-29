@@ -65,9 +65,19 @@ public static $db;
         {
             try{
             $allSessions = Gateway::getAllClientSessions();
+            $now = time();
+            $offlineMinus = 3*60;
             foreach ($allSessions as $client_id=>$session) {
 
-                if (!empty($session) && is_array($session) && array_key_exists('did', $session)) {
+                if (array_key_exists('last_active_time', $session)) {
+                    $last_active_time = $session['last_active_time'];
+                    if ($now - $last_active_time >= $offlineMinus) {
+                        Gateway::closeClient($client_id);
+                        continue;
+                    }
+                }
+
+                if (is_array($session) && array_key_exists('did', $session)) {
                     if (array_key_exists('last_get_info', $session)) {
                         $lastGetInfoTime = $session['last_get_info'];
                         if (microtime(true) - $lastGetInfoTime <= 3) {
