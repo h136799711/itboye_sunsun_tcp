@@ -447,6 +447,7 @@ class Events
         if(!empty($did)) {
             DeviceFactory::getDeviceDal($did)->logoutByClientId($client_id);
         }
+        Gateway::closeClient($client_id);
     }
 
 }
