@@ -49,7 +49,7 @@ class DevToServerDelayHelper
             if(count($delay) > $cnt) {
                 array_pop($delay);
             }
-            Gateway::updateSession($clientId,['delay'=>$delay, 'delay_avg'=>$delayAvg]);
+            Gateway::updateSession($clientId,['delay'=>[], 'delay_avg'=>$delayAvg]);
             return $delayAvg;
         }
 
