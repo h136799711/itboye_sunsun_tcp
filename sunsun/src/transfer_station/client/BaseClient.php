@@ -16,10 +16,9 @@ class BaseClient
     protected function staticsDelay($sn,$client_id){
         // ============START 用于统计网络延时=========
         $session = Gateway::getSession($client_id);
-        if(!array_key_exists('delay',$session) || !is_array($session['delay'])){
-            $delay = [];
-        }else{
-            $delay = $session;
+        $delay = [];
+        if(array_key_exists('delay',$session) && is_array($session['delay'])){
+            $delay = $session['delay'];
         }
 
         if(count($delay) > 5) {
