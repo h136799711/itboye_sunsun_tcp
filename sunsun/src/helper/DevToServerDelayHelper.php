@@ -23,7 +23,7 @@ class DevToServerDelayHelper
             $session['delay'] = [];
             return 0;
         }else{
-            $cnt = 5;//暂时统计次数
+            $cnt = 3;//暂时统计次数
             $delay = $session['delay'];
             // 请求序号要相同，虽然有一定概率错误，但不影响
             $totalDelayMs = 0;
