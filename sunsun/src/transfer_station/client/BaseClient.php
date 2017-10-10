@@ -21,7 +21,7 @@ class BaseClient
             $delay = $session['delay'];
         }
 
-        if(count($delay) > 5) {
+        if(count($delay) > 3) {
             array_pop($delay);
         }
         array_unshift($delay,['sn'=>$sn,'s'=>microtime(true)]);
