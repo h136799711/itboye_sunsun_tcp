@@ -28,33 +28,28 @@ class DevToServerDelayHelper
             // 请求序号要相同，虽然有一定概率错误，但不影响
             $totalDelayMs = 0;
             $trueCnt = 0;
-            for ($key=0;$key<count($delay);$key++){
-//            foreach ($delay as $key=>&$vo) {
-                $vo = $session['delay'][$key];
+            for ($key=0;$key < count($delay);$key++){
+                $vo = $delay[$key];
                 if(!array_key_exists('d',$vo)) {
-                    $session['delay'][$key]['d'] = 0;
+                    $vo['d'] = 0;
                 }
                 if ($sn == $vo['sn']) {
                     $vo['d'] = microtime(true);
-                    $session['delay'][$key]['d'] = $vo['d'];
                 }
-                if($key >= $cnt) break;
                 if(array_key_exists('d',$vo) && $vo['d'] > $vo['s']) {
                     $trueCnt++;
                     $totalDelayMs += (1000 * ($vo['d'] - $vo['s']));
                 }
-                $delay[$key] = $vo;
             }
             $delayAvg = 0;
             if($trueCnt > 0) {
                 $delayAvg = $totalDelayMs / $trueCnt;
-                $session['delay_avg'] = $delayAvg;
             }
             // 暂定前5次获取设备信息的通信延时
             if(count($delay) > $cnt) {
                 array_pop($delay);
             }
-            Gateway::setSession($clientId,$session);
+            Gateway::updateSession($clientId,['delay'=>$delay, 'delay_avg'=>$delayAvg]);
             return $delayAvg;
         }
 
