@@ -49,12 +49,16 @@ class DeviceTransferCtrl
         $pre_did = array_key_exists('pre_did',$data) ? $data['pre_did']:'';
         $token = array_key_exists('token',$data) ? $data['token']:'';
         $uid = array_key_exists('uid',$data) ? $data['uid']:'';
-        // TODO token暂时不用
-        if(empty($did) || empty($token) || empty($uid)){
-            return ResultHelper::fail('did|token|uid invalid');
-        }
-        if(!empty($pre_did)){
+        //
+        if (!empty($pre_did)) {
             Gateway::leaveGroup($client_id, $pre_did);
+            if (empty($did)) {
+                return ResultHelper::success('logout success');
+            }
+        }
+        // TODO token暂时不用
+        if (empty($did) || empty($token) || empty($uid)){
+            return ResultHelper::fail('did|token|uid invalid');
         }
         // client_id 加入到 did
         Gateway::joinGroup($client_id,$did);
