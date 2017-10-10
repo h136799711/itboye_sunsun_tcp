@@ -29,6 +29,7 @@ use sunsun\dal\DeviceTcpClientDal;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\LogHelper;
 use sunsun\model\DeviceTcpClientModel;
+use sunsun\server\consts\SessionKeys;
 use sunsun\server\db\DbPool;
 use sunsun\server\device\DeviceFactory;
 use sunsun\transfer_station\client\FactoryClient;
@@ -47,60 +48,55 @@ class Events
      * @var  \sunsun\server\db\DbPool
      */
     public static $dbPool;
-    //tcp通道无数据传输的最大时间
-    public static $inactiveTimeInterval = 600;
-    //接收到数据的最近一次时间
-public static $db;
-        private static $activeTime;//
+    private static $activeTime;//
+    const CHECK_OFFLINE_SESSION_INTERVAL = 3;// 检测离线通道的间隔时间 单位 秒
 
     public static function onWorkerStart($businessWorker)
     {
         self::$dbPool = DbPool::getInstance();
-        self::loopDeviceInfo();
+        self::checkOfflineSession();
     }
 
-    private static function loopDeviceInfo(){
+    /**
+     * 检测离线的会话，并断开该通道
+     *
+     */
+    private static function checkOfflineSession(){
 
-        Timer::add(2, function()
+        Timer::add(self::CHECK_OFFLINE_SESSION_INTERVAL, function()
         {
             try{
-            $allSessions = Gateway::getAllClientSessions();
-            $now = time();
-            $offlineMinus = 3*60;
-            foreach ($allSessions as $client_id=>$session) {
+                $allSessions = Gateway::getAllClientSessions();
+                $now = time();
+                $offlineMinus = 2 * 120;// 离线4分钟以上
+                foreach ($allSessions as $client_id=>$session) {
 
-                if (array_key_exists('last_active_time', $session)) {
-                    $last_active_time = $session['last_active_time'];
-                    if ($now - $last_active_time >= $offlineMinus) {
-                        Gateway::closeClient($client_id);
-                        continue;
-                    }
-                }
-
-                if (is_array($session) && array_key_exists('did', $session)) {
-                    if (array_key_exists('last_get_info', $session)) {
-                        $lastGetInfoTime = $session['last_get_info'];
-                        if (microtime(true) - $lastGetInfoTime <= 3) {
+                    if (array_key_exists(SessionKeys::LAST_ACTIVE_TIME, $session)) {
+                        $last_active_time = $session[SessionKeys::LAST_ACTIVE_TIME];
+                        if ($now - $last_active_time >= $offlineMinus) {
+                            Gateway::closeClient($client_id);
                             continue;
                         }
                     }
-                    $pwd = '';
-                    if (array_key_exists('pwd', $session)) {
-                        $pwd = $session['pwd'];
-                    }
-                    $did = $session['did'];
-                    $cnt = TransferClient::totalClientByGroup($did);
-                    if ($cnt > 0) {
-                        // 1. 仅当链接数大于0时，才向设备请求获取设备信息
-                        FactoryClient::getInfo($client_id, $did, $pwd);
-                    }
 
-                    // 2. 更新会话信息，用于调试查看，可以去掉这一句
-                    Gateway::updateSession($client_id, ['last_get_info' => microtime(true),'app_cnt' => $cnt]);
+                    if (is_array($session) && array_key_exists(SessionKeys::DID, $session)) {
+
+                        $pwd = '';
+                        if (array_key_exists(SessionKeys::PWD, $session)) {
+                            $pwd = $session[SessionKeys::PWD];
+                        }
+                        $did = $session[SessionKeys::DID];
+                        $cnt = TransferClient::totalClientByGroup($did);
+                        if ($cnt > 0) {
+                            // 1. 仅当链接数大于0时，才向设备请求获取设备信息
+                            FactoryClient::getInfo($client_id, $did, $pwd);
+                        }
+
+                        // 2. 更新会话信息
+                        Gateway::updateSession($client_id, ['app_cnt' => $cnt]);
+                    }
                 }
-            }
             }catch (\Exception $ex){
-                TransferClient::sendMessageToGroup('S03C0000000106', $ex->getMessage(), -777);
             }
         });
     }
@@ -125,13 +121,8 @@ public static $db;
         try {
 
             self::$activeTime = time();
-            if(empty($message)){
-                self::log($client_id, 'message is empty', []);
-                return;
-            }
-            //非字符串消息
-            if (!is_string($message)) {
-                self::jsonError($client_id, 'invalid message format', []);
+            if(empty($message) || !is_string($message)){
+                self::log($client_id, 'message is empty or invalid', []);
                 return;
             }
 
@@ -155,7 +146,7 @@ public static $db;
                     self::jsonError($client_id, "get encrypt password failed", null);
                     return;
                 }
-                $pwd = $result['pwd'];
+                $pwd = $result[SessionKeys::PWD];
                 $did = $result['did'];
                 $result = SunsunTDS::decode($message, $pwd);
                 if (empty($result)) {
@@ -256,10 +247,10 @@ public static $db;
      * @return bool
      */
     protected static function isLoginRequest(){
-        if(!array_key_exists('is_first', $_SESSION)){
-            $_SESSION['is_first'] = 0;
+        if(!array_key_exists(SessionKeys::IS_FIRST, $_SESSION)){
+            $_SESSION[SessionKeys::IS_FIRST] = 0;
         }
-        return $_SESSION['is_first'] == 0;
+        return $_SESSION[SessionKeys::IS_FIRST] == 0;
     }
 
     /**
@@ -290,9 +281,9 @@ public static $db;
             return false;
         }
         //2. Device 这里替换成具体设备的请求工厂类
-        $did = $data['did'];
+        $did = $data[SessionKeys::DID];
         // 设置did
-        $_SESSION['did'] = $did;
+        $_SESSION[SessionKeys::DID] = $did;
         $req =  DeviceFactory::createLoginReq($did,$data);
         if (empty($did)) {
             return false;
@@ -305,12 +296,12 @@ public static $db;
         }
 
         $id = $result['id'];
-        $pwd = $result['pwd'];
-        $_SESSION['pwd'] = $pwd;
+        $pwd = $result[SessionKeys::PWD];
+        $_SESSION[SessionKeys::PWD] = $pwd;
         $hb = $result['hb'];//心跳周期（单位：秒）
-        $originPwd = SunsunTDS::isLegalPwd($data['pwd'], $pwd);
+        $originPwd = SunsunTDS::isLegalPwd($data[SessionKeys::PWD], $pwd);
         if (empty($originPwd)) {
-            self::jsonError($client_id, $data['pwd'].'the control password decode fail,key='.$pwd, []);
+            self::jsonError($client_id, $data[SessionKeys::PWD].'the control password decode fail,key='.$pwd, []);
             return false;
         }
 
@@ -333,7 +324,7 @@ public static $db;
         }
         $dal->update($id, $entity);
         // 是第一次请求，作为登录请求
-        $_SESSION['is_first'] = 1;
+        $_SESSION[SessionKeys::IS_FIRST] = 1;
         self::loginSuccess($client_id,$did);
         //设置返回响应包
         //3. Device 这里替换成具体设备的登录响应类
@@ -392,19 +383,19 @@ public static $db;
     {
         $session = Gateway::getSession($client_id);
         $result = false;
-        if(array_key_exists('did', $session)){
-            $did = $session['did'];
-            if(array_key_exists('pwd', $session)){
-                $pwd = $session['pwd'];
-                $result = ['did'=>$did,'pwd'=>$pwd];
+        if(array_key_exists(SessionKeys::DID, $session)){
+            $did = $session[SessionKeys::DID];
+            if(array_key_exists(SessionKeys::PWD, $session)){
+                $pwd = $session[SessionKeys::PWD];
+                $result = [SessionKeys::DID=>$did,SessionKeys::PWD=>$pwd];
             }
         } else {
             // 如果丢失了会话,则恢复did,pwd2个参数
             $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
-            if(is_array($result) && array_key_exists('did', $result)) {
-                $did = $result['did'];
-                $pwd = $result['pwd'];
-                Gateway::updateSession($client_id,['did'=>$did,'pwd'=>$pwd]);
+            if(is_array($result) && array_key_exists(SessionKeys::DID, $result)) {
+                $did = $result[SessionKeys::DID];
+                $pwd = $result[SessionKeys::PWD];
+                Gateway::updateSession($client_id,[SessionKeys::DID=>$did,SessionKeys::PWD=>$pwd]);
             }
         }
         return $result;
@@ -412,7 +403,7 @@ public static $db;
 
     private static function process($did, $clientId, $originData)
     {
-        $_SESSION['last_active_time'] = self::$activeTime;
+        $_SESSION[SessionKeys::LAST_ACTIVE_TIME] = self::$activeTime;
         //处理请求
         self::log($did, $originData, 'process');
         $jsonDecode = json_decode($originData, JSON_OBJECT_AS_ARRAY);
@@ -436,7 +427,7 @@ public static $db;
     }
 
     /**
-     * 当用户断开连接时触发
+     * 当客户端断开连接时触发
      * @param int $client_id 连接id
      */
     public static function onClose($client_id)
@@ -444,20 +435,18 @@ public static $db;
         // 删除定时器
         $session = $_SESSION;
 
-        if(is_array($session) && array_key_exists('did', $session)){
-            $did = $session['did'];
+        if(is_array($session) && array_key_exists(SessionKeys::DID, $session)){
+            $did = $session[SessionKeys::DID];
         }
         if(empty($did)){
             $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
-            if(is_array($result) && array_key_exists('did', $result)) {
-                $did = $result['did'];
+            if(is_array($result) && array_key_exists(SessionKeys::DID, $result)) {
+                $did = $result[SessionKeys::DID];
             }
         }
         if(!empty($did)) {
             DeviceFactory::getDeviceDal($did)->logoutByClientId($client_id);
         }
-        
-        Gateway::closeClient($client_id);
     }
 
 }
