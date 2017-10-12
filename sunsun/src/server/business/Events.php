@@ -176,7 +176,7 @@ class Events
                     self::jsonError($client_id, 'the data format is invalid', []);
                     return;
                 }
-                DebugHelper::debug('[device other message process]message='.$result->getTdsOriginData(), $_SESSION);
+                DebugHelper::debug('[device other message process]message=', $_SESSION);
                 // 3. 处理业务逻辑
                 $result = self::process($did, $client_id, $result->getTdsOriginData());
             }
