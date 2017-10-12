@@ -30,6 +30,7 @@ use sunsun\model\DeviceTcpClientModel;
 use sunsun\server\consts\SessionKeys;
 use sunsun\server\db\DbPool;
 use sunsun\server\device\DeviceFactory;
+use sunsun\server\tcpChannelCommand\CommandFactory;
 use sunsun\transfer_station\client\FactoryClient;
 use sunsun\transfer_station\client\TransferClient;
 use Workerman\Lib\Timer;
@@ -117,20 +118,21 @@ class Events
      * 处理指令
      * @param $client_id
      */
-//    public static function acceptCommand($client_id){
-//        // TODO: 重构
-//        if (array_key_exists('cmd_type', $_SESSION)) {
-//            $cmdType = $_SESSION['cmd_type'];
-//            // 创建指令
-//            $command = CommandFactory::create($cmdType);
-//            // 设置参数
-//            $params = ['client_id'=>$client_id];
-//            // 加载参数
-//            $command->acceptParams($params);
-//            // 执行指令
-//            $command->execute();
-//        }
-//    }
+    public static function acceptCommand($client_id)
+    {
+        // TODO: 重构
+        if (array_key_exists('cmd_type', $_SESSION)) {
+            $cmdType = $_SESSION['cmd_type'];
+            // 创建指令
+            $command = CommandFactory::create($cmdType);
+            // 设置参数
+            $params = ['client_id' => $client_id];
+            // 加载参数
+            $command->acceptParams($params);
+            // 执行指令
+            $command->execute();
+        }
+    }
 
     /**
      * 当客户端发来消息时触发
@@ -141,12 +143,12 @@ class Events
     {
         try {
             if (empty($message) || !is_string($message)) {
-//                DebugHelper::debug('[device tcp channel no message]', $_SESSION);
+                DebugHelper::debug('[device tcp channel no message]', $_SESSION);
                 return;
             }
             self::$activeTime = time();
             // 处理外部加载的指令
-//            self::acceptCommand($client_id);
+            self::acceptCommand($client_id);
             $pwd = "";
             if (self::isLoginRequest()) {
                 DebugHelper::debug('[device login start]' . $client_id, $_SESSION);
