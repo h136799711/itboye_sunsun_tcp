@@ -438,12 +438,12 @@ class Events
      */
     public static function onClose($client_id)
     {
-        DebugHelper::debug('[close]'.$client_id, $_SESSION);
         $session = $_SESSION;
         if (is_array($session) && array_key_exists(SessionKeys::DID, $session)) {
             $did = $session[SessionKeys::DID];
         }
 
+        DebugHelper::debug('[close]'.$client_id, $_SESSION);
         if (!empty($did)) {
             DeviceFactory::getDeviceDal($did)->logoutByClientId($client_id);
 //            (new  DeviceTcpClientDal())->updateByDid($did, ['tcp_client_id'=>'']);
