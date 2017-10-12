@@ -182,7 +182,7 @@ class Events
                 $result = self::process($did, $client_id, $result->getTdsOriginData());
             }
 
-            // 这个必须，用于处理有些请求不反回信息的情况
+            // 这个必须，用于处理有些请求不返回信息的情况
             if (empty($result)) {
                 DebugHelper::debug('[device other message process] no response', $_SESSION);
                 return;
