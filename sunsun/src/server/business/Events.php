@@ -153,14 +153,13 @@ class Events
             if (self::isLoginRequest()) {
                 DebugHelper::debug('[device login start]' . $client_id, $_SESSION);
                 //第一次请求
-                $pwd = CommonPassword;
+                $pwd = Password::getSecretKey(Password::TYPE_LOGIN, $client_id);
                 $result = self::login($client_id, $message, $pwd);
-                DebugHelper::debug('[device login end]' . $client_id, $_SESSION);
             } else {
                 //其它请求
                 DebugHelper::debug('[device other message process]', $_SESSION);
                 // 1. 获取密钥
-                $result = self::getEncryptPwd($client_id);
+                $result = Password::getSecretKey(Password::TYPE_OTHER, $client_id);                     //self::getEncryptPwd($client_id);
                 if ($result === false) {
                     self::jsonError($client_id, "get encrypt password failed", null);
                     return;
@@ -387,26 +386,6 @@ class Events
             // update
             $dal->updateByDid($did, ['tcp_client_id' => $client_id, 'prev_login_time' => time()]);
         }
-    }
-
-    /**
-     * 获取加密密钥
-     * @param $client_id
-     * @return array|bool
-     * @internal param $result
-     */
-    private static function getEncryptPwd($client_id)
-    {
-        $session = Gateway::getSession($client_id);
-        $result = false;
-        if (array_key_exists(SessionKeys::DID, $session)) {
-            $did = $session[SessionKeys::DID];
-            if (array_key_exists(SessionKeys::PWD, $session)) {
-                $pwd = $session[SessionKeys::PWD];
-                $result = [SessionKeys::DID => $did, SessionKeys::PWD => $pwd];
-            }
-        }
-        return $result;
     }
 
     private static function process($did, $clientId, $originData)
