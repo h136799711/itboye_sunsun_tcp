@@ -48,7 +48,7 @@ class Events
      */
     public static $dbPool;
     private static $activeTime;//
-    const CHECK_OFFLINE_SESSION_INTERVAL = 3;// 检测离线通道的间隔时间 单位 秒
+    const CHECK_OFFLINE_SESSION_INTERVAL = 6;// 检测离线通道的间隔时间 单位 秒
 
     public static function onWorkerStart($businessWorker)
     {
