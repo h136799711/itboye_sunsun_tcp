@@ -141,7 +141,6 @@ class Events
     public static function onMessage($client_id, $message)
     {
         try {
-
             if (empty($message) || !is_string($message)) {
                 DebugHelper::debug('[device tcp channel no message]', $_SESSION);
                 return;
@@ -151,6 +150,7 @@ class Events
 //            self::acceptCommand($client_id);
             $pwd = "";
             if (self::isLoginRequest()) {
+                LogHelper::log(self::$dbPool->getGlobalDb(),'-10','device login start','error');
                 DebugHelper::debug('[device login start]' . $client_id, $_SESSION);
                 //第一次请求
                 $pwd = CommonPassword;
