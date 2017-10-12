@@ -308,7 +308,7 @@ class Events
         $originPwd = SunsunTDS::isLegalPwd($data[SessionKeys::PWD], $pwd);
         if (empty($originPwd)) {
 
-            DebugHelper::debug('[device login] the control password decode fail. encode pwd= ' . $data[SessionKeys::PWD] . ', key = ' . $pwd, $_SESSION);
+//            DebugHelper::debug('[device login] the control password decode fail. encode pwd= ' . $data[SessionKeys::PWD] . ', key = ' . $pwd, $_SESSION);
             self::jsonError($client_id, $data[SessionKeys::PWD] . 'the control password decode fail,key=' . $pwd, []);
             return false;
         }
