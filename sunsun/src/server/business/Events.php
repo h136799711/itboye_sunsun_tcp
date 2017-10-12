@@ -149,14 +149,14 @@ class Events
 //            self::acceptCommand($client_id);
             $pwd = "";
             if (self::isLoginRequest()) {
-//                DebugHelper::debug('[device login start]' . $client_id, $_SESSION);
+                DebugHelper::debug('[device login start]' . $client_id, $_SESSION);
                 //第一次请求
                 $pwd = CommonPassword;
                 $result = self::login($client_id, $message, $pwd);
-//                DebugHelper::debug('[device login end]' . $client_id, $_SESSION);
+                DebugHelper::debug('[device login end]' . $client_id, $_SESSION);
             } else {
                 //其它请求
-//                DebugHelper::debug('[device other message process]', $_SESSION);
+                DebugHelper::debug('[device other message process]', $_SESSION);
                 // 1. 获取密钥
                 $result = self::getEncryptPwd($client_id);
                 if ($result === false) {
@@ -165,7 +165,7 @@ class Events
                 }
                 $pwd = $result[SessionKeys::PWD];
                 $did = $result['did'];
-//                DebugHelper::debug('[device other message process]did='. $did.'pwd='.$pwd, $_SESSION);
+                DebugHelper::debug('[device other message process]did=' . $did . 'pwd=' . $pwd, $_SESSION);
                 $result = SunsunTDS::decode($message, $pwd);
                 if (empty($result)) {
                     self::jsonError($client_id, 'fail decode the data ', []);
@@ -175,25 +175,25 @@ class Events
                     self::jsonError($client_id, 'the data format is invalid', []);
                     return;
                 }
-//                DebugHelper::debug('[device other message process]message=', $_SESSION);
+                DebugHelper::debug('[device other message process]message=', $_SESSION);
                 // 3. 处理业务逻辑
                 $result = self::process($did, $client_id, $result->getTdsOriginData());
             }
 
             // 这个必须，用于处理有些请求不反回信息的情况
             if (empty($result)) {
-//                DebugHelper::debug('[device other message process] no response', $_SESSION);
+                DebugHelper::debug('[device other message process] no response', $_SESSION);
                 return;
             }
 
             if (method_exists($result, "toDataArray")) {
                 $data = $result->toDataArray();
-//                DebugHelper::debug('[device other message process] response'.json_encode($data), $_SESSION);
+                DebugHelper::debug('[device other message process] response' . json_encode($data), $_SESSION);
                 // 4. 加密数据
                 $encodeData = SunsunTDS::encode($data, $pwd);
                 self::jsonSuc($client_id, serialize($result), $encodeData);
             } else {
-                //DebugHelper::debug('[device other message process] fail, result has not method toDataArray', $_SESSION);
+                DebugHelper::debug('[device other message process] fail, result has not method toDataArray', $_SESSION);
                 self::jsonError($client_id, 'fail', []);
             }
 
