@@ -446,8 +446,8 @@ class Events
         }
 
         if (!empty($did)) {
-            (new  DeviceTcpClientDal())->updateByDid($did, ['tcp_client_id'=>'']);
             DeviceFactory::getDeviceDal($did)->logoutByClientId($client_id);
+            (new  DeviceTcpClientDal())->updateByDid($did, ['tcp_client_id'=>'']);
             DebugHelper::debug('[close] clear db tcp_client_id'.$client_id, $_SESSION);
         }
         Gateway::closeClient($client_id);
