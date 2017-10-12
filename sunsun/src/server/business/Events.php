@@ -26,7 +26,6 @@ define("CommonPassword", "1234bcda");//
 use GatewayWorker\Lib\Gateway;
 use sunsun\dal\DeviceTcpClientDal;
 use sunsun\decoder\SunsunTDS;
-use sunsun\helper\LogHelper;
 use sunsun\model\DeviceTcpClientModel;
 use sunsun\server\consts\SessionKeys;
 use sunsun\server\db\DbPool;
@@ -142,7 +141,7 @@ class Events
     {
         try {
             if (empty($message) || !is_string($message)) {
-                DebugHelper::debug('[device tcp channel no message]', $_SESSION);
+//                DebugHelper::debug('[device tcp channel no message]', $_SESSION);
                 return;
             }
             self::$activeTime = time();
@@ -150,15 +149,14 @@ class Events
 //            self::acceptCommand($client_id);
             $pwd = "";
             if (self::isLoginRequest()) {
-                LogHelper::log(self::$dbPool->getGlobalDb(),'-10','device login start','error');
-                DebugHelper::debug('[device login start]' . $client_id, $_SESSION);
+//                DebugHelper::debug('[device login start]' . $client_id, $_SESSION);
                 //第一次请求
                 $pwd = CommonPassword;
                 $result = self::login($client_id, $message, $pwd);
-                DebugHelper::debug('[device login end]' . $client_id, $_SESSION);
+//                DebugHelper::debug('[device login end]' . $client_id, $_SESSION);
             } else {
                 //其它请求
-                DebugHelper::debug('[device other message process]', $_SESSION);
+//                DebugHelper::debug('[device other message process]', $_SESSION);
                 // 1. 获取密钥
                 $result = self::getEncryptPwd($client_id);
                 if ($result === false) {
@@ -167,7 +165,7 @@ class Events
                 }
                 $pwd = $result[SessionKeys::PWD];
                 $did = $result['did'];
-                DebugHelper::debug('[device other message process]did='. $did.'pwd='.$pwd, $_SESSION);
+//                DebugHelper::debug('[device other message process]did='. $did.'pwd='.$pwd, $_SESSION);
                 $result = SunsunTDS::decode($message, $pwd);
                 if (empty($result)) {
                     self::jsonError($client_id, 'fail decode the data ', []);
@@ -177,7 +175,7 @@ class Events
                     self::jsonError($client_id, 'the data format is invalid', []);
                     return;
                 }
-                DebugHelper::debug('[device other message process]message=', $_SESSION);
+//                DebugHelper::debug('[device other message process]message=', $_SESSION);
                 // 3. 处理业务逻辑
                 $result = self::process($did, $client_id, $result->getTdsOriginData());
             }
@@ -202,7 +200,7 @@ class Events
 
         } catch (\Exception $ex) {
             //DebugHelper::debug('[device message process] exception'.$ex->getMessage(), $_SESSION);
-            LogHelper::log(self::$dbPool->getGlobalDb(),'-10',$ex->getMessage(),'error');
+//            LogHelper::log(self::$dbPool->getGlobalDb(),'-10',$ex->getMessage(),'error');
             self::jsonError($client_id, $ex->getMessage(), []);
         }
         return;
@@ -286,10 +284,10 @@ class Events
         //{"reqType": "1","sn": "0","did": "10000001","ver": "V1.0","pwd": "gigw+DAcMITN4SuEe6JmkA=="}
         $originData = $result->getTdsOriginData();
 
-//        DebugHelper::debug('[device login] decode success message = ', $_SESSION);
+        DebugHelper::debug('[device login] decode success message = ', $_SESSION);
         $data = json_decode($originData, JSON_OBJECT_AS_ARRAY);
-        if (!array_key_exists('did', $data) || empty($did)) {
-//            DebugHelper::debug('[device login] did is missing', $_SESSION);
+        if (!array_key_exists('did', $data) || empty($data[SessionKeys::DID])) {
+            DebugHelper::debug('[device login] did is missing', $_SESSION);
             self::jsonError($client_id, 'the did is need', []);
             return false;
         }
@@ -299,7 +297,7 @@ class Events
         $dal = DeviceFactory::getDeviceDal($did);
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {
-            //DebugHelper::debug('[device login] did[' . $did . '] is not exists', $_SESSION);
+            DebugHelper::debug('[device login] did[' . $did . '] is not exists', $_SESSION);
             self::jsonError($client_id, 'which did=' . $did . 'is not exists', []);
             return false;
         }
@@ -310,7 +308,7 @@ class Events
         $originPwd = SunsunTDS::isLegalPwd($data[SessionKeys::PWD], $pwd);
         if (empty($originPwd)) {
 
-//            DebugHelper::debug('[device login] the control password decode fail. encode pwd= ' . $data[SessionKeys::PWD] . ', key = ' . $pwd, $_SESSION);
+            DebugHelper::debug('[device login] the control password decode fail. encode pwd= ' . $data[SessionKeys::PWD] . ', key = ' . $pwd, $_SESSION);
             self::jsonError($client_id, $data[SessionKeys::PWD] . 'the control password decode fail,key=' . $pwd, []);
             return false;
         }
@@ -351,7 +349,7 @@ class Events
         // 同一种类型的did，分配到同一个组，用于查询在线的设备，不同类型
         $group = substr($did, 0, 3);
         Gateway::joinGroup($client_id, $group);
-//        DebugHelper::debug('[device login] success', $_SESSION);
+        DebugHelper::debug('[device login] success', $_SESSION);
         return $resp;
     }
 
@@ -444,12 +442,17 @@ class Events
         if (is_array($session) && array_key_exists(SessionKeys::DID, $session)) {
             $did = $session[SessionKeys::DID];
         }
-
-        DebugHelper::debug('[close]'.$client_id, $_SESSION);
+        DebugHelper::debug('[close]'.$did, $_SESSION);
+        if(empty($did)){
+            $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
+            if(is_array($result) && array_key_exists(SessionKeys::DID, $result)) {
+                $did = $result[SessionKeys::DID];
+            }
+        }
         if (!empty($did)) {
             DeviceFactory::getDeviceDal($did)->logoutByClientId($client_id);
 //            (new  DeviceTcpClientDal())->updateByDid($did, ['tcp_client_id'=>'']);
-//            DebugHelper::debug('[close] clear db tcp_client_id'.$client_id, $_SESSION);
+            DebugHelper::debug('[close] clear db tcp_client_id'.$client_id, $_SESSION);
         }
         Gateway::closeClient($client_id);
     }
