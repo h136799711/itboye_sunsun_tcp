@@ -26,6 +26,7 @@ define("CommonPassword", "1234bcda");//
 use GatewayWorker\Lib\Gateway;
 use sunsun\dal\DeviceTcpClientDal;
 use sunsun\decoder\SunsunTDS;
+use sunsun\helper\LogHelper;
 use sunsun\model\DeviceTcpClientModel;
 use sunsun\server\consts\SessionKeys;
 use sunsun\server\db\DbPool;
@@ -183,24 +184,25 @@ class Events
 
             // 这个必须，用于处理有些请求不反回信息的情况
             if (empty($result)) {
-                DebugHelper::debug('[device other message process] no response', $_SESSION);
+//                DebugHelper::debug('[device other message process] no response', $_SESSION);
                 return;
             }
 
             if (method_exists($result, "toDataArray")) {
                 $data = $result->toDataArray();
-                DebugHelper::debug('[device other message process] response'.json_encode($data), $_SESSION);
+//                DebugHelper::debug('[device other message process] response'.json_encode($data), $_SESSION);
                 // 4. 加密数据
                 $encodeData = SunsunTDS::encode($data, $pwd);
                 self::jsonSuc($client_id, serialize($result), $encodeData);
             } else {
-                DebugHelper::debug('[device other message process] fail, result has not method toDataArray', $_SESSION);
+                //DebugHelper::debug('[device other message process] fail, result has not method toDataArray', $_SESSION);
                 self::jsonError($client_id, 'fail', []);
             }
 
 
         } catch (\Exception $ex) {
-            DebugHelper::debug('[device message process] exception'.$ex->getMessage(), $_SESSION);
+            //DebugHelper::debug('[device message process] exception'.$ex->getMessage(), $_SESSION);
+            LogHelper::log(self::$dbPool->getGlobalDb(),'-10',$ex->getMessage(),'error');
             self::jsonError($client_id, $ex->getMessage(), []);
         }
         return;
@@ -284,10 +286,10 @@ class Events
         //{"reqType": "1","sn": "0","did": "10000001","ver": "V1.0","pwd": "gigw+DAcMITN4SuEe6JmkA=="}
         $originData = $result->getTdsOriginData();
 
-        DebugHelper::debug('[device login] decode success message = ' . $originData, $_SESSION);
+//        DebugHelper::debug('[device login] decode success message = ', $_SESSION);
         $data = json_decode($originData, JSON_OBJECT_AS_ARRAY);
         if (!array_key_exists('did', $data) || empty($did)) {
-            DebugHelper::debug('[device login] did is missing', $_SESSION);
+//            DebugHelper::debug('[device login] did is missing', $_SESSION);
             self::jsonError($client_id, 'the did is need', []);
             return false;
         }
@@ -297,7 +299,7 @@ class Events
         $dal = DeviceFactory::getDeviceDal($did);
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {
-            DebugHelper::debug('[device login] did[' . $did . '] is not exists', $_SESSION);
+            //DebugHelper::debug('[device login] did[' . $did . '] is not exists', $_SESSION);
             self::jsonError($client_id, 'which did=' . $did . 'is not exists', []);
             return false;
         }
@@ -349,7 +351,7 @@ class Events
         // 同一种类型的did，分配到同一个组，用于查询在线的设备，不同类型
         $group = substr($did, 0, 3);
         Gateway::joinGroup($client_id, $group);
-        DebugHelper::debug('[device login] success', $_SESSION);
+//        DebugHelper::debug('[device login] success', $_SESSION);
         return $resp;
     }
 
