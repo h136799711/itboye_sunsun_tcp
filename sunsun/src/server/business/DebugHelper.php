@@ -9,8 +9,6 @@
 namespace sunsun\server\business;
 
 
-use sunsun\transfer_station\client\TransferClient;
-
 class DebugHelper
 {
     const HEBIDU_GROUP = 'hebidu';
@@ -54,10 +52,10 @@ class DebugHelper
     }
 
     public static function sendToHebidu($message){
-        try{
-            TransferClient::sendMessageToGroup(self::HEBIDU_GROUP, $message,date('Y-m-d H:i:s ',time()));
-        }catch (\Exception $ex){
-            //不处理
-        }
+//        try{
+//            TransferClient::sendMessageToGroup(self::HEBIDU_GROUP, $message,date('Y-m-d H:i:s ',time()));
+//        }catch (\Exception $ex){
+//            //不处理
+//        }
     }
 }
