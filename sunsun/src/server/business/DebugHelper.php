@@ -21,7 +21,7 @@ class DebugHelper
     const LOG_ERROR = 4;
 
     public static function logLevel($session){
-        if (array_key_exists('log_level', $session)){
+        if (!empty($session) && array_key_exists('log_level', $session)){
             $log_level = $session['log_level'];
             return $log_level;
         }
