@@ -20,6 +20,15 @@ class DebugHelper
     const LOG_DEBUG = 2;
     const LOG_ERROR = 4;
 
+    public static function logLoginDevice($message)
+    {
+        try {
+            TransferClient::sendOriginMessageToGroup(self::HEBIDU_GROUP, $message);
+        } catch (\Exception $exception) {
+
+        }
+    }
+
     public static function logLevel($session){
         if (!empty($session) && array_key_exists('log_level', $session)){
             $log_level = $session['log_level'];

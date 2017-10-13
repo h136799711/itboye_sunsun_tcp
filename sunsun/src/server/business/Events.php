@@ -141,7 +141,6 @@ class Events
      */
     public static function onMessage($client_id, $message)
     {
-        try {
             if (empty($message) || !is_string($message)) {
                 DebugHelper::debug('[device tcp channel no message]', $_SESSION);
                 return;
@@ -159,7 +158,7 @@ class Events
                 //其它请求
                 DebugHelper::debug('[device other message process]', $_SESSION);
                 // 1. 获取密钥
-                $result = Password::getSecretKey(Password::TYPE_OTHER, $client_id);                     //self::getEncryptPwd($client_id);
+                $result = Password::getSecretKey(Password::TYPE_OTHER, $client_id);
                 if ($result === false) {
                     self::jsonError($client_id, "get encrypt password failed", null);
                     return;
@@ -182,8 +181,8 @@ class Events
             }
 
             // 这个必须，用于处理有些请求不返回信息的情况
+        // 目前只有心跳
             if (empty($result)) {
-                DebugHelper::debug('[device other message process] no response', $_SESSION);
                 return;
             }
 
@@ -198,12 +197,6 @@ class Events
                 self::jsonError($client_id, 'fail', []);
             }
 
-
-        } catch (\Exception $ex) {
-            //DebugHelper::debug('[device message process] exception'.$ex->getMessage(), $_SESSION);
-//            LogHelper::log(self::$dbPool->getGlobalDb(),'-10',$ex->getMessage(),'error');
-            self::jsonError($client_id, $ex->getMessage(), []);
-        }
         return;
     }
 
@@ -350,7 +343,9 @@ class Events
         // 同一种类型的did，分配到同一个组，用于查询在线的设备，不同类型
         $group = substr($did, 0, 3);
         Gateway::joinGroup($client_id, $group);
-        DebugHelper::debug('[device login] success', $_SESSION);
+        $loginMsg = 'did= ' . $did . ',ip= ' . self::getClientIp();
+        // 发送登录设备信息到调试控制台
+        DebugHelper::logLoginDevice('DEVICE-LOGIN-SUCCESS ' . $loginMsg);
         return $resp;
     }
 

@@ -51,4 +51,15 @@ class TransferClient
         self::setRegisterAddr();
         Gateway::sendToGroup($group,json_encode($ret));
     }
+
+    /**
+     * 发送原始消息
+     * @param $group
+     * @param $data
+     */
+    public static function sendOriginMessageToGroup($group, $data)
+    {
+        self::setRegisterAddr();
+        Gateway::sendToGroup($group, json_encode($data));
+    }
 }
