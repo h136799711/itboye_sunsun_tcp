@@ -17,7 +17,6 @@ use sunsun\heating_rod\resp\HeatingRodRespType;
 use sunsun\heating_rod\resp\HeatingRodUnknownResp;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
-use sunsun\server\business\Events;
 
 /**
  * Class HeatingRodProcessAction
@@ -84,7 +83,6 @@ class HeatingRodProcessAction
         }
 
         if (!ResultHelper::isSuccess($result)) {
-            Events::log($clientId, $result['msg'], 'response_error');
         } else {
             //TODO: 响应请求成功后，暂时返回一个心跳包或者不返回
 //            $retResp = new HeatingRodHbResp();

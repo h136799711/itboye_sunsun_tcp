@@ -15,6 +15,13 @@ use Workerman\MySQL;
  */
 class BaseDal
 {
+    /**
+     * @var MySQL\Connection
+     *
+     * User: ${USER}
+     * Date: ${DATE}
+     * Time: ${TIME}
+     */
     public static $db;
 
     public function __construct($db = null)

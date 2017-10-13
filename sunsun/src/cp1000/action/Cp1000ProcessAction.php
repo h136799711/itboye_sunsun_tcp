@@ -6,28 +6,28 @@
  * Time: 13:25
  */
 
-namespace sunsun\aph300\action;
+namespace sunsun\cp1000\action;
 
 
-use sunsun\aph300\req\Aph300ReqFactory;
-use sunsun\aph300\req\Aph300ReqType;
-use sunsun\aph300\resp\Aph300HbResp;
-use sunsun\aph300\resp\Aph300RespFactory;
-use sunsun\aph300\resp\Aph300RespType;
-use sunsun\aph300\resp\Aph300UnknownResp;
+use sunsun\cp1000\req\Cp1000ReqFactory;
+use sunsun\cp1000\req\Cp1000ReqType;
+use sunsun\cp1000\resp\Cp1000HbResp;
+use sunsun\cp1000\resp\Cp1000RespFactory;
+use sunsun\cp1000\resp\Cp1000RespType;
+use sunsun\cp1000\resp\Cp1000UnknownResp;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
 
 /**
- * Class Aph300ProcessAction
+ * Class Cp1000ProcessAction
  * 统一处理请求或响应
- * @package sunsun\aph300\action
+ * @package sunsun\cp1000\action
  */
-class Aph300ProcessAction
+class Cp1000ProcessAction
 {
 
     /**
-     * aph300除了设备登录之外的其它请求处理
+     * cp1000除了设备登录之外的其它请求处理
      * @param $did
      * @param string $clientId tcp通道标识
      * @param array $jsonDecode 明文传输过来的数据json格式
@@ -53,13 +53,13 @@ class Aph300ProcessAction
      * @param $did
      * @param $clientId
      * @param $jsonData
-     * @return Aph300HbResp
+     * @return Cp1000HbResp
      */
     private function response($did, $clientId, $jsonData)
     {
         $resType = $jsonData['resType'];
         $sn = $jsonData['sn'];
-        $resp = Aph300RespFactory::create($resType, $jsonData);
+        $resp = Cp1000RespFactory::create($resType, $jsonData);
         $retResp = null;
         if (empty($resp)) {
             return $retResp;
@@ -68,15 +68,15 @@ class Aph300ProcessAction
         $result = false;
         switch ($resp->getRespType()) {
             //设备信息响应
-            case Aph300RespType::DeviceInfo:
-                $result = (new Aph300DeviceInfoAction())->updateInfo($did, $clientId, $resp);
+            case Cp1000RespType::DeviceInfo:
+                $result = (new Cp1000DeviceInfoAction())->updateInfo($did, $clientId, $resp);
                 break;
             //设备设置/控制响应
-            case Aph300RespType::Control:
-                $result = (new Aph300DeviceCtrlAction())->updateInfo($did, $clientId, $resp);
+            case Cp1000RespType::Control:
+                $result = (new Cp1000DeviceCtrlAction())->updateInfo($did, $clientId, $resp);
                 break;
-            case Aph300RespType::FirmwareUpdate:
-                $result = (new Aph300DeviceUpdateAction())->updateInfo($did, $clientId, $resp);
+            case Cp1000RespType::FirmwareUpdate:
+                $result = (new Cp1000DeviceUpdateAction())->updateInfo($did, $clientId, $resp);
                 break;
             default:
                 break;
@@ -85,7 +85,7 @@ class Aph300ProcessAction
         if (!ResultHelper::isSuccess($result)) {
         } else {
             //TODO: 响应请求成功后，暂时返回一个心跳包或者不返回
-//            $retResp = new Aph300HbResp();
+//            $retResp = new Cp1000HbResp();
 //            $retResp->setSn($sn);
         }
 
@@ -97,29 +97,29 @@ class Aph300ProcessAction
      * @param $did
      * @param $clientId
      * @param $jsonData
-     * @return null|\sunsun\aph300\resp\Aph300DeviceEventResp|Aph300HbResp|Aph300UnknownResp
+     * @return null|\sunsun\cp1000\resp\Cp1000DeviceEventResp|Cp1000HbResp|Cp1000UnknownResp
      */
     private function request($did, $clientId, $jsonData)
     {
 
         $reqType = $jsonData['reqType'];
         //获取请求并设置请求内容
-        $req = Aph300ReqFactory::create($reqType, $jsonData);
+        $req = Cp1000ReqFactory::create($reqType, $jsonData);
         $resp = null;
 
         //过滤桶除了设备登录之外的其它请求处理
         switch ($req->getReqType()) {
 
             //已登录成功后的登录请求
-            case Aph300RespType::Login:
-                $resp = (new Aph300LoginAction())->login($did, $clientId, $req);
+            case Cp1000RespType::Login:
+                $resp = (new Cp1000LoginAction())->login($did, $clientId, $req);
                 break;
             //心跳请求
-            case Aph300ReqType::Heartbeat:
-                $resp = (new Aph300HbAction())->heartBeat($clientId, $req);
+            case Cp1000ReqType::Heartbeat:
+                $resp = (new Cp1000HbAction())->heartBeat($clientId, $req);
                 break;
-            case Aph300ReqType::Event:
-                $resp = (new Aph300DeviceEventAction())->logEvent($did, $clientId, $req);
+            case Cp1000ReqType::Event:
+                $resp = (new Cp1000DeviceEventAction())->logEvent($did, $clientId, $req);
                 break;
             default:
                 break;
