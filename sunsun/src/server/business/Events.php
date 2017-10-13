@@ -74,7 +74,6 @@ class Events
                         $last_active_time = $session[SessionKeys::LAST_ACTIVE_TIME];
                         if ($now - $last_active_time >= $offlineMinus) {
                             Gateway::closeClient($client_id);
-                            DebugHelper::debug('[closeClient] client_id=' . $client_id, $session);
                             continue;
                         }
                     }
