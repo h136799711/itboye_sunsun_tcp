@@ -116,7 +116,7 @@ class Aph300ProcessAction
                 break;
             //心跳请求
             case Aph300ReqType::Heartbeat:
-                $resp = (new Aph300HbAction())->heartBeat($clientId, $req);
+                $resp = (new Aph300HbAction())->heartBeat($did, $clientId, $req);
                 break;
             case Aph300ReqType::Event:
                 $resp = (new Aph300DeviceEventAction())->logEvent($did, $clientId, $req);

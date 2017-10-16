@@ -19,8 +19,10 @@ use sunsun\aph300\resp\Aph300HbResp;
  */
 class Aph300HbAction
 {
-    public function heartBeat($clientId, Aph300HbReq $req)
+    public function heartBeat($did, $clientId, Aph300HbReq $req)
     {
+        // 更新用户时间
+//        (new Aph300DeviceDal())->updateByDid($did,['update_time'=>time()]);
         return new Aph300HbResp($req);
     }
 }

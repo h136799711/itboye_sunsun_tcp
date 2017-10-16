@@ -95,6 +95,11 @@ class Events
                         DebugHelper::debug('[session] online app count= ' . $cnt, $session);
                         // 2. 更新会话信息
                         Gateway::updateSession($client_id, ['app_cnt' => $cnt]);
+
+                        // 更新记录的更新时间，用于之后判断该设备是否离线的一个条件
+                        // did
+                        // DeviceFactory::getDeviceDal($did)->updateByDid($did,['update_time'=>$now]);
+//                        (new DeviceFactory())
                     }
                 }
             } catch (\Exception $ex) {

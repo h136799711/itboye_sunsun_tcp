@@ -19,7 +19,7 @@ use sunsun\cp1000\resp\Cp1000HbResp;
  */
 class Cp1000HbAction
 {
-    public function heartBeat($clientId, Cp1000HbReq $req)
+    public function heartBeat($did, $clientId, Cp1000HbReq $req)
     {
         return new Cp1000HbResp($req);
     }

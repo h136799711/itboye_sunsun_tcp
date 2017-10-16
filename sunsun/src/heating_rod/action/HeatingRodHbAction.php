@@ -19,7 +19,7 @@ use sunsun\heating_rod\resp\HeatingRodHbResp;
  */
 class HeatingRodHbAction
 {
-    public function heartBeat($clientId, HeatingRodHbReq $req)
+    public function heartBeat($did, $clientId, HeatingRodHbReq $req)
     {
         return new HeatingRodHbResp($req);
     }

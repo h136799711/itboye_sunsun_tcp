@@ -116,7 +116,7 @@ class AdtProcessAction
                 break;
             //心跳请求
             case AdtReqType::Heartbeat:
-                $resp = (new AdtHbAction())->heartBeat($clientId, $req);
+                $resp = (new AdtHbAction())->heartBeat($did, $clientId, $req);
                 break;
             case AdtReqType::Event:
                 $resp = (new AdtDeviceEventAction())->logEvent($did, $clientId, $req);

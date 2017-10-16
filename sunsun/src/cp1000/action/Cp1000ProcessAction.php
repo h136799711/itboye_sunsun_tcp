@@ -116,7 +116,7 @@ class Cp1000ProcessAction
                 break;
             //心跳请求
             case Cp1000ReqType::Heartbeat:
-                $resp = (new Cp1000HbAction())->heartBeat($clientId, $req);
+                $resp = (new Cp1000HbAction())->heartBeat($did, $clientId, $req);
                 break;
             case Cp1000ReqType::Event:
                 $resp = (new Cp1000DeviceEventAction())->logEvent($did, $clientId, $req);

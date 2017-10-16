@@ -115,7 +115,7 @@ class HeatingRodProcessAction
                 break;
             //心跳请求
             case HeatingRodReqType::Heartbeat:
-                $resp = (new HeatingRodHbAction())->heartBeat($clientId, $req);
+                $resp = (new HeatingRodHbAction())->heartBeat($did, $clientId, $req);
                 break;
             case HeatingRodReqType::Event:
                 $resp = (new HeatingRodDeviceEventAction())->logEvent($did, $clientId, $req);

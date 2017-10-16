@@ -116,7 +116,7 @@ class Aq806ProcessAction
                 break;
             //心跳请求
             case Aq806ReqType::Heartbeat:
-                $resp = (new Aq806HbAction())->heartBeat($clientId, $req);
+                $resp = (new Aq806HbAction())->heartBeat($did, $clientId, $req);
                 break;
             case Aq806ReqType::Event:
                 $resp = (new Aq806DeviceEventAction())->logEvent($did, $clientId, $req);

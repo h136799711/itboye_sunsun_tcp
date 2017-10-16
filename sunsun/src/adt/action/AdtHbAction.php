@@ -19,7 +19,7 @@ use sunsun\adt\resp\AdtHbResp;
  */
 class AdtHbAction
 {
-    public function heartBeat($clientId, AdtHbReq $req)
+    public function heartBeat($did, $clientId, AdtHbReq $req)
     {
         return new AdtHbResp($req);
     }

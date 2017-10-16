@@ -114,7 +114,7 @@ class FilterVatProcessAction
                 break;
             //心跳请求
             case FilterVatReqType::Heartbeat:
-                $resp = (new FilterVatHbAction())->heartBeat($clientId, $req);
+                $resp = (new FilterVatHbAction())->heartBeat($did, $clientId, $req);
                 break;
             case FilterVatReqType::Event:
                 $resp = (new FilterVatDeviceEventAction())->logEvent($did, $clientId, $req);
