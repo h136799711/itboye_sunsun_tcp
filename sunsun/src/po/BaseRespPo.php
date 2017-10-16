@@ -8,7 +8,6 @@
 
 namespace sunsun\po;
 
-
 abstract class BaseRespPo
 {
     private $respType;
@@ -32,6 +31,7 @@ abstract class BaseRespPo
 
 
     /**
+     * 获取响应包序号
      * @return mixed
      */
     public function getSn()
@@ -40,6 +40,7 @@ abstract class BaseRespPo
     }
 
     /**
+     * 设置响应包序号
      * @param mixed $sn
      */
     public function setSn($sn)
@@ -47,6 +48,14 @@ abstract class BaseRespPo
         $this->sn = $sn;
     }
 
+    /*
+     * 转化用于发送给设备的数据数组
+     */
     abstract function toDataArray();
+
+    public function check()
+    {
+        return '';
+    }
 
 }
