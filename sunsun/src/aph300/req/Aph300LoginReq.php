@@ -20,9 +20,9 @@ class Aph300LoginReq extends BaseReqPo
 
     public function __construct($data = null)
     {
+        parent::__construct($data);
         $this->setReqType(Aph300ReqType::Login);
         if (!empty($data)) {
-            $this->setSn($data['sn']);
             $this->setDid($data['did']);
             $this->setVer($data['ver']);
             $this->setPwd($data['pwd']);

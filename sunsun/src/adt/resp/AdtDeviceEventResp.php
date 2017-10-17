@@ -23,10 +23,8 @@ class AdtDeviceEventResp extends BaseRespPo
 
     public function __construct(AdtDeviceEventReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(AdtRespType::Event);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     private $state;

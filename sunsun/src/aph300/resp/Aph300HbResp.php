@@ -22,10 +22,8 @@ class Aph300HbResp extends BaseRespPo
 
     public function __construct(Aph300HbReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(Aph300RespType::Heartbeat);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function toDataArray()

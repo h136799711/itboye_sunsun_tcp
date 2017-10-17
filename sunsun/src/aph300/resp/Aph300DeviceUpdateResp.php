@@ -24,10 +24,8 @@ class Aph300DeviceUpdateResp extends BaseRespPo
 
     public function __construct(Aph300DeviceUpdateReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(Aph300RespType::FirmwareUpdate);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function setData($data)

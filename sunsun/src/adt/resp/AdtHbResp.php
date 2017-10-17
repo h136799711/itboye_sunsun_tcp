@@ -22,10 +22,8 @@ class AdtHbResp extends BaseRespPo
 
     public function __construct(AdtHbReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(AdtRespType::Heartbeat);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function toDataArray()

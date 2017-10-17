@@ -14,6 +14,13 @@ abstract class BaseReqPo
     private $reqType;
     private $sn;
 
+    public function __construct($data = null)
+    {
+        if (!empty($data) && array_key_exists('sn', $data)) {
+            $this->setSn($data['sn']);
+        }
+    }
+
     /**
      * @return mixed
      */

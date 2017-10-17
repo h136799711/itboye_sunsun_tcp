@@ -173,10 +173,8 @@ class AdtDeviceInfoResp extends BaseRespPo
 
     public function __construct(AdtDeviceInfoReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(AdtRespType::DeviceInfo);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     /**

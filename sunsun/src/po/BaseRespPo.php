@@ -10,6 +10,14 @@ namespace sunsun\po;
 
 abstract class BaseRespPo
 {
+
+    public function __construct(BaseReqPo $req = null)
+    {
+        if (!empty($req)) {
+            $this->setSn($req->getSn());
+        }
+    }
+
     private $respType;
     private $sn;
 

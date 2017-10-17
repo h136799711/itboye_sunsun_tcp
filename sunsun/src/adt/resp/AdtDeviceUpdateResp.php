@@ -24,10 +24,8 @@ class AdtDeviceUpdateResp extends BaseRespPo
 
     public function __construct(AdtDeviceUpdateReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(AdtRespType::FirmwareUpdate);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function setData($data)

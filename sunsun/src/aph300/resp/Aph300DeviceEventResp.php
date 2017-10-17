@@ -23,10 +23,8 @@ class Aph300DeviceEventResp extends BaseRespPo
 
     public function __construct(Aph300DeviceEventReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(Aph300RespType::Event);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     private $state;

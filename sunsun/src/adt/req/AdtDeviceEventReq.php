@@ -57,9 +57,9 @@ class AdtDeviceEventReq extends BaseReqPo
 
     public function __construct($data = null)
     {
+        parent::__construct($data);
         $this->setReqType(AdtReqType::Event);
         if (!empty($data)) {
-            $this->setSn($data['sn']);
             $this->setCode($data['code']);
         }
     }

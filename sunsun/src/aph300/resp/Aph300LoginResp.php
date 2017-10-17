@@ -20,10 +20,8 @@ class Aph300LoginResp extends BaseRespPo
 
     public function __construct(Aph300LoginReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(Aph300RespType::Login);
-        if ($req != null) {
-            $this->setSn($req->getSn());
-        }
     }
 
     /**

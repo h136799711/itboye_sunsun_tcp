@@ -20,10 +20,8 @@ class AdtLoginResp extends BaseRespPo
 
     public function __construct(AdtLoginReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(AdtRespType::Login);
-        if ($req != null) {
-            $this->setSn($req->getSn());
-        }
     }
 
     /**

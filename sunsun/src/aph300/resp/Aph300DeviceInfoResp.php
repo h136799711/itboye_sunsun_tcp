@@ -41,10 +41,8 @@ class Aph300DeviceInfoResp extends BaseRespPo
 
     public function __construct(Aph300DeviceInfoReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(Aph300RespType::DeviceInfo);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     /**

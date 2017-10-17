@@ -41,10 +41,8 @@ class Aph300CtrlDeviceResp extends BaseRespPo
 
     public function __construct(Aph300CtrlDeviceReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(Aph300RespType::Control);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function setData($data)
