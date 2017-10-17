@@ -10,12 +10,17 @@ namespace sunsun\cp1000\resp;
 
 class Cp1000RespFactory
 {
+
     public static function create($resType, $jsonData)
     {
         $sn = $jsonData['sn'];
 
         $resp = null;
         switch ($resType) {
+            case Cp1000RespType::Heartbeat:
+                $resp = new Cp1000HbResp();
+                $resp->setData($jsonData);
+                break;
             case Cp1000RespType::Control:
                 $resp = new Cp1000CtrlDeviceResp();
                 $resp->setData($jsonData);

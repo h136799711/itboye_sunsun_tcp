@@ -16,6 +16,10 @@ class FilterVatRespFactory
 
         $resp = null;
         switch ($resType) {
+            case FilterVatRespType::Heartbeat:
+                $resp = new FilterVatHbResp();
+                $resp->setData($jsonData);
+                break;
             case FilterVatRespType::Control:
                 $resp = new FilterVatCtrlDeviceResp();
                 $resp->setData($jsonData);

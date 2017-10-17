@@ -14,6 +14,15 @@ use sunsun\po\BaseRespPo;
 abstract class BaseHeartBeatServerResp extends BaseRespPo
 {
 
+    public function setData($data)
+    {
+        if (!empty($data) && is_array($data)) {
+            if (array_key_exists('sn', $data)) {
+                $this->setSn($data['sn']);
+            }
+        }
+    }
+
     public function toDataArray()
     {
         return [

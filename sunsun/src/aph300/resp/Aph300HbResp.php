@@ -10,27 +10,18 @@ namespace sunsun\aph300\resp;
 
 
 use sunsun\aph300\req\Aph300HbReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseHeartBeatServerResp;
 
 /**
  * Class Aph300HbReq
  * 心跳包
  * @package sunsun\aph300\req
  */
-class Aph300HbResp extends BaseRespPo
+class Aph300HbResp extends BaseHeartBeatServerResp
 {
-
     public function __construct(Aph300HbReq $req = null)
     {
         parent::__construct($req);
         $this->setRespType(Aph300RespType::Heartbeat);
-    }
-
-    public function toDataArray()
-    {
-        return [
-            'resType' => $this->getRespType(),
-            'sn' => $this->getSn()
-        ];
     }
 }

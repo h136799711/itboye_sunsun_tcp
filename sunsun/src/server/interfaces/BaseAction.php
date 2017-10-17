@@ -8,20 +8,31 @@
 
 namespace sunsun\server\interfaces;
 
-
 use sunsun\dal\BaseDal;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\DevToServerDelayHelper;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
+use sunsun\server\consts\RespFacadeType;
 use sunsun\server\consts\SunsunDeviceConstant;
-use sunsun\server\device\DeviceFactory;
+use sunsun\server\factory\DeviceFacadeFactory;
+use sunsun\server\factory\RespFacadeFactory;
 use sunsun\server\req\BaseDeviceLoginClientReq;
+use sunsun\server\req\BaseHeartBeatClientReq;
 use sunsun\server\resp\BaseDeviceFirmwareUpdateClientResp;
 use sunsun\transfer_station\client\TransferClient;
 
 abstract class BaseAction
 {
+
+
+    public function deviceHeartBeat($did, $clientId, BaseHeartBeatClientReq $req)
+    {
+        (DeviceFacadeFactory::getDeviceDal($did))->updateByDid($did, ['update_time' => time()]);
+        $respObj = RespFacadeFactory::createRespObj($did, RespFacadeType::HEART_BEAT, $req->toDataArray());
+        return $respObj;
+    }
+
     /**
      * 更新设备信息
      * @param $did
@@ -57,7 +68,7 @@ abstract class BaseAction
 
     public function firmUpdate($did, $clientId, BaseDeviceFirmwareUpdateClientResp $resp)
     {
-        $dal = DeviceFactory::getDeviceDal($did);
+        $dal = DeviceFacadeFactory::getDeviceDal($did);
         //更新设备信息
         $updateEntity = [
             'device_state' => $resp->getState(),
@@ -69,8 +80,8 @@ abstract class BaseAction
 
     public function deviceLogin($did, $clientId, BaseDeviceLoginClientReq $req)
     {
-        $resp = DeviceFactory::createLoginResp($did);
-        $dal = DeviceFactory::getDeviceDal($did);
+        $resp = DeviceFacadeFactory::createLoginResp($did);
+        $dal = DeviceFacadeFactory::getDeviceDal($did);
 
         $resp->setSn($req->getSn());
         $resp->setHb(SunsunDeviceConstant::DEFAULT_HEART_BEAT);

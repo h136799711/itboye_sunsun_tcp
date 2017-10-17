@@ -9,7 +9,7 @@
 namespace sunsun\water_pump\resp;
 
 
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseHeartBeatServerResp;
 use sunsun\water_pump\req\WaterPumpHbReq;
 
 /**
@@ -17,20 +17,11 @@ use sunsun\water_pump\req\WaterPumpHbReq;
  * 心跳包
  * @package sunsun\water_pump\req
  */
-class WaterPumpHbResp extends BaseRespPo
+class WaterPumpHbResp extends BaseHeartBeatServerResp
 {
-
     public function __construct(WaterPumpHbReq $req = null)
     {
         parent::__construct($req);
         $this->setRespType(WaterPumpRespType::Heartbeat);
-    }
-
-    public function toDataArray()
-    {
-        return [
-            'resType' => $this->getRespType(),
-            'sn' => $this->getSn()
-        ];
     }
 }

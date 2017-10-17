@@ -10,27 +10,19 @@ namespace sunsun\adt\resp;
 
 
 use sunsun\adt\req\AdtHbReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseHeartBeatServerResp;
 
 /**
  * Class AdtHbReq
  * 心跳包
  * @package sunsun\adt\req
  */
-class AdtHbResp extends BaseRespPo
+class AdtHbResp extends BaseHeartBeatServerResp
 {
 
     public function __construct(AdtHbReq $req = null)
     {
         parent::__construct($req);
         $this->setRespType(AdtRespType::Heartbeat);
-    }
-
-    public function toDataArray()
-    {
-        return [
-            'resType' => $this->getRespType(),
-            'sn' => $this->getSn()
-        ];
     }
 }

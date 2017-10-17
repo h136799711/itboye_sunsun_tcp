@@ -10,27 +10,18 @@ namespace sunsun\heating_rod\resp;
 
 
 use sunsun\heating_rod\req\HeatingRodHbReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseHeartBeatServerResp;
 
 /**
  * Class HeatingRodHbReq
  * 心跳包
  * @package sunsun\heating_rod\req
  */
-class HeatingRodHbResp extends BaseRespPo
+class HeatingRodHbResp extends BaseHeartBeatServerResp
 {
-
     public function __construct(HeatingRodHbReq $req = null)
     {
         parent::__construct($req);
         $this->setRespType(HeatingRodRespType::Heartbeat);
-    }
-
-    public function toDataArray()
-    {
-        return [
-            'resType' => $this->getRespType(),
-            'sn' => $this->getSn()
-        ];
     }
 }

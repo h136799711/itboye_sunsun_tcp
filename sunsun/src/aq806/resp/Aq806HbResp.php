@@ -10,27 +10,18 @@ namespace sunsun\aq806\resp;
 
 
 use sunsun\aq806\req\Aq806HbReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseHeartBeatServerResp;
 
 /**
  * Class Aq806HbReq
  * 心跳包
  * @package sunsun\aq806\req
  */
-class Aq806HbResp extends BaseRespPo
+class Aq806HbResp extends BaseHeartBeatServerResp
 {
-
     public function __construct(Aq806HbReq $req = null)
     {
         parent::__construct($req);
         $this->setRespType(Aq806RespType::Heartbeat);
-    }
-
-    public function toDataArray()
-    {
-        return [
-            'resType' => $this->getRespType(),
-            'sn' => $this->getSn()
-        ];
     }
 }

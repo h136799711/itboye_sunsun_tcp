@@ -10,6 +10,7 @@ namespace sunsun\aq806\resp;
 
 class Aq806RespFactory
 {
+
     public static function create($resType, $jsonData)
     {
         $sn = $jsonData['sn'];

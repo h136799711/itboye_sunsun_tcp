@@ -6,7 +6,7 @@
  * Time: 15:36
  */
 
-namespace sunsun\server\device;
+namespace sunsun\server\factory;
 
 
 use sunsun\adt\action\AdtProcessAction;
@@ -46,7 +46,7 @@ use sunsun\water_pump\req\WaterPumpReqFactory;
 use sunsun\water_pump\req\WaterPumpReqType;
 use sunsun\water_pump\resp\WaterPumpLoginResp;
 
-class DeviceFactory
+class DeviceFacadeFactory
 {
     /**
      * 获取公共密钥 根据端口进行处理

@@ -10,14 +10,14 @@ namespace sunsun\filter_vat\resp;
 
 
 use sunsun\filter_vat\req\FilterVatHbReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseHeartBeatServerResp;
 
 /**
  * Class FilterVatHbReq
  * 心跳包
  * @package sunsun\filter_vat\req
  */
-class FilterVatHbResp extends BaseRespPo
+class FilterVatHbResp extends BaseHeartBeatServerResp
 {
 
     public function __construct(FilterVatHbReq $req = null)
@@ -26,11 +26,4 @@ class FilterVatHbResp extends BaseRespPo
         $this->setRespType(FilterVatRespType::Heartbeat);
     }
 
-    public function toDataArray()
-    {
-        return [
-            'resType' => $this->getRespType(),
-            'sn' => $this->getSn()
-        ];
-    }
 }

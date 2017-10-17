@@ -16,6 +16,10 @@ class AdtRespFactory
 
         $resp = null;
         switch ($resType) {
+            case AdtRespType::Heartbeat:
+                $resp = new AdtHbResp();
+                $resp->setData($jsonData);
+                break;
             case AdtRespType::Control:
                 $resp = new AdtCtrlDeviceResp();
                 $resp->setData($jsonData);

@@ -8,7 +8,6 @@
 
 namespace sunsun\server\business;
 
-
 /**
  * 用于检测业务代码死循环或者长时间阻塞等问题
  * 如果发现业务卡死，可以将下面declare打开（去掉//注释），并执行php start.php reload
@@ -27,8 +26,9 @@ use sunsun\dal\DeviceTcpClientDal;
 use sunsun\decoder\SunsunTDS;
 use sunsun\model\DeviceTcpClientModel;
 use sunsun\server\consts\SessionKeys;
+use sunsun\server\consts\SunsunDeviceConstant;
 use sunsun\server\db\DbPool;
-use sunsun\server\device\DeviceFactory;
+use sunsun\server\factory\DeviceFacadeFactory;
 use sunsun\server\tcpChannelCommand\CommandFactory;
 use sunsun\transfer_station\client\FactoryClient;
 use sunsun\transfer_station\client\TransferClient;
@@ -41,13 +41,11 @@ use Workerman\Lib\Timer;
  */
 class Events
 {
-
     /**
      * @var  \sunsun\server\db\DbPool
      */
     public static $dbPool;
     private static $activeTime;//
-    const CHECK_OFFLINE_SESSION_INTERVAL = 6;// 检测离线通道的间隔时间 单位 秒
 
     public static function onWorkerStart($businessWorker)
     {
@@ -61,17 +59,15 @@ class Events
      */
     private static function checkOfflineSession()
     {
-
-        Timer::add(self::CHECK_OFFLINE_SESSION_INTERVAL, function () {
+        Timer::add(SunsunDeviceConstant::CHECK_OFFLINE_SESSION_INTERVAL, function () {
             try {
                 $allSessions = Gateway::getAllClientSessions();
                 $now = time();
-                $offlineMinus = 2 * 120;// 离线4分钟以上
                 foreach ($allSessions as $client_id => $session) {
 
                     if (array_key_exists(SessionKeys::LAST_ACTIVE_TIME, $session)) {
                         $last_active_time = $session[SessionKeys::LAST_ACTIVE_TIME];
-                        if ($now - $last_active_time >= $offlineMinus) {
+                        if ($now - $last_active_time >= SunsunDeviceConstant::DEVICE_OFFLINE_TIME_INTERVAL) {
                             Gateway::closeClient($client_id);
                             continue;
                         }
@@ -86,23 +82,14 @@ class Events
                         $did = $session[SessionKeys::DID];
                         $cnt = TransferClient::totalClientByGroup($did);
                         if ($cnt > 0) {
-                            // 1. 仅当链接数大于0时，才向设备请求获取设备信息
-                            DebugHelper::debug('[get_info] device = ' . $did, $session);
                             FactoryClient::getInfo($client_id, $did, $pwd);
                         }
 
-                        DebugHelper::debug('[session] online app count= ' . $cnt, $session);
                         // 2. 更新会话信息
                         Gateway::updateSession($client_id, ['app_cnt' => $cnt]);
-
-                        // 更新记录的更新时间，用于之后判断该设备是否离线的一个条件
-                        // did
-                        // DeviceFactory::getDeviceDal($did)->updateByDid($did,['update_time'=>$now]);
-//                        (new DeviceFactory())
                     }
                 }
             } catch (\Exception $ex) {
-                DebugHelper::error('[checkOfflineSession]' . $ex->getMessage());
             }
         });
     }
@@ -144,61 +131,60 @@ class Events
      */
     public static function onMessage($client_id, $message)
     {
-            if (empty($message) || !is_string($message)) {
-                DebugHelper::debug('[device tcp channel no message]', $_SESSION);
+        if (empty($message) || !is_string($message)) {
+            return;
+        }
+        self::$activeTime = time();
+        // 处理外部加载的指令
+        self::acceptCommand($client_id);
+        $pwd = "";
+        if (self::isLoginRequest()) {
+            DebugHelper::debug('[device login start]' . $client_id, $_SESSION);
+            //第一次请求
+            $pwd = Password::getSecretKey(Password::TYPE_LOGIN, $client_id);
+            $result = self::login($client_id, $message, $pwd);
+        } else {
+            //其它请求
+            DebugHelper::debug('[device other message process]', $_SESSION);
+            // 1. 获取密钥
+            $result = Password::getSecretKey(Password::TYPE_OTHER, $client_id);
+            if ($result === false) {
+                self::jsonError($client_id, "get encrypt password failed", null);
                 return;
             }
-            self::$activeTime = time();
-            // 处理外部加载的指令
-            self::acceptCommand($client_id);
-            $pwd = "";
-            if (self::isLoginRequest()) {
-                DebugHelper::debug('[device login start]' . $client_id, $_SESSION);
-                //第一次请求
-                $pwd = Password::getSecretKey(Password::TYPE_LOGIN, $client_id);
-                $result = self::login($client_id, $message, $pwd);
-            } else {
-                //其它请求
-                DebugHelper::debug('[device other message process]', $_SESSION);
-                // 1. 获取密钥
-                $result = Password::getSecretKey(Password::TYPE_OTHER, $client_id);
-                if ($result === false) {
-                    self::jsonError($client_id, "get encrypt password failed", null);
-                    return;
-                }
-                $pwd = $result[SessionKeys::PWD];
-                $did = $result[SessionKeys::DID];
-                DebugHelper::debug('[device other message process]did=' . $did . 'pwd=' . $pwd, $_SESSION);
-                $result = SunsunTDS::decode($message, $pwd);
-                if (empty($result)) {
-                    self::jsonError($client_id, 'fail decode the data ', []);
-                    return;
-                }
-                if (!$result->isValid()) {
-                    self::jsonError($client_id, 'the data format is invalid', []);
-                    return;
-                }
-                DebugHelper::debug('[device other message process]message=', $_SESSION);
-                // 3. 处理业务逻辑
-                $result = self::process($did, $client_id, $result->getTdsOriginData());
-            }
-
-            // 这个必须，用于处理有些请求不返回信息的情况
-        // 目前只有心跳
+            $pwd = $result[SessionKeys::PWD];
+            $did = $result[SessionKeys::DID];
+            DebugHelper::debug('[device other message process]did=' . $did . 'pwd=' . $pwd, $_SESSION);
+            $result = SunsunTDS::decode($message, $pwd);
             if (empty($result)) {
+                self::jsonError($client_id, 'fail decode the data ', []);
                 return;
             }
-
-            if (method_exists($result, "toDataArray")) {
-                $data = $result->toDataArray();
-                DebugHelper::debug('[device other message process] response' . json_encode($data), $_SESSION);
-                // 4. 加密数据
-                $encodeData = SunsunTDS::encode($data, $pwd);
-                self::jsonSuc($client_id, serialize($result), $encodeData);
-            } else {
-                DebugHelper::debug('[device other message process] fail, result has not method toDataArray', $_SESSION);
-                self::jsonError($client_id, 'fail', []);
+            if (!$result->isValid()) {
+                self::jsonError($client_id, 'the data format is invalid', []);
+                return;
             }
+            DebugHelper::debug('[device other message process]message=', $_SESSION);
+            // 3. 处理业务逻辑
+            $result = self::process($did, $client_id, $result->getTdsOriginData());
+        }
+
+        // 这个必须，用于处理有些请求不返回信息的情况
+        // 目前只有心跳
+        if (empty($result)) {
+            return;
+        }
+
+        if (method_exists($result, "toDataArray")) {
+            $data = $result->toDataArray();
+            DebugHelper::debug('[device other message process] response' . json_encode($data), $_SESSION);
+            // 4. 加密数据
+            $encodeData = SunsunTDS::encode($data, $pwd);
+            self::jsonSuc($client_id, serialize($result), $encodeData);
+        } else {
+            DebugHelper::debug('[device other message process] fail, result has not method toDataArray', $_SESSION);
+            self::jsonError($client_id, 'fail', []);
+        }
 
         return;
     }
@@ -290,8 +276,8 @@ class Events
         }
         //2. Device 这里替换成具体设备的请求工厂类
         $did = $data[SessionKeys::DID];
-        $req = DeviceFactory::createLoginReq($did, $data);
-        $dal = DeviceFactory::getDeviceDal($did);
+        $req = DeviceFacadeFactory::createLoginReq($did, $data);
+        $dal = DeviceFacadeFactory::getDeviceDal($did);
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {
             DebugHelper::debug('[device login] did[' . $did . '] is not exists', $_SESSION);
@@ -328,16 +314,14 @@ class Events
             $entity['device_type'] = $type;
         }
         $dal->update($id, $entity);
-        // 设置did,pwd,is_first
+        self::loginSuccess($client_id, $did);
+        // 设置did,pwd
         $_SESSION[SessionKeys::DID] = $did;
         // 存在session中 就不需要再到数据库查询一次了
         $_SESSION[SessionKeys::PWD] = $pwd;
-        // 表示该设备已经登录过了，之后的请求走另一个处理方式
-        $_SESSION[SessionKeys::IS_FIRST] = 1;
-        self::loginSuccess($client_id, $did);
         //设置返回响应包
         //3. Device 这里替换成具体设备的登录响应类
-        $resp = DeviceFactory::createLoginResp($did);
+        $resp = DeviceFacadeFactory::createLoginResp($did);
         $resp->setSn($req->getSn());
         $resp->setLoginSuccess();
         $resp->setHb($hb);
@@ -371,6 +355,8 @@ class Events
      */
     private static function loginSuccess($client_id, $did)
     {
+        // 表示该设备已经登录过了，之后的请求走另一个处理方式
+        $_SESSION[SessionKeys::IS_FIRST] = 1;
         $dal = new DeviceTcpClientDal(DbPool::getInstance()->getGlobalDb());
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {
@@ -391,7 +377,7 @@ class Events
         $_SESSION[SessionKeys::LAST_ACTIVE_TIME] = self::$activeTime;
         $jsonDecode = json_decode($originData, JSON_OBJECT_AS_ARRAY);
         // 根据did 这里替换成具体设备的process类
-        $action = DeviceFactory::createProcessAction($did);
+        $action = DeviceFacadeFactory::createProcessAction($did);
         if($action != null) {
             DebugHelper::debug('[device process action]=' . get_class($action), $_SESSION);
             $resp = $action->process($did, $clientId, $jsonDecode);
@@ -421,7 +407,6 @@ class Events
         if (is_array($session) && array_key_exists(SessionKeys::DID, $session)) {
             $did = $session[SessionKeys::DID];
         }
-        DebugHelper::debug('[close]'.$did, $_SESSION);
         if(empty($did)){
             $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
             if(is_array($result) && array_key_exists(SessionKeys::DID, $result)) {
@@ -429,9 +414,7 @@ class Events
             }
         }
         if (!empty($did)) {
-            DeviceFactory::getDeviceDal($did)->logoutByClientId($client_id);
-//            (new  DeviceTcpClientDal())->updateByDid($did, ['tcp_client_id'=>'']);
-            DebugHelper::debug('[close] clear db tcp_client_id'.$client_id, $_SESSION);
+            DeviceFacadeFactory::getDeviceDal($did)->logoutByClientId($client_id);
         }
         Gateway::closeClient($client_id);
     }
