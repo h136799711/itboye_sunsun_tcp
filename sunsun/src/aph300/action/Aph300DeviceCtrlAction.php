@@ -10,7 +10,6 @@ namespace sunsun\aph300\action;
 
 
 use sunsun\aph300\dal\Aph300DeviceDal;
-use sunsun\aph300\helper\Aph300TcpLogHelper;
 use sunsun\aph300\helper\ModelConverterHelper;
 use sunsun\aph300\resp\Aph300CtrlDeviceResp;
 use sunsun\helper\ResultHelper;
@@ -35,7 +34,6 @@ class Aph300DeviceCtrlAction
         //更新设备信息
         $updateEntity = ModelConverterHelper::convertToModelArrayOfCtrlDeviceResp($resp);
         $dal = new Aph300DeviceDal();
-        Aph300TcpLogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity),"Aph300DeviceCtrlAction");
         // 向中转通道发送信息
         TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());
         $updateEntity['update_time'] = time();

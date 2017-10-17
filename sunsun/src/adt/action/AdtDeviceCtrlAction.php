@@ -35,7 +35,6 @@ class AdtDeviceCtrlAction
         //更新设备信息
         $updateEntity = ModelConverterHelper::convertToModelArrayOfCtrlDeviceResp($resp);
         $dal = new AdtDeviceDal();
-        AdtTcpLogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity),"AdtDeviceCtrlAction");
         // 向中转通道发送信息
         TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());
         $updateEntity['update_time'] = time();

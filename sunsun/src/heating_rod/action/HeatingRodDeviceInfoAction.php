@@ -13,7 +13,6 @@ use sunsun\heating_rod\dal\HeatingRodDeviceDal;
 use sunsun\heating_rod\helper\ModelConverterHelper;
 use sunsun\heating_rod\resp\HeatingRodDeviceInfoResp;
 use sunsun\helper\DevToServerDelayHelper;
-use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
 use sunsun\transfer_station\client\TransferClient;
 
@@ -35,7 +34,6 @@ class HeatingRodDeviceInfoAction
         if($avg > 0) {
             $updateEntity['delay_avg'] = $avg;
         }
-        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
 
         // 向中转通道发送信息
         TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());

@@ -34,8 +34,6 @@ class AdtDeviceInfoAction
         if($avg > 0) {
             $updateEntity['delay_avg'] = $avg;
         }
-//        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
-
         // 向中转通道发送信息
         TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());
         $updateEntity['update_time'] = time();

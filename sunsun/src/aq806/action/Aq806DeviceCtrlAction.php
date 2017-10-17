@@ -35,7 +35,6 @@ class Aq806DeviceCtrlAction
         //更新设备信息
         $updateEntity = ModelConverterHelper::convertToModelArrayOfCtrlDeviceResp($resp);
         $dal = new Aq806DeviceDal();
-        Aq806TcpLogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity),"Aq806DeviceCtrlAction");
         // 向中转通道发送信息
         TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());
         $updateEntity['update_time'] = time();

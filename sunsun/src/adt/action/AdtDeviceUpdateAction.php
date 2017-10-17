@@ -11,7 +11,6 @@ namespace sunsun\adt\action;
 
 use sunsun\adt\dal\AdtDeviceDal;
 use sunsun\adt\resp\AdtDeviceUpdateResp;
-use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
 
 class AdtDeviceUpdateAction
@@ -32,7 +31,6 @@ class AdtDeviceUpdateAction
             'update_time'=>time()
         ];
         $dal = new AdtDeviceDal();
-        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
 
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);

@@ -11,7 +11,6 @@ namespace sunsun\heating_rod\action;
 
 use sunsun\heating_rod\dal\HeatingRodDeviceDal;
 use sunsun\heating_rod\resp\HeatingRodDeviceUpdateResp;
-use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
 
 class HeatingRodDeviceUpdateAction
@@ -31,7 +30,6 @@ class HeatingRodDeviceUpdateAction
             'device_state' => $resp->getState()
         ];
         $dal = new HeatingRodDeviceDal();
-        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
 
         $updateEntity['update_time'] = time();
         $ret = $dal->updateByDid($did, $updateEntity);

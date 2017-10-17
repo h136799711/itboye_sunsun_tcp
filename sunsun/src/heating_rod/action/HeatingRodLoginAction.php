@@ -13,7 +13,6 @@ use sunsun\decoder\SunsunTDS;
 use sunsun\heating_rod\dal\HeatingRodDeviceDal;
 use sunsun\heating_rod\req\HeatingRodLoginReq;
 use sunsun\heating_rod\resp\HeatingRodLoginResp;
-use sunsun\helper\LogHelper;
 use sunsun\server\consts\SunsunDeviceConstant;
 
 class HeatingRodLoginAction
@@ -53,7 +52,6 @@ class HeatingRodLoginAction
         ];
 
         $dal = new HeatingRodDeviceDal();
-        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($entity));
 
         $ret = $dal->updateByDid($did, $entity);
 
