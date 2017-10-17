@@ -20,10 +20,8 @@ class WaterPumpDeviceInfoReq extends BaseReqPo
 
     public function __construct($data = null)
     {
+        parent::__construct($data);
         $this->setReqType(WaterPumpReqType::DeviceInfo);
-        if (!empty($data)) {
-            $this->setSn($data['sn']);
-        }
     }
 
     function toDataArray()

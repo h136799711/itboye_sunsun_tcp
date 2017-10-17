@@ -21,10 +21,8 @@ class FilterVatDeviceInfoReq extends BaseReqPo
 
     public function __construct($data = null)
     {
+        parent::__construct($data);
         $this->setReqType(FilterVatReqType::DeviceInfo);
-        if (!empty($data)) {
-            $this->setSn($data['sn']);
-        }
         // 默认获取ABC参数
         $this->setRange(FilterVatRangeType::Range_ABC);
 

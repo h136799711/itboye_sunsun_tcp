@@ -24,10 +24,8 @@ class Aq806DeviceUpdateReq extends BaseReqPo
 
     public function __construct($data = null)
     {
+        parent::__construct($data);
         $this->setReqType(Aq806ReqType::FirmwareUpdate);
-        if (!empty($data)) {
-            $this->setSn($data['sn']);
-        }
     }
 
     function toDataArray()

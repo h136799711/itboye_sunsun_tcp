@@ -22,10 +22,8 @@ class Aq806HbResp extends BaseRespPo
 
     public function __construct(Aq806HbReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(Aq806RespType::Heartbeat);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function toDataArray()

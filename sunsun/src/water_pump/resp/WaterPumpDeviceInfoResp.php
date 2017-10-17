@@ -22,10 +22,8 @@ class WaterPumpDeviceInfoResp extends BaseRespPo
 
     public function __construct(WaterPumpDeviceInfoReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(WaterPumpRespType::DeviceInfo);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function setData($data)

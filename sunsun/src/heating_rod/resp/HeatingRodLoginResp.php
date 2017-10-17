@@ -20,10 +20,8 @@ class HeatingRodLoginResp extends BaseRespPo
 
     public function __construct(HeatingRodLoginReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(HeatingRodRespType::Login);
-        if ($req != null) {
-            $this->setSn($req->getSn());
-        }
     }
 
     /**

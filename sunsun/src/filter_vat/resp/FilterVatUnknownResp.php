@@ -16,6 +16,7 @@ class FilterVatUnknownResp extends BaseRespPo
 
     public function __construct()
     {
+        parent::__construct(null);
     }
 
 

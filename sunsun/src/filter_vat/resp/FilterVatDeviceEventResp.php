@@ -23,10 +23,8 @@ class FilterVatDeviceEventResp extends BaseRespPo
 
     public function __construct(FilterVatDeviceEventReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(FilterVatRespType::Event);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     private $state;

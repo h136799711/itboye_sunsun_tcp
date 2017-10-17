@@ -20,10 +20,8 @@ class Aq806LoginResp extends BaseRespPo
 
     public function __construct(Aq806LoginReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(Aq806RespType::Login);
-        if ($req != null) {
-            $this->setSn($req->getSn());
-        }
     }
 
     /**

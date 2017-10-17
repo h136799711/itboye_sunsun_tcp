@@ -127,10 +127,8 @@ class HeatingRodDeviceInfoResp extends BaseRespPo
 
     public function __construct(HeatingRodDeviceInfoReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(HeatingRodRespType::DeviceInfo);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function setData($data)

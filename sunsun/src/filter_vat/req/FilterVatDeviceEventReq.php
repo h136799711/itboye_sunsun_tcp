@@ -64,9 +64,9 @@ class FilterVatDeviceEventReq extends BaseReqPo
 
     public function __construct($data = null)
     {
+        parent::__construct($data);
         $this->setReqType(FilterVatReqType::Event);
         if (!empty($data)) {
-            $this->setSn($data['sn']);
             $this->setCode($data['code']);
         }
     }

@@ -20,10 +20,8 @@ class Aq806DeviceInfoReq extends BaseReqPo
 
     public function __construct($data = null)
     {
+        parent::__construct($data);
         $this->setReqType(Aq806ReqType::DeviceInfo);
-        if (!empty($data)) {
-            $this->setSn($data['sn']);
-        }
     }
 
     function toDataArray()

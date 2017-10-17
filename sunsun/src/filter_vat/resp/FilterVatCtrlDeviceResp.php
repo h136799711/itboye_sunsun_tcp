@@ -151,10 +151,8 @@ class FilterVatCtrlDeviceResp extends BaseRespPo
 
     public function __construct(FilterVatCtrlDeviceReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(FilterVatRespType::Control);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function setData($data)

@@ -421,10 +421,8 @@ class Aq806CtrlDeviceResp extends BaseRespPo
 
     public function __construct(Aq806CtrlDeviceReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(Aq806RespType::Control);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function setData($data)

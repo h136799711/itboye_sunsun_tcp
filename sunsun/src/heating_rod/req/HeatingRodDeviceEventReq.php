@@ -92,9 +92,9 @@ class HeatingRodDeviceEventReq extends BaseReqPo
 
     public function __construct($data = null)
     {
+        parent::__construct($data);
         $this->setReqType(HeatingRodReqType::Event);
         if (!empty($data)) {
-            $this->setSn($data['sn']);
             $this->setCode($data['code']);
             $this->setT($data['t']);
         }

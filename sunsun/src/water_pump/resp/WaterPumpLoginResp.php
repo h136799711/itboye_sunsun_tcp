@@ -9,8 +9,8 @@
 namespace sunsun\water_pump\resp;
 
 
-use sunsun\water_pump\req\WaterPumpLoginReq;
 use sunsun\po\BaseRespPo;
+use sunsun\water_pump\req\WaterPumpLoginReq;
 
 class WaterPumpLoginResp extends BaseRespPo
 {
@@ -20,10 +20,8 @@ class WaterPumpLoginResp extends BaseRespPo
 
     public function __construct(WaterPumpLoginReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(WaterPumpRespType::Login);
-        if ($req != null) {
-            $this->setSn($req->getSn());
-        }
     }
 
     /**

@@ -421,10 +421,8 @@ class Aq806DeviceInfoResp extends BaseRespPo
 
     public function __construct(Aq806DeviceInfoReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(Aq806RespType::DeviceInfo);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     /**

@@ -24,10 +24,8 @@ class HeatingRodDeviceUpdateResp extends BaseRespPo
 
     public function __construct(HeatingRodDeviceUpdateReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(HeatingRodRespType::FirmwareUpdate);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function setData($data)

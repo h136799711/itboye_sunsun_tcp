@@ -23,10 +23,8 @@ class Aq806DeviceEventResp extends BaseRespPo
 
     public function __construct(Aq806DeviceEventReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(Aq806RespType::Event);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     private $state;

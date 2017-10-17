@@ -9,8 +9,8 @@
 namespace sunsun\water_pump\resp;
 
 
-use sunsun\water_pump\req\WaterPumpDeviceEventReq;
 use sunsun\po\BaseRespPo;
+use sunsun\water_pump\req\WaterPumpDeviceEventReq;
 
 /**
  * Class WaterPumpHbReq
@@ -23,10 +23,8 @@ class WaterPumpDeviceEventResp extends BaseRespPo
 
     public function __construct(WaterPumpDeviceEventReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(WaterPumpRespType::Event);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     private $state;

@@ -43,10 +43,8 @@ class HeatingRodCtrlDeviceResp extends BaseRespPo
 
     public function __construct(HeatingRodCtrlDeviceReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(HeatingRodRespType::Control);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function setData($data)

@@ -183,9 +183,9 @@ class Aq806DeviceEventReq extends BaseReqPo
 
     public function __construct($data = null)
     {
+        parent::__construct($data);
         $this->setReqType(Aq806ReqType::Event);
         if (!empty($data)) {
-            $this->setSn($data['sn']);
             $this->setCode($data['code']);
             $this->setT(-1);
             $this->setDyn(-1);

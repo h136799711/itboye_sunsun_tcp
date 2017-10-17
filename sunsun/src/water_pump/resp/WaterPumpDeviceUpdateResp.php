@@ -9,8 +9,8 @@
 namespace sunsun\water_pump\resp;
 
 
-use sunsun\water_pump\req\WaterPumpDeviceUpdateReq;
 use sunsun\po\BaseRespPo;
+use sunsun\water_pump\req\WaterPumpDeviceUpdateReq;
 
 /**
  * Class WaterPumpHbReq
@@ -24,10 +24,8 @@ class WaterPumpDeviceUpdateResp extends BaseRespPo
 
     public function __construct(WaterPumpDeviceUpdateReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(WaterPumpRespType::FirmwareUpdate);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function setData($data)

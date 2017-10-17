@@ -22,10 +22,8 @@ class FilterVatHbResp extends BaseRespPo
 
     public function __construct(FilterVatHbReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(FilterVatRespType::Heartbeat);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function toDataArray()

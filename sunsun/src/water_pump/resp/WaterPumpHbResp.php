@@ -9,8 +9,8 @@
 namespace sunsun\water_pump\resp;
 
 
-use sunsun\water_pump\req\WaterPumpHbReq;
 use sunsun\po\BaseRespPo;
+use sunsun\water_pump\req\WaterPumpHbReq;
 
 /**
  * Class WaterPumpHbReq
@@ -22,10 +22,8 @@ class WaterPumpHbResp extends BaseRespPo
 
     public function __construct(WaterPumpHbReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(WaterPumpRespType::Heartbeat);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function toDataArray()

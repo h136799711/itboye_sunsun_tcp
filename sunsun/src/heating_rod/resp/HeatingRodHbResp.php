@@ -22,10 +22,8 @@ class HeatingRodHbResp extends BaseRespPo
 
     public function __construct(HeatingRodHbReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(HeatingRodRespType::Heartbeat);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function toDataArray()

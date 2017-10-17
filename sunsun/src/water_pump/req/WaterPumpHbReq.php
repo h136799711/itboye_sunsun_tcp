@@ -21,10 +21,8 @@ class WaterPumpHbReq extends BaseReqPo
 
     public function __construct($data = null)
     {
+        parent::__construct($data);
         $this->setReqType(WaterPumpReqType::Heartbeat);
-        if (!empty($data)) {
-            $this->setSn($data['sn']);
-        }
     }
 
     function toDataArray()

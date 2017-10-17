@@ -20,9 +20,9 @@ class Aq806LoginReq extends BaseReqPo
 
     public function __construct($data = null)
     {
+        parent::__construct($data);
         $this->setReqType(Aq806ReqType::Login);
         if (!empty($data)) {
-            $this->setSn($data['sn']);
             $this->setDid($data['did']);
             $this->setVer($data['ver']);
             $this->setPwd($data['pwd']);

@@ -24,10 +24,8 @@ class FilterVatDeviceUpdateResp extends BaseRespPo
 
     public function __construct(FilterVatDeviceUpdateReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(FilterVatRespType::FirmwareUpdate);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function setData($data)

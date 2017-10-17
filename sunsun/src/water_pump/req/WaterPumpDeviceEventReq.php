@@ -33,9 +33,9 @@ class WaterPumpDeviceEventReq extends BaseReqPo
 
     public function __construct($data = null)
     {
+        parent::__construct($data);
         $this->setReqType(WaterPumpReqType::Event);
         if (!empty($data)) {
-            $this->setSn($data['sn']);
             $this->setCode($data['code']);
             $this->setPwr(-1);
             $this->setGear(-1);

@@ -21,9 +21,9 @@ class WaterPumpLoginReq extends BaseReqPo
 
     public function __construct($data = null)
     {
+        parent::__construct($data);
         $this->setReqType(WaterPumpReqType::Login);
         if (!empty($data)) {
-            $this->setSn($data['sn']);
             $this->setDid($data['did']);
             $this->setVer($data['ver']);
             $this->setPwd($data['pwd']);

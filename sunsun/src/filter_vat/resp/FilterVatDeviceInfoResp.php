@@ -203,10 +203,8 @@ class FilterVatDeviceInfoResp extends BaseRespPo
 
     public function __construct(FilterVatDeviceInfoReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(FilterVatRespType::DeviceInfo);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
 

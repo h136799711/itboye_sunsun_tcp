@@ -24,10 +24,8 @@ class Aq806DeviceUpdateResp extends BaseRespPo
 
     public function __construct(Aq806DeviceUpdateReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(Aq806RespType::FirmwareUpdate);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function setData($data)

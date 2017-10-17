@@ -24,10 +24,8 @@ class WaterPumpDeviceUpdateReq extends BaseReqPo
 
     public function __construct($data = null)
     {
+        parent::__construct($data);
         $this->setReqType(WaterPumpReqType::FirmwareUpdate);
-        if (!empty($data)) {
-            $this->setSn($data['sn']);
-        }
     }
 
     function toDataArray()

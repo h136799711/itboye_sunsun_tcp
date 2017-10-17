@@ -20,10 +20,8 @@ class FilterVatLoginResp extends BaseRespPo
 
     public function __construct(FilterVatLoginReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(FilterVatRespType::Login);
-        if ($req != null) {
-            $this->setSn($req->getSn());
-        }
     }
 
     /**
