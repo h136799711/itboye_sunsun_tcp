@@ -22,39 +22,12 @@ class HeatingRodDeviceEventReq extends BaseReqPo
 
     public function getEventInfo()
     {
-        $codeDesc = $this->getCodeDesc();
         return [
-            'code' => $codeDesc,
+            'code' => $this->getCode(),
             't' => $this->getT()
         ];
     }
 
-    public function getCodeDesc()
-    {
-//        0：无操作
-//1：实时温度推送（服务器记录温度）
-//2：加热棒过温异常
-//3：温度传感器1异常
-//4：温度传感器2异常
-//5：加热丝开路异常
-        switch ($this->code) {
-            case 0:
-                return "no action";
-            case 1:
-                return "Real-time temperature push（Server record temperature）";
-            case 2:
-                return "Abnormal heating rod temperature";
-            case 3:
-                return "Temperature sensor 1 anomaly";
-            case 4:
-                return "Temperature sensor 2 anomaly";
-            case 5:
-                return "Heating wire open circuit anomaly";
-            default:
-                break;
-        }
-        return "Unknown";
-    }
 
     /**
      * @return mixed

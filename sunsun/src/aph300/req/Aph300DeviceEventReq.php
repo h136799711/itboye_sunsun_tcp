@@ -24,37 +24,12 @@ class Aph300DeviceEventReq extends BaseReqPo
 
     public function getEventInfo()
     {
-        $codeDesc = $this->getCodeDesc();
         return [
-            'code' => $codeDesc,
+            'code' => $this->getCode(),
             'ph' => $this->getPh(),
             't' => $this->getT()
         ];
     }
-
-
-    public function getCodeDesc()
-    {
-        switch ($this->code) {
-            case 0:
-                return "无操作";
-            case 1:
-                return "实时数据推送";
-            case 2:
-                return "高温报警";
-            case 3:
-                return "低温报警";
-            case 4:
-                return "PH过低报警";
-            case 5:
-                return "PH过高报警";
-            default:
-                break;
-        }
-        return "未知";
-    }
-
-
 
     /**
      * @return mixed

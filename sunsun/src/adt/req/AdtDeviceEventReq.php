@@ -22,20 +22,9 @@ class AdtDeviceEventReq extends BaseReqPo
 
     public function getEventInfo()
     {
-        $codeDesc = $this->getCodeDesc();
         return [
-            'code' => $codeDesc
+            'code' => $this->getCode()
         ];
-    }
-    public function getCodeDesc()
-    {
-        switch ($this->code) {
-            case 0:
-                return "无操作";
-            default:
-                break;
-        }
-        return "未知";
     }
 
     /**

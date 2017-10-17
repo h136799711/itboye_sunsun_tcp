@@ -19,32 +19,6 @@ class FilterVatDeviceEventReq extends BaseReqPo
 {
     private $code;
 
-    public function getCodeDesc()
-    {
-//        0：无操作
-//1：杀菌灯更换维护提示
-//2：杀菌灯异常报警（损坏）
-//3：清洗开启
-//4：清洗电机堵转异常
-        //1. Language 多语言
-        switch ($this->code) {
-            case 0:
-                return "no action";
-            case 1:
-                return "Remind Sterilization lamp replacement maintenance ";
-            case 2:
-                return "Germicidal lamp abnormal alarm（Damaged）";
-            case 3:
-                return "Cleaning open";
-            case 4:
-                return "Cleaning motor abnormal rotation";
-            default:
-                break;
-        }
-
-        return "Unknown ";
-    }
-
     /**
      * @return mixed
      */
