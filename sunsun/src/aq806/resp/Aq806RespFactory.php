@@ -17,6 +17,10 @@ class Aq806RespFactory
 
         $resp = null;
         switch ($resType) {
+            case Aq806RespType::Heartbeat:
+                $resp = new Aq806HbResp();
+                $resp->setData($jsonData);
+                break;
             case Aq806RespType::Control:
                 $resp = new Aq806CtrlDeviceResp();
                 $resp->setData($jsonData);

@@ -16,6 +16,10 @@ class HeatingRodRespFactory
 
         $resp = null;
         switch ($resType) {
+            case HeatingRodRespType::Heartbeat:
+                $resp = new HeatingRodHbResp();
+                $resp->setData($jsonData);
+                break;
             case HeatingRodRespType::Control:
                 $resp = new HeatingRodCtrlDeviceResp();
                 $resp->setData($jsonData);

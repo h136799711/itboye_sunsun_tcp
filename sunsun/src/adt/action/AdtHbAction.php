@@ -11,6 +11,8 @@ namespace sunsun\adt\action;
 
 use sunsun\adt\req\AdtHbReq;
 use sunsun\adt\resp\AdtHbResp;
+use sunsun\server\consts\RespFacadeType;
+use sunsun\server\factory\RespFacadeFactory;
 use sunsun\server\interfaces\BaseAction;
 
 /**
@@ -22,6 +24,7 @@ class AdtHbAction extends BaseAction
 {
     public function heartBeat($did, $clientId, AdtHbReq $req)
     {
+        RespFacadeFactory::createRespObj($did, RespFacadeType::HEART_BEAT, $req->toDataArray());
         return new AdtHbResp($req);
     }
 }

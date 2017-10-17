@@ -16,6 +16,10 @@ class WaterPumpRespFactory
 
         $resp = null;
         switch ($resType) {
+            case WaterPumpRespType::Heartbeat:
+                $resp = new WaterPumpHbResp();
+                $resp->setData($jsonData);
+                break;
             case WaterPumpRespType::Control:
                 $resp = new WaterPumpCtrlDeviceResp();
                 $resp->setData($jsonData);

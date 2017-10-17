@@ -16,6 +16,10 @@ class Aph300RespFactory
 
         $resp = null;
         switch ($resType) {
+            case Aph300RespType::Heartbeat:
+                $resp = new Aph300HbResp();
+                $resp->setData($jsonData);
+                break;
             case Aph300RespType::Control:
                 $resp = new Aph300CtrlDeviceResp();
                 $resp->setData($jsonData);
