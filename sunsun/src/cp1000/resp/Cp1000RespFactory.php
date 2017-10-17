@@ -25,7 +25,7 @@ class Cp1000RespFactory
                 $resp->setData($jsonData);
                 break;
             case Cp1000RespType::FirmwareUpdate:
-                $resp = new Cp1000DeviceUpdateResp();
+                $resp = new Cp1000DeviceFirmwareUpdateResp();
                 $resp->setData($jsonData);
                 break;
             default:

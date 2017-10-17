@@ -76,7 +76,7 @@ class Cp1000ProcessAction
                 $result = (new Cp1000DeviceCtrlAction())->updateInfo($did, $clientId, $resp);
                 break;
             case Cp1000RespType::FirmwareUpdate:
-                $result = (new Cp1000DeviceUpdateAction())->updateInfo($did, $clientId, $resp);
+                $result = (new Cp1000DeviceFirmwareUpdateAction())->updateInfo($did, $clientId, $resp);
                 break;
             default:
                 break;

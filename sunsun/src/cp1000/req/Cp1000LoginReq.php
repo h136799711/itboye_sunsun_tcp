@@ -9,84 +9,18 @@
 namespace sunsun\cp1000\req;
 
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseDeviceLoginClientReq;
 
-class Cp1000LoginReq extends BaseReqPo
+/**
+ * 设备登录请求
+ * Class Cp1000LoginReq
+ * @package sunsun\cp1000\req
+ */
+class Cp1000LoginReq extends BaseDeviceLoginClientReq
 {
-    private $did;
-    private $ver;
-    private $pwd;
-
-
     public function __construct($data = null)
     {
+        parent::__construct($data);
         $this->setReqType(Cp1000ReqType::Login);
-        if (!empty($data)) {
-            $this->setSn($data['sn']);
-            $this->setDid($data['did']);
-            $this->setVer($data['ver']);
-            $this->setPwd($data['pwd']);
-        }
     }
-
-    /**
-     * @return mixed
-     */
-    public function getDid()
-    {
-        return $this->did;
-    }
-
-    /**
-     * @param mixed $did
-     */
-    public function setDid($did)
-    {
-        $this->did = $did;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVer()
-    {
-        return $this->ver;
-    }
-
-    /**
-     * @param mixed $ver
-     */
-    public function setVer($ver)
-    {
-        $this->ver = $ver;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPwd()
-    {
-        return $this->pwd;
-    }
-
-    /**
-     * @param mixed $pwd
-     */
-    public function setPwd($pwd)
-    {
-        $this->pwd = $pwd;
-    }
-
-    function toDataArray()
-    {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn(),
-            'did' => $this->getDid(),
-            'ver' => $this->getVer(),
-            'pwd' => $this->getPwd(),
-        ];
-    }
-
-
 }

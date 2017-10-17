@@ -16,6 +16,7 @@ class Cp1000UnknownResp extends BaseRespPo
 
     public function __construct()
     {
+        parent::__construct(null);
     }
 
 

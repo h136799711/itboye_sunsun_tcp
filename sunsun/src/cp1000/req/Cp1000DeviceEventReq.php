@@ -8,16 +8,15 @@
 
 namespace sunsun\cp1000\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseDeviceEventClientReq;
 
 /**
  * Class Cp1000DeviceEventReq
  * 设备事件
  * @package sunsun\cp1000\req
  */
-class Cp1000DeviceEventReq extends BaseReqPo
+class Cp1000DeviceEventReq extends BaseDeviceEventClientReq
 {
-
 
     public function getEventInfo()
     {
@@ -31,10 +30,8 @@ class Cp1000DeviceEventReq extends BaseReqPo
 
     public function __construct($data = null)
     {
-        $this->setReqType(Cp1000ReqType::Event);
+        parent::__construct($data);
         if (!empty($data)) {
-            $this->setSn($data['sn']);
-            $this->setCode($data['code']);
             $this->setMode(-1);
             $this->setGear(-1);
             if (array_key_exists("mode", $data)) {
@@ -45,37 +42,15 @@ class Cp1000DeviceEventReq extends BaseReqPo
                 $this->setGear($data['gear']);
             }
         }
+        $this->setReqType(Cp1000ReqType::Event);
     }
 
-    function toDataArray()
-    {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn()
-        ];
-    }
 
     // 成员变量
 
-    private $code;
     private $mode;
     private $gear;
 
-    /**
-     * @return mixed
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    /**
-     * @param mixed $code
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
-    }
 
     /**
      * @return mixed

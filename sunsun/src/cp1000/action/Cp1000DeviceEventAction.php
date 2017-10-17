@@ -23,11 +23,11 @@ class Cp1000DeviceEventAction
 {
     public function logEvent($did, $client_id, Cp1000DeviceEventReq $req)
     {
-        $eventType = $req->getCode();
-        $eventInfo = json_encode(['t' => $req->getT(), 'ph' => $req->getPh()]);
-        $now = time();
         $dal = (new Cp1000DeviceEventDal());
         $do = new Cp1000DeviceEventModel();
+        $eventInfo = json_encode([]);
+        $eventType = $req->getCode();
+        $now = time();
         $do->setDid($did);
         $do->setCreateTime($now);
         $do->setUpdateTime($now);

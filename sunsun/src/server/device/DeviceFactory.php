@@ -24,6 +24,11 @@ use sunsun\aq806\dal\Aq806DeviceDal;
 use sunsun\aq806\req\Aq806ReqFactory;
 use sunsun\aq806\req\Aq806ReqType;
 use sunsun\aq806\resp\Aq806LoginResp;
+use sunsun\cp1000\action\Cp1000ProcessAction;
+use sunsun\cp1000\dal\Cp1000DeviceDal;
+use sunsun\cp1000\req\Cp1000ReqFactory;
+use sunsun\cp1000\req\Cp1000ReqType;
+use sunsun\cp1000\resp\Cp1000LoginResp;
 use sunsun\filter_vat\action\FilterVatProcessAction;
 use sunsun\filter_vat\dal\FilterVatDeviceDal;
 use sunsun\filter_vat\req\FilterVatReqFactory;
@@ -84,6 +89,9 @@ class DeviceFactory
             case DeviceType::Did_WaterPump:
                 $logic = new WaterPumpDeviceDal();
                 break;
+            case DeviceType::Did_CP1000:
+                $logic = new Cp1000DeviceDal();
+                break;
             default:break;
         }
         return $logic;
@@ -115,6 +123,9 @@ class DeviceFactory
                 break;
             case DeviceType::Did_WaterPump:
                 $resp = new WaterPumpLoginResp();
+                break;
+            case DeviceType::Did_CP1000:
+                $resp = new Cp1000LoginResp();
                 break;
             default:break;
         }
@@ -149,6 +160,9 @@ class DeviceFactory
             case DeviceType::Did_WaterPump:
                 $req = WaterPumpReqFactory::create(WaterPumpReqType::Login, $data);
                 break;
+            case DeviceType::Did_CP1000:
+                $req = Cp1000ReqFactory::create(Cp1000ReqType::Login, $data);
+                break;
             default:break;
         }
         return $req;
@@ -180,6 +194,9 @@ class DeviceFactory
                 break;
             case DeviceType::Did_WaterPump:
                 $action = new WaterPumpProcessAction();
+                break;
+            case DeviceType::Did_CP1000:
+                $action = new Cp1000ProcessAction();
                 break;
             default:break;
         }

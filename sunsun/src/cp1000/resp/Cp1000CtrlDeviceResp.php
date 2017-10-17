@@ -10,22 +10,20 @@ namespace sunsun\cp1000\resp;
 
 
 use sunsun\cp1000\req\Cp1000CtrlDeviceReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseControlDeviceClientResp;
 
 /**
  * Class Cp1000HbReq
  * 设备状态响应包
  * @package sunsun\cp1000\req
  */
-class Cp1000CtrlDeviceResp extends BaseRespPo
+class Cp1000CtrlDeviceResp extends BaseControlDeviceClientResp
 {
 
     public function __construct(Cp1000CtrlDeviceReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(Cp1000RespType::Control);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function setData($data)

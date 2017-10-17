@@ -8,22 +8,20 @@
 
 namespace sunsun\cp1000\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseControlDeviceServerReq;
 
 /**
- * Class Cp1000HbReq
+ * Class Cp1000CtrlDeviceReq
  * 设置设备
  * @package sunsun\cp1000\req
  */
-class Cp1000CtrlDeviceReq extends BaseReqPo
+class Cp1000CtrlDeviceReq extends BaseControlDeviceServerReq
 {
 
     public function __construct($data = null)
     {
+        parent::__construct($data);
         $this->setReqType(Cp1000ReqType::Control);
-        if (!empty($data)) {
-            $this->setSn($data['sn']);
-        }
     }
 
     function toDataArray()

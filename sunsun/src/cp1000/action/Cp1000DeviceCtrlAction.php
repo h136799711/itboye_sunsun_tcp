@@ -27,13 +27,9 @@ class Cp1000DeviceCtrlAction
      */
     public function updateInfo($did, $clientId, Cp1000CtrlDeviceResp $resp)
     {
-        $check = $resp->check();
-        if (!empty($check)) {
-            return ResultHelper::fail($check);
-        }
+        $dal = new Cp1000DeviceDal();
         //更新设备信息
         $updateEntity = ModelConverterHelper::convertToModelArrayOfCtrlDeviceResp($resp);
-        $dal = new Cp1000DeviceDal();
         // 向中转通道发送信息
         TransferClient::sendMessageToGroup($did, $updateEntity, $resp->getSn());
         $updateEntity['update_time'] = time();

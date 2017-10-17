@@ -8,25 +8,22 @@
 
 namespace sunsun\cp1000\resp;
 
-
 use sunsun\cp1000\req\Cp1000DeviceInfoReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseDeviceInfoClientResp;
 
 /**
- * Class Cp1000HbReq
+ * Class Cp1000DeviceInfoResp
  * 设备状态响应包
- * @package sunsun\cp1000\req
+ * @package sunsun\cp1000\resp
  */
-class Cp1000DeviceInfoResp extends BaseRespPo
+class Cp1000DeviceInfoResp extends BaseDeviceInfoClientResp
 {
 
 
     public function __construct(Cp1000DeviceInfoReq $req = null)
     {
+        parent::__construct($req);
         $this->setRespType(Cp1000RespType::DeviceInfo);
-        if (!empty($req)) {
-            $this->setSn($req->getSn());
-        }
     }
 
     public function setData($data)
@@ -71,7 +68,6 @@ class Cp1000DeviceInfoResp extends BaseRespPo
 
         return $data;
     }
-
 
     public function check()
     {
