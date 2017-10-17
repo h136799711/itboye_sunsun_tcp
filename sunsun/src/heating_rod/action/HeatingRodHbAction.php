@@ -9,9 +9,9 @@
 namespace sunsun\heating_rod\action;
 
 
-use sunsun\dal\DeviceTcpClientDal;
 use sunsun\heating_rod\req\HeatingRodHbReq;
 use sunsun\heating_rod\resp\HeatingRodHbResp;
+use sunsun\server\factory\DeviceFacadeFactory;
 
 /**
  * Class HeatingRodHbAction
@@ -22,7 +22,7 @@ class HeatingRodHbAction
 {
     public function heartBeat($did, $clientId, HeatingRodHbReq $req)
     {
-        (new DeviceTcpClientDal())->updateByDid($did, ['update_time' => time()]);
+        (DeviceFacadeFactory::getDeviceDal($did))->updateByDid($did, ['update_time' => time()]);
         return new HeatingRodHbResp($req);
     }
 }
