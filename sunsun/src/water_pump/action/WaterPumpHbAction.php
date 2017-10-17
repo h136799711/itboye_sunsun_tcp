@@ -9,6 +9,7 @@
 namespace sunsun\water_pump\action;
 
 
+use sunsun\dal\DeviceTcpClientDal;
 use sunsun\water_pump\req\WaterPumpHbReq;
 use sunsun\water_pump\resp\WaterPumpHbResp;
 
@@ -21,6 +22,7 @@ class WaterPumpHbAction
 {
     public function heartBeat($did, $clientId, WaterPumpHbReq $req)
     {
+        (new DeviceTcpClientDal())->updateByDid($did, ['update_time' => time()]);
         return new WaterPumpHbResp($req);
     }
 }

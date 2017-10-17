@@ -9,6 +9,7 @@
 namespace sunsun\filter_vat\action;
 
 
+use sunsun\dal\DeviceTcpClientDal;
 use sunsun\filter_vat\req\FilterVatHbReq;
 use sunsun\filter_vat\resp\FilterVatHbResp;
 
@@ -21,6 +22,7 @@ class FilterVatHbAction
 {
     public function heartBeat($did, $clientId, FilterVatHbReq $req)
     {
+        (new DeviceTcpClientDal())->updateByDid($did, ['update_time' => time()]);
         return new FilterVatHbResp($req);
     }
 }

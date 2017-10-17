@@ -9,6 +9,7 @@
 namespace sunsun\server\interfaces;
 
 use sunsun\dal\BaseDal;
+use sunsun\dal\DeviceTcpClientDal;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\DevToServerDelayHelper;
 use sunsun\helper\ResultHelper;
@@ -28,7 +29,7 @@ abstract class BaseAction
 
     public function deviceHeartBeat($did, $clientId, BaseHeartBeatClientReq $req)
     {
-        (DeviceFacadeFactory::getDeviceDal($did))->updateByDid($did, ['update_time' => time()]);
+        (new DeviceTcpClientDal())->updateByDid($did, ['update_time' => time()]);
         $respObj = RespFacadeFactory::createRespObj($did, RespFacadeType::HEART_BEAT, $req->toDataArray());
         return $respObj;
     }

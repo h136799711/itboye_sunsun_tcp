@@ -11,6 +11,7 @@ namespace sunsun\aq806\action;
 
 use sunsun\aq806\req\Aq806HbReq;
 use sunsun\aq806\resp\Aq806HbResp;
+use sunsun\dal\DeviceTcpClientDal;
 
 /**
  * Class Aq806HbAction
@@ -21,6 +22,7 @@ class Aq806HbAction
 {
     public function heartBeat($did, $clientId, Aq806HbReq $req)
     {
+        (new DeviceTcpClientDal())->updateByDid($did, ['update_time' => time()]);
         return new Aq806HbResp($req);
     }
 }
