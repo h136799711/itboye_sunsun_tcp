@@ -67,7 +67,7 @@ class Events
     public static function onClose($client_id)
     {
         //3. tcp通道关闭
-//        Gateway::closeClient($client_id);
+        Gateway::closeClient($client_id);
     }
 
 }

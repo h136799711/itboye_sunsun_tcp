@@ -18,9 +18,6 @@ use Workerman\Worker;
 // 自动加载类
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
-// 文件监控
-require_once __DIR__ . '/file_monitor.php';
-
 // bussinessWorker 进程
 $worker = new BusinessWorker();
 // worker名称
