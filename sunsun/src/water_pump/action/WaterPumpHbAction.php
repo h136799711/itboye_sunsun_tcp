@@ -21,7 +21,6 @@ class WaterPumpHbAction
 {
     public function heartBeat($did, $clientId, WaterPumpHbReq $req)
     {
-//        (new WaterPumpDeviceDal())->updateOnlineTime($did);
         return new WaterPumpHbResp($req);
     }
 }

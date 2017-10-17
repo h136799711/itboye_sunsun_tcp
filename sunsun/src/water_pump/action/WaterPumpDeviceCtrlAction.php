@@ -36,7 +36,6 @@ class WaterPumpDeviceCtrlAction
         $dal = new WaterPumpDeviceDal();
         // 向中转通道发送信息
         TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());
-        $updateEntity['update_time'] = time();
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
     }
