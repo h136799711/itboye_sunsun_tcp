@@ -21,7 +21,6 @@ date_default_timezone_set("Etc/GMT");
 if (!defined('SUNSUN_ENV')) {
     define("SUNSUN_ENV", "production");//debug|production 模式
 }
-define("CommonPassword", "1234bcda");//
 
 use GatewayWorker\Lib\Gateway;
 use sunsun\dal\DeviceTcpClientDal;
@@ -168,7 +167,7 @@ class Events
                     return;
                 }
                 $pwd = $result[SessionKeys::PWD];
-                $did = $result['did'];
+                $did = $result[SessionKeys::DID];
                 DebugHelper::debug('[device other message process]did=' . $did . 'pwd=' . $pwd, $_SESSION);
                 $result = SunsunTDS::decode($message, $pwd);
                 if (empty($result)) {
