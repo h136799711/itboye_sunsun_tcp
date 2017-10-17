@@ -8,30 +8,18 @@
 
 namespace sunsun\aq806\req;
 
-
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseHeartBeatClientReq;
 
 /**
  * Class Aq806HbReq
  * 心跳包
  * @package sunsun\aq806\req
  */
-class Aq806HbReq extends BaseReqPo
+class Aq806HbReq extends BaseHeartBeatClientReq
 {
-
     public function __construct($data = null)
     {
         parent::__construct($data);
         $this->setReqType(Aq806ReqType::Heartbeat);
     }
-
-    function toDataArray()
-    {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn(),
-        ];
-    }
-
-
 }

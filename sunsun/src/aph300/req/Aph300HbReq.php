@@ -8,30 +8,19 @@
 
 namespace sunsun\aph300\req;
 
-
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseHeartBeatClientReq;
 
 /**
  * Class Aph300HbReq
  * 心跳包
  * @package sunsun\aph300\req
  */
-class Aph300HbReq extends BaseReqPo
+class Aph300HbReq extends BaseHeartBeatClientReq
 {
-
     public function __construct($data = null)
     {
         parent::__construct($data);
         $this->setReqType(Aph300ReqType::Heartbeat);
     }
-
-    function toDataArray()
-    {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn(),
-        ];
-    }
-
 
 }

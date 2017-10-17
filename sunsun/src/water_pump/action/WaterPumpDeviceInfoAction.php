@@ -14,7 +14,6 @@ use sunsun\helper\ResultHelper;
 use sunsun\transfer_station\client\TransferClient;
 use sunsun\water_pump\dal\WaterPumpDeviceDal;
 use sunsun\water_pump\helper\ModelConverterHelper;
-use sunsun\water_pump\helper\WaterPumpTcpLogHelper;
 use sunsun\water_pump\resp\WaterPumpDeviceInfoResp;
 
 class WaterPumpDeviceInfoAction
@@ -23,7 +22,6 @@ class WaterPumpDeviceInfoAction
     {
         $check = $resp->check();
         if (!empty($check)) {
-            WaterPumpTcpLogHelper::logDebug($did, 'WaterPumpDeviceInfoAction_updateInfo_'.$check);
             return ResultHelper::fail($check);
         }
         //更新设备信息
@@ -36,7 +34,6 @@ class WaterPumpDeviceInfoAction
         if($avg > 0) {
             $updateEntity['delay_avg'] = $avg;
         }
-        WaterPumpTcpLogHelper::logDebug($did, 'updateEntity' . json_encode($updateEntity));
 
         // 向中转通道发送信息
         TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());

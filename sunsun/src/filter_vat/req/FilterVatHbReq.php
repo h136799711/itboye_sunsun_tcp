@@ -9,14 +9,14 @@
 namespace sunsun\filter_vat\req;
 
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseHeartBeatClientReq;
 
 /**
  * Class FilterVatHbReq
  * 心跳包
  * @package sunsun\filter_vat\req
  */
-class FilterVatHbReq extends BaseReqPo
+class FilterVatHbReq extends BaseHeartBeatClientReq
 {
 
     public function __construct($data = null)
@@ -24,14 +24,5 @@ class FilterVatHbReq extends BaseReqPo
         parent::__construct($data);
         $this->setReqType(FilterVatReqType::Heartbeat);
     }
-
-    function toDataArray()
-    {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn(),
-        ];
-    }
-
 
 }

@@ -9,14 +9,14 @@
 namespace sunsun\adt\req;
 
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseHeartBeatClientReq;
 
 /**
  * Class AdtHbReq
  * 心跳包
  * @package sunsun\adt\req
  */
-class AdtHbReq extends BaseReqPo
+class AdtHbReq extends BaseHeartBeatClientReq
 {
 
     public function __construct($data = null)
@@ -25,13 +25,6 @@ class AdtHbReq extends BaseReqPo
         $this->setReqType(AdtReqType::Heartbeat);
     }
 
-    function toDataArray()
-    {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn(),
-        ];
-    }
 
 
 }

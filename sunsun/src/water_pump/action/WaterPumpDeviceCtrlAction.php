@@ -13,7 +13,6 @@ use sunsun\helper\ResultHelper;
 use sunsun\transfer_station\client\TransferClient;
 use sunsun\water_pump\dal\WaterPumpDeviceDal;
 use sunsun\water_pump\helper\ModelConverterHelper;
-use sunsun\water_pump\helper\WaterPumpTcpLogHelper;
 use sunsun\water_pump\resp\WaterPumpCtrlDeviceResp;
 
 class WaterPumpDeviceCtrlAction
@@ -35,7 +34,6 @@ class WaterPumpDeviceCtrlAction
         //更新设备信息
         $updateEntity = ModelConverterHelper::convertToModelArrayOfCtrlDeviceResp($resp);
         $dal = new WaterPumpDeviceDal();
-        WaterPumpTcpLogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity),"WaterPumpDeviceCtrlAction");
         // 向中转通道发送信息
         TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());
         $updateEntity['update_time'] = time();

@@ -11,13 +11,14 @@ namespace sunsun\adt\action;
 
 use sunsun\adt\req\AdtHbReq;
 use sunsun\adt\resp\AdtHbResp;
+use sunsun\server\interfaces\BaseAction;
 
 /**
  * Class AdtHbAction
  * 心跳包处理
  * @package sunsun\adt\action
  */
-class AdtHbAction
+class AdtHbAction extends BaseAction
 {
     public function heartBeat($did, $clientId, AdtHbReq $req)
     {

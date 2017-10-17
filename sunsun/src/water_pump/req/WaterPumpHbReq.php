@@ -8,15 +8,14 @@
 
 namespace sunsun\water_pump\req;
 
-
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseHeartBeatClientReq;
 
 /**
  * Class WaterPumpHbReq
  * 心跳包
  * @package sunsun\water_pump\req
  */
-class WaterPumpHbReq extends BaseReqPo
+class WaterPumpHbReq extends BaseHeartBeatClientReq
 {
 
     public function __construct($data = null)
@@ -24,14 +23,5 @@ class WaterPumpHbReq extends BaseReqPo
         parent::__construct($data);
         $this->setReqType(WaterPumpReqType::Heartbeat);
     }
-
-    function toDataArray()
-    {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn(),
-        ];
-    }
-
 
 }

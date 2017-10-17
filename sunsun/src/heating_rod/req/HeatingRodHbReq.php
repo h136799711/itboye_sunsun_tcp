@@ -8,15 +8,14 @@
 
 namespace sunsun\heating_rod\req;
 
-
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseHeartBeatClientReq;
 
 /**
  * Class HeatingRodHbReq
  * 心跳包
  * @package sunsun\heating_rod\req
  */
-class HeatingRodHbReq extends BaseReqPo
+class HeatingRodHbReq extends BaseHeartBeatClientReq
 {
 
     public function __construct($data = null)
@@ -24,14 +23,5 @@ class HeatingRodHbReq extends BaseReqPo
         parent::__construct($data);
         $this->setReqType(HeatingRodReqType::Heartbeat);
     }
-
-    function toDataArray()
-    {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn(),
-        ];
-    }
-
 
 }
