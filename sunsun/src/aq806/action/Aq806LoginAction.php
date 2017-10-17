@@ -14,6 +14,7 @@ use sunsun\aq806\req\Aq806LoginReq;
 use sunsun\aq806\resp\Aq806LoginResp;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\LogHelper;
+use sunsun\server\consts\SunsunDeviceConstant;
 
 class Aq806LoginAction
 {
@@ -21,7 +22,7 @@ class Aq806LoginAction
     {
         $resp = new  Aq806LoginResp();
         $resp->setSn($req->getSn());
-        $resp->setHb(30);
+        $resp->setHb(SunsunDeviceConstant::DEFAULT_HEART_BEAT);
         $dal = new Aq806DeviceDal();
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {

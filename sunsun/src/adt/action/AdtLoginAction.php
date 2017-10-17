@@ -14,6 +14,7 @@ use sunsun\adt\req\AdtLoginReq;
 use sunsun\adt\resp\AdtLoginResp;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\LogHelper;
+use sunsun\server\consts\SunsunDeviceConstant;
 
 class AdtLoginAction
 {
@@ -21,7 +22,7 @@ class AdtLoginAction
     {
         $resp = new  AdtLoginResp();
         $resp->setSn($req->getSn());
-        $resp->setHb(30);
+        $resp->setHb(SunsunDeviceConstant::DEFAULT_HEART_BEAT);
         $dal = new AdtDeviceDal();
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {

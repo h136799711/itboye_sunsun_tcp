@@ -14,6 +14,7 @@ use sunsun\aph300\req\Aph300LoginReq;
 use sunsun\aph300\resp\Aph300LoginResp;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\LogHelper;
+use sunsun\server\consts\SunsunDeviceConstant;
 
 class Aph300LoginAction
 {
@@ -21,7 +22,7 @@ class Aph300LoginAction
     {
         $resp = new  Aph300LoginResp();
         $resp->setSn($req->getSn());
-        $resp->setHb(30);
+        $resp->setHb(SunsunDeviceConstant::DEFAULT_HEART_BEAT);
         $dal = new Aph300DeviceDal();
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {

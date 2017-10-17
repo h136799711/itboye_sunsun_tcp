@@ -11,6 +11,7 @@ namespace sunsun\water_pump\action;
 
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\LogHelper;
+use sunsun\server\consts\SunsunDeviceConstant;
 use sunsun\water_pump\dal\WaterPumpDeviceDal;
 use sunsun\water_pump\req\WaterPumpLoginReq;
 use sunsun\water_pump\resp\WaterPumpLoginResp;
@@ -21,7 +22,7 @@ class WaterPumpLoginAction
     {
         $resp = new  WaterPumpLoginResp();
         $resp->setSn($req->getSn());
-        $resp->setHb(120);
+        $resp->setHb(SunsunDeviceConstant::DEFAULT_HEART_BEAT);
         $dal = new WaterPumpDeviceDal();
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {

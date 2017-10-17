@@ -14,6 +14,7 @@ use sunsun\heating_rod\dal\HeatingRodDeviceDal;
 use sunsun\heating_rod\req\HeatingRodLoginReq;
 use sunsun\heating_rod\resp\HeatingRodLoginResp;
 use sunsun\helper\LogHelper;
+use sunsun\server\consts\SunsunDeviceConstant;
 
 class HeatingRodLoginAction
 {
@@ -21,7 +22,7 @@ class HeatingRodLoginAction
     {
         $resp = new  HeatingRodLoginResp();
         $resp->setSn($req->getSn());
-        $resp->setHb(30);
+        $resp->setHb(SunsunDeviceConstant::DEFAULT_HEART_BEAT);
         $dal = new HeatingRodDeviceDal();
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {

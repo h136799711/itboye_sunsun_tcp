@@ -14,6 +14,7 @@ use sunsun\filter_vat\dal\FilterVatDeviceDal;
 use sunsun\filter_vat\req\FilterVatLoginReq;
 use sunsun\filter_vat\resp\FilterVatLoginResp;
 use sunsun\helper\LogHelper;
+use sunsun\server\consts\SunsunDeviceConstant;
 
 class FilterVatLoginAction
 {
@@ -21,7 +22,7 @@ class FilterVatLoginAction
     {
         $resp = new  FilterVatLoginResp();
         $resp->setSn($req->getSn());
-        $resp->setHb(30);
+        $resp->setHb(SunsunDeviceConstant::DEFAULT_HEART_BEAT);
         $dal = new FilterVatDeviceDal();
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {
