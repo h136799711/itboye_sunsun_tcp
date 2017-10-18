@@ -8,7 +8,7 @@
 
 namespace sunsun\server\interfaces;
 
-interface ToModelArrayInterface
+interface ToDbEntityArrayInterface
 {
-    static function toModelArray();
+    function toDbEntityArray();
 }

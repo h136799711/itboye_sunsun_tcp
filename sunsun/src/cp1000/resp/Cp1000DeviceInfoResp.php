@@ -9,6 +9,7 @@
 namespace sunsun\cp1000\resp;
 
 use sunsun\cp1000\req\Cp1000DeviceInfoReq;
+use sunsun\server\interfaces\ToDbEntityArrayInterface;
 use sunsun\server\resp\BaseDeviceInfoClientResp;
 
 /**
@@ -16,7 +17,7 @@ use sunsun\server\resp\BaseDeviceInfoClientResp;
  * 设备状态响应包
  * @package sunsun\cp1000\resp
  */
-class Cp1000DeviceInfoResp extends BaseDeviceInfoClientResp
+class Cp1000DeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntityArrayInterface
 {
 
 
@@ -42,6 +43,53 @@ class Cp1000DeviceInfoResp extends BaseDeviceInfoClientResp
         array_key_exists("batt", $data) && $this->setBatt($data['batt']);
         array_key_exists("rct", $data) && $this->setRct($data['rct']);
     }
+
+    function toDbEntityArray()
+    {
+        $data = [];
+        $data['update_time'] = time();
+        if (!is_null($this->getDevLock())) {
+            $data['dev_lock'] = $this->getDevLock();
+        }
+        if (!is_null($this->getUpdState()) && $this->getUpdState() > -1) {
+            $data['upd_state'] = $this->getUpdState();
+        } else {
+            $data['upd_state'] = 0;
+        }
+
+        if (!is_null($this->getPushCfg())) {
+            $data['push_cfg'] = $this->getPushCfg();
+        }
+
+        if (!is_null($this->getGear())) {
+            $data['gear'] = $this->getGear();
+        }
+
+        if (!is_null($this->getMode())) {
+            $data['mode'] = $this->getMode();
+        }
+        if (!is_null($this->getBLife())) {
+            $data['b_life'] = $this->getBLife();
+        }
+        if (!is_null($this->getChCnt())) {
+            $data['ch_cnt'] = $this->getChCnt();
+        }
+        if (!is_null($this->getState())) {
+            $data['state'] = $this->getState();
+        }
+        if (!is_null($this->getWh())) {
+            $data['wh'] = $this->getWh();
+        }
+        if (!is_null($this->getBatt())) {
+            $data['batt'] = $this->getBatt();
+        }
+        if (!is_null($this->getRct())) {
+            $data['rct'] = $this->getRct();
+        }
+
+        return $data;
+    }
+
 
     public function toDataArray()
     {

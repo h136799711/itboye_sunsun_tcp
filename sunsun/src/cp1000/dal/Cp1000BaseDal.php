@@ -9,11 +9,11 @@
 namespace sunsun\cp1000\dal;
 
 
-use sunsun\dal\BaseDal;
 use sunsun\server\consts\DeviceType;
 use sunsun\server\db\DbPool;
+use sunsun\server\interfaces\BaseDalV2;
 
-class Cp1000BaseDal extends BaseDal
+class Cp1000BaseDal extends BaseDalV2
 {
     public function __construct($db = null)
     {

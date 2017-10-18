@@ -25,6 +25,18 @@ use sunsun\transfer_station\client\TransferClient;
 abstract class BaseAction
 {
 
+    public function deviceInfoUpdate($did, $clientId, BaseRespPo $resp, BaseDalV2 $dal)
+    {
+        if (!method_exists($resp, 'toDbEntityArray')) {
+            throw new \Exception('resp toDbEntityArray method missing');
+        }
+        // 更新设备信息
+        $updateEntity = $resp->toDbEntityArray();
+        // 向中转通道发送信息
+        TransferClient::sendMessageToGroup($did, $updateEntity, $resp->getSn());
+        $ret = $dal->updateByDid($did, $updateEntity);
+        return ResultHelper::success($ret);
+    }
 
     public function deviceHeartBeat($did, $clientId, BaseHeartBeatClientReq $req)
     {
@@ -42,13 +54,13 @@ abstract class BaseAction
      * @return array
      * @throws \Exception
      */
-    public function updateDeviceInfo($did, $clientId, BaseRespPo $resp, BaseDalV2 $dal)
+    public function deviceControlInfoUpdate($did, $clientId, BaseRespPo $resp, BaseDalV2 $dal)
     {
-        if (!method_exists($resp, 'toModelArray')) {
-            throw new \Exception('resp toModelArray method missing');
+        if (!method_exists($resp, 'toDbEntityArray')) {
+            throw new \Exception('resp toDbEntityArray method missing');
         }
         //更新设备信息
-        $updateEntity = $resp->toModelArray();
+        $updateEntity = $resp->toDbEntityArray();
         $avg = DevToServerDelayHelper::logRespTime($clientId, $resp);
         if ($avg > 12345679.999) {
             $avg = 12345679.999;

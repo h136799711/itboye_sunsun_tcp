@@ -33,7 +33,7 @@ class Cp1000DeviceEventAction
         $do->setUpdateTime($now);
         $do->setEventInfo($eventInfo);
         $do->setEventType($eventType);
-        $result = $dal->insert($do);
+        $dal->insert($do);
         $resp = new Cp1000DeviceEventResp($req);
         $resp->setState(0);
         return $resp;

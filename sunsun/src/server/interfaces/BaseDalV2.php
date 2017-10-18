@@ -9,6 +9,7 @@
 namespace sunsun\server\interfaces;
 
 
+use sunsun\model\BaseModel;
 use sunsun\server\business\Events;
 use Workerman\MySQL;
 
@@ -30,14 +31,9 @@ abstract class BaseDalV2
     {
         if ($db instanceof MySQL\Connection) {
             self::$db = $db;
-        } else
-            if (!(self::$db instanceof MySQL\Connection)) {
-                if (property_exists('\sunsun\server\business\Events', 'db')) {
-                    self::$db = Events::$db;
-                } elseif (property_exists('Events', 'db')) {
-                    self::$db = \Events::$db;
-                }
-            }
+        } else {
+            self::$db = Events::getDb();
+        }
     }
 
     /**
