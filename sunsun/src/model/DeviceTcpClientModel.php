@@ -62,4 +62,14 @@ class DeviceTcpClientModel extends BaseModel
     {
         $this->tcp_client_id = $tcp_client_id;
     }
+
+    public function toDataArray()
+    {
+        return [
+            'did' => $this->getDid(),
+            'tcp_client_id' => $this->getTcpClientId(),
+            'prev_login_time' => $this->getPrevLoginTime()
+        ];
+    }
+
 }

@@ -10,7 +10,6 @@ namespace sunsun\water_pump\action;
 
 
 use sunsun\server\interfaces\BaseAction;
-use sunsun\water_pump\helper\ModelConverterHelper;
 
 class WaterPumpDeviceCtrlAction extends BaseAction
 {

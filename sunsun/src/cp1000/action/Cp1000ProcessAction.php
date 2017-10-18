@@ -60,7 +60,6 @@ class Cp1000ProcessAction
     private function response($did, $clientId, $jsonData)
     {
         $resType = $jsonData['resType'];
-        $sn = $jsonData['sn'];
         $resp = Cp1000RespFactory::create($resType, $jsonData);
         $retResp = null;
         if (empty($resp)) {

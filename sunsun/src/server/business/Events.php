@@ -47,7 +47,7 @@ class Events
     public static $dbPool;
     private static $activeTime;//
 
-    public static function onWorkerStart($businessWorker)
+    public static function onWorkerStart()
     {
         self::$dbPool = DbPool::getInstance();
         self::checkOfflineSession();
@@ -110,7 +110,7 @@ class Events
      */
     public static function acceptCommand($client_id)
     {
-        // TODO: 重构
+        // TODO: 增加其它指令
         if (array_key_exists('cmd_type', $_SESSION)) {
             $cmdType = $_SESSION['cmd_type'];
             // 创建指令
@@ -137,7 +137,6 @@ class Events
         self::$activeTime = time();
         // 处理外部加载的指令
         self::acceptCommand($client_id);
-        $pwd = "";
         if (self::isLoginRequest()) {
             DebugHelper::debug('[device login start]' . $client_id, $_SESSION);
             //第一次请求
@@ -247,7 +246,7 @@ class Events
      * @param $client_id
      * @param $message
      * @param $pwd
-     * @return bool|\sunsun\water_pump\resp\WaterPumpLoginResp
+     * @return null|\sunsun\adt\resp\AdtCtrlDeviceResp|\sunsun\adt\resp\AdtDeviceInfoResp|\sunsun\adt\resp\AdtDeviceUpdateResp|\sunsun\adt\resp\AdtHbResp|\sunsun\aq806\resp\Aq806CtrlDeviceResp|\sunsun\aq806\resp\Aq806DeviceInfoResp|\sunsun\aq806\resp\Aq806DeviceUpdateResp|\sunsun\aq806\resp\Aq806HbResp|\sunsun\filter_vat\resp\FilterVatCtrlDeviceResp|\sunsun\filter_vat\resp\FilterVatDeviceEventResp|\sunsun\filter_vat\resp\FilterVatDeviceInfoResp|\sunsun\filter_vat\resp\FilterVatDeviceUpdateResp|\sunsun\filter_vat\resp\FilterVatHbResp|\sunsun\filter_vat\resp\FilterVatLoginResp|\sunsun\water_pump\resp\WaterPumpCtrlDeviceResp|\sunsun\water_pump\resp\WaterPumpDeviceInfoResp|\sunsun\water_pump\resp\WaterPumpDeviceUpdateResp|\sunsun\water_pump\resp\WaterPumpHbResp
      */
     private static function login($client_id, $message, &$pwd)
     {
@@ -257,12 +256,12 @@ class Events
         if ($result == null) {
             DebugHelper::debug('[device login]  decode fail', $_SESSION);
             self::jsonError($client_id, 'decode fail', []);
-            return false;
+            return null;
         }
         if (!$result->isValid()) {
             DebugHelper::debug('[device login]  decode success but data invalid', $_SESSION);
             self::jsonError($client_id, 'the data format is invalid' . $message, []);
-            return false;
+            return null;
         }
         //{"reqType": "1","sn": "0","did": "10000001","ver": "V1.0","pwd": "gigw+DAcMITN4SuEe6JmkA=="}
         $originData = $result->getTdsOriginData();
@@ -272,7 +271,7 @@ class Events
         if (!array_key_exists('did', $data) || empty($data[SessionKeys::DID])) {
             DebugHelper::debug('[device login] did is missing', $_SESSION);
             self::jsonError($client_id, 'the did is need', []);
-            return false;
+            return null;
         }
         //2. Device 这里替换成具体设备的请求工厂类
         $did = $data[SessionKeys::DID];
@@ -282,7 +281,7 @@ class Events
         if (empty($result)) {
             DebugHelper::debug('[device login] did[' . $did . '] is not exists', $_SESSION);
             self::jsonError($client_id, 'which did=' . $did . 'is not exists', []);
-            return false;
+            return null;
         }
 
         $id = $result['id'];
@@ -293,7 +292,7 @@ class Events
 
             DebugHelper::debug('[device login] the control password decode fail. encode pwd= ' . $data[SessionKeys::PWD] . ', key = ' . $pwd, $_SESSION);
             self::jsonError($client_id, $data[SessionKeys::PWD] . 'the control password decode fail,key=' . $pwd, []);
-            return false;
+            return null;
         }
 
         $data['origin_pwd'] = $originPwd;

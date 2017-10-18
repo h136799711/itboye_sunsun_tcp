@@ -13,8 +13,6 @@ class Cp1000RespFactory
 
     public static function create($resType, $jsonData)
     {
-        $sn = $jsonData['sn'];
-
         $resp = null;
         switch ($resType) {
             case Cp1000RespType::Heartbeat:

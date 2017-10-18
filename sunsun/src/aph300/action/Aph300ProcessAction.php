@@ -14,7 +14,6 @@ use sunsun\aph300\req\Aph300ReqType;
 use sunsun\aph300\resp\Aph300HbResp;
 use sunsun\aph300\resp\Aph300RespFactory;
 use sunsun\aph300\resp\Aph300RespType;
-use sunsun\aph300\resp\Aph300UnknownResp;
 use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
@@ -96,7 +95,7 @@ class Aph300ProcessAction
      * @param $did
      * @param $clientId
      * @param $jsonData
-     * @return null|\sunsun\aph300\resp\Aph300DeviceEventResp|Aph300HbResp|Aph300UnknownResp
+     * @return null|\sunsun\adt\resp\AdtCtrlDeviceResp|\sunsun\adt\resp\AdtDeviceInfoResp|\sunsun\adt\resp\AdtDeviceUpdateResp|\sunsun\aph300\resp\Aph300CtrlDeviceResp|\sunsun\aph300\resp\Aph300DeviceInfoResp|\sunsun\aph300\resp\Aph300DeviceUpdateResp|\sunsun\aq806\resp\Aq806CtrlDeviceResp|\sunsun\aq806\resp\Aq806DeviceInfoResp|\sunsun\aq806\resp\Aq806DeviceUpdateResp|\sunsun\cp1000\resp\Cp1000CtrlDeviceResp|\sunsun\cp1000\resp\Cp1000DeviceFirmwareUpdateResp|\sunsun\cp1000\resp\Cp1000DeviceInfoResp|\sunsun\cp1000\resp\Cp1000HbResp|\sunsun\heating_rod\resp\HeatingRodCtrlDeviceResp|\sunsun\heating_rod\resp\HeatingRodDeviceInfoResp|\sunsun\heating_rod\resp\HeatingRodDeviceUpdateResp
      */
     private function request($did, $clientId, $jsonData)
     {

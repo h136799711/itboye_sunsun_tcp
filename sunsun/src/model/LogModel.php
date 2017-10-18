@@ -11,6 +11,17 @@ namespace sunsun\model;
 
 class LogModel extends BaseModel
 {
+    public function toDataArray()
+    {
+        return [
+            'owner' => $this->getOwner(),
+            'body' => $this->getBody(),
+            'level' => $this->getLevel(),
+            'type' => $this->getType()
+        ];
+    }
+
+
     private $owner;
     private $body;
     private $level;
