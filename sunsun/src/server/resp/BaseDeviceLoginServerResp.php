@@ -91,4 +91,12 @@ class BaseDeviceLoginServerResp extends BaseRespPo
             'hb' => $this->getHb()
         ];
     }
+
+    public function setData($data = null)
+    {
+        if (empty($data)) return;
+        array_key_exists('sn', $data) && $this->setSn($data['sn']);
+        array_key_exists('state', $data) && $this->setState($data['state']);
+        array_key_exists('hb', $data) && $this->setState($data['hb']);
+    }
 }

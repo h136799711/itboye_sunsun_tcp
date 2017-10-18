@@ -24,6 +24,32 @@ class FilterVatCtrlDeviceReq extends BaseControlDeviceServerReq
         $this->setReqType(FilterVatReqType::Control);
     }
 
+
+    public function setData($data = null)
+    {
+        array_key_exists("clEn", $data) && $this->setClEn($data['clEn']);
+        array_key_exists("clWeek", $data) && $this->setClWeek($data['clWeek']);
+        array_key_exists("clTm", $data) && $this->setClTm($data['clTm']);
+        array_key_exists("clDur", $data) && $this->setClDur($data['clDur']);
+        array_key_exists("clState", $data) && $this->setClState($data['clState']);
+        array_key_exists("clCfg", $data) && $this->setClCfg($data['clCfg']);
+        array_key_exists("uvOn", $data) && $this->setUvOn($data['uvOn']);
+        array_key_exists("uvOff", $data) && $this->setUvOff($data['uvOff']);
+        array_key_exists("uvWH", $data) && $this->setUvWH($data['uvWH']);
+        array_key_exists("uvCfg", $data) && $this->setUvCfg($data['uvCfg']);
+        array_key_exists("outStateA", $data) && $this->setOutStateA($data['outStateA']);
+        array_key_exists("outStateB", $data) && $this->setOutStateB($data['outStateB']);
+        array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
+        array_key_exists("wsOnTm", $data) && $this->setWsOnTm($data['wsOnTm']);
+        array_key_exists("wsOffTm", $data) && $this->setWsOffTm($data['wsOffTm']);
+        array_key_exists("obPer", $data) && $this->setObPer($data['obPer']);
+        array_key_exists("oaPer", $data) && $this->setOaPer($data['oaPer']);
+        array_key_exists("uvState", $data) && $this->setUvState($data['uvState']);
+
+    }
+
+
+
     function toDataArray()
     {
         $data = [];
@@ -396,29 +422,5 @@ class FilterVatCtrlDeviceReq extends BaseControlDeviceServerReq
     {
         $this->devLock = $devLock;
     }
-
-    public function setData($data = null)
-    {
-        array_key_exists("clEn", $data) && $this->setClEn($data['clEn']);
-        array_key_exists("clWeek", $data) && $this->setClWeek($data['clWeek']);
-        array_key_exists("clTm", $data) && $this->setClTm($data['clTm']);
-        array_key_exists("clDur", $data) && $this->setClDur($data['clDur']);
-        array_key_exists("clState", $data) && $this->setClState($data['clState']);
-        array_key_exists("clCfg", $data) && $this->setClCfg($data['clCfg']);
-        array_key_exists("uvOn", $data) && $this->setUvOn($data['uvOn']);
-        array_key_exists("uvOff", $data) && $this->setUvOff($data['uvOff']);
-        array_key_exists("uvWH", $data) && $this->setUvWH($data['uvWH']);
-        array_key_exists("uvCfg", $data) && $this->setUvCfg($data['uvCfg']);
-        array_key_exists("outStateA", $data) && $this->setOutStateA($data['outStateA']);
-        array_key_exists("outStateB", $data) && $this->setOutStateB($data['outStateB']);
-        array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
-        array_key_exists("wsOnTm", $data) && $this->setWsOnTm($data['wsOnTm']);
-        array_key_exists("wsOffTm", $data) && $this->setWsOffTm($data['wsOffTm']);
-        array_key_exists("obPer", $data) && $this->setObPer($data['obPer']);
-        array_key_exists("oaPer", $data) && $this->setOaPer($data['oaPer']);
-        array_key_exists("uvState", $data) && $this->setUvState($data['uvState']);
-
-    }
-
 
 }

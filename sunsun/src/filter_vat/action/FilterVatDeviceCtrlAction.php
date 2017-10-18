@@ -12,6 +12,4 @@ use sunsun\server\interfaces\BaseAction;
 
 class FilterVatDeviceCtrlAction extends BaseAction
 {
-
-
 }

@@ -12,8 +12,6 @@ class FilterVatRespFactory
 {
     public static function create($resType, $jsonData)
     {
-        $sn = $jsonData['sn'];
-
         $resp = null;
         switch ($resType) {
             case FilterVatRespType::Event:
@@ -31,13 +29,15 @@ class FilterVatRespFactory
             case FilterVatRespType::FirmwareUpdate:
                 $resp = new FilterVatDeviceUpdateResp();
                 break;
+            case FilterVatRespType::Login:
+                $resp = new FilterVatLoginResp();
+                break;
             default:
                 break;
         }
 
         if ($resp) {
             $resp->setData($jsonData);
-            $resp->setSn($sn);
         }
 
         return $resp;

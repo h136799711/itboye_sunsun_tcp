@@ -18,11 +18,16 @@ use sunsun\heating_rod\resp\HeatingRodRespFactory;
 use sunsun\server\consts\DeviceType;
 use sunsun\server\consts\RespFacadeType;
 use sunsun\server\req\BaseDeviceEventClientReq;
+use sunsun\server\req\BaseDeviceLoginClientReq;
 use sunsun\server\req\BaseHeartBeatClientReq;
 use sunsun\water_pump\resp\WaterPumpRespFactory;
 
 class RespFacadeFactory
 {
+    public static function createLoginRespObj($did, BaseDeviceLoginClientReq $req)
+    {
+        return self::createRespObj($did, RespFacadeType::LOGIN, $req->toDataArray());
+    }
 
     public static function createDeviceEventRespObj($did, BaseDeviceEventClientReq $req)
     {
@@ -45,7 +50,7 @@ class RespFacadeFactory
      * @param $did string 设备did
      * @param $facadeRespType string 统一响应包类型 参照DeviceType类中
      * @param $jsonData array 数据数组
-     * @return null|\sunsun\adt\resp\AdtCtrlDeviceResp|\sunsun\adt\resp\AdtDeviceInfoResp|\sunsun\adt\resp\AdtDeviceUpdateResp|\sunsun\aph300\resp\Aph300CtrlDeviceResp|\sunsun\aph300\resp\Aph300DeviceInfoResp|\sunsun\aph300\resp\Aph300DeviceUpdateResp|\sunsun\aq806\resp\Aq806CtrlDeviceResp|\sunsun\aq806\resp\Aq806DeviceInfoResp|\sunsun\aq806\resp\Aq806DeviceUpdateResp|\sunsun\cp1000\resp\Cp1000CtrlDeviceResp|\sunsun\cp1000\resp\Cp1000DeviceFirmwareUpdateResp|\sunsun\cp1000\resp\Cp1000DeviceInfoResp|\sunsun\cp1000\resp\Cp1000HbResp|\sunsun\heating_rod\resp\HeatingRodCtrlDeviceResp|\sunsun\heating_rod\resp\HeatingRodDeviceInfoResp|\sunsun\heating_rod\resp\HeatingRodDeviceUpdateResp
+     * @return null|\sunsun\adt\resp\AdtCtrlDeviceResp|\sunsun\adt\resp\AdtDeviceInfoResp|\sunsun\adt\resp\AdtDeviceUpdateResp|\sunsun\adt\resp\AdtHbResp|\sunsun\aq806\resp\Aq806CtrlDeviceResp|\sunsun\aq806\resp\Aq806DeviceInfoResp|\sunsun\aq806\resp\Aq806DeviceUpdateResp|\sunsun\aq806\resp\Aq806HbResp|\sunsun\filter_vat\resp\FilterVatCtrlDeviceResp|\sunsun\filter_vat\resp\FilterVatDeviceEventResp|\sunsun\filter_vat\resp\FilterVatDeviceInfoResp|\sunsun\filter_vat\resp\FilterVatDeviceUpdateResp|\sunsun\filter_vat\resp\FilterVatHbResp|\sunsun\filter_vat\resp\FilterVatLoginResp|\sunsun\water_pump\resp\WaterPumpCtrlDeviceResp|\sunsun\water_pump\resp\WaterPumpDeviceInfoResp|\sunsun\water_pump\resp\WaterPumpDeviceUpdateResp|\sunsun\water_pump\resp\WaterPumpHbResp
      */
     public static function createRespObj($did, $facadeRespType, $jsonData)
     {

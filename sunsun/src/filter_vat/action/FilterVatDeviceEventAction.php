@@ -9,10 +9,6 @@
 namespace sunsun\filter_vat\action;
 
 
-use sunsun\filter_vat\dal\FilterVatDeviceEventDal;
-use sunsun\filter_vat\model\FilterVatDeviceEventModel;
-use sunsun\filter_vat\req\FilterVatDeviceEventReq;
-use sunsun\filter_vat\resp\FilterVatDeviceEventResp;
 use sunsun\server\interfaces\BaseAction;
 
 /**
@@ -22,23 +18,4 @@ use sunsun\server\interfaces\BaseAction;
  */
 class FilterVatDeviceEventAction extends BaseAction
 {
-    public function logEvent($did, $client_id, FilterVatDeviceEventReq $req)
-    {
-        $eventType = $req->getCode();
-        $eventInfo = json_encode([]);
-        $now = time();
-        $dal = (new FilterVatDeviceEventDal());
-        $do = new FilterVatDeviceEventModel();
-        $do->setDid($did);
-        $do->setCreateTime($now);
-        $do->setUpdateTime($now);
-        $do->setEventInfo($eventInfo);
-        $do->setEventType($eventType);
-        $dal->insert($do);
-
-        $resp = new FilterVatDeviceEventResp($req);
-        $resp->setState(0);
-        return $resp;
-    }
-
 }

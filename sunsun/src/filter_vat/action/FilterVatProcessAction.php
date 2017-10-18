@@ -117,7 +117,7 @@ class FilterVatProcessAction
                 $resp = (new FilterVatHbAction())->deviceHeartBeat($did, $clientId, $req);
                 break;
             case FilterVatReqType::Event:
-                $resp = (new FilterVatDeviceEventAction())->logEvent($did, $clientId, $req);
+                $resp = (new FilterVatDeviceEventAction())->deviceEventLog($did, $clientId, $req);
                 break;
             default:
                 break;
