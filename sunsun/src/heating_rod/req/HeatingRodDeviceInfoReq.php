@@ -8,29 +8,18 @@
 
 namespace sunsun\heating_rod\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseDeviceInfoServerReq;
 
 /**
  * Class HeatingRodHbReq
  * 获取设备状态
  * @package sunsun\heating_rod\req
  */
-class HeatingRodDeviceInfoReq extends BaseReqPo
+class HeatingRodDeviceInfoReq extends BaseDeviceInfoServerReq
 {
-
     public function __construct($data = null)
     {
         parent::__construct($data);
         $this->setReqType(HeatingRodReqType::DeviceInfo);
     }
-
-    function toDataArray()
-    {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn(),
-        ];
-    }
-
-
 }

@@ -429,7 +429,7 @@ class Aq806DeviceInfoResp extends BaseRespPo
      * 设备传输过来的数据转换成该类
      * @param $data
      */
-    public function setData($data)
+    public function setData($data = null)
     {
         array_key_exists("sn", $data) && $this->setSn($data['sn']);
         array_key_exists("t", $data) && $this->setT($data['t']);

@@ -15,8 +15,10 @@ use sunsun\filter_vat\resp\FilterVatHbResp;
 use sunsun\filter_vat\resp\FilterVatRespFactory;
 use sunsun\filter_vat\resp\FilterVatRespType;
 use sunsun\filter_vat\resp\FilterVatUnknownResp;
+use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
+use sunsun\server\factory\DeviceFacadeFactory;
 
 /**
  * Class FilterVatProcessAction
@@ -63,29 +65,27 @@ class FilterVatProcessAction
         if (empty($resp)) {
             return $retResp;
         }
+        $dal = DeviceFacadeFactory::getDeviceDal($did);
         //过滤桶除了设备登录之外的其它请求处理
         $result = false;
         switch ($resp->getRespType()) {
             //设备信息响应
             case FilterVatRespType::DeviceInfo:
-                $result = (new FilterVatDeviceInfoAction())->updateInfo($did, $clientId, $resp);
+                $result = (new FilterVatDeviceInfoAction())->deviceInfoUpdate($did, $clientId, $resp, $dal);
                 break;
             //设备设置/控制响应
             case FilterVatRespType::Control:
-                $result = (new FilterVatDeviceCtrlAction())->updateInfo($did, $clientId, $resp);
+                $result = (new FilterVatDeviceCtrlAction())->deviceControlInfoUpdate($did, $clientId, $resp, $dal);
                 break;
             case FilterVatRespType::FirmwareUpdate:
-                $result = (new FilterVatDeviceUpdateAction())->updateInfo($did, $clientId, $resp);
+                $result = (new FilterVatDeviceUpdateAction())->firmUpdate($did, $clientId, $resp);
                 break;
             default:
                 break;
         }
 
         if (!ResultHelper::isSuccess($result)) {
-        } else {
-            //TODO: 响应请求成功后，暂时返回一个心跳包或者不返回
-//            $retResp = new FilterVatHbResp();
-//            $retResp->setSn($sn);
+            LogHelper::debug($did, $clientId, $result['info']);
         }
 
         return $retResp;
@@ -109,12 +109,12 @@ class FilterVatProcessAction
         //过滤桶除了设备登录之外的其它请求处理
         switch ($req->getReqType()) {
             //已登录成功后的登录请求
-            case FilterVatRespType::Login:
-                $resp = (new FilterVatLoginAction())->login($did, $clientId, $req);
+            case FilterVatReqType::Login:
+                $resp = (new FilterVatLoginAction())->deviceLogin($did, $clientId, $req);
                 break;
             //心跳请求
             case FilterVatReqType::Heartbeat:
-                $resp = (new FilterVatHbAction())->heartBeat($did, $clientId, $req);
+                $resp = (new FilterVatHbAction())->deviceHeartBeat($did, $clientId, $req);
                 break;
             case FilterVatReqType::Event:
                 $resp = (new FilterVatDeviceEventAction())->logEvent($did, $clientId, $req);

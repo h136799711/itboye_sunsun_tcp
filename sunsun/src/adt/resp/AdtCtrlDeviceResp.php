@@ -178,7 +178,7 @@ class AdtCtrlDeviceResp extends BaseRespPo
         $this->setRespType(AdtRespType::Control);
     }
 
-    public function setData($data)
+    public function setData($data = null)
     {
         array_key_exists("sn", $data) && $this->setSn($data['sn']);
         array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);

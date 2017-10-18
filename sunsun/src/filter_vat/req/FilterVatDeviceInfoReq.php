@@ -9,26 +9,24 @@
 namespace sunsun\filter_vat\req;
 
 use sunsun\filter_vat\consts\FilterVatRangeType;
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseDeviceInfoServerReq;
 
 /**
  * Class FilterVatHbReq
  * 获取设备状态
  * @package sunsun\filter_vat\req
  */
-class FilterVatDeviceInfoReq extends BaseReqPo
+class FilterVatDeviceInfoReq extends BaseDeviceInfoServerReq
 {
-
     public function __construct($data = null)
     {
         parent::__construct($data);
         $this->setReqType(FilterVatReqType::DeviceInfo);
         // 默认获取ABC参数
         $this->setRange(FilterVatRangeType::Range_ABC);
-
     }
 
-    function toDataArray()
+    public function toDataArray()
     {
         return [
             'reqType' => $this->getReqType(),
@@ -36,6 +34,15 @@ class FilterVatDeviceInfoReq extends BaseReqPo
             'range'=>$this->getRange()
         ];
     }
+
+    /**
+     * @var
+     * 响应参数范围
+     * User: ${USER}
+     * Date: ${DATE}
+     * Time: ${TIME}
+     */
+    private $range;
 
     /**
      * 0: A+B 类参数
@@ -55,16 +62,4 @@ class FilterVatDeviceInfoReq extends BaseReqPo
     {
         $this->range = $range;
     }
-
-
-
-    /**
-     * @var
-     * 响应参数范围
-     * User: ${USER}
-     * Date: ${DATE}
-     * Time: ${TIME}
-     */
-    private $range;
-
 }

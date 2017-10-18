@@ -10,15 +10,84 @@ namespace sunsun\heating_rod\resp;
 
 
 use sunsun\heating_rod\req\HeatingRodCtrlDeviceReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\interfaces\ToDbEntityArrayInterface;
+use sunsun\server\resp\BaseControlDeviceClientResp;
 
 /**
  * Class HeatingRodHbReq
  * 设备状态响应包
  * @package sunsun\heating_rod\req
  */
-class HeatingRodCtrlDeviceResp extends BaseRespPo
+class HeatingRodCtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEntityArrayInterface
 {
+    function toDbEntityArray()
+    {
+        $data = [];
+        $data['update_time'] = time();
+        if (!is_null($this->getDevLock())) {
+            $data['dev_lock'] = $this->getDevLock();
+        }
+        if (!is_null($this->getTSet())) {
+            $data['t_set'] = $this->getTSet();
+        }
+        if (!is_null($this->getTCyc())) {
+            $data['t_cyc'] = $this->getTCyc();
+        }
+        if (!is_null($this->getCfg())) {
+            $data['cfg'] = $this->getCfg();
+        }
+        if (!is_null($this->getDevLock())) {
+            $data['dev_lock'] = $this->getDevLock();
+        }
+        if (!is_null($this->getUpdState()) && $this->getUpdState() > -1) {
+            $data['upd_state'] = $this->getUpdState();
+        } else {
+            $data['upd_state'] = 0;
+        }
+
+        return $data;
+    }
+
+
+    public function __construct(HeatingRodCtrlDeviceReq $req = null)
+    {
+        parent::__construct($req);
+        $this->setRespType(HeatingRodRespType::Control);
+    }
+
+    public function setData($data = null)
+    {
+        array_key_exists("sn", $data) && $this->setSn($data['sn']);
+        array_key_exists("t", $data) && $this->setT($data['t']);
+        array_key_exists("pwr", $data) && $this->setPwr($data['pwr']);
+        array_key_exists("tSet", $data) && $this->setTSet($data['tSet']);
+        array_key_exists("tCyc", $data) && $this->setTCyc($data['tCyc']);
+        array_key_exists("cfg", $data) && $this->setCfg($data['cfg']);
+        array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
+        $this->setUpdState(-1);
+        array_key_exists("updState", $data) && $this->setUpdState($data['updState']);
+    }
+
+    public function toDataArray()
+    {
+        $data = [
+            'resType' => $this->getRespType(),
+            'sn' => $this->getSn(),
+            't' => $this->getT(),
+            'pwr' => $this->getPwr(),
+            'tSet' => $this->getTSet(),
+            'tCyc' => $this->getTCyc(),
+            'cfg' => $this->getCfg(),
+            'devLock' => $this->getDevLock(),
+        ];
+        if ($this->getUpdState() == -1) {
+            $data['updState'] = 0;
+        } else {
+            $data['updState'] = $this->getUpdState();
+        }
+
+        return $data;
+    }
 
     private $t;
     private $pwr;
@@ -39,48 +108,6 @@ class HeatingRodCtrlDeviceResp extends BaseRespPo
      * 101：更新失败，硬件重启后该字段隐藏
      */
     private $updState;
-
-
-    public function __construct(HeatingRodCtrlDeviceReq $req = null)
-    {
-        parent::__construct($req);
-        $this->setRespType(HeatingRodRespType::Control);
-    }
-
-    public function setData($data)
-    {
-        array_key_exists("sn", $data) && $this->setSn($data['sn']);
-        array_key_exists("t", $data) && $this->setT($data['t']);
-        array_key_exists("pwr", $data) && $this->setPwr($data['pwr']);
-        array_key_exists("tSet", $data) && $this->setTSet($data['tSet']);
-        array_key_exists("tCyc", $data) && $this->setTCyc($data['tCyc']);
-        array_key_exists("cfg", $data) && $this->setCfg($data['cfg']);
-        array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
-        $this->setUpdState(-1);
-        array_key_exists("updState", $data) && $this->setUpdState($data['updState']);
-    }
-
-    public function toDataArray()
-    {
-
-        $data = [
-            'resType' => $this->getRespType(),
-            'sn' => $this->getSn(),
-            't' => $this->getT(),
-            'pwr' => $this->getPwr(),
-            'tSet' => $this->getTSet(),
-            'tCyc' => $this->getTCyc(),
-            'cfg' => $this->getCfg(),
-            'devLock' => $this->getDevLock(),
-        ];
-        if ($this->getUpdState() == -1) {
-            $data['updState'] = 0;
-        } else {
-            $data['updState'] = $this->getUpdState();
-        }
-
-        return $data;
-    }
 
     /**
      * @return mixed
@@ -197,11 +224,6 @@ class HeatingRodCtrlDeviceResp extends BaseRespPo
 
     public function check()
     {
-//        foreach ($this->toDataArray() as $key => $item) {
-//            if (is_null($item)) {
-//                return "缺少 " . $key . " 属性";
-//            }
-//        }
         return "";
     }
 

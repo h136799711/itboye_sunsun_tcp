@@ -8,15 +8,15 @@
 
 namespace sunsun\server\interfaces;
 
-use sunsun\dal\DeviceTcpClientDal;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\DevToServerDelayHelper;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
-use sunsun\server\consts\RespFacadeType;
 use sunsun\server\consts\SunsunDeviceConstant;
 use sunsun\server\factory\DeviceFacadeFactory;
 use sunsun\server\factory\RespFacadeFactory;
+use sunsun\server\model\BaseDeviceEventModel;
+use sunsun\server\req\BaseDeviceEventClientReq;
 use sunsun\server\req\BaseDeviceLoginClientReq;
 use sunsun\server\req\BaseHeartBeatClientReq;
 use sunsun\server\resp\BaseDeviceFirmwareUpdateClientResp;
@@ -40,8 +40,8 @@ abstract class BaseAction
 
     public function deviceHeartBeat($did, $clientId, BaseHeartBeatClientReq $req)
     {
-        (new DeviceTcpClientDal())->updateByDid($did, ['update_time' => time()]);
-        $respObj = RespFacadeFactory::createRespObj($did, RespFacadeType::HEART_BEAT, $req->toDataArray());
+        (DeviceFacadeFactory::getDeviceDal($did))->updateByDid($did, ['update_time' => time()]);
+        $respObj = RespFacadeFactory::createHeartBeatRespObj($did, $req);
         return $respObj;
     }
 
@@ -132,6 +132,25 @@ abstract class BaseAction
 
         return $resp;
 
+    }
+
+    public function deviceEventLog($did, $client_id, BaseDeviceEventClientReq $req)
+    {
+        $dal = DeviceFacadeFactory::getDeviceDal($did);
+        $do = new BaseDeviceEventModel();
+        $eventType = $req->getCode();
+        $eventInfo = json_encode([]);
+        $now = time();
+        $do->setDid($did);
+        $do->setCreateTime($now);
+        $do->setUpdateTime($now);
+        $do->setEventInfo($eventInfo);
+        $do->setEventType($eventType);
+        $dal->insert($do);
+
+        $resp = RespFacadeFactory::createDeviceEventRespObj($did, $req);
+        $resp->setState(0);
+        return $resp;
     }
 
 }

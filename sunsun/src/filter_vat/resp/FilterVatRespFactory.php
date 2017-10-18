@@ -16,27 +16,27 @@ class FilterVatRespFactory
 
         $resp = null;
         switch ($resType) {
+            case FilterVatRespType::Event:
+                $resp = new FilterVatDeviceEventResp();
+                break;
             case FilterVatRespType::Heartbeat:
                 $resp = new FilterVatHbResp();
-                $resp->setData($jsonData);
                 break;
             case FilterVatRespType::Control:
                 $resp = new FilterVatCtrlDeviceResp();
-                $resp->setData($jsonData);
                 break;
             case FilterVatRespType::DeviceInfo:
                 $resp = new FilterVatDeviceInfoResp();
-                $resp->setData($jsonData);
                 break;
             case FilterVatRespType::FirmwareUpdate:
                 $resp = new FilterVatDeviceUpdateResp();
-                $resp->setData($jsonData);
                 break;
             default:
                 break;
         }
 
         if ($resp) {
+            $resp->setData($jsonData);
             $resp->setSn($sn);
         }
 

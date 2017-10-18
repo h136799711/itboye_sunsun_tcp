@@ -28,7 +28,7 @@ class AdtDeviceUpdateResp extends BaseRespPo
         $this->setRespType(AdtRespType::FirmwareUpdate);
     }
 
-    public function setData($data)
+    public function setData($data = null)
     {
 
         if (array_key_exists("state", $data)) {

@@ -61,6 +61,11 @@ abstract class BaseRespPo
      */
     abstract function toDataArray();
 
+    public function setData($data = null)
+    {
+
+    }
+
     public function check()
     {
         return '';

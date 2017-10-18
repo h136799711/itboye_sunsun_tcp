@@ -28,9 +28,8 @@ class Aph300DeviceUpdateResp extends BaseRespPo
         $this->setRespType(Aph300RespType::FirmwareUpdate);
     }
 
-    public function setData($data)
+    public function setData($data = null)
     {
-
         if (array_key_exists("state", $data)) {
             $this->setState($data['state']);
         } else {

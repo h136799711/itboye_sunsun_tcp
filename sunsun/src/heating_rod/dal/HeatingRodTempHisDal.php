@@ -2,8 +2,6 @@
 
 namespace sunsun\heating_rod\dal;
 
-use sunsun\heating_rod\model\HeatingRodTempHisModel;
-
 /**
  * Class HeatingRodTempHisDal
  * @author hebidu <email:346551990@qq.com>
@@ -11,11 +9,10 @@ use sunsun\heating_rod\model\HeatingRodTempHisModel;
  */
 class HeatingRodTempHisDal extends HeatingRodBaseDal
 {
-    protected $tableName = "sunsun_heating_rod_temp_his";
-
-    public function insert(HeatingRodTempHisModel $do)
+    public function __construct($db = null)
     {
-        self::$db->insert($this->tableName)->cols($do->toDataArray())->query();
+        parent::__construct($db);
+        $this->setTableName("sunsun_heating_rod_temp_his");
     }
 
     public function clearAll()

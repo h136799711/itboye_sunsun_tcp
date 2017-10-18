@@ -8,60 +8,19 @@
 
 namespace sunsun\filter_vat\resp;
 
-
 use sunsun\filter_vat\req\FilterVatDeviceUpdateReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseDeviceFirmwareUpdateClientResp;
 
 /**
  * Class FilterVatHbReq
  * 心跳包
  * @package sunsun\filter_vat\req
  */
-class FilterVatDeviceUpdateResp extends BaseRespPo
+class FilterVatDeviceUpdateResp extends BaseDeviceFirmwareUpdateClientResp
 {
-
-    private $state;
-
     public function __construct(FilterVatDeviceUpdateReq $req = null)
     {
         parent::__construct($req);
         $this->setRespType(FilterVatRespType::FirmwareUpdate);
     }
-
-    public function setData($data)
-    {
-
-        if (array_key_exists("state", $data)) {
-            $this->setState($data['state']);
-        } else {
-            //默认999
-            $this->setState(999);
-        }
-    }
-
-    public function toDataArray()
-    {
-        return [
-            'resType' => $this->getRespType(),
-            'sn' => $this->getSn()
-        ];
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getState()
-    {
-        return $this->state;
-    }
-
-    /**
-     * @param mixed $state
-     */
-    public function setState($state)
-    {
-        $this->state = $state;
-    }
-
-
 }

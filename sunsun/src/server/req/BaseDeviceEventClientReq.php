@@ -26,7 +26,8 @@ abstract class BaseDeviceEventClientReq extends BaseReqPo
     {
         return [
             'reqType' => $this->getReqType(),
-            'sn' => $this->getSn()
+            'sn' => $this->getSn(),
+            'code' => $this->getCode()
         ];
     }
 

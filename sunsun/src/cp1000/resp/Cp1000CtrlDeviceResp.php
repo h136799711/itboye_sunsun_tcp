@@ -27,7 +27,7 @@ class Cp1000CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEn
         $this->setRespType(Cp1000RespType::Control);
     }
 
-    public function setData($data)
+    public function setData($data = null)
     {
         array_key_exists("sn", $data) && $this->setSn($data['sn']);
         array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);

@@ -14,6 +14,23 @@ use sunsun\po\BaseRespPo;
 class BaseDeviceEventServerResp extends BaseRespPo
 {
 
+    public function toDataArray()
+    {
+        return [
+            'resType' => $this->getRespType(),
+            'sn' => $this->getSn(),
+            'state' => $this->getState()
+        ];
+    }
+
+    public function setData($data = null)
+    {
+        array_key_exists('sn', $data) && $this->setSn($data['sn']);
+        array_key_exists('state', $data) && $this->setState($data['state']);
+    }
+
+
+
     private $state;
 
     /**
@@ -31,15 +48,5 @@ class BaseDeviceEventServerResp extends BaseRespPo
     {
         $this->state = $state;
     }
-
-    public function toDataArray()
-    {
-        return [
-            'resType' => $this->getRespType(),
-            'sn' => $this->getSn(),
-            'state' => $this->getState()
-        ];
-    }
-
 
 }

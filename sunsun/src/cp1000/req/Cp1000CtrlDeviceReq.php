@@ -60,7 +60,7 @@ class Cp1000CtrlDeviceReq extends BaseControlDeviceServerReq
         return $data;
     }
 
-    public function setData($data)
+    public function setData($data = null)
     {
         array_key_exists("dev_lock", $data) && $this->setDevLock($data['dev_lock']);
         array_key_exists("push_cfg", $data) && $this->setPushCfg($data['push_cfg']);

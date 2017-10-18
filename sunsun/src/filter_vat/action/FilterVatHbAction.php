@@ -8,20 +8,13 @@
 
 namespace sunsun\filter_vat\action;
 
-use sunsun\filter_vat\req\FilterVatHbReq;
-use sunsun\filter_vat\resp\FilterVatHbResp;
-use sunsun\server\factory\DeviceFacadeFactory;
+use sunsun\server\interfaces\BaseAction;
 
 /**
  * Class FilterVatHbAction
  * 心跳包处理
  * @package sunsun\filter_vat\action
  */
-class FilterVatHbAction
+class FilterVatHbAction extends BaseAction
 {
-    public function heartBeat($did, $clientId, FilterVatHbReq $req)
-    {
-        (DeviceFacadeFactory::getDeviceDal($did))->updateByDid($did, ['update_time' => time()]);
-        return new FilterVatHbResp($req);
-    }
 }

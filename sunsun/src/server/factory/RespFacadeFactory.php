@@ -17,10 +17,29 @@ use sunsun\filter_vat\resp\FilterVatRespFactory;
 use sunsun\heating_rod\resp\HeatingRodRespFactory;
 use sunsun\server\consts\DeviceType;
 use sunsun\server\consts\RespFacadeType;
+use sunsun\server\req\BaseDeviceEventClientReq;
+use sunsun\server\req\BaseHeartBeatClientReq;
 use sunsun\water_pump\resp\WaterPumpRespFactory;
 
 class RespFacadeFactory
 {
+
+    public static function createDeviceEventRespObj($did, BaseDeviceEventClientReq $req)
+    {
+        return self::createRespObj($did, RespFacadeType::EVENT, $req->toDataArray());
+    }
+
+    /**
+     * 创建服务器的心跳响应包
+     * @param $did
+     * @param BaseHeartBeatClientReq $req
+     * @return null|\sunsun\adt\resp\AdtCtrlDeviceResp|\sunsun\adt\resp\AdtDeviceInfoResp|\sunsun\adt\resp\AdtDeviceUpdateResp|\sunsun\aph300\resp\Aph300CtrlDeviceResp|\sunsun\aph300\resp\Aph300DeviceInfoResp|\sunsun\aph300\resp\Aph300DeviceUpdateResp|\sunsun\aq806\resp\Aq806CtrlDeviceResp|\sunsun\aq806\resp\Aq806DeviceInfoResp|\sunsun\aq806\resp\Aq806DeviceUpdateResp|\sunsun\cp1000\resp\Cp1000CtrlDeviceResp|\sunsun\cp1000\resp\Cp1000DeviceFirmwareUpdateResp|\sunsun\cp1000\resp\Cp1000DeviceInfoResp|\sunsun\cp1000\resp\Cp1000HbResp|\sunsun\heating_rod\resp\HeatingRodCtrlDeviceResp|\sunsun\heating_rod\resp\HeatingRodDeviceInfoResp|\sunsun\heating_rod\resp\HeatingRodDeviceUpdateResp
+     */
+    public static function createHeartBeatRespObj($did, BaseHeartBeatClientReq $req)
+    {
+        return self::createRespObj($did, RespFacadeType::HEART_BEAT, $req->toDataArray());
+    }
+
     /**
      * 创建响应包
      * @param $did string 设备did
@@ -40,7 +59,7 @@ class RespFacadeFactory
 
     /**
      * @param $deviceType
-     * @return null|AdtRespFactory|Aph300RespFactory|Aq806RespFactory|Cp1000RespFactory|HeatingRodRespFactory|WaterPumpRespFactory
+     * @return null|AdtRespFactory|Aph300RespFactory|Aq806RespFactory|Cp1000RespFactory|HeatingRodRespFactory|WaterPumpRespFactory|FilterVatRespFactory
      */
     public static function createRespFactory($deviceType)
     {

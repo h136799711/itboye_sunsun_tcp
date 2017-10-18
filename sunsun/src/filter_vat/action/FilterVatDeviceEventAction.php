@@ -13,13 +13,14 @@ use sunsun\filter_vat\dal\FilterVatDeviceEventDal;
 use sunsun\filter_vat\model\FilterVatDeviceEventModel;
 use sunsun\filter_vat\req\FilterVatDeviceEventReq;
 use sunsun\filter_vat\resp\FilterVatDeviceEventResp;
+use sunsun\server\interfaces\BaseAction;
 
 /**
  * Class FilterVatDeviceEventAction
  * 设备事件记录
  * @package sunsun\filter_vat\action
  */
-class FilterVatDeviceEventAction
+class FilterVatDeviceEventAction extends BaseAction
 {
     public function logEvent($did, $client_id, FilterVatDeviceEventReq $req)
     {
@@ -33,7 +34,7 @@ class FilterVatDeviceEventAction
         $do->setUpdateTime($now);
         $do->setEventInfo($eventInfo);
         $do->setEventType($eventType);
-        $result = $dal->insert($do);
+        $dal->insert($do);
 
         $resp = new FilterVatDeviceEventResp($req);
         $resp->setState(0);

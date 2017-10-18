@@ -9,16 +9,11 @@
 namespace sunsun\heating_rod\dal;
 
 
-use sunsun\heating_rod\model\HeatingRodDeviceEventModel;
-
 class HeatingRodDeviceEventDal extends HeatingRodBaseDal
 {
-    protected $tableName = "sunsun_heating_rod_device_event";
-
-    public function insert(HeatingRodDeviceEventModel $do)
+    public function __construct($db = null)
     {
-        return self::$db->insert($this->tableName)->cols($do->toDataArray())->query();
+        parent::__construct($db);
+        $this->setTableName("sunsun_heating_rod_device_event");
     }
-
-
 }

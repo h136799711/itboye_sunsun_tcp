@@ -56,7 +56,7 @@ class WaterPumpCtrlDeviceReq extends BaseControlDeviceServerReq
         return $data;
     }
 
-    public function setData($data)
+    public function setData($data = null)
     {
         array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
         array_key_exists("gear", $data) && $this->setGear($data['gear']);

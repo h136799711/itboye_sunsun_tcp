@@ -8,7 +8,6 @@
 
 namespace sunsun\filter_vat\resp;
 
-
 use sunsun\filter_vat\req\FilterVatHbReq;
 use sunsun\server\resp\BaseHeartBeatServerResp;
 
@@ -19,11 +18,9 @@ use sunsun\server\resp\BaseHeartBeatServerResp;
  */
 class FilterVatHbResp extends BaseHeartBeatServerResp
 {
-
     public function __construct(FilterVatHbReq $req = null)
     {
         parent::__construct($req);
         $this->setRespType(FilterVatRespType::Heartbeat);
     }
-
 }

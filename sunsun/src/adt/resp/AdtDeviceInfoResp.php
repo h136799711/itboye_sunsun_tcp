@@ -181,7 +181,7 @@ class AdtDeviceInfoResp extends BaseRespPo
      * 设备传输过来的数据转换成该类
      * @param $data
      */
-    public function setData($data)
+    public function setData($data = null)
     {
         array_key_exists("sn", $data) && $this->setSn($data['sn']);
         array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);

@@ -8,12 +8,11 @@
 
 namespace sunsun\heating_rod\dal;
 
-
-use sunsun\dal\BaseDal;
 use sunsun\server\consts\DeviceType;
 use sunsun\server\db\DbPool;
+use sunsun\server\interfaces\BaseDalV2;
 
-class HeatingRodBaseDal extends BaseDal
+class HeatingRodBaseDal extends BaseDalV2
 {
 
     public function __construct($db = null)

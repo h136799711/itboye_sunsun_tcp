@@ -8,16 +8,15 @@
 
 namespace sunsun\heating_rod\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseDeviceEventClientReq;
 
 /**
  * Class HeatingRodHbReq
  * 设备事件
  * @package sunsun\heating_rod\req
  */
-class HeatingRodDeviceEventReq extends BaseReqPo
+class HeatingRodDeviceEventReq extends BaseDeviceEventClientReq
 {
-    private $code;
     private $t;
 
     public function getEventInfo()
@@ -45,42 +44,13 @@ class HeatingRodDeviceEventReq extends BaseReqPo
         $this->t = $t;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    /**
-     * @param mixed $code
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
-    }
-
-
     public function __construct($data = null)
     {
         parent::__construct($data);
         $this->setReqType(HeatingRodReqType::Event);
         if (!empty($data)) {
-            $this->setCode($data['code']);
             $this->setT($data['t']);
         }
     }
-
-    function toDataArray()
-    {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn(),
-
-        ];
-    }
-
 
 }

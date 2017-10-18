@@ -425,7 +425,7 @@ class Aq806CtrlDeviceResp extends BaseRespPo
         $this->setRespType(Aq806RespType::Control);
     }
 
-    public function setData($data)
+    public function setData($data = null)
     {
         array_key_exists("sn", $data) && $this->setSn($data['sn']);
         array_key_exists("t", $data) && $this->setT($data['t']);

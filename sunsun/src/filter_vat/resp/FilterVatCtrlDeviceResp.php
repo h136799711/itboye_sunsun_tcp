@@ -10,15 +10,93 @@ namespace sunsun\filter_vat\resp;
 
 
 use sunsun\filter_vat\req\FilterVatCtrlDeviceReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\interfaces\ToDbEntityArrayInterface;
+use sunsun\server\resp\BaseControlDeviceClientResp;
 
 /**
  * Class FilterVatHbReq
  * 设备状态响应包
  * @package sunsun\filter_vat\req
  */
-class FilterVatCtrlDeviceResp extends BaseRespPo
+class FilterVatCtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEntityArrayInterface
 {
+    public function toDbEntityArray()
+    {
+        $data = [];
+        $data['update_time'] = time();
+        if (!is_null($this->getClEn())) {
+            $data['cl_en'] = $this->getClEn();
+        }
+        if (!is_null($this->getClWeek())) {
+            $data['cl_week'] = $this->getClWeek();
+        }
+        if (!is_null($this->getClTm())) {
+            $data['cl_tm'] = $this->getClTm();
+        }
+        if (!is_null($this->getClDur())) {
+            $data['cl_dur'] = $this->getClDur();
+        }
+        if (!is_null($this->getClState())) {
+            $data['cl_state'] = $this->getClState();
+        }
+        if (!is_null($this->getClSche())) {
+            $data['cl_sche'] = $this->getClSche();
+        }
+        if (!is_null($this->getClCfg())) {
+            $data['cl_cfg'] = $this->getClCfg();
+        }
+        if (!is_null($this->getUvOn())) {
+            $data['uv_on'] = $this->getUvOn();
+        }
+        if (!is_null($this->getUvOff())) {
+            $data['uv_off'] = $this->getUvOff();
+        }
+        if (!is_null($this->getUvWH())) {
+            $data['uv_wh'] = $this->getUvWH();
+        }
+        if (!is_null($this->getUvCfg())) {
+            $data['uv_cfg'] = $this->getUvCfg();
+        }
+        if (!is_null($this->getOutStateA())) {
+            $data['out_state_a'] = $this->getOutStateA();
+        }
+        if (!is_null($this->getOutStateB())) {
+            $data['out_state_b'] = $this->getOutStateB();
+        }
+        if (!is_null($this->getDevLock())) {
+            $data['dev_lock'] = $this->getDevLock();
+        }
+        if (!is_null($this->getUpdState()) && $this->getUpdState() > -1) {
+            $data['upd_state'] = $this->getUpdState();
+        } else {
+            $data['upd_state'] = 0;
+        }
+
+        if (!is_null($this->getWsOffTm())) {
+            $data['ws_off_tm'] = $this->getWsOffTm();
+        }
+        if (!is_null($this->getWsOnTm())) {
+            $data['ws_on_tm'] = $this->getWsOnTm();
+        }
+        if (!is_null($this->getUvState())) {
+            $data['uv_state'] = $this->getUvState();
+        }
+
+        if (!is_null($this->getObPer())) {
+            $data['ob_per'] = $this->getObPer();
+            if (is_array($data['ob_per'])) {
+                $data['ob_per'] = json_encode($data['ob_per']);
+            }
+        }
+        if (!is_null($this->getOaPer())) {
+            $data['oa_per'] = $this->getOaPer();
+            if (is_array($data['oa_per'])) {
+                $data['oa_per'] = json_encode($data['oa_per']);
+            }
+        }
+        return $data;
+    }
+
 
     /**
      * 定时清洗使能
@@ -155,7 +233,7 @@ class FilterVatCtrlDeviceResp extends BaseRespPo
         $this->setRespType(FilterVatRespType::Control);
     }
 
-    public function setData($data)
+    public function setData($data = null)
     {
         array_key_exists("sn", $data) && $this->setSn($data['sn']);
         array_key_exists("clEn", $data) && $this->setClEn($data['clEn']);

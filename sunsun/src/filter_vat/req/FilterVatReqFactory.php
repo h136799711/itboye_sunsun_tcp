@@ -8,7 +8,6 @@
 
 namespace sunsun\filter_vat\req;
 
-
 class FilterVatReqFactory
 {
     public static function create($type, $data)
@@ -25,8 +24,10 @@ class FilterVatReqFactory
                 $req = new FilterVatDeviceEventReq($data);
                 break;
             case FilterVatReqType::Control:
+                $req = new FilterVatCtrlDeviceReq($data);
                 break;
             case FilterVatReqType::FirmwareUpdate:
+                $req = new FilterVatDeviceUpdateReq($data);
                 break;
             case FilterVatReqType::Heartbeat:
                 $req = new FilterVatHbReq($data);

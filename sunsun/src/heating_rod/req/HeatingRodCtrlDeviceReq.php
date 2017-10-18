@@ -8,14 +8,14 @@
 
 namespace sunsun\heating_rod\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseControlDeviceServerReq;
 
 /**
  * Class HeatingRodHbReq
  * 设置设备
  * @package sunsun\heating_rod\req
  */
-class HeatingRodCtrlDeviceReq extends BaseReqPo
+class HeatingRodCtrlDeviceReq extends BaseControlDeviceServerReq
 {
 
     public function __construct($data = null)
@@ -118,7 +118,7 @@ class HeatingRodCtrlDeviceReq extends BaseReqPo
         $this->devLock = $devLock;
     }
 
-    public function setData($data)
+    public function setData($data = null)
     {
         array_key_exists("tSet", $data) && $this->setTSet($data['tSet']);
         array_key_exists("tCyc", $data) && $this->setTCyc($data['tCyc']);

@@ -14,6 +14,10 @@ use sunsun\model\LogModel;
 
 class LogHelper
 {
+    public static function debug($did, $client_id, $message, $type = 'debug')
+    {
+
+    }
     public static function logDebug($client_id, $message, $type = 'debug')
     {
         self::log(null, $client_id, $message, $type);

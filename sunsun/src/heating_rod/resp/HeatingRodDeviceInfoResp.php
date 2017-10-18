@@ -10,21 +10,102 @@ namespace sunsun\heating_rod\resp;
 
 
 use sunsun\heating_rod\req\HeatingRodDeviceInfoReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\interfaces\ToDbEntityArrayInterface;
+use sunsun\server\resp\BaseDeviceInfoClientResp;
 
 /**
  * Class HeatingRodHbReq
  * 设备状态响应包
  * @package sunsun\heating_rod\req
  */
-class HeatingRodDeviceInfoResp extends BaseRespPo
+class HeatingRodDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntityArrayInterface
 {
+    public function toDbEntityArray()
+    {
+        $data = [];
+        $data['update_time'] = time();
+        if (!is_null($this->getT())) {
+            $data['t'] = $this->getT();
+        }
+        if (!is_null($this->getPwr())) {
+            $data['pwr'] = $this->getPwr();
+        }
+        if (!is_null($this->getTSet())) {
+            $data['t_set'] = $this->getTSet();
+        }
+        if (!is_null($this->getTCyc())) {
+            $data['t_cyc'] = $this->getTCyc();
+        }
+        if (!is_null($this->getCfg())) {
+            $data['cfg'] = $this->getCfg();
+        }
+
+        if (!is_null($this->getDevLock())) {
+            $data['dev_lock'] = $this->getDevLock();
+        }
+        if (!is_null($this->getUpdState()) && $this->getUpdState() > -1) {
+            $data['upd_state'] = $this->getUpdState();
+        } else {
+            $data['upd_state'] = 0;
+        }
+
+        return $data;
+    }
+
+    public function __construct(HeatingRodDeviceInfoReq $req = null)
+    {
+        parent::__construct($req);
+        $this->setRespType(HeatingRodRespType::DeviceInfo);
+    }
+
+    public function setData($data = null)
+    {
+        array_key_exists("sn", $data) && $this->setSn($data['sn']);
+        array_key_exists("t", $data) && $this->setT($data['t']);
+        array_key_exists("pwr", $data) && $this->setPwr($data['pwr']);
+        array_key_exists("tSet", $data) && $this->setTSet($data['tSet']);
+        array_key_exists("tCyc", $data) && $this->setTCyc($data['tCyc']);
+        array_key_exists("cfg", $data) && $this->setCfg($data['cfg']);
+        array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
+        $this->setUpdState(-1);
+        array_key_exists("updState", $data) && $this->setUpdState($data['updState']);
+    }
+
+    public function toDataArray()
+    {
+
+        $data = [
+            'resType' => $this->getRespType(),
+            'sn' => $this->getSn(),
+            't' => $this->getT(),
+            'pwr' => $this->getPwr(),
+            'tSet' => $this->getTSet(),
+            'tCyc' => $this->getTCyc(),
+            'cfg' => $this->getCfg(),
+            'devLock' => $this->getDevLock()
+        ];
+        if ($this->getUpdState() == -1) {
+            $data['updState'] = 0;
+        } else {
+            $data['updState'] = $this->getUpdState();
+        }
+
+        return $data;
+    }
 
     private $t;
     private $pwr;
     private $tSet;
     private $tCyc;
     private $cfg;
+    private $devLock;
+    /**
+     * 固件更新状态
+     * 0 -100：更新进度百分比，更新成功为100
+     * 101：更新失败，硬件重启后该字段隐藏
+     */
+    private $updState;
+
 
     /**
      * @return mixed
@@ -110,61 +191,6 @@ class HeatingRodDeviceInfoResp extends BaseRespPo
         $this->cfg = $cfg;
     }
 
-    /**
-     * 设备锁机状态
-     * 0：未锁机，可局域网查找
-     * 1：锁机，局域网隐藏
-     * @var
-     */
-    private $devLock;
-    /**
-     * 固件更新状态
-     * 0 -100：更新进度百分比，更新成功为100
-     * 101：更新失败，硬件重启后该字段隐藏
-     */
-    private $updState;
-
-
-    public function __construct(HeatingRodDeviceInfoReq $req = null)
-    {
-        parent::__construct($req);
-        $this->setRespType(HeatingRodRespType::DeviceInfo);
-    }
-
-    public function setData($data)
-    {
-        array_key_exists("sn", $data) && $this->setSn($data['sn']);
-        array_key_exists("t", $data) && $this->setT($data['t']);
-        array_key_exists("pwr", $data) && $this->setPwr($data['pwr']);
-        array_key_exists("tSet", $data) && $this->setTSet($data['tSet']);
-        array_key_exists("tCyc", $data) && $this->setTCyc($data['tCyc']);
-        array_key_exists("cfg", $data) && $this->setCfg($data['cfg']);
-        array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
-        $this->setUpdState(-1);
-        array_key_exists("updState", $data) && $this->setUpdState($data['updState']);
-    }
-
-    public function toDataArray()
-    {
-
-        $data = [
-            'resType' => $this->getRespType(),
-            'sn' => $this->getSn(),
-            't' => $this->getT(),
-            'pwr' => $this->getPwr(),
-            'tSet' => $this->getTSet(),
-            'tCyc' => $this->getTCyc(),
-            'cfg' => $this->getCfg(),
-            'devLock' => $this->getDevLock()
-        ];
-        if ($this->getUpdState() == -1) {
-            $data['updState'] = 0;
-        } else {
-            $data['updState'] = $this->getUpdState();
-        }
-
-        return $data;
-    }
 
     /**
      * @return mixed

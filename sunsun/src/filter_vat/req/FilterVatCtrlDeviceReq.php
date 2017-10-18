@@ -8,14 +8,14 @@
 
 namespace sunsun\filter_vat\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseControlDeviceServerReq;
 
 /**
  * Class FilterVatHbReq
  * 设置设备
  * @package sunsun\filter_vat\req
  */
-class FilterVatCtrlDeviceReq extends BaseReqPo
+class FilterVatCtrlDeviceReq extends BaseControlDeviceServerReq
 {
 
     public function __construct($data = null)
@@ -397,7 +397,7 @@ class FilterVatCtrlDeviceReq extends BaseReqPo
         $this->devLock = $devLock;
     }
 
-    public function setData($data)
+    public function setData($data = null)
     {
         array_key_exists("clEn", $data) && $this->setClEn($data['clEn']);
         array_key_exists("clWeek", $data) && $this->setClWeek($data['clWeek']);

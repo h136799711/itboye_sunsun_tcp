@@ -62,7 +62,7 @@ class Aph300CtrlDeviceReq extends BaseReqPo
         return $data;
     }
 
-    public function setData($data)
+    public function setData($data = null)
     {
         array_key_exists("ph_dly", $data) && $this->setPhDly($data['ph_dly']);
         array_key_exists("ph_cmd", $data) && $this->setPhCmd($data['ph_cmd']);

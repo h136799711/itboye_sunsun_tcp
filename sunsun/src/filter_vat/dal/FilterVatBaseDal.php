@@ -8,12 +8,11 @@
 
 namespace sunsun\filter_vat\dal;
 
-
-use sunsun\dal\BaseDal;
 use sunsun\server\consts\DeviceType;
 use sunsun\server\db\DbPool;
+use sunsun\server\interfaces\BaseDalV2;
 
-class FilterVatBaseDal extends BaseDal
+class FilterVatBaseDal extends BaseDalV2
 {
 
     public function __construct($db = null)

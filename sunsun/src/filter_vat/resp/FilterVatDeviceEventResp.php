@@ -10,48 +10,18 @@ namespace sunsun\filter_vat\resp;
 
 
 use sunsun\filter_vat\req\FilterVatDeviceEventReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseDeviceEventServerResp;
 
 /**
  * Class FilterVatHbReq
  * 设备事件响应
  * @package sunsun\filter_vat\req
  */
-class FilterVatDeviceEventResp extends BaseRespPo
+class FilterVatDeviceEventResp extends BaseDeviceEventServerResp
 {
-
-
     public function __construct(FilterVatDeviceEventReq $req = null)
     {
         parent::__construct($req);
         $this->setRespType(FilterVatRespType::Event);
     }
-
-    private $state;
-
-    /**
-     * @return mixed
-     */
-    public function getState()
-    {
-        return $this->state;
-    }
-
-    /**
-     * @param mixed $state
-     */
-    public function setState($state)
-    {
-        $this->state = $state;
-    }
-
-    public function toDataArray()
-    {
-        return [
-            'resType' => $this->getRespType(),
-            'sn' => $this->getSn(),
-            'state' => $this->getState()
-        ];
-    }
-
 }

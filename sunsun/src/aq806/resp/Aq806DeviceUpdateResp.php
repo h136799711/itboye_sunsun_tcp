@@ -28,7 +28,7 @@ class Aq806DeviceUpdateResp extends BaseRespPo
         $this->setRespType(Aq806RespType::FirmwareUpdate);
     }
 
-    public function setData($data)
+    public function setData($data = null)
     {
 
         if (array_key_exists("state", $data)) {
