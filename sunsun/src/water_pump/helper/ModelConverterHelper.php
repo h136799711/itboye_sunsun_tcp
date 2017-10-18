@@ -22,6 +22,7 @@ class ModelConverterHelper
     public static function convertToModelArray(WaterPumpDeviceInfoResp $resp)
     {
         $data = [];
+
         $data['update_time'] = time();
 
         if (!is_null($resp->getDevLock())) {

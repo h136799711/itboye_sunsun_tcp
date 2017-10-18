@@ -9,7 +9,7 @@
 namespace sunsun\model;
 
 
-class BaseModel
+abstract class BaseModel
 {
     private $id;
     private $create_time;
@@ -46,5 +46,5 @@ class BaseModel
         $this->create_time = $create_time;
     }
 
-
+    abstract function toDataArray();
 }

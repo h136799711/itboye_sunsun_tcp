@@ -9,13 +9,12 @@
 namespace sunsun\water_pump\dal;
 
 
-use sunsun\dal\BaseDal;
 use sunsun\server\consts\DeviceType;
 use sunsun\server\db\DbPool;
+use sunsun\server\interfaces\BaseDalV2;
 
-class WaterPumpBaseDal extends BaseDal
+class WaterPumpBaseDal extends BaseDalV2
 {
-
     public function __construct($db = null)
     {
         if($db == null){
