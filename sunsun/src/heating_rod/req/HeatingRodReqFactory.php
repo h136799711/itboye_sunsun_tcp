@@ -25,8 +25,10 @@ class HeatingRodReqFactory
                 $req = new HeatingRodDeviceEventReq($data);
                 break;
             case HeatingRodReqType::Control:
+                $req = new HeatingRodCtrlDeviceReq($data);
                 break;
             case HeatingRodReqType::FirmwareUpdate:
+                $req = new HeatingRodDeviceUpdateReq($data);
                 break;
             case HeatingRodReqType::Heartbeat:
                 $req = new HeatingRodHbReq($data);

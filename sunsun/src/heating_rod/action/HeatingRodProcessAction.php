@@ -14,9 +14,10 @@ use sunsun\heating_rod\req\HeatingRodReqType;
 use sunsun\heating_rod\resp\HeatingRodHbResp;
 use sunsun\heating_rod\resp\HeatingRodRespFactory;
 use sunsun\heating_rod\resp\HeatingRodRespType;
-use sunsun\heating_rod\resp\HeatingRodUnknownResp;
+use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
+use sunsun\server\factory\DeviceFacadeFactory;
 
 /**
  * Class HeatingRodProcessAction
@@ -58,7 +59,6 @@ class HeatingRodProcessAction
     private function response($did, $clientId, $jsonData)
     {
         $resType = $jsonData['resType'];
-        $sn = $jsonData['sn'];
         $resp = HeatingRodRespFactory::create($resType, $jsonData);
         $retResp = null;
         if (empty($resp)) {
@@ -66,27 +66,25 @@ class HeatingRodProcessAction
         }
         //过滤桶除了设备登录之外的其它请求处理
         $result = false;
+        $dal = DeviceFacadeFactory::getDeviceDal($did);
         switch ($resp->getRespType()) {
             //设备信息响应
             case HeatingRodRespType::DeviceInfo:
-                $result = (new HeatingRodDeviceInfoAction())->updateInfo($did, $clientId, $resp);
+                $result = (new HeatingRodDeviceInfoAction())->deviceInfoUpdate($did, $clientId, $resp, $dal);
                 break;
             //设备设置/控制响应
             case HeatingRodRespType::Control:
-                $result = (new HeatingRodDeviceCtrlAction())->updateInfo($did, $clientId, $resp);
+                $result = (new HeatingRodDeviceCtrlAction())->deviceControlInfoUpdate($did, $clientId, $resp, $dal);
                 break;
             case HeatingRodRespType::FirmwareUpdate:
-                $result = (new HeatingRodDeviceUpdateAction())->updateInfo($did, $clientId, $resp);
+                $result = (new HeatingRodDeviceUpdateAction())->firmUpdate($did, $clientId, $resp);
                 break;
             default:
                 break;
         }
 
         if (!ResultHelper::isSuccess($result)) {
-        } else {
-            //TODO: 响应请求成功后，暂时返回一个心跳包或者不返回
-//            $retResp = new HeatingRodHbResp();
-//            $retResp->setSn($sn);
+            LogHelper::debug($did, $clientId, $result['info']);
         }
 
         return $retResp;
@@ -97,7 +95,7 @@ class HeatingRodProcessAction
      * @param $did
      * @param $clientId
      * @param $jsonData
-     * @return null|\sunsun\heating_rod\resp\HeatingRodDeviceEventResp|HeatingRodHbResp|HeatingRodUnknownResp
+     * @return null|\sunsun\adt\resp\AdtCtrlDeviceResp|\sunsun\adt\resp\AdtDeviceInfoResp|\sunsun\adt\resp\AdtDeviceUpdateResp|\sunsun\adt\resp\AdtHbResp|\sunsun\aq806\resp\Aq806CtrlDeviceResp|\sunsun\aq806\resp\Aq806DeviceInfoResp|\sunsun\aq806\resp\Aq806DeviceUpdateResp|\sunsun\aq806\resp\Aq806HbResp|\sunsun\filter_vat\resp\FilterVatCtrlDeviceResp|\sunsun\filter_vat\resp\FilterVatDeviceEventResp|\sunsun\filter_vat\resp\FilterVatDeviceInfoResp|\sunsun\filter_vat\resp\FilterVatDeviceUpdateResp|\sunsun\filter_vat\resp\FilterVatHbResp|\sunsun\filter_vat\resp\FilterVatLoginResp|\sunsun\water_pump\resp\WaterPumpCtrlDeviceResp|\sunsun\water_pump\resp\WaterPumpDeviceInfoResp|\sunsun\water_pump\resp\WaterPumpDeviceUpdateResp|\sunsun\water_pump\resp\WaterPumpHbResp
      */
     private function request($did, $clientId, $jsonData)
     {
@@ -111,14 +109,14 @@ class HeatingRodProcessAction
         switch ($req->getReqType()) {
             //已登录成功后的登录请求
             case HeatingRodReqType::Login:
-                $resp = (new HeatingRodLoginAction())->login($did, $clientId, $req);
+                $resp = (new HeatingRodLoginAction())->deviceLogin($did, $clientId, $req);
                 break;
             //心跳请求
             case HeatingRodReqType::Heartbeat:
-                $resp = (new HeatingRodHbAction())->heartBeat($did, $clientId, $req);
+                $resp = (new HeatingRodHbAction())->deviceHeartBeat($did, $clientId, $req);
                 break;
             case HeatingRodReqType::Event:
-                $resp = (new HeatingRodDeviceEventAction())->logEvent($did, $clientId, $req);
+                $resp = (new HeatingRodDeviceEventAction())->deviceEventLog($did, $clientId, $req);
                 break;
             default:
                 break;

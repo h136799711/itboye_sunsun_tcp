@@ -12,32 +12,32 @@ class HeatingRodRespFactory
 {
     public static function create($resType, $jsonData)
     {
-        $sn = $jsonData['sn'];
-
         $resp = null;
         switch ($resType) {
             case HeatingRodRespType::Heartbeat:
                 $resp = new HeatingRodHbResp();
-                $resp->setData($jsonData);
                 break;
             case HeatingRodRespType::Control:
                 $resp = new HeatingRodCtrlDeviceResp();
-                $resp->setData($jsonData);
                 break;
             case HeatingRodRespType::DeviceInfo:
                 $resp = new HeatingRodDeviceInfoResp();
-                $resp->setData($jsonData);
                 break;
             case HeatingRodRespType::FirmwareUpdate:
                 $resp = new HeatingRodDeviceUpdateResp();
-                $resp->setData($jsonData);
+                break;
+            case HeatingRodRespType::Login:
+                $resp = new HeatingRodLoginResp();
+                break;
+            case HeatingRodRespType::Event:
+                $resp = new HeatingRodDeviceEventResp();
                 break;
             default:
                 break;
         }
 
         if ($resp) {
-            $resp->setSn($sn);
+            $resp->setData($jsonData);
         }
 
         return $resp;
