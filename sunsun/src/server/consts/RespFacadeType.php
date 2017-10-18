@@ -58,62 +58,62 @@ class RespFacadeType
     public function init()
     {
         // 过滤桶 S01
-        self::$deviceArr[DeviceType::Did_FilterVat] = [];
-        self::$deviceArr[DeviceType::Did_FilterVat][self::LOGIN] = FilterVatRespType::Login;
-        self::$deviceArr[DeviceType::Did_FilterVat][self::HEART_BEAT] = FilterVatRespType::Heartbeat;
-        self::$deviceArr[DeviceType::Did_FilterVat][self::DEVICE_INFO] = FilterVatRespType::DeviceInfo;
-        self::$deviceArr[DeviceType::Did_FilterVat][self::FIRMWARE_UPDATE] = FilterVatRespType::FirmwareUpdate;
-        self::$deviceArr[DeviceType::Did_FilterVat][self::CONTROL] = FilterVatRespType::Control;
-        self::$deviceArr[DeviceType::Did_FilterVat][self::EVENT] = FilterVatRespType::Event;
+        $this->deviceArr[DeviceType::Did_FilterVat] = [];
+        $this->deviceArr[DeviceType::Did_FilterVat][self::LOGIN] = FilterVatRespType::Login;
+        $this->deviceArr[DeviceType::Did_FilterVat][self::HEART_BEAT] = FilterVatRespType::Heartbeat;
+        $this->deviceArr[DeviceType::Did_FilterVat][self::DEVICE_INFO] = FilterVatRespType::DeviceInfo;
+        $this->deviceArr[DeviceType::Did_FilterVat][self::FIRMWARE_UPDATE] = FilterVatRespType::FirmwareUpdate;
+        $this->deviceArr[DeviceType::Did_FilterVat][self::CONTROL] = FilterVatRespType::Control;
+        $this->deviceArr[DeviceType::Did_FilterVat][self::EVENT] = FilterVatRespType::Event;
         // 加热棒 S02
-        self::$deviceArr[DeviceType::Did_HeatingRod] = [];
-        self::$deviceArr[DeviceType::Did_HeatingRod][self::LOGIN] = HeatingRodRespType::Login;
-        self::$deviceArr[DeviceType::Did_HeatingRod][self::HEART_BEAT] = HeatingRodRespType::Heartbeat;
-        self::$deviceArr[DeviceType::Did_HeatingRod][self::DEVICE_INFO] = HeatingRodRespType::DeviceInfo;
-        self::$deviceArr[DeviceType::Did_HeatingRod][self::FIRMWARE_UPDATE] = HeatingRodRespType::FirmwareUpdate;
-        self::$deviceArr[DeviceType::Did_HeatingRod][self::CONTROL] = HeatingRodRespType::Control;
-        self::$deviceArr[DeviceType::Did_HeatingRod][self::EVENT] = HeatingRodRespType::Event;
+        $this->deviceArr[DeviceType::Did_HeatingRod] = [];
+        $this->deviceArr[DeviceType::Did_HeatingRod][self::LOGIN] = HeatingRodRespType::Login;
+        $this->deviceArr[DeviceType::Did_HeatingRod][self::HEART_BEAT] = HeatingRodRespType::Heartbeat;
+        $this->deviceArr[DeviceType::Did_HeatingRod][self::DEVICE_INFO] = HeatingRodRespType::DeviceInfo;
+        $this->deviceArr[DeviceType::Did_HeatingRod][self::FIRMWARE_UPDATE] = HeatingRodRespType::FirmwareUpdate;
+        $this->deviceArr[DeviceType::Did_HeatingRod][self::CONTROL] = HeatingRodRespType::Control;
+        $this->deviceArr[DeviceType::Did_HeatingRod][self::EVENT] = HeatingRodRespType::Event;
         // aq806 S03
-        self::$deviceArr[DeviceType::Did_AQ806] = [];
-        self::$deviceArr[DeviceType::Did_AQ806][self::LOGIN] = Aq806RespType::Login;
-        self::$deviceArr[DeviceType::Did_AQ806][self::HEART_BEAT] = Aq806RespType::Heartbeat;
-        self::$deviceArr[DeviceType::Did_AQ806][self::DEVICE_INFO] = Aq806RespType::DeviceInfo;
-        self::$deviceArr[DeviceType::Did_AQ806][self::FIRMWARE_UPDATE] = Aq806RespType::FirmwareUpdate;
-        self::$deviceArr[DeviceType::Did_AQ806][self::CONTROL] = Aq806RespType::Control;
-        self::$deviceArr[DeviceType::Did_AQ806][self::EVENT] = Aq806RespType::Event;
+        $this->deviceArr[DeviceType::Did_AQ806] = [];
+        $this->deviceArr[DeviceType::Did_AQ806][self::LOGIN] = Aq806RespType::Login;
+        $this->deviceArr[DeviceType::Did_AQ806][self::HEART_BEAT] = Aq806RespType::Heartbeat;
+        $this->deviceArr[DeviceType::Did_AQ806][self::DEVICE_INFO] = Aq806RespType::DeviceInfo;
+        $this->deviceArr[DeviceType::Did_AQ806][self::FIRMWARE_UPDATE] = Aq806RespType::FirmwareUpdate;
+        $this->deviceArr[DeviceType::Did_AQ806][self::CONTROL] = Aq806RespType::Control;
+        $this->deviceArr[DeviceType::Did_AQ806][self::EVENT] = Aq806RespType::Event;
         // aph300 S04
-        self::$deviceArr[DeviceType::Did_APH300] = [];
-        self::$deviceArr[DeviceType::Did_APH300][self::LOGIN] = Aph300RespType::Login;
-        self::$deviceArr[DeviceType::Did_APH300][self::HEART_BEAT] = Aph300RespType::Heartbeat;
-        self::$deviceArr[DeviceType::Did_APH300][self::DEVICE_INFO] = Aph300RespType::DeviceInfo;
-        self::$deviceArr[DeviceType::Did_APH300][self::FIRMWARE_UPDATE] = Aph300RespType::FirmwareUpdate;
-        self::$deviceArr[DeviceType::Did_APH300][self::CONTROL] = Aph300RespType::Control;
-        self::$deviceArr[DeviceType::Did_APH300][self::EVENT] = Aph300RespType::Event;
+        $this->deviceArr[DeviceType::Did_APH300] = [];
+        $this->deviceArr[DeviceType::Did_APH300][self::LOGIN] = Aph300RespType::Login;
+        $this->deviceArr[DeviceType::Did_APH300][self::HEART_BEAT] = Aph300RespType::Heartbeat;
+        $this->deviceArr[DeviceType::Did_APH300][self::DEVICE_INFO] = Aph300RespType::DeviceInfo;
+        $this->deviceArr[DeviceType::Did_APH300][self::FIRMWARE_UPDATE] = Aph300RespType::FirmwareUpdate;
+        $this->deviceArr[DeviceType::Did_APH300][self::CONTROL] = Aph300RespType::Control;
+        $this->deviceArr[DeviceType::Did_APH300][self::EVENT] = Aph300RespType::Event;
         // 变频水泵 S05
-        self::$deviceArr[DeviceType::Did_WaterPump] = [];
-        self::$deviceArr[DeviceType::Did_WaterPump][self::LOGIN] = WaterPumpRespType::Login;
-        self::$deviceArr[DeviceType::Did_WaterPump][self::HEART_BEAT] = WaterPumpRespType::Heartbeat;
-        self::$deviceArr[DeviceType::Did_WaterPump][self::DEVICE_INFO] = WaterPumpRespType::DeviceInfo;
-        self::$deviceArr[DeviceType::Did_WaterPump][self::FIRMWARE_UPDATE] = WaterPumpRespType::FirmwareUpdate;
-        self::$deviceArr[DeviceType::Did_WaterPump][self::CONTROL] = WaterPumpRespType::Control;
-        self::$deviceArr[DeviceType::Did_WaterPump][self::EVENT] = WaterPumpRespType::Event;
+        $this->deviceArr[DeviceType::Did_WaterPump] = [];
+        $this->deviceArr[DeviceType::Did_WaterPump][self::LOGIN] = WaterPumpRespType::Login;
+        $this->deviceArr[DeviceType::Did_WaterPump][self::HEART_BEAT] = WaterPumpRespType::Heartbeat;
+        $this->deviceArr[DeviceType::Did_WaterPump][self::DEVICE_INFO] = WaterPumpRespType::DeviceInfo;
+        $this->deviceArr[DeviceType::Did_WaterPump][self::FIRMWARE_UPDATE] = WaterPumpRespType::FirmwareUpdate;
+        $this->deviceArr[DeviceType::Did_WaterPump][self::CONTROL] = WaterPumpRespType::Control;
+        $this->deviceArr[DeviceType::Did_WaterPump][self::EVENT] = WaterPumpRespType::Event;
         // ADT S06
-        self::$deviceArr[DeviceType::Did_ADT] = [];
-        self::$deviceArr[DeviceType::Did_ADT][self::LOGIN] = AdtRespType::Login;
-        self::$deviceArr[DeviceType::Did_ADT][self::HEART_BEAT] = AdtRespType::Heartbeat;
-        self::$deviceArr[DeviceType::Did_ADT][self::DEVICE_INFO] = AdtRespType::DeviceInfo;
-        self::$deviceArr[DeviceType::Did_ADT][self::FIRMWARE_UPDATE] = AdtRespType::FirmwareUpdate;
-        self::$deviceArr[DeviceType::Did_ADT][self::CONTROL] = AdtRespType::Control;
-        self::$deviceArr[DeviceType::Did_ADT][self::EVENT] = AdtRespType::Event;
+        $this->deviceArr[DeviceType::Did_ADT] = [];
+        $this->deviceArr[DeviceType::Did_ADT][self::LOGIN] = AdtRespType::Login;
+        $this->deviceArr[DeviceType::Did_ADT][self::HEART_BEAT] = AdtRespType::Heartbeat;
+        $this->deviceArr[DeviceType::Did_ADT][self::DEVICE_INFO] = AdtRespType::DeviceInfo;
+        $this->deviceArr[DeviceType::Did_ADT][self::FIRMWARE_UPDATE] = AdtRespType::FirmwareUpdate;
+        $this->deviceArr[DeviceType::Did_ADT][self::CONTROL] = AdtRespType::Control;
+        $this->deviceArr[DeviceType::Did_ADT][self::EVENT] = AdtRespType::Event;
 
         // Cp1000 S07
-        self::$deviceArr[DeviceType::Did_CP1000] = [];
-        self::$deviceArr[DeviceType::Did_CP1000][self::LOGIN] = Cp1000RespType::Login;
-        self::$deviceArr[DeviceType::Did_CP1000][self::HEART_BEAT] = Cp1000RespType::Heartbeat;
-        self::$deviceArr[DeviceType::Did_CP1000][self::DEVICE_INFO] = Cp1000RespType::DeviceInfo;
-        self::$deviceArr[DeviceType::Did_CP1000][self::FIRMWARE_UPDATE] = Cp1000RespType::FirmwareUpdate;
-        self::$deviceArr[DeviceType::Did_CP1000][self::CONTROL] = Cp1000RespType::Control;
-        self::$deviceArr[DeviceType::Did_CP1000][self::EVENT] = Cp1000RespType::Event;
+        $this->deviceArr[DeviceType::Did_CP1000] = [];
+        $this->deviceArr[DeviceType::Did_CP1000][self::LOGIN] = Cp1000RespType::Login;
+        $this->deviceArr[DeviceType::Did_CP1000][self::HEART_BEAT] = Cp1000RespType::Heartbeat;
+        $this->deviceArr[DeviceType::Did_CP1000][self::DEVICE_INFO] = Cp1000RespType::DeviceInfo;
+        $this->deviceArr[DeviceType::Did_CP1000][self::FIRMWARE_UPDATE] = Cp1000RespType::FirmwareUpdate;
+        $this->deviceArr[DeviceType::Did_CP1000][self::CONTROL] = Cp1000RespType::Control;
+        $this->deviceArr[DeviceType::Did_CP1000][self::EVENT] = Cp1000RespType::Event;
 
     }
 }
