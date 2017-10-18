@@ -28,7 +28,7 @@ class RespFacadeFactory
     {
         $jsonData = [];
         if (!empty($req)) {
-            $req->toDataArray();
+            $jsonData = $req->toDataArray();
         }
         return self::createRespObj($did, RespFacadeType::LOGIN, $jsonData);
     }
@@ -37,7 +37,7 @@ class RespFacadeFactory
     {
         $jsonData = [];
         if (!empty($req)) {
-            $req->toDataArray();
+            $jsonData = $req->toDataArray();
         }
         return self::createRespObj($did, RespFacadeType::EVENT, $jsonData);
     }
@@ -53,7 +53,7 @@ class RespFacadeFactory
 
         $jsonData = [];
         if (!empty($req)) {
-            $req->toDataArray();
+            $jsonData = $req->toDataArray();
         }
         return self::createRespObj($did, RespFacadeType::HEART_BEAT, $jsonData);
     }
