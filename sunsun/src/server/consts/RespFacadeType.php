@@ -40,12 +40,18 @@ class RespFacadeType
         return self::$facade;
     }
 
-    private static $deviceArr = [];
+    public function getDeviceArray()
+    {
+        return $this->deviceArr;
+    }
+
+    private $deviceArr = [];
 
     public static function getRespType($did, $facadeRespTypeKey)
     {
         $deviceType = DeviceType::getDeviceType($did);
-        $deviceRespType = self::$deviceArr[$deviceType];
+        $deviceArr = RespFacadeType::getInstance()->getDeviceArray();
+        $deviceRespType = $deviceArr[$deviceType];
         return $deviceRespType[$facadeRespTypeKey];
     }
 
