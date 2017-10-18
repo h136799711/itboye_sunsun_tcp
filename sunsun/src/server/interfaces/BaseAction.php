@@ -19,8 +19,8 @@ use sunsun\server\model\BaseDeviceEventModel;
 use sunsun\server\req\BaseDeviceEventClientReq;
 use sunsun\server\req\BaseDeviceLoginClientReq;
 use sunsun\server\req\BaseHeartBeatClientReq;
+use sunsun\server\resp\BaseControlDeviceClientResp;
 use sunsun\server\resp\BaseDeviceFirmwareUpdateClientResp;
-use sunsun\server\resp\BaseDeviceInfoClientResp;
 use sunsun\transfer_station\client\TransferClient;
 
 /**
@@ -70,12 +70,12 @@ abstract class BaseAction
      * 设备控制设备信息返回更新
      * @param $did
      * @param $clientId
-     * @param BaseRespPo|BaseDeviceInfoClientResp $resp
+     * @param BaseRespPo|BaseControlDeviceClientResp $resp
      * @param BaseDalV2 $dal
      * @return array
      * @throws \Exception
      */
-    public function deviceControlInfoUpdate($did, $clientId, BaseDeviceInfoClientResp $resp, BaseDalV2 $dal)
+    public function deviceControlInfoUpdate($did, $clientId, BaseControlDeviceClientResp $resp, BaseDalV2 $dal)
     {
         if (!method_exists($resp, 'toDbEntityArray')) {
             throw new \Exception('resp toDbEntityArray method missing');
