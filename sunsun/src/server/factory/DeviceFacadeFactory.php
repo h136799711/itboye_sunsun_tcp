@@ -11,32 +11,39 @@ namespace sunsun\server\factory;
 
 use sunsun\adt\action\AdtProcessAction;
 use sunsun\adt\dal\AdtDeviceDal;
+use sunsun\adt\dal\AdtDeviceEventDal;
 use sunsun\adt\req\AdtReqFactory;
 use sunsun\adt\req\AdtReqType;
 use sunsun\aph300\action\Aph300ProcessAction;
 use sunsun\aph300\dal\Aph300DeviceDal;
+use sunsun\aph300\dal\Aph300DeviceEventDal;
 use sunsun\aph300\req\Aph300ReqFactory;
 use sunsun\aph300\req\Aph300ReqType;
 use sunsun\aq806\action\Aq806ProcessAction;
 use sunsun\aq806\dal\Aq806DeviceDal;
+use sunsun\aq806\dal\Aq806DeviceEventDal;
 use sunsun\aq806\req\Aq806ReqFactory;
 use sunsun\aq806\req\Aq806ReqType;
 use sunsun\cp1000\action\Cp1000ProcessAction;
 use sunsun\cp1000\dal\Cp1000DeviceDal;
+use sunsun\cp1000\dal\Cp1000DeviceEventDal;
 use sunsun\cp1000\req\Cp1000ReqFactory;
 use sunsun\cp1000\req\Cp1000ReqType;
 use sunsun\filter_vat\action\FilterVatProcessAction;
 use sunsun\filter_vat\dal\FilterVatDeviceDal;
+use sunsun\filter_vat\dal\FilterVatDeviceEventDal;
 use sunsun\filter_vat\req\FilterVatReqFactory;
 use sunsun\filter_vat\req\FilterVatReqType;
 use sunsun\filter_vat\resp\FilterVatLoginResp;
 use sunsun\heating_rod\action\HeatingRodProcessAction;
 use sunsun\heating_rod\dal\HeatingRodDeviceDal;
+use sunsun\heating_rod\dal\HeatingRodDeviceEventDal;
 use sunsun\heating_rod\req\HeatingRodReqFactory;
 use sunsun\heating_rod\req\HeatingRodReqType;
 use sunsun\server\consts\DeviceType;
 use sunsun\water_pump\action\WaterPumpProcessAction;
 use sunsun\water_pump\dal\WaterPumpDeviceDal;
+use sunsun\water_pump\dal\WaterPumpDeviceEventDal;
 use sunsun\water_pump\req\WaterPumpReqFactory;
 use sunsun\water_pump\req\WaterPumpReqType;
 
@@ -54,6 +61,39 @@ class DeviceFacadeFactory
 
     public static function getDb(){
 
+    }
+
+
+    public static function getDeviceEventDal($did)
+    {
+        $type = substr($did, 0, 3);
+        $logic = null;
+        switch ($type) {
+            case DeviceType::Did_ADT:
+                $logic = new AdtDeviceEventDal();
+                break;
+            case DeviceType::Did_APH300:
+                $logic = new Aph300DeviceEventDal();
+                break;
+            case DeviceType::Did_AQ806:
+                $logic = new Aq806DeviceEventDal();
+                break;
+            case DeviceType::Did_FilterVat:
+                $logic = new FilterVatDeviceEventDal();
+                break;
+            case DeviceType::Did_HeatingRod:
+                $logic = new HeatingRodDeviceEventDal();
+                break;
+            case DeviceType::Did_WaterPump:
+                $logic = new WaterPumpDeviceEventDal();
+                break;
+            case DeviceType::Did_CP1000:
+                $logic = new Cp1000DeviceEventDal();
+                break;
+            default:
+                break;
+        }
+        return $logic;
     }
 
     /**

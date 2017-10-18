@@ -178,7 +178,7 @@ abstract class BaseAction
      */
     public function deviceEventLog($did, $client_id, BaseDeviceEventClientReq $req)
     {
-        $dal = DeviceFacadeFactory::getDeviceDal($did);
+        $dal = DeviceFacadeFactory::getDeviceEventDal($did);
         $do = new BaseDeviceEventModel();
         $eventType = $req->getCode();
         $eventInfo = json_encode($req->getEventInfo());
