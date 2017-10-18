@@ -8,14 +8,14 @@
 
 namespace sunsun\water_pump\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseControlDeviceServerReq;
 
 /**
  * Class WaterPumpHbReq
  * 设置设备
  * @package sunsun\water_pump\req
  */
-class WaterPumpCtrlDeviceReq extends BaseReqPo
+class WaterPumpCtrlDeviceReq extends BaseControlDeviceServerReq
 {
 
     public function __construct($data = null)

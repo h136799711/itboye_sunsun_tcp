@@ -8,7 +8,6 @@
 
 namespace sunsun\water_pump\model;
 
-
 use sunsun\server\model\BaseDeviceModel;
 
 class WaterPumpDeviceModel extends BaseDeviceModel

@@ -8,67 +8,18 @@
 
 namespace sunsun\water_pump\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseDeviceFirmwareUpdateServerReq;
 
 /**
  * Class WaterPumpHbReq
  * 设备更新请求
  * @package sunsun\water_pump\req
  */
-class WaterPumpDeviceUpdateReq extends BaseReqPo
+class WaterPumpDeviceUpdateReq extends BaseDeviceFirmwareUpdateServerReq
 {
-
-    private $url;//V512	固件下载地址	HTTP地址
-    private $len;//固件字节长度
-
-
     public function __construct($data = null)
     {
         parent::__construct($data);
         $this->setReqType(WaterPumpReqType::FirmwareUpdate);
     }
-
-    function toDataArray()
-    {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn(),
-            'url' => $this->getUrl(),
-            'len' => $this->getLen()
-        ];
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    /**
-     * @param mixed $url
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLen()
-    {
-        return $this->len;
-    }
-
-    /**
-     * @param mixed $len
-     */
-    public function setLen($len)
-    {
-        $this->len = $len;
-    }
-
-
 }

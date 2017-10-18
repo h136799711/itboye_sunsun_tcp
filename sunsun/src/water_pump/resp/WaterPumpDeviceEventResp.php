@@ -9,7 +9,7 @@
 namespace sunsun\water_pump\resp;
 
 
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseDeviceEventServerResp;
 use sunsun\water_pump\req\WaterPumpDeviceEventReq;
 
 /**
@@ -17,41 +17,11 @@ use sunsun\water_pump\req\WaterPumpDeviceEventReq;
  * 设备事件响应
  * @package sunsun\water_pump\req
  */
-class WaterPumpDeviceEventResp extends BaseRespPo
+class WaterPumpDeviceEventResp extends BaseDeviceEventServerResp
 {
-
-
     public function __construct(WaterPumpDeviceEventReq $req = null)
     {
         parent::__construct($req);
         $this->setRespType(WaterPumpRespType::Event);
     }
-
-    private $state;
-
-    /**
-     * @return mixed
-     */
-    public function getState()
-    {
-        return $this->state;
-    }
-
-    /**
-     * @param mixed $state
-     */
-    public function setState($state)
-    {
-        $this->state = $state;
-    }
-
-    public function toDataArray()
-    {
-        return [
-            'resType' => $this->getRespType(),
-            'sn' => $this->getSn(),
-            'state' => $this->getState()
-        ];
-    }
-
 }

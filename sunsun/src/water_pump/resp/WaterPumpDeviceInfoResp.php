@@ -9,7 +9,7 @@
 namespace sunsun\water_pump\resp;
 
 
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseDeviceInfoClientResp;
 use sunsun\water_pump\req\WaterPumpDeviceInfoReq;
 
 /**
@@ -17,7 +17,7 @@ use sunsun\water_pump\req\WaterPumpDeviceInfoReq;
  * 设备状态响应包
  * @package sunsun\water_pump\req
  */
-class WaterPumpDeviceInfoResp extends BaseRespPo
+class WaterPumpDeviceInfoResp extends BaseDeviceInfoClientResp
 {
 
     public function __construct(WaterPumpDeviceInfoReq $req = null)
@@ -78,14 +78,8 @@ class WaterPumpDeviceInfoResp extends BaseRespPo
 
     public function check()
     {
-//        foreach ($this->toDataArray() as $key => $item) {
-//            if (is_null($item)) {
-//                return "缺少 " . $key . " 属性";
-//            }
-//        }
         return "";
     }
-
 
     private $devLock;
     private $updState;

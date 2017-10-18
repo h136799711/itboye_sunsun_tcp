@@ -19,6 +19,7 @@ class BaseDeviceLoginServerResp extends BaseRespPo
     private $state;
 
 
+
     /**
      * 设置登录成功状态
      */
@@ -54,6 +55,22 @@ class BaseDeviceLoginServerResp extends BaseRespPo
     /**
      * @return mixed
      */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param mixed $state
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getTm()
     {
         $this->tm = gmdate("YmdHis");
@@ -69,7 +86,7 @@ class BaseDeviceLoginServerResp extends BaseRespPo
         return [
             'resType' => $this->getRespType(),
             'sn' => $this->getSn(),
-            'state' => $this->state,
+            'state' => $this->getState(),
             'tm' => $this->getTm(),
             'hb' => $this->getHb()
         ];

@@ -8,7 +8,6 @@
 
 namespace sunsun\server\interfaces;
 
-use sunsun\dal\BaseDal;
 use sunsun\dal\DeviceTcpClientDal;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\DevToServerDelayHelper;
@@ -39,13 +38,14 @@ abstract class BaseAction
      * @param $did
      * @param $clientId
      * @param BaseRespPo $resp
-     * @param BaseDal $dal
+     * @param BaseDalV2 $dal
      * @return array
+     * @throws \Exception
      */
-    public function updateDeviceInfo($did, $clientId, BaseRespPo $resp, BaseDal $dal)
+    public function updateDeviceInfo($did, $clientId, BaseRespPo $resp, BaseDalV2 $dal)
     {
         if (!method_exists($resp, 'toModelArray')) {
-            return ResultHelper::fail('resp toModelArray method missing');
+            throw new \Exception('resp toModelArray method missing');
         }
         //更新设备信息
         $updateEntity = $resp->toModelArray();

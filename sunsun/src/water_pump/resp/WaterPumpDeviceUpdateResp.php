@@ -9,7 +9,7 @@
 namespace sunsun\water_pump\resp;
 
 
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseDeviceFirmwareUpdateClientResp;
 use sunsun\water_pump\req\WaterPumpDeviceUpdateReq;
 
 /**
@@ -17,51 +17,11 @@ use sunsun\water_pump\req\WaterPumpDeviceUpdateReq;
  * 心跳包
  * @package sunsun\water_pump\req
  */
-class WaterPumpDeviceUpdateResp extends BaseRespPo
+class WaterPumpDeviceUpdateResp extends BaseDeviceFirmwareUpdateClientResp
 {
-
-    private $state;
-
     public function __construct(WaterPumpDeviceUpdateReq $req = null)
     {
         parent::__construct($req);
         $this->setRespType(WaterPumpRespType::FirmwareUpdate);
     }
-
-    public function setData($data)
-    {
-
-        if (array_key_exists("state", $data)) {
-            $this->setState($data['state']);
-        } else {
-            //默认999
-            $this->setState(999);
-        }
-    }
-
-    public function toDataArray()
-    {
-        return [
-            'resType' => $this->getRespType(),
-            'sn' => $this->getSn()
-        ];
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getState()
-    {
-        return $this->state;
-    }
-
-    /**
-     * @param mixed $state
-     */
-    public function setState($state)
-    {
-        $this->state = $state;
-    }
-
-
 }

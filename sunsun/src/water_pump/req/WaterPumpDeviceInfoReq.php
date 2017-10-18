@@ -8,29 +8,18 @@
 
 namespace sunsun\water_pump\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseDeviceInfoServerReq;
 
 /**
  * Class WaterPumpHbReq
  * 获取设备状态
  * @package sunsun\water_pump\req
  */
-class WaterPumpDeviceInfoReq extends BaseReqPo
+class WaterPumpDeviceInfoReq extends BaseDeviceInfoServerReq
 {
-
     public function __construct($data = null)
     {
         parent::__construct($data);
         $this->setReqType(WaterPumpReqType::DeviceInfo);
     }
-
-    function toDataArray()
-    {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn(),
-        ];
-    }
-
-
 }

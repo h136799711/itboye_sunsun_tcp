@@ -8,14 +8,14 @@
 
 namespace sunsun\water_pump\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseDeviceEventClientReq;
 
 /**
  * Class WaterPumpDeviceEventReq
  * 设备事件
  * @package sunsun\water_pump\req
  */
-class WaterPumpDeviceEventReq extends BaseReqPo
+class WaterPumpDeviceEventReq extends BaseDeviceEventClientReq
 {
 
 
@@ -36,7 +36,6 @@ class WaterPumpDeviceEventReq extends BaseReqPo
         parent::__construct($data);
         $this->setReqType(WaterPumpReqType::Event);
         if (!empty($data)) {
-            $this->setCode($data['code']);
             $this->setPwr(-1);
             $this->setGear(-1);
             $this->setSpd(-1);
@@ -53,35 +52,9 @@ class WaterPumpDeviceEventReq extends BaseReqPo
         }
     }
 
-    function toDataArray()
-    {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn()
-        ];
-    }
-
-
-    private $code;
     private $pwr;
     private $gear;
     private $spd;
-
-    /**
-     * @return mixed
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    /**
-     * @param mixed $code
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
-    }
 
     /**
      * @return mixed
