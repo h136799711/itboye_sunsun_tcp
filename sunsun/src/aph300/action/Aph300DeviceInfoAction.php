@@ -9,39 +9,9 @@
 namespace sunsun\aph300\action;
 
 
-use sunsun\aph300\dal\Aph300DeviceDal;
-use sunsun\aph300\helper\ModelConverterHelper;
-use sunsun\aph300\resp\Aph300DeviceInfoResp;
-use sunsun\helper\DevToServerDelayHelper;
-use sunsun\helper\LogHelper;
-use sunsun\helper\ResultHelper;
-use sunsun\transfer_station\client\TransferClient;
+use sunsun\server\interfaces\BaseAction;
 
-class Aph300DeviceInfoAction
+class Aph300DeviceInfoAction extends BaseAction
 {
-    public function updateInfo($did, $clientId, Aph300DeviceInfoResp $resp)
-    {
-        $check = $resp->check();
-        if (!empty($check)) {
-            return ResultHelper::fail($check);
-        }
-        //更新设备信息
-        $updateEntity = ModelConverterHelper::convertToModelArray($resp);
-        $dal = new Aph300DeviceDal();
-        $avg = DevToServerDelayHelper::logRespTime($clientId,$resp);
-        if($avg > 12345679.999){
-            $avg = 12345679.999;
-        }
-        if($avg > 0) {
-            $updateEntity['delay_avg'] = $avg;
-        }
-        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
-
-        // 向中转通道发送信息
-        TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());
-        $updateEntity['update_time'] = time();
-        $ret = $dal->updateByDid($did, $updateEntity);
-        return ResultHelper::success($ret);
-    }
 
 }

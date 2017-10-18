@@ -10,15 +10,71 @@ namespace sunsun\aph300\resp;
 
 
 use sunsun\aph300\req\Aph300CtrlDeviceReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\interfaces\ToDbEntityArrayInterface;
+use sunsun\server\resp\BaseControlDeviceClientResp;
 
 /**
  * Class Aph300HbReq
  * 设备状态响应包
  * @package sunsun\aph300\req
  */
-class Aph300CtrlDeviceResp extends BaseRespPo
+class Aph300CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEntityArrayInterface
 {
+    function toDbEntityArray()
+    {
+
+        $data = [];
+        $data['update_time'] = time();
+        if (!is_null($this->getT())) {
+            $data['t'] = $this->getT();
+        }
+        if (!is_null($this->getPh())) {
+            $data['ph'] = $this->getPh();
+        }
+
+        if (!is_null($this->getDevLock())) {
+            $data['dev_lock'] = $this->getDevLock();
+        }
+        if (!is_null($this->getUpdState()) && $this->getUpdState() > -1) {
+            $data['upd_state'] = $this->getUpdState();
+        } else {
+            $data['upd_state'] = 0;
+        }
+
+        if (!is_null($this->getPushCfg())) {
+            $data['push_cfg'] = $this->getPushCfg();
+        }
+
+        if (!is_null($this->getDCyc())) {
+            $data['d_cyc'] = $this->getDCyc();
+        }
+
+        if (!is_null($this->getPhCmd())) {
+            $data['ph_cmd'] = $this->getPhCmd();
+        }
+        if (!is_null($this->getPhSche())) {
+            $data['ph_sche'] = $this->getPhSche();
+        }
+        if (!is_null($this->getPhDly())) {
+            $data['ph_dly'] = $this->getPhDly();
+        }
+        if (!is_null($this->getPhh())) {
+            $data['phh'] = $this->getPhh();
+        }
+        if (!is_null($this->getPhl())) {
+            $data['phl'] = $this->getPhl();
+        }
+
+        if (!is_null($this->getTh())) {
+            $data['th'] = $this->getTh();
+        }
+        if (!is_null($this->getTl())) {
+            $data['tl'] = $this->getTl();
+        }
+
+        return $data;
+    }
+
 
     //t	1	int		实时温度	温度值的10倍值
     private $t;

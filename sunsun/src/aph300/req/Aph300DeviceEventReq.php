@@ -8,16 +8,15 @@
 
 namespace sunsun\aph300\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseDeviceEventClientReq;
 
 /**
  * Class Aph300DeviceEventReq
  * 设备事件
  * @package sunsun\aph300\req
  */
-class Aph300DeviceEventReq extends BaseReqPo
+class Aph300DeviceEventReq extends BaseDeviceEventClientReq
 {
-    private $code;
     private $ph;
     private $t;
 
@@ -64,30 +63,11 @@ class Aph300DeviceEventReq extends BaseReqPo
         $this->ph = $ph;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    /**
-     * @param mixed $code
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
-    }
-
-
     public function __construct($data = null)
     {
         parent::__construct($data);
         $this->setReqType(Aph300ReqType::Event);
         if (!empty($data)) {
-            $this->setCode($data['code']);
             $this->setT(-1);
             $this->setPh(-1);
             if (array_key_exists("t", $data)) {
@@ -101,13 +81,6 @@ class Aph300DeviceEventReq extends BaseReqPo
         }
     }
 
-    function toDataArray()
-    {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn()
-        ];
-    }
 
 
 }

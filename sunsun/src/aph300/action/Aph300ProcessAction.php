@@ -15,8 +15,10 @@ use sunsun\aph300\resp\Aph300HbResp;
 use sunsun\aph300\resp\Aph300RespFactory;
 use sunsun\aph300\resp\Aph300RespType;
 use sunsun\aph300\resp\Aph300UnknownResp;
+use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
+use sunsun\server\factory\DeviceFacadeFactory;
 
 /**
  * Class Aph300ProcessAction
@@ -58,7 +60,6 @@ class Aph300ProcessAction
     private function response($did, $clientId, $jsonData)
     {
         $resType = $jsonData['resType'];
-        $sn = $jsonData['sn'];
         $resp = Aph300RespFactory::create($resType, $jsonData);
         $retResp = null;
         if (empty($resp)) {
@@ -66,27 +67,25 @@ class Aph300ProcessAction
         }
         //过滤桶除了设备登录之外的其它请求处理
         $result = false;
+        $dal = DeviceFacadeFactory::getDeviceDal($did);
         switch ($resp->getRespType()) {
             //设备信息响应
             case Aph300RespType::DeviceInfo:
-                $result = (new Aph300DeviceInfoAction())->updateInfo($did, $clientId, $resp);
+                $result = (new Aph300DeviceInfoAction())->deviceInfoUpdate($did, $clientId, $resp, $dal);
                 break;
             //设备设置/控制响应
             case Aph300RespType::Control:
-                $result = (new Aph300DeviceCtrlAction())->updateInfo($did, $clientId, $resp);
+                $result = (new Aph300DeviceCtrlAction())->deviceControlInfoUpdate($did, $clientId, $resp, $dal);
                 break;
             case Aph300RespType::FirmwareUpdate:
-                $result = (new Aph300DeviceUpdateAction())->updateInfo($did, $clientId, $resp);
+                $result = (new Aph300DeviceUpdateAction())->firmUpdate($did, $clientId, $resp);
                 break;
             default:
                 break;
         }
 
         if (!ResultHelper::isSuccess($result)) {
-        } else {
-            //TODO: 响应请求成功后，暂时返回一个心跳包或者不返回
-//            $retResp = new Aph300HbResp();
-//            $retResp->setSn($sn);
+            LogHelper::debug($did, $clientId, $result['info']);
         }
 
         return $retResp;
@@ -112,14 +111,14 @@ class Aph300ProcessAction
 
             //已登录成功后的登录请求
             case Aph300RespType::Login:
-                $resp = (new Aph300LoginAction())->login($did, $clientId, $req);
+                $resp = (new Aph300LoginAction())->deviceLogin($did, $clientId, $req);
                 break;
             //心跳请求
             case Aph300ReqType::Heartbeat:
-                $resp = (new Aph300HbAction())->heartBeat($did, $clientId, $req);
+                $resp = (new Aph300HbAction())->deviceHeartBeat($did, $clientId, $req);
                 break;
             case Aph300ReqType::Event:
-                $resp = (new Aph300DeviceEventAction())->logEvent($did, $clientId, $req);
+                $resp = (new Aph300DeviceEventAction())->deviceEventLog($did, $clientId, $req);
                 break;
             default:
                 break;

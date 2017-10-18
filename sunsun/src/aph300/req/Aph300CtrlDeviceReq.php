@@ -8,14 +8,14 @@
 
 namespace sunsun\aph300\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseControlDeviceServerReq;
 
 /**
  * Class Aph300HbReq
  * 设置设备
  * @package sunsun\aph300\req
  */
-class Aph300CtrlDeviceReq extends BaseReqPo
+class Aph300CtrlDeviceReq extends BaseControlDeviceServerReq
 {
 
     public function __construct($data = null)

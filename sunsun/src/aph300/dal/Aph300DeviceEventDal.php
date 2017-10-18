@@ -8,15 +8,12 @@
 
 namespace sunsun\aph300\dal;
 
-use sunsun\aph300\model\Aph300DeviceEventModel;
-
 class Aph300DeviceEventDal extends Aph300BaseDal
 {
-    protected $tableName = "sunsun_aph300_device_event";
-
-    public function insert(Aph300DeviceEventModel $do)
+    public function __construct($db = null)
     {
-        return self::$db->insert($this->tableName)->cols($do->toDataArray())->query();
+        parent::__construct($db);
+        $this->setTableName("sunsun_aph300_device_event");
     }
 
 }

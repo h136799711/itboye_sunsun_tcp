@@ -25,8 +25,10 @@ class Aph300ReqFactory
                 $req = new Aph300DeviceEventReq($data);
                 break;
             case Aph300ReqType::Control:
+                $req = new Aph300CtrlDeviceReq($data);
                 break;
             case Aph300ReqType::FirmwareUpdate:
+                $req = new Aph300DeviceUpdateReq($data);
                 break;
             case Aph300ReqType::Heartbeat:
                 $req = new Aph300HbReq($data);

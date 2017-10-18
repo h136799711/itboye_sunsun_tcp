@@ -12,32 +12,32 @@ class Aph300RespFactory
 {
     public static function create($resType, $jsonData)
     {
-        $sn = $jsonData['sn'];
-
         $resp = null;
         switch ($resType) {
             case Aph300RespType::Heartbeat:
                 $resp = new Aph300HbResp();
-                $resp->setData($jsonData);
                 break;
             case Aph300RespType::Control:
                 $resp = new Aph300CtrlDeviceResp();
-                $resp->setData($jsonData);
                 break;
             case Aph300RespType::DeviceInfo:
                 $resp = new Aph300DeviceInfoResp();
-                $resp->setData($jsonData);
                 break;
             case Aph300RespType::FirmwareUpdate:
                 $resp = new Aph300DeviceUpdateResp();
-                $resp->setData($jsonData);
+                break;
+            case Aph300RespType::Login:
+                $resp = new Aph300LoginResp();
+                break;
+            case Aph300RespType::Event:
+                $resp = new Aph300DeviceEventResp();
                 break;
             default:
                 break;
         }
 
         if ($resp) {
-            $resp->setSn($sn);
+            $resp->setData($jsonData);
         }
 
         return $resp;

@@ -9,34 +9,14 @@
 namespace sunsun\aph300\action;
 
 
-use sunsun\aph300\dal\Aph300DeviceEventDal;
-use sunsun\aph300\model\Aph300DeviceEventModel;
-use sunsun\aph300\req\Aph300DeviceEventReq;
-use sunsun\aph300\resp\Aph300DeviceEventResp;
+use sunsun\server\interfaces\BaseAction;
 
 /**
  * Class Aph300DeviceEventAction
  * 设备事件记录
  * @package sunsun\aph300\action
  */
-class Aph300DeviceEventAction
+class Aph300DeviceEventAction extends BaseAction
 {
-    public function logEvent($did, $client_id, Aph300DeviceEventReq $req)
-    {
-        $eventType = $req->getCode();
-        $eventInfo = json_encode(['t' => $req->getT(), 'ph' => $req->getPh()]);
-        $now = time();
-        $dal = (new Aph300DeviceEventDal());
-        $do = new Aph300DeviceEventModel();
-        $do->setDid($did);
-        $do->setCreateTime($now);
-        $do->setUpdateTime($now);
-        $do->setEventInfo($eventInfo);
-        $do->setEventType($eventType);
-        $result = $dal->insert($do);
-        $resp = new Aph300DeviceEventResp($req);
-        $resp->setState(0);
-        return $resp;
-    }
 
 }

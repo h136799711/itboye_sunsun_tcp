@@ -8,14 +8,14 @@
 
 namespace sunsun\aph300\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseDeviceInfoServerReq;
 
 /**
  * Class Aph300HbReq
  * 获取设备状态
  * @package sunsun\aph300\req
  */
-class Aph300DeviceInfoReq extends BaseReqPo
+class Aph300DeviceInfoReq extends BaseDeviceInfoServerReq
 {
 
     public function __construct($data = null)
@@ -23,14 +23,5 @@ class Aph300DeviceInfoReq extends BaseReqPo
         parent::__construct($data);
         $this->setReqType(Aph300ReqType::DeviceInfo);
     }
-
-    function toDataArray()
-    {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn(),
-        ];
-    }
-
 
 }
