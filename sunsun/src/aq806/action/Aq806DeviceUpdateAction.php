@@ -8,34 +8,9 @@
 
 namespace sunsun\aq806\action;
 
+use sunsun\server\interfaces\BaseAction;
 
-use sunsun\aq806\dal\Aq806DeviceDal;
-use sunsun\aq806\resp\Aq806DeviceUpdateResp;
-use sunsun\helper\LogHelper;
-use sunsun\helper\ResultHelper;
-
-class Aq806DeviceUpdateAction
+class Aq806DeviceUpdateAction extends BaseAction
 {
-    /**
-     * 设备固件更新响应处理
-     * @param $did
-     * @param $clientId
-     * @param Aq806DeviceUpdateResp $resp
-     * @return array
-     */
-    public function updateInfo($did, $clientId, Aq806DeviceUpdateResp $resp)
-    {
-
-        //更新设备信息
-        $updateEntity = [
-            'device_state' => $resp->getState()
-        ];
-        $dal = new Aq806DeviceDal();
-        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
-
-        $updateEntity['update_time'] = time();
-        $ret = $dal->updateByDid($did, $updateEntity);
-        return ResultHelper::success($ret);
-    }
 
 }

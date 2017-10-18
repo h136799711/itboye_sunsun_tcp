@@ -9,11 +9,11 @@
 namespace sunsun\aph300\dal;
 
 
-use sunsun\dal\BaseDal;
 use sunsun\server\consts\DeviceType;
 use sunsun\server\db\DbPool;
+use sunsun\server\interfaces\BaseDalV2;
 
-class Aph300BaseDal extends BaseDal
+class Aph300BaseDal extends BaseDalV2
 {
     public function __construct($db = null)
     {

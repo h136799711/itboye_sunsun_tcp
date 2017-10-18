@@ -10,48 +10,18 @@ namespace sunsun\aq806\resp;
 
 
 use sunsun\aq806\req\Aq806DeviceEventReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseDeviceEventServerResp;
 
 /**
  * Class Aq806HbReq
  * 设备事件响应
  * @package sunsun\aq806\req
  */
-class Aq806DeviceEventResp extends BaseRespPo
+class Aq806DeviceEventResp extends BaseDeviceEventServerResp
 {
-
-
     public function __construct(Aq806DeviceEventReq $req = null)
     {
         parent::__construct($req);
         $this->setRespType(Aq806RespType::Event);
     }
-
-    private $state;
-
-    /**
-     * @return mixed
-     */
-    public function getState()
-    {
-        return $this->state;
-    }
-
-    /**
-     * @param mixed $state
-     */
-    public function setState($state)
-    {
-        $this->state = $state;
-    }
-
-    public function toDataArray()
-    {
-        return [
-            'resType' => $this->getRespType(),
-            'sn' => $this->getSn(),
-            'state' => $this->getState()
-        ];
-    }
-
 }

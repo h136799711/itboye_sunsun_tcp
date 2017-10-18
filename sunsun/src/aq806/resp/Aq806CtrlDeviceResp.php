@@ -10,15 +10,104 @@ namespace sunsun\aq806\resp;
 
 
 use sunsun\aq806\req\Aq806CtrlDeviceReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\interfaces\ToDbEntityArrayInterface;
+use sunsun\server\resp\BaseControlDeviceClientResp;
 
 /**
  * Class Aq806HbReq
  * 设备状态响应包
  * @package sunsun\aq806\req
  */
-class Aq806CtrlDeviceResp extends BaseRespPo
+class Aq806CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEntityArrayInterface
 {
+    public function toDbEntityArray()
+    {
+        $data = [];
+        $data['update_time'] = time();
+        if (!is_null($this->getT())) {
+            $data['t'] = $this->getT();
+        }
+        if (!is_null($this->getPh())) {
+            $data['ph'] = $this->getPh();
+        }
+        if (!is_null($this->getOut())) {
+            $data['out_ctrl'] = $this->getOut();
+        }
+        if (!is_null($this->getTMax())) {
+            $data['t_max'] = $this->getTMax();
+        }
+        if (!is_null($this->getFault())) {
+            $data['fault'] = $this->getFault();
+        }
+        if (!is_null($this->getTh())) {
+            $data['th'] = $this->getTh();
+        }
+        if (!is_null($this->getTl())) {
+            $data['tl'] = $this->getTl();
+        }
+        if (!is_null($this->getPP())) {
+            $data['p_p'] = $this->getPP();
+        }
+        if (!is_null($this->getUvcP())) {
+            $data['uvc_p'] = ($this->getUvcP());
+        }
+        if (!is_null($this->getSpP())) {
+            $data['sp_p'] = $this->getSpP();
+        }
+        if (!is_null($this->getLP())) {
+            $data['l_p'] = $this->getLP();
+        }
+        if (!is_null($this->getLPer())) {
+            $data['l_per'] = $this->getLPer();
+            $data['l_per'] = json_encode($data['l_per']);
+        }
+        if (!is_null($this->getUvcPer())) {
+            $data['uvc_per'] = $this->getUvcPer();
+            $data['uvc_per'] = json_encode($data['uvc_per']);
+        }
+        if (!is_null($this->getSpPer())) {
+            $data['sp_per'] = $this->getSpPer();
+            $data['sp_per'] = json_encode($data['sp_per']);
+        }
+        if (!is_null($this->getExDev())) {
+            $data['ex_dev'] = $this->getExDev();
+        }
+
+        if (!is_null($this->getDevLock())) {
+            $data['dev_lock'] = $this->getDevLock();
+        }
+
+        if (!is_null($this->getUpdState()) && $this->getUpdState() > -1) {
+            $data['upd_state'] = $this->getUpdState();
+        } else {
+            $data['upd_state'] = 0;
+        }
+
+        if (!is_null($this->getDevLock())) {
+            $data['dev_lock'] = $this->getDevLock();
+        }
+        if (!is_null($this->getPushCfg())) {
+            $data['push_cfg'] = $this->getPushCfg();
+        }
+
+        if (!is_null($this->getDCyc())) {
+            $data['d_cyc'] = $this->getDCyc();
+        }
+
+        if (!is_null($this->getUvWh())) {
+            $data['uv_wh'] = $this->getUvWh();
+        }
+
+        if (!is_null($this->getPWh())) {
+            $data['p_wh'] = $this->getPWh();
+        }
+
+        if (!is_null($this->getLWh())) {
+            $data['l_wh'] = $this->getLWh();
+        }
+        return $data;
+    }
+
 
     //t	1	int		实时温度	温度值的10倍值
     private $t;

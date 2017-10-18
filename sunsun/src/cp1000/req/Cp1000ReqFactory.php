@@ -25,8 +25,10 @@ class Cp1000ReqFactory
                 $req = new Cp1000DeviceEventReq($data);
                 break;
             case Cp1000ReqType::Control:
+                $req = new Cp1000CtrlDeviceReq($data);
                 break;
             case Cp1000ReqType::FirmwareUpdate:
+                $req = new Cp1000DeviceUpdateServerReq($data);
                 break;
             case Cp1000ReqType::Heartbeat:
                 $req = new Cp1000HbReq($data);

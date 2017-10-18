@@ -9,57 +9,8 @@
 namespace sunsun\aq806\action;
 
 
-use sunsun\aq806\dal\Aq806DeviceDal;
-use sunsun\aq806\req\Aq806LoginReq;
-use sunsun\aq806\resp\Aq806LoginResp;
-use sunsun\decoder\SunsunTDS;
-use sunsun\helper\LogHelper;
-use sunsun\server\consts\SunsunDeviceConstant;
+use sunsun\server\interfaces\BaseAction;
 
-class Aq806LoginAction
+class Aq806LoginAction extends BaseAction
 {
-    public function login($did, $clientId, Aq806LoginReq $req)
-    {
-        $resp = new  Aq806LoginResp();
-        $resp->setSn($req->getSn());
-        $resp->setHb(SunsunDeviceConstant::DEFAULT_HEART_BEAT);
-        $dal = new Aq806DeviceDal();
-        $result = $dal->getInfoByDid($did);
-        if (empty($result)) {
-            $resp->setLoginFail();
-            return $resp;
-        }
-        $pwd = $result['pwd'];
-        $hb = $result['hb'];
-        $resp->setHb($hb);
-        //更新设备信息
-        $encryptPwd = $req->getPwd();
-
-        $originPwd = SunsunTDS::isLegalPwd($encryptPwd, $pwd);
-        if (empty($originPwd)) {
-            $resp->setLoginFail();
-            return $resp;
-        }
-
-        //更新控制密码
-        $time = time();
-        $ver = $req->getVer();
-        $entity = [
-            'ver'=>$ver,
-            'offline_notify'=>1,
-            'ctrl_pwd' => $originPwd,
-            'last_login_time' => $time,
-            'update_time' => $time,
-        ];
-
-        $dal = new Aq806DeviceDal();
-        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($entity));
-
-        $ret = $dal->updateByDid($did, $entity);
-
-        $resp->setLoginSuccess();
-
-        return $resp;
-    }
-
 }

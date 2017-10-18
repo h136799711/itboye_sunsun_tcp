@@ -2,8 +2,6 @@
 
 namespace sunsun\aq806\dal;
 
-use sunsun\aq806\model\Aq806TempHisModel;
-
 /**
  * Class Aq806TempHisDal
  * @author hebidu <email:346551990@qq.com>
@@ -11,15 +9,11 @@ use sunsun\aq806\model\Aq806TempHisModel;
  */
 class Aq806TempHisDal extends Aq806BaseDal
 {
-    protected $tableName = "sunsun_aq806_temp_his";
 
-    public function insert(Aq806TempHisModel $do)
+    public function __construct($db = null)
     {
-        self::$db->insert($this->tableName)->cols($do->toDataArray())->query();
+        parent::__construct($db);
+        $this->setTableName("sunsun_aq806_temp_his");
     }
 
-    public function clearAll()
-    {
-        $this->truncateTable($this->tableName);
-    }
 }

@@ -52,6 +52,11 @@ abstract class BaseDalV2
         $this->tableName = $tableName;
     }
 
+    public function clearAll()
+    {
+        $this->truncateTable($this->tableName);
+    }
+
     public function truncateTable($tableName)
     {
         return self::$db->query("TRUNCATE TABLE " . $tableName);

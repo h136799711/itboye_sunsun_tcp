@@ -8,14 +8,14 @@
 
 namespace sunsun\aq806\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseControlDeviceServerReq;
 
 /**
  * Class Aq806HbReq
  * 设置设备
  * @package sunsun\aq806\req
  */
-class Aq806CtrlDeviceReq extends BaseReqPo
+class Aq806CtrlDeviceReq extends BaseControlDeviceServerReq
 {
 
     public function __construct($data = null)

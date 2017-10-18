@@ -10,58 +10,18 @@ namespace sunsun\aq806\resp;
 
 
 use sunsun\aq806\req\Aq806DeviceUpdateReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseDeviceFirmwareUpdateClientResp;
 
 /**
  * Class Aq806HbReq
  * 心跳包
  * @package sunsun\aq806\req
  */
-class Aq806DeviceUpdateResp extends BaseRespPo
+class Aq806DeviceUpdateResp extends BaseDeviceFirmwareUpdateClientResp
 {
-
-    private $state;
-
     public function __construct(Aq806DeviceUpdateReq $req = null)
     {
         parent::__construct($req);
         $this->setRespType(Aq806RespType::FirmwareUpdate);
     }
-
-    public function setData($data = null)
-    {
-
-        if (array_key_exists("state", $data)) {
-            $this->setState($data['state']);
-        } else {
-            //默认999
-            $this->setState(999);
-        }
-    }
-
-    public function toDataArray()
-    {
-        return [
-            'resType' => $this->getRespType(),
-            'sn' => $this->getSn()
-        ];
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getState()
-    {
-        return $this->state;
-    }
-
-    /**
-     * @param mixed $state
-     */
-    public function setState($state)
-    {
-        $this->state = $state;
-    }
-
-
 }

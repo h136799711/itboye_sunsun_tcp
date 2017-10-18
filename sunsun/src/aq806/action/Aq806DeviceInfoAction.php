@@ -8,42 +8,10 @@
 
 namespace sunsun\aq806\action;
 
+use sunsun\server\interfaces\BaseAction;
 
-use sunsun\aq806\dal\Aq806DeviceDal;
-use sunsun\aq806\helper\ModelConverterHelper;
-use sunsun\aq806\resp\Aq806DeviceInfoResp;
-use sunsun\helper\DevToServerDelayHelper;
-use sunsun\helper\LogHelper;
-use sunsun\helper\ResultHelper;
-use sunsun\transfer_station\client\TransferClient;
-
-class Aq806DeviceInfoAction
+class Aq806DeviceInfoAction extends BaseAction
 {
-    public function updateInfo($did, $clientId, Aq806DeviceInfoResp $resp)
-    {
-        $check = $resp->check();
-        if (!empty($check)) {
-            return ResultHelper::fail($check);
-        }
-        //更新设备信息
-        $updateEntity = ModelConverterHelper::convertToModelArray($resp);
-        $dal = new Aq806DeviceDal();
-        $avg = DevToServerDelayHelper::logRespTime($clientId,$resp);
-        if($avg > 12345679.999){
-            $avg = 12345679.999;
-        }
-        if($avg > 0) {
-            $updateEntity['delay_avg'] = $avg;
-        }
-        LogHelper::logDebug($clientId, 'updateEntity' . json_encode($updateEntity));
-        // 向中转通道发送信息
-        TransferClient::sendMessageToGroup($did, $updateEntity,$resp->getSn());
-        $updateEntity['update_time'] = time();
-        $ret = $dal->updateByDid($did, $updateEntity);
-        return ResultHelper::success($ret);
-    }
-
-
 
 
 }

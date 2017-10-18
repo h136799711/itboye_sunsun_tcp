@@ -15,8 +15,10 @@ use sunsun\cp1000\resp\Cp1000HbResp;
 use sunsun\cp1000\resp\Cp1000RespFactory;
 use sunsun\cp1000\resp\Cp1000RespType;
 use sunsun\cp1000\resp\Cp1000UnknownResp;
+use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
+use sunsun\server\factory\DeviceFacadeFactory;
 
 /**
  * Class Cp1000ProcessAction
@@ -66,27 +68,25 @@ class Cp1000ProcessAction
         }
         //过滤桶除了设备登录之外的其它请求处理
         $result = false;
+        $dal = DeviceFacadeFactory::getDeviceDal($did);
         switch ($resp->getRespType()) {
             //设备信息响应
             case Cp1000RespType::DeviceInfo:
-                $result = (new Cp1000DeviceInfoAction())->updateInfo($did, $clientId, $resp);
+                $result = (new Cp1000DeviceInfoAction())->deviceInfoUpdate($did, $clientId, $resp, $dal);
                 break;
             //设备设置/控制响应
             case Cp1000RespType::Control:
-                $result = (new Cp1000DeviceCtrlAction())->updateInfo($did, $clientId, $resp);
+                $result = (new Cp1000DeviceCtrlAction())->deviceControlInfoUpdate($did, $clientId, $resp, $dal);
                 break;
             case Cp1000RespType::FirmwareUpdate:
-                $result = (new Cp1000DeviceFirmwareUpdateAction())->updateInfo($did, $clientId, $resp);
+                $result = (new Cp1000DeviceFirmwareUpdateAction())->firmUpdate($did, $clientId, $resp);
                 break;
             default:
                 break;
         }
 
         if (!ResultHelper::isSuccess($result)) {
-        } else {
-            //TODO: 响应请求成功后，暂时返回一个心跳包或者不返回
-//            $retResp = new Cp1000HbResp();
-//            $retResp->setSn($sn);
+            LogHelper::debug($did, $clientId, $result['info']);
         }
 
         return $retResp;
@@ -112,14 +112,14 @@ class Cp1000ProcessAction
 
             //已登录成功后的登录请求
             case Cp1000RespType::Login:
-                $resp = (new Cp1000LoginAction())->login($did, $clientId, $req);
+                $resp = (new Cp1000LoginAction())->deviceLogin($did, $clientId, $req);
                 break;
             //心跳请求
             case Cp1000ReqType::Heartbeat:
-                $resp = (new Cp1000HbAction())->heartBeat($did, $clientId, $req);
+                $resp = (new Cp1000HbAction())->deviceHeartBeat($did, $clientId, $req);
                 break;
             case Cp1000ReqType::Event:
-                $resp = (new Cp1000DeviceEventAction())->logEvent($did, $clientId, $req);
+                $resp = (new Cp1000DeviceEventAction())->deviceEventLog($did, $clientId, $req);
                 break;
             default:
                 break;

@@ -2,9 +2,6 @@
 
 namespace sunsun\aph300\dal;
 
-use sunsun\aph300\model\Aph300TempHisModel;
-use sunsun\dal\BaseDal;
-
 /**
  * Class Aph300TempHisDal
  * @author hebidu <email:346551990@qq.com>
@@ -12,15 +9,9 @@ use sunsun\dal\BaseDal;
  */
 class Aph300TempHisDal extends Aph300BaseDal
 {
-    protected $tableName = "sunsun_aph300_temp_his";
-
-    public function insert(Aph300TempHisModel $do)
+    public function __construct($db = null)
     {
-        self::$db->insert($this->tableName)->cols($do->toDataArray())->query();
-    }
-
-    public function clearAll()
-    {
-        $this->truncateTable($this->tableName);
+        parent::__construct($db);
+        $this->setTableName("sunsun_aph300_temp_his");
     }
 }

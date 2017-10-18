@@ -2,7 +2,9 @@
 
 namespace sunsun\dal;
 
+use sunsun\model\BaseModel;
 use sunsun\model\DeviceTcpClientModel;
+use sunsun\server\interfaces\BaseDalV2;
 
 /**
  * Created by PhpStorm.
@@ -10,9 +12,13 @@ use sunsun\model\DeviceTcpClientModel;
  * Date: 2017-03-10
  * Time: 12:16
  */
-class DeviceTcpClientDal extends BaseDal
+class DeviceTcpClientDal extends BaseDalV2
 {
-    protected $tableName = "sunsun_device_tcp_client";
+    public function __construct($db = null)
+    {
+        parent::__construct($db);
+        $this->setTableName("sunsun_device_tcp_client");
+    }
 
     public function updateByDid($did, $entity)
     {
@@ -37,16 +43,13 @@ class DeviceTcpClientDal extends BaseDal
         return $row_count;
     }
 
-    public function insert(DeviceTcpClientModel $do)
+    public function insert(BaseModel $do)
     {
-        self::$db->insert($this->tableName)->cols(array(
-            'did' => $do->getDid(),
-            'tcp_client_id' => $do->getTcpClientId(),
-            'prev_login_time' => $do->getPrevLoginTime()))->query();
-    }
-
-    public function clearAll()
-    {
-        $this->truncateTable($this->tableName);
+        if ($do instanceof DeviceTcpClientModel) {
+            self::$db->insert($this->tableName)->cols(array(
+                'did' => $do->getDid(),
+                'tcp_client_id' => $do->getTcpClientId(),
+                'prev_login_time' => $do->getPrevLoginTime()))->query();
+        }
     }
 }

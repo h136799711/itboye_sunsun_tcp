@@ -14,9 +14,4 @@ class HeatingRodTempHisDal extends HeatingRodBaseDal
         parent::__construct($db);
         $this->setTableName("sunsun_heating_rod_temp_his");
     }
-
-    public function clearAll()
-    {
-        $this->truncateTable($this->tableName);
-    }
 }

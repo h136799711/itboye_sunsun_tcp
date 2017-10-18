@@ -25,8 +25,10 @@ class WaterPumpReqFactory
                 $req = new WaterPumpDeviceEventReq($data);
                 break;
             case WaterPumpReqType::Control:
+                $req = new WaterPumpCtrlDeviceReq($data);
                 break;
             case WaterPumpReqType::FirmwareUpdate:
+                $req = new WaterPumpDeviceUpdateReq($data);
                 break;
             case WaterPumpReqType::Heartbeat:
                 $req = new WaterPumpHbReq($data);

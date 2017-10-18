@@ -9,9 +9,6 @@
 namespace sunsun\cp1000\action;
 
 
-use sunsun\cp1000\req\Cp1000HbReq;
-use sunsun\cp1000\resp\Cp1000HbResp;
-use sunsun\server\factory\DeviceFacadeFactory;
 use sunsun\server\interfaces\BaseAction;
 
 /**
@@ -21,9 +18,4 @@ use sunsun\server\interfaces\BaseAction;
  */
 class Cp1000HbAction extends BaseAction
 {
-    public function heartBeat($did, $clientId, Cp1000HbReq $req)
-    {
-        (DeviceFacadeFactory::getDeviceDal($did))->updateByDid($did, ['update_time' => time()]);
-        return new Cp1000HbResp($req);
-    }
 }

@@ -15,8 +15,10 @@ use sunsun\aq806\resp\Aq806HbResp;
 use sunsun\aq806\resp\Aq806RespFactory;
 use sunsun\aq806\resp\Aq806RespType;
 use sunsun\aq806\resp\Aq806UnknownResp;
+use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
+use sunsun\server\factory\DeviceFacadeFactory;
 
 /**
  * Class Aq806ProcessAction
@@ -58,7 +60,6 @@ class Aq806ProcessAction
     private function response($did, $clientId, $jsonData)
     {
         $resType = $jsonData['resType'];
-        $sn = $jsonData['sn'];
         $resp = Aq806RespFactory::create($resType, $jsonData);
         $retResp = null;
         if (empty($resp)) {
@@ -66,27 +67,25 @@ class Aq806ProcessAction
         }
         //过滤桶除了设备登录之外的其它请求处理
         $result = false;
+        $dal = DeviceFacadeFactory::getDeviceDal($did);
         switch ($resp->getRespType()) {
             //设备信息响应
             case Aq806RespType::DeviceInfo:
-                $result = (new Aq806DeviceInfoAction())->updateInfo($did, $clientId, $resp);
+                $result = (new Aq806DeviceInfoAction())->deviceInfoUpdate($did, $clientId, $resp, $dal);
                 break;
             //设备设置/控制响应
             case Aq806RespType::Control:
-                $result = (new Aq806DeviceCtrlAction())->updateInfo($did, $clientId, $resp);
+                $result = (new Aq806DeviceCtrlAction())->deviceControlInfoUpdate($did, $clientId, $resp, $dal);
                 break;
             case Aq806RespType::FirmwareUpdate:
-                $result = (new Aq806DeviceUpdateAction())->updateInfo($did, $clientId, $resp);
+                $result = (new Aq806DeviceUpdateAction())->firmUpdate($did, $clientId, $resp);
                 break;
             default:
                 break;
         }
 
         if (!ResultHelper::isSuccess($result)) {
-        } else {
-            //TODO: 响应请求成功后，暂时返回一个心跳包或者不返回
-//            $retResp = new Aq806HbResp();
-//            $retResp->setSn($sn);
+            LogHelper::debug($did, $clientId, $result['info']);
         }
 
         return $retResp;
@@ -112,14 +111,14 @@ class Aq806ProcessAction
 
             //已登录成功后的登录请求
             case Aq806RespType::Login:
-                $resp = (new Aq806LoginAction())->login($did, $clientId, $req);
+                $resp = (new Aq806LoginAction())->deviceLogin($did, $clientId, $req);
                 break;
             //心跳请求
             case Aq806ReqType::Heartbeat:
-                $resp = (new Aq806HbAction())->heartBeat($did, $clientId, $req);
+                $resp = (new Aq806HbAction())->deviceHeartBeat($did, $clientId, $req);
                 break;
             case Aq806ReqType::Event:
-                $resp = (new Aq806DeviceEventAction())->logEvent($did, $clientId, $req);
+                $resp = (new Aq806DeviceEventAction())->deviceEventLog($did, $clientId, $req);
                 break;
             default:
                 break;

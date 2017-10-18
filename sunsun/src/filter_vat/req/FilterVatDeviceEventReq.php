@@ -17,6 +17,7 @@ use sunsun\server\req\BaseDeviceEventClientReq;
  */
 class FilterVatDeviceEventReq extends BaseDeviceEventClientReq
 {
+
     public function __construct($data = null)
     {
         parent::__construct($data);

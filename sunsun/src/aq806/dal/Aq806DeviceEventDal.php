@@ -8,16 +8,12 @@
 
 namespace sunsun\aq806\dal;
 
-
-use sunsun\aq806\model\Aq806DeviceEventModel;
-
 class Aq806DeviceEventDal extends Aq806BaseDal
 {
-    protected $tableName = "sunsun_aq806_device_event";
-
-    public function insert(Aq806DeviceEventModel $do)
+    public function __construct($db = null)
     {
-        return self::$db->insert($this->tableName)->cols($do->toDataArray())->query();
+        parent::__construct($db);
+        $this->setTableName("sunsun_aq806_device_event");
     }
 
 }

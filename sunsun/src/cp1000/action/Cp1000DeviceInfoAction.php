@@ -8,15 +8,8 @@
 
 namespace sunsun\cp1000\action;
 
-use sunsun\cp1000\dal\Cp1000DeviceDal;
-use sunsun\cp1000\resp\Cp1000DeviceInfoResp;
 use sunsun\server\interfaces\BaseAction;
 
 class Cp1000DeviceInfoAction extends BaseAction
 {
-    public function updateInfo($did, $clientId, Cp1000DeviceInfoResp $resp)
-    {
-        return $this->deviceInfoUpdate($did, $clientId, $resp, new Cp1000DeviceDal());
-    }
-
 }

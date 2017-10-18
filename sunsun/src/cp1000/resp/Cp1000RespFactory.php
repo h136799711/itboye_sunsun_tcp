@@ -19,26 +19,28 @@ class Cp1000RespFactory
         switch ($resType) {
             case Cp1000RespType::Heartbeat:
                 $resp = new Cp1000HbResp();
-                $resp->setData($jsonData);
                 break;
             case Cp1000RespType::Control:
                 $resp = new Cp1000CtrlDeviceResp();
-                $resp->setData($jsonData);
                 break;
             case Cp1000RespType::DeviceInfo:
                 $resp = new Cp1000DeviceInfoResp();
-                $resp->setData($jsonData);
                 break;
             case Cp1000RespType::FirmwareUpdate:
                 $resp = new Cp1000DeviceFirmwareUpdateResp();
-                $resp->setData($jsonData);
+                break;
+            case Cp1000RespType::Login:
+                $resp = new Cp1000LoginResp();
+                break;
+            case Cp1000RespType::Event:
+                $resp = new Cp1000DeviceEventResp();
                 break;
             default:
                 break;
         }
 
         if ($resp) {
-            $resp->setSn($sn);
+            $resp->setData($jsonData);
         }
 
         return $resp;

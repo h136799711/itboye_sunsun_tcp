@@ -8,9 +8,6 @@
 
 namespace sunsun\aq806\action;
 
-use sunsun\aq806\req\Aq806HbReq;
-use sunsun\aq806\resp\Aq806HbResp;
-use sunsun\server\factory\DeviceFacadeFactory;
 use sunsun\server\interfaces\BaseAction;
 
 /**
@@ -20,9 +17,4 @@ use sunsun\server\interfaces\BaseAction;
  */
 class Aq806HbAction extends BaseAction
 {
-    public function heartBeat($did, $clientId, Aq806HbReq $req)
-    {
-        (DeviceFacadeFactory::getDeviceDal($did))->updateByDid($did, ['update_time' => time()]);
-        return new Aq806HbResp($req);
-    }
 }

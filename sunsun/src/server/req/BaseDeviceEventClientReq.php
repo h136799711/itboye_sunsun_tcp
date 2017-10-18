@@ -13,6 +13,10 @@ use sunsun\po\BaseReqPo;
 
 abstract class BaseDeviceEventClientReq extends BaseReqPo
 {
+    public function getEventInfo()
+    {
+        return $this->toDataArray();
+    }
 
     public function __construct($data = null)
     {

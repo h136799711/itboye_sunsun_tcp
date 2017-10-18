@@ -8,16 +8,15 @@
 
 namespace sunsun\aq806\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseDeviceEventClientReq;
 
 /**
  * Class Aq806DeviceEventReq
  * 设备事件
  * @package sunsun\aq806\req
  */
-class Aq806DeviceEventReq extends BaseReqPo
+class Aq806DeviceEventReq extends BaseDeviceEventClientReq
 {
-    private $code;
     private $ph;
     private $t;
     private $dyn;
@@ -83,30 +82,11 @@ class Aq806DeviceEventReq extends BaseReqPo
         $this->ph = $ph;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    /**
-     * @param mixed $code
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
-    }
-
-
     public function __construct($data = null)
     {
         parent::__construct($data);
         $this->setReqType(Aq806ReqType::Event);
         if (!empty($data)) {
-            $this->setCode($data['code']);
             $this->setT(-1);
             $this->setDyn(-1);
             $this->setPh(-1);
@@ -127,10 +107,11 @@ class Aq806DeviceEventReq extends BaseReqPo
 
     function toDataArray()
     {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn()
-        ];
+        return array_merge(parent::toDataArray(), [
+            'ph' => $this->getPh(),
+            'dyn' => $this->getDyn(),
+            't' => $this->getT()
+        ]);
     }
 
 

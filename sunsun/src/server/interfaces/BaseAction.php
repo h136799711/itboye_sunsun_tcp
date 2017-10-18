@@ -181,7 +181,7 @@ abstract class BaseAction
         $dal = DeviceFacadeFactory::getDeviceDal($did);
         $do = new BaseDeviceEventModel();
         $eventType = $req->getCode();
-        $eventInfo = json_encode([]);
+        $eventInfo = json_encode($req->getEventInfo());
         $now = time();
         $do->setDid($did);
         $do->setCreateTime($now);

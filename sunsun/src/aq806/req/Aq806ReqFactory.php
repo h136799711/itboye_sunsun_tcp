@@ -25,8 +25,10 @@ class Aq806ReqFactory
                 $req = new Aq806DeviceEventReq($data);
                 break;
             case Aq806ReqType::Control:
+                $req = new Aq806CtrlDeviceReq($data);
                 break;
             case Aq806ReqType::FirmwareUpdate:
+                $req = new Aq806DeviceUpdateReq($data);
                 break;
             case Aq806ReqType::Heartbeat:
                 $req = new Aq806HbReq($data);
