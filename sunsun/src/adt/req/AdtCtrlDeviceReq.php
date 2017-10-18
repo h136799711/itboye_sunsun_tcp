@@ -8,14 +8,14 @@
 
 namespace sunsun\adt\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseControlDeviceServerReq;
 
 /**
  * Class AdtHbReq
  * 设置设备
  * @package sunsun\adt\req
  */
-class AdtCtrlDeviceReq extends BaseReqPo
+class AdtCtrlDeviceReq extends BaseControlDeviceServerReq
 {
 
     public function __construct($data = null)

@@ -25,8 +25,10 @@ class AdtReqFactory
                 $req = new AdtDeviceEventReq($data);
                 break;
             case AdtReqType::Control:
+                $req = new AdtCtrlDeviceReq($data);
                 break;
             case AdtReqType::FirmwareUpdate:
+                $req = new AdtDeviceUpdateReq($data);
                 break;
             case AdtReqType::Heartbeat:
                 $req = new AdtHbReq($data);

@@ -10,14 +10,14 @@ namespace sunsun\adt\resp;
 
 
 use sunsun\adt\req\AdtCtrlDeviceReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseControlDeviceClientResp;
 
 /**
  * Class AdtHbReq
  * 设备状态响应包
  * @package sunsun\adt\req
  */
-class AdtCtrlDeviceResp extends BaseRespPo
+class AdtCtrlDeviceResp extends BaseControlDeviceClientResp
 {
 
     private $sw;

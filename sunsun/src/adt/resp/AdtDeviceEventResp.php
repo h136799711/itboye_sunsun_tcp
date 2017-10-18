@@ -10,48 +10,18 @@ namespace sunsun\adt\resp;
 
 
 use sunsun\adt\req\AdtDeviceEventReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseDeviceEventServerResp;
 
 /**
  * Class AdtHbReq
  * 设备事件响应
  * @package sunsun\adt\req
  */
-class AdtDeviceEventResp extends BaseRespPo
+class AdtDeviceEventResp extends BaseDeviceEventServerResp
 {
-
-
     public function __construct(AdtDeviceEventReq $req = null)
     {
         parent::__construct($req);
         $this->setRespType(AdtRespType::Event);
     }
-
-    private $state;
-
-    /**
-     * @return mixed
-     */
-    public function getState()
-    {
-        return $this->state;
-    }
-
-    /**
-     * @param mixed $state
-     */
-    public function setState($state)
-    {
-        $this->state = $state;
-    }
-
-    public function toDataArray()
-    {
-        return [
-            'resType' => $this->getRespType(),
-            'sn' => $this->getSn(),
-            'state' => $this->getState()
-        ];
-    }
-
 }

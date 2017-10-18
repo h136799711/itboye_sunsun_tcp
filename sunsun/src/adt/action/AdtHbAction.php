@@ -9,9 +9,6 @@
 namespace sunsun\adt\action;
 
 
-use sunsun\adt\req\AdtHbReq;
-use sunsun\adt\resp\AdtHbResp;
-use sunsun\server\factory\DeviceFacadeFactory;
 use sunsun\server\interfaces\BaseAction;
 
 /**
@@ -21,9 +18,4 @@ use sunsun\server\interfaces\BaseAction;
  */
 class AdtHbAction extends BaseAction
 {
-    public function heartBeat($did, $clientId, AdtHbReq $req)
-    {
-        (DeviceFacadeFactory::getDeviceDal($did))->updateByDid($did, ['update_time' => time()]);
-        return new AdtHbResp($req);
-    }
 }

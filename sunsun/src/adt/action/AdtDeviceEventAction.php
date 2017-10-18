@@ -8,35 +8,13 @@
 
 namespace sunsun\adt\action;
 
-
-use sunsun\adt\dal\AdtDeviceEventDal;
-use sunsun\adt\model\AdtDeviceEventModel;
-use sunsun\adt\req\AdtDeviceEventReq;
-use sunsun\adt\resp\AdtDeviceEventResp;
+use sunsun\server\interfaces\BaseAction;
 
 /**
  * Class AdtDeviceEventAction
  * 设备事件记录
  * @package sunsun\adt\action
  */
-class AdtDeviceEventAction
+class AdtDeviceEventAction extends BaseAction
 {
-    public function logEvent($did, $client_id, AdtDeviceEventReq $req)
-    {
-        $eventType = $req->getCode();
-        $eventInfo = json_encode([]);
-        $now = time();
-        $dal = (new AdtDeviceEventDal());
-        $do = new AdtDeviceEventModel();
-        $do->setDid($did);
-        $do->setCreateTime($now);
-        $do->setUpdateTime($now);
-        $do->setEventInfo($eventInfo);
-        $do->setEventType($eventType);
-        $result = $dal->insert($do);
-        $resp = new AdtDeviceEventResp($req);
-        $resp->setState(0);
-        return $resp;
-    }
-
 }

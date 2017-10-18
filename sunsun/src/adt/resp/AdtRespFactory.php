@@ -12,32 +12,32 @@ class AdtRespFactory
 {
     public static function create($resType, $jsonData)
     {
-        $sn = $jsonData['sn'];
-
         $resp = null;
         switch ($resType) {
             case AdtRespType::Heartbeat:
                 $resp = new AdtHbResp();
-                $resp->setData($jsonData);
                 break;
             case AdtRespType::Control:
                 $resp = new AdtCtrlDeviceResp();
-                $resp->setData($jsonData);
                 break;
             case AdtRespType::DeviceInfo:
                 $resp = new AdtDeviceInfoResp();
-                $resp->setData($jsonData);
                 break;
             case AdtRespType::FirmwareUpdate:
                 $resp = new AdtDeviceUpdateResp();
-                $resp->setData($jsonData);
+                break;
+            case AdtRespType::Login:
+                $resp = new AdtLoginResp();
+                break;
+            case AdtRespType::Event:
+                $resp = new AdtDeviceEventResp();
                 break;
             default:
                 break;
         }
 
         if ($resp) {
-            $resp->setSn($sn);
+            $resp->setData($jsonData);
         }
 
         return $resp;

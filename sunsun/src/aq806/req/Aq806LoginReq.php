@@ -17,4 +17,6 @@ class Aq806LoginReq extends BaseDeviceLoginClientReq
         parent::__construct($data);
         $this->setReqType(Aq806ReqType::Login);
     }
+
+
 }

@@ -9,15 +9,11 @@
 namespace sunsun\adt\dal;
 
 
-use sunsun\adt\model\AdtDeviceEventModel;
-
 class AdtDeviceEventDal extends AdtBaseDal
 {
-    protected $tableName = "sunsun_adt_device_event";
-
-    public function insert(AdtDeviceEventModel $do)
+    public function __construct($db = null)
     {
-        return self::$db->insert($this->tableName)->cols($do->toDataArray())->query();
+        parent::__construct($db);
+        $this->setTableName("sunsun_adt_device_event");
     }
-
 }

@@ -8,58 +8,18 @@
 
 namespace sunsun\adt\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseDeviceEventClientReq;
 
 /**
  * Class AdtDeviceEventReq
  * 设备事件
  * @package sunsun\adt\req
  */
-class AdtDeviceEventReq extends BaseReqPo
+class AdtDeviceEventReq extends BaseDeviceEventClientReq
 {
-    private $code;
-
-
-    public function getEventInfo()
-    {
-        return [
-            'code' => $this->getCode()
-        ];
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    /**
-     * @param mixed $code
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
-    }
-
-
     public function __construct($data = null)
     {
         parent::__construct($data);
         $this->setReqType(AdtReqType::Event);
-        if (!empty($data)) {
-            $this->setCode($data['code']);
-        }
     }
-
-    function toDataArray()
-    {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn()
-        ];
-    }
-
-
 }

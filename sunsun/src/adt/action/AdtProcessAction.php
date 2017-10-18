@@ -15,8 +15,10 @@ use sunsun\adt\resp\AdtHbResp;
 use sunsun\adt\resp\AdtRespFactory;
 use sunsun\adt\resp\AdtRespType;
 use sunsun\adt\resp\AdtUnknownResp;
+use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
+use sunsun\server\factory\DeviceFacadeFactory;
 
 /**
  * Class AdtProcessAction
@@ -66,27 +68,25 @@ class AdtProcessAction
         }
         //除了设备登录之外的其它请求处理
         $result = false;
+        $dal = DeviceFacadeFactory::getDeviceDal($did);
         switch ($resp->getRespType()) {
             //设备信息响应
             case AdtRespType::DeviceInfo:
-                $result = (new AdtDeviceInfoAction())->updateInfo($did, $clientId, $resp);
+                $result = (new AdtDeviceInfoAction())->deviceInfoUpdate($did, $clientId, $resp, $dal);
                 break;
             //设备设置/控制响应
             case AdtRespType::Control:
-                $result = (new AdtDeviceCtrlAction())->updateInfo($did, $clientId, $resp);
+                $result = (new AdtDeviceCtrlAction())->deviceControlInfoUpdate($did, $clientId, $resp, $dal);
                 break;
             case AdtRespType::FirmwareUpdate:
-                $result = (new AdtDeviceUpdateAction())->updateInfo($did, $clientId, $resp);
+                $result = (new AdtDeviceUpdateAction())->firmUpdate($did, $clientId, $resp);
                 break;
             default:
                 break;
         }
 
         if (!ResultHelper::isSuccess($result)) {
-        } else {
-            //TODO: 响应请求成功后，暂时返回一个心跳包或者不返回
-//            $retResp = new AdtHbResp();
-//            $retResp->setSn($sn);
+            LogHelper::debug($did, $clientId, $result['info']);
         }
 
         return $retResp;
@@ -112,14 +112,14 @@ class AdtProcessAction
 
             //已登录成功后的登录请求
             case AdtRespType::Login:
-                $resp = (new AdtLoginAction())->login($did, $clientId, $req);
+                $resp = (new AdtLoginAction())->deviceLogin($did, $clientId, $req);
                 break;
             //心跳请求
             case AdtReqType::Heartbeat:
-                $resp = (new AdtHbAction())->heartBeat($did, $clientId, $req);
+                $resp = (new AdtHbAction())->deviceHeartBeat($did, $clientId, $req);
                 break;
             case AdtReqType::Event:
-                $resp = (new AdtDeviceEventAction())->logEvent($did, $clientId, $req);
+                $resp = (new AdtDeviceEventAction())->deviceEventLog($did, $clientId, $req);
                 break;
             default:
                 break;

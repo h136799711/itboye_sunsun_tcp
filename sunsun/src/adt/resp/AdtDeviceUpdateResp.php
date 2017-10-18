@@ -10,58 +10,18 @@ namespace sunsun\adt\resp;
 
 
 use sunsun\adt\req\AdtDeviceUpdateReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseDeviceFirmwareUpdateClientResp;
 
 /**
  * Class AdtHbReq
  * 心跳包
  * @package sunsun\adt\req
  */
-class AdtDeviceUpdateResp extends BaseRespPo
+class AdtDeviceUpdateResp extends BaseDeviceFirmwareUpdateClientResp
 {
-
-    private $state;
-
     public function __construct(AdtDeviceUpdateReq $req = null)
     {
         parent::__construct($req);
         $this->setRespType(AdtRespType::FirmwareUpdate);
     }
-
-    public function setData($data = null)
-    {
-
-        if (array_key_exists("state", $data)) {
-            $this->setState($data['state']);
-        } else {
-            //默认999
-            $this->setState(999);
-        }
-    }
-
-    public function toDataArray()
-    {
-        return [
-            'resType' => $this->getRespType(),
-            'sn' => $this->getSn()
-        ];
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getState()
-    {
-        return $this->state;
-    }
-
-    /**
-     * @param mixed $state
-     */
-    public function setState($state)
-    {
-        $this->state = $state;
-    }
-
-
 }

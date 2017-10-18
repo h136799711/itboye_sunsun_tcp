@@ -9,31 +9,8 @@
 namespace sunsun\adt\action;
 
 
-use sunsun\adt\dal\AdtDeviceDal;
-use sunsun\adt\resp\AdtDeviceUpdateResp;
-use sunsun\helper\ResultHelper;
+use sunsun\server\interfaces\BaseAction;
 
-class AdtDeviceUpdateAction
+class AdtDeviceUpdateAction extends BaseAction
 {
-    /**
-     * 设备固件更新响应处理
-     * @param $did
-     * @param $clientId
-     * @param AdtDeviceUpdateResp $resp
-     * @return array
-     */
-    public function updateInfo($did, $clientId, AdtDeviceUpdateResp $resp)
-    {
-
-        //更新设备信息
-        $updateEntity = [
-            'device_state' => $resp->getState(),
-            'update_time'=>time()
-        ];
-        $dal = new AdtDeviceDal();
-
-        $ret = $dal->updateByDid($did, $updateEntity);
-        return ResultHelper::success($ret);
-    }
-
 }

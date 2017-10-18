@@ -8,14 +8,14 @@
 
 namespace sunsun\adt\req;
 
-use sunsun\po\BaseReqPo;
+use sunsun\server\req\BaseDeviceInfoServerReq;
 
 /**
  * Class AdtHbReq
  * 获取设备状态
  * @package sunsun\adt\req
  */
-class AdtDeviceInfoReq extends BaseReqPo
+class AdtDeviceInfoReq extends BaseDeviceInfoServerReq
 {
 
     public function __construct($data = null)
@@ -23,14 +23,5 @@ class AdtDeviceInfoReq extends BaseReqPo
         parent::__construct($data);
         $this->setReqType(AdtReqType::DeviceInfo);
     }
-
-    function toDataArray()
-    {
-        return [
-            'reqType' => $this->getReqType(),
-            'sn' => $this->getSn(),
-        ];
-    }
-
 
 }

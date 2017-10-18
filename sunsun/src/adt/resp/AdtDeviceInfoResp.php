@@ -10,14 +10,14 @@ namespace sunsun\adt\resp;
 
 
 use sunsun\adt\req\AdtDeviceInfoReq;
-use sunsun\po\BaseRespPo;
+use sunsun\server\resp\BaseDeviceInfoClientResp;
 
 /**
  * Class AdtHbReq
  * 设备状态响应包
  * @package sunsun\adt\req
  */
-class AdtDeviceInfoResp extends BaseRespPo
+class AdtDeviceInfoResp extends BaseDeviceInfoClientResp
 {
 
     private $sw;// 总开关 20170809 增加

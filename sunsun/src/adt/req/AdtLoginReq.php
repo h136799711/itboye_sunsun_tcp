@@ -8,28 +8,21 @@
 
 namespace sunsun\adt\req;
 
+use sunsun\server\req\BaseDeviceLoginClientReq;
 
-use sunsun\po\BaseReqPo;
-
-class AdtLoginReq extends BaseReqPo
+class AdtLoginReq extends BaseDeviceLoginClientReq
 {
-    private $did;
-    private $ver;
-    private $pwd;
-    private $type;
-
 
     public function __construct($data = null)
     {
         parent::__construct($data);
         $this->setReqType(AdtReqType::Login);
         if (!empty($data)) {
-            $this->setDid($data['did']);
-            $this->setVer($data['ver']);
-            $this->setPwd($data['pwd']);
             $this->setType($data['type']);
         }
     }
+
+    private $type;
 
     /**
      * @return mixed
@@ -47,55 +40,6 @@ class AdtLoginReq extends BaseReqPo
         $this->type = $type;
     }
 
-
-
-    /**
-     * @return mixed
-     */
-    public function getDid()
-    {
-        return $this->did;
-    }
-
-    /**
-     * @param mixed $did
-     */
-    public function setDid($did)
-    {
-        $this->did = $did;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVer()
-    {
-        return $this->ver;
-    }
-
-    /**
-     * @param mixed $ver
-     */
-    public function setVer($ver)
-    {
-        $this->ver = $ver;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPwd()
-    {
-        return $this->pwd;
-    }
-
-    /**
-     * @param mixed $pwd
-     */
-    public function setPwd($pwd)
-    {
-        $this->pwd = $pwd;
-    }
 
     function toDataArray()
     {
