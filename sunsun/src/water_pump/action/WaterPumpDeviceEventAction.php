@@ -8,35 +8,14 @@
 
 namespace sunsun\water_pump\action;
 
-
-use sunsun\water_pump\dal\WaterPumpDeviceEventDal;
-use sunsun\water_pump\model\WaterPumpDeviceEventModel;
-use sunsun\water_pump\req\WaterPumpDeviceEventReq;
-use sunsun\water_pump\resp\WaterPumpDeviceEventResp;
+use sunsun\server\interfaces\BaseAction;
 
 /**
  * Class WaterPumpDeviceEventAction
  * 设备事件记录
  * @package sunsun\water_pump\action
  */
-class WaterPumpDeviceEventAction
+class WaterPumpDeviceEventAction extends BaseAction
 {
-    public function logEvent($did, $client_id, WaterPumpDeviceEventReq $req)
-    {
-        $eventType = $req->getCode();
-        $eventInfo = json_encode($req->getEventInfo());
-        $now = time();
-        $dal = (new WaterPumpDeviceEventDal());
-        $do = new WaterPumpDeviceEventModel();
-        $do->setDid($did);
-        $do->setCreateTime($now);
-        $do->setUpdateTime($now);
-        $do->setEventInfo($eventInfo);
-        $do->setEventType($eventType);
-        $result = $dal->insert($do);
-        $resp = new WaterPumpDeviceEventResp($req);
-        $resp->setState(0);
-        return $resp;
-    }
 
 }

@@ -9,20 +9,13 @@
 namespace sunsun\water_pump\action;
 
 
-use sunsun\server\factory\DeviceFacadeFactory;
-use sunsun\water_pump\req\WaterPumpHbReq;
-use sunsun\water_pump\resp\WaterPumpHbResp;
+use sunsun\server\interfaces\BaseAction;
 
 /**
  * Class WaterPumpHbAction
  * 心跳包处理
  * @package sunsun\water_pump\action
  */
-class WaterPumpHbAction
+class WaterPumpHbAction extends BaseAction
 {
-    public function heartBeat($did, $clientId, WaterPumpHbReq $req)
-    {
-        (DeviceFacadeFactory::getDeviceDal($did))->updateByDid($did, ['update_time' => time()]);
-        return new WaterPumpHbResp($req);
-    }
 }

@@ -33,6 +33,7 @@ class BaseDeviceFirmwareUpdateClientResp extends BaseRespPo
 
     public function setData($data = null)
     {
+        if (empty($data)) return;
         if (array_key_exists("sn", $data)) {
             $this->setSn($data['sn']);
         }

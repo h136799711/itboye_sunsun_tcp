@@ -26,12 +26,20 @@ class RespFacadeFactory
 {
     public static function createLoginRespObj($did, BaseDeviceLoginClientReq $req)
     {
-        return self::createRespObj($did, RespFacadeType::LOGIN, $req->toDataArray());
+        $jsonData = [];
+        if (!empty($req)) {
+            $req->toDataArray();
+        }
+        return self::createRespObj($did, RespFacadeType::LOGIN, $jsonData);
     }
 
     public static function createDeviceEventRespObj($did, BaseDeviceEventClientReq $req)
     {
-        return self::createRespObj($did, RespFacadeType::EVENT, $req->toDataArray());
+        $jsonData = [];
+        if (!empty($req)) {
+            $req->toDataArray();
+        }
+        return self::createRespObj($did, RespFacadeType::EVENT, $jsonData);
     }
 
     /**
@@ -42,7 +50,12 @@ class RespFacadeFactory
      */
     public static function createHeartBeatRespObj($did, BaseHeartBeatClientReq $req)
     {
-        return self::createRespObj($did, RespFacadeType::HEART_BEAT, $req->toDataArray());
+
+        $jsonData = [];
+        if (!empty($req)) {
+            $req->toDataArray();
+        }
+        return self::createRespObj($did, RespFacadeType::HEART_BEAT, $jsonData);
     }
 
     /**

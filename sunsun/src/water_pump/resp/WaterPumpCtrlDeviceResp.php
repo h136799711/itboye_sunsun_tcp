@@ -9,6 +9,7 @@
 namespace sunsun\water_pump\resp;
 
 
+use sunsun\server\interfaces\ToDbEntityArrayInterface;
 use sunsun\server\resp\BaseControlDeviceClientResp;
 use sunsun\water_pump\req\WaterPumpCtrlDeviceReq;
 
@@ -17,8 +18,55 @@ use sunsun\water_pump\req\WaterPumpCtrlDeviceReq;
  * 设备状态响应包
  * @package sunsun\water_pump\req
  */
-class WaterPumpCtrlDeviceResp extends BaseControlDeviceClientResp
+class WaterPumpCtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEntityArrayInterface
 {
+    function toDbEntityArray()
+    {
+        $data = [];
+        $data['update_time'] = time();
+        if (!is_null($this->getDevLock())) {
+            $data['dev_lock'] = $this->getDevLock();
+        }
+        if (!is_null($this->getUpdState()) && $this->getUpdState() > -1) {
+            $data['upd_state'] = $this->getUpdState();
+        } else {
+            $data['upd_state'] = 0;
+        }
+
+        if (!is_null($this->getWh())) {
+            $data['wh'] = $this->getWh();
+        }
+        if (!is_null($this->getPwr())) {
+            $data['pwr'] = $this->getPwr();
+        }
+        if (!is_null($this->getSpd())) {
+            $data['spd'] = $this->getSpd();
+        }
+        if (!is_null($this->getGear())) {
+            $data['gear'] = $this->getGear();
+        }
+        if (!is_null($this->getICyc())) {
+            $data['i_cyc'] = $this->getICyc();
+        }
+        if (!is_null($this->getCfg())) {
+            $data['cfg'] = $this->getCfg();
+        }
+        if (!is_null($this->getType())) {
+            $data['device_type'] = $this->getType();
+        }
+        if (!is_null($this->getState())) {
+            $data['state'] = $this->getState();
+        }
+        if (!is_null($this->getFcd())) {
+            $data['fcd'] = $this->getFcd();
+        }
+        if (!is_null($this->getFault())) {
+            $data['fault'] = $this->getFault();
+        }
+
+        return $data;
+    }
+
 
     public function __construct(WaterPumpCtrlDeviceReq $req = null)
     {
@@ -69,10 +117,8 @@ class WaterPumpCtrlDeviceResp extends BaseControlDeviceClientResp
         }
 
 
-
         return $data;
     }
-
 
 
     public function check()
@@ -109,6 +155,7 @@ class WaterPumpCtrlDeviceResp extends BaseControlDeviceClientResp
     {
         $this->wh = $wh;
     }
+
     /**
      * @return mixed
      */

@@ -13,22 +13,18 @@ use sunsun\adt\action\AdtProcessAction;
 use sunsun\adt\dal\AdtDeviceDal;
 use sunsun\adt\req\AdtReqFactory;
 use sunsun\adt\req\AdtReqType;
-use sunsun\adt\resp\AdtLoginResp;
 use sunsun\aph300\action\Aph300ProcessAction;
 use sunsun\aph300\dal\Aph300DeviceDal;
 use sunsun\aph300\req\Aph300ReqFactory;
 use sunsun\aph300\req\Aph300ReqType;
-use sunsun\aph300\resp\Aph300LoginResp;
 use sunsun\aq806\action\Aq806ProcessAction;
 use sunsun\aq806\dal\Aq806DeviceDal;
 use sunsun\aq806\req\Aq806ReqFactory;
 use sunsun\aq806\req\Aq806ReqType;
-use sunsun\aq806\resp\Aq806LoginResp;
 use sunsun\cp1000\action\Cp1000ProcessAction;
 use sunsun\cp1000\dal\Cp1000DeviceDal;
 use sunsun\cp1000\req\Cp1000ReqFactory;
 use sunsun\cp1000\req\Cp1000ReqType;
-use sunsun\cp1000\resp\Cp1000LoginResp;
 use sunsun\filter_vat\action\FilterVatProcessAction;
 use sunsun\filter_vat\dal\FilterVatDeviceDal;
 use sunsun\filter_vat\req\FilterVatReqFactory;
@@ -38,13 +34,11 @@ use sunsun\heating_rod\action\HeatingRodProcessAction;
 use sunsun\heating_rod\dal\HeatingRodDeviceDal;
 use sunsun\heating_rod\req\HeatingRodReqFactory;
 use sunsun\heating_rod\req\HeatingRodReqType;
-use sunsun\heating_rod\resp\HeatingRodLoginResp;
 use sunsun\server\consts\DeviceType;
 use sunsun\water_pump\action\WaterPumpProcessAction;
 use sunsun\water_pump\dal\WaterPumpDeviceDal;
 use sunsun\water_pump\req\WaterPumpReqFactory;
 use sunsun\water_pump\req\WaterPumpReqType;
-use sunsun\water_pump\resp\WaterPumpLoginResp;
 
 class DeviceFacadeFactory
 {
@@ -100,36 +94,10 @@ class DeviceFacadeFactory
     /**
      * 根据did 返回相应的req
      * @param $did
-     * @return null|AdtLoginResp|Aph300LoginResp|Aq806LoginResp|FilterVatLoginResp|HeatingRodLoginResp|WaterPumpLoginResp
+     * @return null|\sunsun\adt\resp\AdtCtrlDeviceResp|\sunsun\adt\resp\AdtDeviceInfoResp|\sunsun\adt\resp\AdtDeviceUpdateResp|\sunsun\adt\resp\AdtHbResp|\sunsun\aq806\resp\Aq806CtrlDeviceResp|\sunsun\aq806\resp\Aq806DeviceInfoResp|\sunsun\aq806\resp\Aq806DeviceUpdateResp|\sunsun\aq806\resp\Aq806HbResp|\sunsun\filter_vat\resp\FilterVatCtrlDeviceResp|\sunsun\filter_vat\resp\FilterVatDeviceEventResp|\sunsun\filter_vat\resp\FilterVatDeviceInfoResp|\sunsun\filter_vat\resp\FilterVatDeviceUpdateResp|\sunsun\filter_vat\resp\FilterVatHbResp|FilterVatLoginResp|\sunsun\water_pump\resp\WaterPumpCtrlDeviceResp|\sunsun\water_pump\resp\WaterPumpDeviceInfoResp|\sunsun\water_pump\resp\WaterPumpDeviceUpdateResp|\sunsun\water_pump\resp\WaterPumpHbResp
      */
     public static function createLoginResp($did){
-        $type = substr($did,0,3);
-        $resp = null;
-        switch ($type){
-            case DeviceType::Did_ADT:
-                $resp = new AdtLoginResp();
-                break;
-            case DeviceType::Did_APH300:
-                $resp = new Aph300LoginResp();
-                break;
-            case DeviceType::Did_AQ806:
-                $resp = new Aq806LoginResp();
-                break;
-            case DeviceType::Did_FilterVat:
-                $resp = new FilterVatLoginResp();
-                break;
-            case DeviceType::Did_HeatingRod:
-                $resp = new HeatingRodLoginResp();
-                break;
-            case DeviceType::Did_WaterPump:
-                $resp = new WaterPumpLoginResp();
-                break;
-            case DeviceType::Did_CP1000:
-                $resp = new Cp1000LoginResp();
-                break;
-            default:break;
-        }
-        return $resp;
+        return RespFacadeFactory::createLoginRespObj($did, null);
     }
 
     /**

@@ -15,7 +15,6 @@ use sunsun\aq806\resp\Aq806RespType;
 use sunsun\cp1000\resp\Cp1000RespType;
 use sunsun\filter_vat\resp\FilterVatRespType;
 use sunsun\heating_rod\resp\HeatingRodRespType;
-use sunsun\server\device\RespFacadeFactory;
 use sunsun\water_pump\resp\WaterPumpRespType;
 
 class RespFacadeType
@@ -42,20 +41,6 @@ class RespFacadeType
     }
 
     private static $deviceArr = [];
-
-
-    /**
-     * 根据did，响应包统一类型返回响应包，只能返回统一类型
-     * @param $did string 设备did
-     * @param $facadeRespTypeKey string 响应包类型键
-     * @param $jsonData string 响应包数据
-     * @return null|\sunsun\adt\resp\AdtCtrlDeviceResp|\sunsun\adt\resp\AdtDeviceInfoResp|\sunsun\adt\resp\AdtDeviceUpdateResp|\sunsun\cp1000\resp\Cp1000CtrlDeviceResp|\sunsun\cp1000\resp\Cp1000DeviceFirmwareUpdateResp|\sunsun\cp1000\resp\Cp1000DeviceInfoResp|\sunsun\cp1000\resp\Cp1000HbResp
-     */
-    public static function getResp($did, $facadeRespTypeKey, $jsonData)
-    {
-        $respType = self::getRespType($did, $facadeRespTypeKey);
-        return RespFacadeFactory::createResp($did, $respType, $jsonData);
-    }
 
     public static function getRespType($did, $facadeRespTypeKey)
     {

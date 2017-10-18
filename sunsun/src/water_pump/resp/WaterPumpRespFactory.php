@@ -12,32 +12,32 @@ class WaterPumpRespFactory
 {
     public static function create($resType, $jsonData)
     {
-        $sn = $jsonData['sn'];
-
         $resp = null;
         switch ($resType) {
             case WaterPumpRespType::Heartbeat:
                 $resp = new WaterPumpHbResp();
-                $resp->setData($jsonData);
                 break;
             case WaterPumpRespType::Control:
                 $resp = new WaterPumpCtrlDeviceResp();
-                $resp->setData($jsonData);
                 break;
             case WaterPumpRespType::DeviceInfo:
                 $resp = new WaterPumpDeviceInfoResp();
-                $resp->setData($jsonData);
                 break;
             case WaterPumpRespType::FirmwareUpdate:
                 $resp = new WaterPumpDeviceUpdateResp();
-                $resp->setData($jsonData);
+                break;
+            case WaterPumpRespType::Login:
+                $resp = new WaterPumpLoginResp();
+                break;
+            case WaterPumpRespType::Event:
+                $resp = new WaterPumpDeviceEventResp();
                 break;
             default:
                 break;
         }
 
         if ($resp) {
-            $resp->setSn($sn);
+            $resp->setData($jsonData);
         }
 
         return $resp;

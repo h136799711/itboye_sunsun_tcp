@@ -9,8 +9,10 @@
 namespace sunsun\water_pump\action;
 
 
+use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
+use sunsun\server\factory\DeviceFacadeFactory;
 use sunsun\water_pump\req\WaterPumpReqFactory;
 use sunsun\water_pump\req\WaterPumpReqType;
 use sunsun\water_pump\resp\WaterPumpHbResp;
@@ -58,7 +60,6 @@ class WaterPumpProcessAction
     private function response($did, $clientId, $jsonData)
     {
         $resType = $jsonData['resType'];
-        $sn = $jsonData['sn'];
         $resp = WaterPumpRespFactory::create($resType, $jsonData);
         $retResp = null;
         if (empty($resp)) {
@@ -66,24 +67,25 @@ class WaterPumpProcessAction
         }
         //过滤桶除了设备登录之外的其它请求处理
         $result = false;
+        $dal = DeviceFacadeFactory::getDeviceDal($did);
         switch ($resp->getRespType()) {
             //设备信息响应
             case WaterPumpRespType::DeviceInfo:
-                $result = (new WaterPumpDeviceInfoAction())->updateInfo($did, $clientId, $resp);
+                $result = (new WaterPumpDeviceInfoAction())->deviceInfoUpdate($did, $clientId, $resp, $dal);
                 break;
             //设备设置/控制响应
             case WaterPumpRespType::Control:
-                $result = (new WaterPumpDeviceCtrlAction())->updateInfo($did, $clientId, $resp);
+                $result = (new WaterPumpDeviceCtrlAction())->deviceControlInfoUpdate($did, $clientId, $resp, $dal);
                 break;
             case WaterPumpRespType::FirmwareUpdate:
-                $result = (new WaterPumpDeviceUpdateAction())->updateInfo($did, $clientId, $resp);
+                $result = (new WaterPumpDeviceUpdateAction())->firmUpdate($did, $clientId, $resp);
                 break;
             default:
                 break;
         }
 
         if (!ResultHelper::isSuccess($result)) {
-            // TODO 记录错误信息
+            LogHelper::debug($did, $clientId, $result['info']);
         }
 
         return null;
@@ -109,14 +111,14 @@ class WaterPumpProcessAction
 
             //已登录成功后的登录请求
             case WaterPumpRespType::Login:
-                $resp = (new WaterPumpLoginAction())->login($did, $clientId, $req);
+                $resp = (new WaterPumpLoginAction())->deviceLogin($did, $clientId, $req);
                 break;
             //心跳请求
             case WaterPumpReqType::Heartbeat:
-                $resp = (new WaterPumpHbAction())->heartBeat($did,$clientId, $req);
+                $resp = (new WaterPumpHbAction())->deviceHeartBeat($did, $clientId, $req);
                 break;
             case WaterPumpReqType::Event:
-                $resp = (new WaterPumpDeviceEventAction())->logEvent($did, $clientId, $req);
+                $resp = (new WaterPumpDeviceEventAction())->deviceEventLog($did, $clientId, $req);
                 break;
             default:
                 break;
