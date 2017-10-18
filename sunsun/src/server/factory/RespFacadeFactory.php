@@ -24,7 +24,7 @@ use sunsun\water_pump\resp\WaterPumpRespFactory;
 
 class RespFacadeFactory
 {
-    public static function createLoginRespObj($did, BaseDeviceLoginClientReq $req)
+    public static function createLoginRespObj($did, BaseDeviceLoginClientReq $req = null)
     {
         $jsonData = [];
         if (!empty($req)) {
@@ -33,7 +33,7 @@ class RespFacadeFactory
         return self::createRespObj($did, RespFacadeType::LOGIN, $jsonData);
     }
 
-    public static function createDeviceEventRespObj($did, BaseDeviceEventClientReq $req)
+    public static function createDeviceEventRespObj($did, BaseDeviceEventClientReq $req = null)
     {
         $jsonData = [];
         if (!empty($req)) {
@@ -48,7 +48,7 @@ class RespFacadeFactory
      * @param BaseHeartBeatClientReq $req
      * @return null|\sunsun\adt\resp\AdtCtrlDeviceResp|\sunsun\adt\resp\AdtDeviceInfoResp|\sunsun\adt\resp\AdtDeviceUpdateResp|\sunsun\aph300\resp\Aph300CtrlDeviceResp|\sunsun\aph300\resp\Aph300DeviceInfoResp|\sunsun\aph300\resp\Aph300DeviceUpdateResp|\sunsun\aq806\resp\Aq806CtrlDeviceResp|\sunsun\aq806\resp\Aq806DeviceInfoResp|\sunsun\aq806\resp\Aq806DeviceUpdateResp|\sunsun\cp1000\resp\Cp1000CtrlDeviceResp|\sunsun\cp1000\resp\Cp1000DeviceFirmwareUpdateResp|\sunsun\cp1000\resp\Cp1000DeviceInfoResp|\sunsun\cp1000\resp\Cp1000HbResp|\sunsun\heating_rod\resp\HeatingRodCtrlDeviceResp|\sunsun\heating_rod\resp\HeatingRodDeviceInfoResp|\sunsun\heating_rod\resp\HeatingRodDeviceUpdateResp
      */
-    public static function createHeartBeatRespObj($did, BaseHeartBeatClientReq $req)
+    public static function createHeartBeatRespObj($did, BaseHeartBeatClientReq $req = null)
     {
 
         $jsonData = [];
