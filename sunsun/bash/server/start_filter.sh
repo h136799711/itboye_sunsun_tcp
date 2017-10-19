@@ -1,0 +1,1 @@
+php ../../src/server/filter_gateway_8282.php start -d && php ../../src/server/filter_bw.php start -d
