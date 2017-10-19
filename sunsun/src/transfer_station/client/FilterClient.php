@@ -12,9 +12,20 @@ use GatewayClient\Gateway;
 use sunsun\decoder\SunsunTDS;
 use sunsun\filter_vat\dal\FilterVatDeviceDal;
 use sunsun\filter_vat\req\FilterVatDeviceInfoReq;
+use sunsun\transfer_station\DeviceClientInterface;
 
-class FilterClient extends BaseClient
+class FilterClient extends BaseClient implements DeviceClientInterface
 {
+    public function deviceInfo()
+    {
+        // TODO: Implement deviceInfo() method.
+    }
+
+    public function firmwareUpdate()
+    {
+        // TODO: Implement firmwareUpdate() method.
+    }
+
     private  function setRegisterAddr(){
         Gateway::$registerAddress = "101.37.37.167:1237";
     }

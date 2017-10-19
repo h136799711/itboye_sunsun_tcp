@@ -10,9 +10,14 @@ namespace sunsun\transfer_station\client;
 
 
 use sunsun\server\consts\DeviceType;
+use sunsun\transfer_station\DeviceClientInterface;
 
 class FactoryClient
 {
+    /**
+     * @param $did
+     * @return null|DeviceClientInterface
+     */
     public static function createClient($did)
     {
 

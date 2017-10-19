@@ -12,11 +12,20 @@ use GatewayClient\Gateway;
 use sunsun\aph300\dal\Aph300DeviceDal;
 use sunsun\aph300\req\Aph300DeviceInfoReq;
 use sunsun\decoder\SunsunTDS;
+use sunsun\transfer_station\DeviceClientInterface;
 
 
-class AphClient  extends BaseClient
+class AphClient extends BaseClient implements DeviceClientInterface
 {
+    public function deviceInfo()
+    {
+        // TODO: Implement deviceInfo() method.
+    }
 
+    public function firmwareUpdate()
+    {
+        // TODO: Implement firmwareUpdate() method.
+    }
     private function setRegisterAddr(){
         Gateway::$registerAddress = "101.37.37.167:1240";
     }

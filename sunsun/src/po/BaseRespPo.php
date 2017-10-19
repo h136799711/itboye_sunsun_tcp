@@ -8,8 +8,13 @@
 
 namespace sunsun\po;
 
-abstract class BaseRespPo
+use sunsun\helper\SetDataHelper;
+use sunsun\transfer_station\client\interfaces\SetDataInterface;
+
+abstract class BaseRespPo implements SetDataInterface
 {
+
+
 
     public function __construct(BaseReqPo $req = null)
     {
@@ -63,7 +68,7 @@ abstract class BaseRespPo
 
     public function setData($data = null)
     {
-
+        SetDataHelper::setData($this, $data);
     }
 
     public function check()

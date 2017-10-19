@@ -12,10 +12,21 @@ use GatewayClient\Gateway;
 use sunsun\decoder\SunsunTDS;
 use sunsun\heating_rod\dal\HeatingRodDeviceDal;
 use sunsun\heating_rod\req\HeatingRodDeviceInfoReq;
+use sunsun\transfer_station\DeviceClientInterface;
 
 
-class HeatingRodClient extends BaseClient
+class HeatingRodClient extends BaseClient implements DeviceClientInterface
 {
+    public function deviceInfo()
+    {
+        // TODO: Implement deviceInfo() method.
+    }
+
+    public function firmwareUpdate()
+    {
+        // TODO: Implement firmwareUpdate() method.
+    }
+
     private function setRegisterAddr(){
         Gateway::$registerAddress = "101.37.37.167:1239";
     }

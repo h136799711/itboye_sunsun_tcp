@@ -12,9 +12,20 @@ use GatewayClient\Gateway;
 use sunsun\cp1000\dal\Cp1000DeviceDal;
 use sunsun\cp1000\req\Cp1000DeviceInfoReq;
 use sunsun\decoder\SunsunTDS;
+use sunsun\transfer_station\DeviceClientInterface;
 
-class Cp1000Client extends BaseClient
+class Cp1000Client extends BaseClient implements DeviceClientInterface
 {
+    public function deviceInfo()
+    {
+        // TODO: Implement deviceInfo() method.
+    }
+
+    public function firmwareUpdate()
+    {
+        // TODO: Implement firmwareUpdate() method.
+    }
+
     private function setRegisterAddr()
     {
         Gateway::$registerAddress = "101.37.37.167:1243";

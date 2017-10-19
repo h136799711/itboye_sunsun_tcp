@@ -12,14 +12,22 @@ use GatewayClient\Gateway;
 use sunsun\adt\dal\AdtDeviceDal;
 use sunsun\adt\req\AdtDeviceInfoReq;
 use sunsun\decoder\SunsunTDS;
+use sunsun\transfer_station\DeviceClientInterface;
 
 Gateway::$registerAddress = "101.37.37.167:1242";
 
-class AdtClient extends BaseClient
+class AdtClient extends BaseClient implements DeviceClientInterface
 {
-    private function setRegisterAddr(){
-        Gateway::$registerAddress = "101.37.37.167:1242";
+    public function deviceInfo()
+    {
+        // TODO: Implement deviceInfo() method.
     }
+
+    public function firmwareUpdate()
+    {
+        // TODO: Implement firmwareUpdate() method.
+    }
+
 
     public function getInfo($client_id, $did, $pwd=''){
 
@@ -32,6 +40,11 @@ class AdtClient extends BaseClient
         $this->setRegisterAddr();
         $this->staticsDelay($req->getSn(),$client_id);
         Gateway::sendToClient($client_id,$data);
+    }
+
+    private function setRegisterAddr()
+    {
+        Gateway::$registerAddress = "101.37.37.167:1242";
     }
 
     protected function getDevicePwd($did){
