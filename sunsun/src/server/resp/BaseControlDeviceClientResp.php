@@ -13,4 +13,5 @@ use sunsun\po\BaseRespPo;
 
 abstract class BaseControlDeviceClientResp extends BaseRespPo
 {
+
 }

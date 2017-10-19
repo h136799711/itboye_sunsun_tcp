@@ -22,6 +22,7 @@ use sunsun\server\req\BaseHeartBeatClientReq;
 use sunsun\server\resp\BaseControlDeviceClientResp;
 use sunsun\server\resp\BaseDeviceFirmwareUpdateClientResp;
 use sunsun\transfer_station\client\TransferClient;
+use sunsun\transfer_station\controller\RespMsgType;
 
 /**
  * 通用设备处理类
@@ -110,11 +111,13 @@ abstract class BaseAction
     public function firmUpdate($did, $clientId, BaseDeviceFirmwareUpdateClientResp $resp)
     {
         $dal = DeviceFacadeFactory::getDeviceDal($did);
-        //更新设备信息
+        // 更新设备信息
         $updateEntity = [
             'device_state' => $resp->getState(),
             'update_time' => time()
         ];
+        // 向中转通道发送设备更新信息
+        TransferClient::sendMessageToGroup($did, $updateEntity, $resp->getSn(), RespMsgType::FirmwareUpdate);
         $ret = $dal->updateByDid($did, $updateEntity);
         return ResultHelper::success($ret);
     }

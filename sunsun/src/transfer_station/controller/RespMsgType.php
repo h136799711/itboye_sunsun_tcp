@@ -32,4 +32,9 @@ class RespMsgType
      */
     const SwitchGroup = '103';
 
+    /**
+     * 设备更新信息
+     */
+    const FirmwareUpdate = '104';
+
 }

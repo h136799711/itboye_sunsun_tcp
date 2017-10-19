@@ -31,4 +31,9 @@ class ReqMsgType
      */
     const SwitchGroup = '103';
 
+    /**
+     * 固件更新接口
+     */
+    const FirmwareUpdate = '104';
+
 }
