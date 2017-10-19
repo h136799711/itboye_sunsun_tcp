@@ -10,7 +10,7 @@ namespace sunsun\transfer_station\client;
 
 
 use sunsun\server\consts\DeviceType;
-use sunsun\transfer_station\DeviceClientInterface;
+use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 class FactoryClient
 {

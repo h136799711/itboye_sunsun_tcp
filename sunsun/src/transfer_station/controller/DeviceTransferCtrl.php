@@ -12,7 +12,7 @@ namespace sunsun\transfer_station\controller;
 use GatewayWorker\Lib\Gateway;
 use sunsun\helper\ResultHelper;
 use sunsun\transfer_station\client\FactoryClient;
-use sunsun\transfer_station\DeviceClientInterface;
+use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 class DeviceTransferCtrl implements DeviceClientInterface
 {
@@ -58,10 +58,10 @@ class DeviceTransferCtrl implements DeviceClientInterface
     private function login()
     {
 
-        $did = array_key_exists('did', $this->data) ? $data['did'] : '';
-        $pre_did = array_key_exists('pre_did',$data) ? $data['pre_did']:'';
-        $token = array_key_exists('token',$data) ? $data['token']:'';
-        $uid = array_key_exists('uid',$data) ? $data['uid']:'';
+        $did = array_key_exists('did', $this->data) ? $this->data['did'] : '';
+        $pre_did = array_key_exists('pre_did', $this->data) ? $this->data['pre_did'] : '';
+        $token = array_key_exists('token', $this->data) ? $this->data['token'] : '';
+        $uid = array_key_exists('uid', $this->data) ? $this->data['uid'] : '';
         //
         if (!empty($pre_did)) {
             Gateway::leaveGroup($this->getClientId(), $pre_did);
