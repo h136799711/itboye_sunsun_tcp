@@ -25,23 +25,7 @@ class Cp1000CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEn
     {
         parent::__construct($req);
         $this->setRespType(Cp1000RespType::Control);
-    }
-
-    public function setData($data = null)
-    {
-        array_key_exists("sn", $data) && $this->setSn($data['sn']);
-        array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
         $this->setUpdState(-1);
-        array_key_exists("push_cfg", $data) && $this->setPushCfg($data['push_cfg']);
-        array_key_exists("updState", $data) && $this->setUpdState($data['updState']);
-        array_key_exists("gear", $data) && $this->setGear($data['gear']);
-        array_key_exists("mode", $data) && $this->setMode($data['mode']);
-        array_key_exists("b_life", $data) && $this->setBLife($data['b_life']);
-        array_key_exists("ch_cnt", $data) && $this->setChCnt($data['ch_cnt']);
-        array_key_exists("state", $data) && $this->setState($data['state']);
-        array_key_exists("wh", $data) && $this->setWh($data['wh']);
-        array_key_exists("batt", $data) && $this->setBatt($data['batt']);
-        array_key_exists("rct", $data) && $this->setRct($data['rct']);
     }
 
     public function toDbEntityArray()
@@ -119,11 +103,6 @@ class Cp1000CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEn
 
     public function check()
     {
-//        foreach ($this->toDataArray() as $key => $item) {
-//            if (is_null($item)) {
-//                return "缺少 " . $key . " 属性";
-//            }
-//        }
         return "";
     }
 
