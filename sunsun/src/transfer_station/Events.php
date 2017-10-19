@@ -37,21 +37,14 @@ class Events
      */
     public static function onMessage($client_id, $message)
     {
-        try {
+        if (empty($message)) {
+            return;
+        }
 
-            if (empty($message)) {
-                return;
-            }
-
-            $ctrl = new DeviceTransferCtrl();
-            $result = $ctrl->process($client_id,$message);
-//            self::log($client_id,json_encode($result),'transfer');
-            Gateway::sendToClient($client_id,json_encode($result));
-            if($result['code'] != 0){
-                Gateway::closeClient($client_id);
-            }
-        } catch (\Exception $ex) {
-            Gateway::sendToClient($client_id,$ex->getMessage());
+        $ctrl = new DeviceTransferCtrl();
+        $result = $ctrl->process($client_id, $message);
+        Gateway::sendToClient($client_id, json_encode($result));
+        if ($result['code'] != 0) {
             Gateway::closeClient($client_id);
         }
         return;

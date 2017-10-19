@@ -60,36 +60,34 @@ class Events
     private static function checkOfflineSession()
     {
         Timer::add(SunsunDeviceConstant::CHECK_OFFLINE_SESSION_INTERVAL, function () {
-            try {
-                $allSessions = Gateway::getAllClientSessions();
-                $now = time();
-                foreach ($allSessions as $client_id => $session) {
 
-                    if (array_key_exists(SessionKeys::LAST_ACTIVE_TIME, $session)) {
-                        $last_active_time = $session[SessionKeys::LAST_ACTIVE_TIME];
-                        if ($now - $last_active_time >= SunsunDeviceConstant::DEVICE_OFFLINE_TIME_INTERVAL) {
-                            Gateway::closeClient($client_id);
-                            continue;
-                        }
-                    }
+            $allSessions = Gateway::getAllClientSessions();
+            $now = time();
+            foreach ($allSessions as $client_id => $session) {
 
-                    if (is_array($session) && array_key_exists(SessionKeys::DID, $session)) {
-
-                        $pwd = '';
-                        if (array_key_exists(SessionKeys::PWD, $session)) {
-                            $pwd = $session[SessionKeys::PWD];
-                        }
-                        $did = $session[SessionKeys::DID];
-                        $cnt = TransferClient::totalClientByGroup($did);
-                        if ($cnt > 0) {
-                            FactoryClient::getInfo($client_id, $did, $pwd);
-                        }
-
-                        // 2. 更新会话信息
-                        Gateway::updateSession($client_id, ['app_cnt' => $cnt]);
+                if (array_key_exists(SessionKeys::LAST_ACTIVE_TIME, $session)) {
+                    $last_active_time = $session[SessionKeys::LAST_ACTIVE_TIME];
+                    if ($now - $last_active_time >= SunsunDeviceConstant::DEVICE_OFFLINE_TIME_INTERVAL) {
+                        Gateway::closeClient($client_id);
+                        continue;
                     }
                 }
-            } catch (\Exception $ex) {
+
+                if (is_array($session) && array_key_exists(SessionKeys::DID, $session)) {
+
+                    $pwd = '';
+                    if (array_key_exists(SessionKeys::PWD, $session)) {
+                        $pwd = $session[SessionKeys::PWD];
+                    }
+                    $did = $session[SessionKeys::DID];
+                    $cnt = TransferClient::totalClientByGroup($did);
+                    if ($cnt > 0) {
+                        FactoryClient::getInfo($client_id, $did, $pwd);
+                    }
+
+                    // 2. 更新会话信息
+                    Gateway::updateSession($client_id, ['app_cnt' => $cnt]);
+                }
             }
         });
     }
