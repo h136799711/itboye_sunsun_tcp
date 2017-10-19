@@ -13,7 +13,7 @@
  *********************************
  */
 
-namespace sunsun\transfer_station;
+namespace sunsun\transfer_station\interfaces;
 
 
 interface DeviceClientInterface

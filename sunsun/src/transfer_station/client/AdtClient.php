@@ -12,7 +12,7 @@ use GatewayClient\Gateway;
 use sunsun\adt\dal\AdtDeviceDal;
 use sunsun\adt\req\AdtDeviceInfoReq;
 use sunsun\decoder\SunsunTDS;
-use sunsun\transfer_station\DeviceClientInterface;
+use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 Gateway::$registerAddress = "101.37.37.167:1242";
 

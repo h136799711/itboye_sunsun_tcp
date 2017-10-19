@@ -12,7 +12,7 @@ use GatewayClient\Gateway;
 use sunsun\decoder\SunsunTDS;
 use sunsun\heating_rod\dal\HeatingRodDeviceDal;
 use sunsun\heating_rod\req\HeatingRodDeviceInfoReq;
-use sunsun\transfer_station\DeviceClientInterface;
+use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 
 class HeatingRodClient extends BaseClient implements DeviceClientInterface

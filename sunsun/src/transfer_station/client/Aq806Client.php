@@ -12,7 +12,7 @@ use GatewayClient\Gateway;
 use sunsun\aq806\dal\Aq806DeviceDal;
 use sunsun\aq806\req\Aq806DeviceInfoReq;
 use sunsun\decoder\SunsunTDS;
-use sunsun\transfer_station\DeviceClientInterface;
+use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 
 class Aq806Client extends BaseClient implements DeviceClientInterface

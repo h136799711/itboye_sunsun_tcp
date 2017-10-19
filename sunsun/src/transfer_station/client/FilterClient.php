@@ -12,7 +12,7 @@ use GatewayClient\Gateway;
 use sunsun\decoder\SunsunTDS;
 use sunsun\filter_vat\dal\FilterVatDeviceDal;
 use sunsun\filter_vat\req\FilterVatDeviceInfoReq;
-use sunsun\transfer_station\DeviceClientInterface;
+use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 class FilterClient extends BaseClient implements DeviceClientInterface
 {

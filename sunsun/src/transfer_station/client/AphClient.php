@@ -12,7 +12,7 @@ use GatewayClient\Gateway;
 use sunsun\aph300\dal\Aph300DeviceDal;
 use sunsun\aph300\req\Aph300DeviceInfoReq;
 use sunsun\decoder\SunsunTDS;
-use sunsun\transfer_station\DeviceClientInterface;
+use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 
 class AphClient extends BaseClient implements DeviceClientInterface

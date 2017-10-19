@@ -12,7 +12,7 @@ use GatewayClient\Gateway;
 use sunsun\cp1000\dal\Cp1000DeviceDal;
 use sunsun\cp1000\req\Cp1000DeviceInfoReq;
 use sunsun\decoder\SunsunTDS;
-use sunsun\transfer_station\DeviceClientInterface;
+use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 class Cp1000Client extends BaseClient implements DeviceClientInterface
 {
