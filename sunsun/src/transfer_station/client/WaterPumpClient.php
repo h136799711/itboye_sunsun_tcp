@@ -10,12 +10,23 @@ namespace sunsun\transfer_station\client;
 
 use GatewayClient\Gateway;
 use sunsun\decoder\SunsunTDS;
+use sunsun\transfer_station\DeviceClientInterface;
 use sunsun\water_pump\dal\WaterPumpDeviceDal;
 use sunsun\water_pump\req\WaterPumpDeviceInfoReq;
 
 
-class WaterPumpClient extends BaseClient
+class WaterPumpClient extends BaseClient implements DeviceClientInterface
 {
+    public function deviceInfo()
+    {
+
+    }
+
+    public function firmwareUpdate()
+    {
+        // TODO: Implement firmwareUpdate() method.
+    }
+
 
     private function setRegisterAddr(){
         Gateway::$registerAddress = "101.37.37.167:1239";

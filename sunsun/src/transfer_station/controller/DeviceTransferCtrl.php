@@ -65,4 +65,12 @@ class DeviceTransferCtrl
         return ResultHelper::success('login success');
     }
 
+    /**
+     * 固件更新
+     * @param $client_id
+     * @param $data
+     */
+    private function firmwareUpdate($client_id, $data)
+    {
+    }
 }

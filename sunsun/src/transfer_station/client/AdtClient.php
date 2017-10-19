@@ -18,8 +18,9 @@ Gateway::$registerAddress = "101.37.37.167:1242";
 class AdtClient extends BaseClient
 {
     private function setRegisterAddr(){
-        Gateway::$registerAddress = "101.37.37.167:1240";
+        Gateway::$registerAddress = "101.37.37.167:1242";
     }
+
     public function getInfo($client_id, $did, $pwd=''){
 
         if(empty($pwd)){
