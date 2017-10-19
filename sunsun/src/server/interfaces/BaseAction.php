@@ -143,6 +143,7 @@ abstract class BaseAction
         }
         $pwd = $result['pwd'];
         $hb = $result['hb'];
+        $resp->setServerInfo($result);
         $resp->setHb($hb);
         //更新设备信息
         $encryptPwd = $req->getPwd();

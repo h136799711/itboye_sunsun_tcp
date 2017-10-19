@@ -319,6 +319,7 @@ class Events
         //设置返回响应包
         //3. Device 这里替换成具体设备的登录响应类
         $resp = DeviceFacadeFactory::createLoginResp($did);
+        $resp->setServerInfo($result);
         $resp->setSn($req->getSn());
         $resp->setLoginSuccess();
         $resp->setHb($hb);

@@ -72,29 +72,11 @@ class WaterPumpCtrlDeviceResp extends BaseControlDeviceClientResp implements ToD
     {
         parent::__construct($req);
         $this->setRespType(WaterPumpRespType::Control);
-    }
-
-    public function setData($data = null)
-    {
-        array_key_exists("sn", $data) && $this->setSn($data['sn']);
-        array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
         $this->setUpdState(-1);
-        array_key_exists("updState", $data) && $this->setUpdState($data['updState']);
-        array_key_exists("cfg", $data) && $this->setCfg($data['cfg']);
-        array_key_exists("iCyc", $data) && $this->setICyc($data['iCyc']);
-        array_key_exists("gear", $data) && $this->setGear($data['gear']);
-        array_key_exists("pwr", $data) && $this->setPwr($data['pwr']);
-        array_key_exists("spd", $data) && $this->setSpd($data['spd']);
-        array_key_exists("type", $data) && $this->setType($data['type']);
-        array_key_exists("state", $data) && $this->setState($data['state']);
-        array_key_exists("fault", $data) && $this->setFault($data['fault']);
-        array_key_exists("fcd", $data) && $this->setFcd($data['fcd']);
-        array_key_exists("wh", $data) && $this->setWh($data['wh']);
     }
 
     public function toDataArray()
     {
-
         $data = [
             'resType' => $this->getRespType(),
             'sn' => $this->getSn(),
