@@ -1,0 +1,1 @@
+php ../../src/server/aq806_gateway_8284.php stop && php ../../src/server/aq806_bw.php stop
