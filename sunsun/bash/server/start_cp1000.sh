@@ -1,0 +1,1 @@
+php ../../src/server/cp1000_gateway_8288.php start -d && php ../../src/server/cp1000_bw.php start -d
