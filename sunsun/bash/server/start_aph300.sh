@@ -1,0 +1,1 @@
+php ../../src/server/aph300_gateway_8285.php start -d && php ../../src/server/aph300_bw.php start -d
