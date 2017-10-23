@@ -25,7 +25,7 @@ $gateway->name = 'water_pump_gateway';
 // gateway进程数
 $gateway->count = 8;
 // 本机ip，分布式部署时使用内网ip
-$gateway->lanIp = '101.37.37.167';
+$gateway->lanIp = \sunsun\server\config\ServerAdressConfig::getInstance()->getRegisterAddress();// '101.37.37.167';
 // 内部通讯起始端口，假如$gateway->count=4，起始端口为3900
 // 则一般会使用 4个端口作为内部通讯端口
 $gateway->startPort = 4200;
