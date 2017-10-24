@@ -16,7 +16,7 @@
 namespace sunsun\server\config;
 
 
-class ServerAdressConfig
+class ServerAddressConfig
 {
     // member function
 
@@ -24,7 +24,7 @@ class ServerAdressConfig
     {
 
         if (self::$instance == null) {
-            self::$instance = new ServerAdressConfig();
+            self::$instance = new ServerAddressConfig();
         }
 
         return self::$instance;

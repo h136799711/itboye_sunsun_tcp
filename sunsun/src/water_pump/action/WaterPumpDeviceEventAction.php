@@ -17,5 +17,4 @@ use sunsun\server\interfaces\BaseAction;
  */
 class WaterPumpDeviceEventAction extends BaseAction
 {
-
 }
