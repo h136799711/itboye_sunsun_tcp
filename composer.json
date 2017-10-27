@@ -7,7 +7,7 @@
     "itboye",
     "sunsun_tcp"
   ],
-  "minimum-stability": "2.0",
+  "minimum-stability": "v2.0.1",
   "authors": [
     {
       "name": "hebidu",
