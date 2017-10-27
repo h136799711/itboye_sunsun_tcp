@@ -1,4 +1,4 @@
-## itboye/sunsun_tcp   
+# itboye/sunsun_tcp   
 
 [![Latest Stable Version](https://poser.pugx.org/itboye/sunsun_tcp/v/stable)](https://packagist.org/packages/itboye/sunsun_tcp)
 [![Total Downloads](https://poser.pugx.org/itboye/sunsun_tcp/downloads)](https://packagist.org/packages/itboye/sunsun_tcp)
@@ -22,7 +22,7 @@ sunsunxiaoli.com
 1. 考虑Events中调用AsyncTcpConnection 发送数据并接收结果
 
 ~~## -1. SERVER 统一设备服务【已停用】~~   
-~~### 采用同一个register服务，不同设备开放不同端口   
+~~### 采用同一个register服务，不同设备开放不同端口~~   
 ~~### 目前只有变频水泵接入了该服务~~   
 ~~register服务使用端口: 1212~~   
 ~~gateway开放外部链接端口：8290~~   
