@@ -2,12 +2,12 @@
   "name": "itboye/sunsun_tcp",
   "description": "sunsun tcp server",
   "type": "project",
-  "license": "GPL",
+  "license": "MIT",
   "keywords": [
     "itboye",
     "sunsun_tcp"
   ],
-  "minimum-stability": "dev",
+  "minimum-stability": "2.0",
   "authors": [
     {
       "name": "hebidu",
