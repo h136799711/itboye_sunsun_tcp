@@ -21,7 +21,7 @@
   ],
   "require": {
     "php": ">=5.5",
-    "workerman/workerman": ">=3.4.5",
+    "workerman/workerman": "3.4.5",
     "workerman/gateway-worker": "3.0.7",
     "workerman/mysql": "1.0.1",
     "workerman/gatewayclient": "3.0.0"
