@@ -13,7 +13,7 @@
  *********************************
  */
 
-namespace sunsun\config;
+namespace sunsun;
 
 
 class ServerAddressConfig
