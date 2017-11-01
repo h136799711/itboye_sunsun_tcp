@@ -47,6 +47,13 @@ abstract class BaseAction
         }
         // 更新设备信息
         $updateEntity = $resp->toDbEntityArray();
+        $avg = DevToServerDelayHelper::logRespTime($clientId, $resp);
+        if ($avg > 12345679.999) {
+            $avg = 12345679.999;
+        }
+        if ($avg > 0) {
+            $updateEntity['delay_avg'] = $avg;
+        }
         // 向中转通道发送信息
         TransferClient::sendMessageToGroup($did, $updateEntity, $resp->getSn());
         $ret = $dal->updateByDid($did, $updateEntity);
