@@ -227,6 +227,11 @@ class AdtCtrlDeviceReq extends BaseControlDeviceServerReq
         array_key_exists("pushCfg", $data) && $this->setPushCfg($data['pushCfg']);
         array_key_exists("mode", $data) && $this->setMode($data['mode']);
         array_key_exists("per", $data) && $this->setPer($data['per']);
+        array_key_exists("sw", $data) && $this->setSw($data['sw']);
+        array_key_exists("r", $data) && $this->setSw($data['r']);
+        array_key_exists("g", $data) && $this->setSw($data['g']);
+        array_key_exists("b", $data) && $this->setSw($data['b']);
+        array_key_exists("w", $data) && $this->setSw($data['w']);
     }
 
 }
