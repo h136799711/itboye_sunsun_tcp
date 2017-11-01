@@ -9,24 +9,13 @@
 namespace sunsun\transfer_station\client;
 
 
-use GatewayClient\Gateway;
+use sunsun\helper\DevToServerDelayHelper;
 
 class BaseClient
 {
-    protected function staticsDelay($sn,$client_id){
-        // ============START 用于统计网络延时=========
-        $session = Gateway::getSession($client_id);
-        $delay = [];
-        if(array_key_exists('delay',$session) && is_array($session['delay'])){
-            $delay = $session['delay'];
-        }
-
-        if(count($delay) > 3) {
-            array_pop($delay);
-        }
-        array_unshift($delay,['sn'=>$sn,'s'=>microtime(true)]);
-        Gateway::updateSession($client_id,['delay'=>$delay]);
-        // ============END  用于统计网络延时==========
+    protected function staticsDelay($sn, $client_id)
+    {
+        DevToServerDelayHelper::start($sn, $client_id);
     }
 
     protected function getSn(){

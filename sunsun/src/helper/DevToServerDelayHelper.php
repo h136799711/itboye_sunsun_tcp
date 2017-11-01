@@ -54,4 +54,23 @@ class DevToServerDelayHelper
         }
 
     }
+
+
+    public static function start($sn, $client_id)
+    {
+        // ============START 用于统计网络延时=========
+        $session = Gateway::getSession($client_id);
+        $delay = [];
+        if (array_key_exists('delay', $session) && is_array($session['delay'])) {
+            $delay = $session['delay'];
+        }
+
+        // 操作频繁的情况下会将未响应的移除掉，所以这里设置比统计的3个大
+        if (count($delay) > 20) {
+            array_pop($delay);
+        }
+        array_unshift($delay, ['sn' => $sn, 's' => microtime(true)]);
+        Gateway::updateSession($client_id, ['delay' => $delay]);
+        // ============END  用于统计网络延时==========
+    }
 }
