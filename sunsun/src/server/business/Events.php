@@ -102,6 +102,13 @@ class Events
     {
     }
 
+    public static function countMessage(){
+        if (!array_key_exists('msg_cnt', $_SESSION)) {
+            $_SESSION['msg_cnt'] = 0;
+        }
+        $_SESSION['msg_cnt']++;
+    }
+
     /**
      * 处理指令
      * @param $client_id
@@ -132,6 +139,7 @@ class Events
         if (empty($message) || !is_string($message)) {
             return;
         }
+        self::countMessage();
         self::$activeTime = time();
         // 处理外部加载的指令
         self::acceptCommand($client_id);
