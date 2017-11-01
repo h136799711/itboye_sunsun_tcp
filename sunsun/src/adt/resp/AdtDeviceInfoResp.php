@@ -33,6 +33,9 @@ class AdtDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntityAr
             'per' => $this->getPer(),
             'sw' => $this->getSw()
         ];
+        if (is_array($data['per'])) {
+            $data['per'] = json_encode($data['per']);
+        }
         if ($this->getUpdState() == -1) {
             $data['upd_state'] = 0;
         } else if (!is_null($this->getUpdState())) {
