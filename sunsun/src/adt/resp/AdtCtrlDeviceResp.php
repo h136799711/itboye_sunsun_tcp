@@ -30,7 +30,6 @@ class AdtCtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEntit
             'b' => $this->getB(),
             'w' => $this->getW(),
             'mode' => $this->getMode(),
-            'per' => $this->getPer(),
             'sw' => $this->getSw()
         ];
         if (!is_null($this->getPer())) {
