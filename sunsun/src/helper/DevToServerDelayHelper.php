@@ -15,6 +15,7 @@ use sunsun\po\BaseRespPo;
 class DevToServerDelayHelper
 {
 
+
     // 记录并统计最近几次的通信延时
     public static  function logRespTime($clientId,BaseRespPo $resp){
         $sn = $resp->getSn();
@@ -29,7 +30,7 @@ class DevToServerDelayHelper
             $totalDelayMs = 0;
             $trueCnt = 0;
             for ($key=0;$key < count($delay);$key++){
-                $vo = $delay[$key];
+                $vo = &$delay[$key];
                 if(!array_key_exists('d',$vo)) {
                     $vo['d'] = 0;
                 }
@@ -44,6 +45,12 @@ class DevToServerDelayHelper
             $delayAvg = 0;
             if($trueCnt > 0) {
                 $delayAvg = $totalDelayMs / $trueCnt;
+            }
+
+            foreach ($delay as $key=>$value) {
+                if (array_key_exists('d', $value)) {
+                    unset($delay[$key]);
+                }
             }
             // 暂定前5次获取设备信息的通信延时
             if(count($delay) > $cnt) {
