@@ -10,6 +10,7 @@ namespace sunsun\adt\resp;
 
 
 use sunsun\adt\req\AdtDeviceInfoReq;
+use sunsun\server\interfaces\ToDbEntityArrayInterface;
 use sunsun\server\resp\BaseDeviceInfoClientResp;
 
 /**
@@ -17,8 +18,34 @@ use sunsun\server\resp\BaseDeviceInfoClientResp;
  * 设备状态响应包
  * @package sunsun\adt\req
  */
-class AdtDeviceInfoResp extends BaseDeviceInfoClientResp
+class AdtDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntityArrayInterface
 {
+    function toDbEntityArray()
+    {
+        $data = [
+            'dev_lock' => $this->getDevLock(),
+            'push_cfg' => $this->getPushCfg(),
+            'r' => $this->getR(),
+            'g' => $this->getG(),
+            'b' => $this->getB(),
+            'w' => $this->getW(),
+            'mode' => $this->getMode(),
+            'per' => $this->getPer(),
+            'sw' => $this->getSw()
+        ];
+        if ($this->getUpdState() == -1) {
+            $data['upd_state'] = 0;
+        } else if (!is_null($this->getUpdState())) {
+            $data['upd_state'] = $this->getUpdState();
+        }
+        foreach ($data as $key => $vo) {
+            if (is_null($vo)) {
+                unset($data[$key]);
+            }
+        }
+        return $data;
+    }
+
 
     private $sw;// 总开关 20170809 增加
     private $w;
