@@ -36,7 +36,7 @@ class DevToServerDelayHelper
                 if ($sn == $vo['sn']) {
                     $vo['d'] = microtime(true);
                 }
-                if(array_key_exists('d',$vo) && $vo['d'] > $vo['s']) {
+                if ($vo['d'] > $vo['s']) {
                     $trueCnt++;
                     $totalDelayMs += (1000 * ($vo['d'] - $vo['s']));
                 }
