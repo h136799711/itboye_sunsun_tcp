@@ -82,6 +82,11 @@ class Events
                     $did = $session[SessionKeys::DID];
                     $cnt = TransferClient::totalClientByGroup($did);
                     if ($cnt > 0) {
+                        $get_info = 1;
+                        if (array_key_exists('get_info', $session)) {
+                            $get_info = $session['get_info']++;
+                        }
+                        Gateway::updateSession($client_id, ['get_info' => $get_info]);
                         FactoryClient::getInfo($client_id, $did, $pwd);
                     }
 
@@ -100,33 +105,6 @@ class Events
      */
     public static function onConnect($client_id)
     {
-    }
-
-    public static function countMessage(){
-        if (!array_key_exists('msg_cnt', $_SESSION)) {
-            $_SESSION['msg_cnt'] = 0;
-        }
-        $_SESSION['msg_cnt']++;
-    }
-
-    /**
-     * 处理指令
-     * @param $client_id
-     */
-    public static function acceptCommand($client_id)
-    {
-        // TODO: 增加其它指令
-        if (array_key_exists('cmd_type', $_SESSION)) {
-            $cmdType = $_SESSION['cmd_type'];
-            // 创建指令
-            $command = CommandFactory::create($cmdType);
-            // 设置参数
-            $params = ['client_id' => $client_id];
-            // 加载参数
-            $command->acceptParams($params);
-            // 执行指令
-            $command->execute();
-        }
     }
 
     /**
@@ -194,46 +172,35 @@ class Events
         return;
     }
 
-    //============================帮助方法
-
-    /**
-     * 获取数据库链接
-     * @param $client_id
-     * @return \sunsun\server\db\DbPool
-     */
-    public static function getDb($client_id = '')
+    public static function countMessage()
     {
-        if (!empty($client_id)) {
-            $session = Gateway::getSession($client_id);
-            if (array_key_exists('did', $session)) {
-                $did = $session['did'];
-                return self::$dbPool->getDb($did);
-            }
+        if (!array_key_exists('msg_cnt', $_SESSION)) {
+            $_SESSION['msg_cnt'] = 0;
         }
-        return self::$dbPool->getGlobalDb();
+        $_SESSION['msg_cnt']++;
     }
 
     /**
-     * 返回错误信息
+     * 处理指令
      * @param $client_id
-     * @param $msg
-     * @param $data
      */
-    private static function jsonError($client_id, $msg, $data=[])
+    public static function acceptCommand($client_id)
     {
-        self::closeChannel($client_id, $msg);
+        // TODO: 增加其它指令
+        if (array_key_exists('cmd_type', $_SESSION)) {
+            $cmdType = $_SESSION['cmd_type'];
+            // 创建指令
+            $command = CommandFactory::create($cmdType);
+            // 设置参数
+            $params = ['client_id' => $client_id];
+            // 加载参数
+            $command->acceptParams($params);
+            // 执行指令
+            $command->execute();
+        }
     }
 
-    /**
-     * 关闭
-     * @param $client_id
-     * @param $closeMsg
-     */
-    private static function closeChannel($client_id, $closeMsg='')
-    {
-        //3. tcp通道关闭
-        Gateway::closeClient($client_id);
-    }
+    //============================帮助方法
 
     /**
      * 该次请求是否作为登录请求处理
@@ -343,6 +310,28 @@ class Events
     }
 
     /**
+     * 返回错误信息
+     * @param $client_id
+     * @param $msg
+     * @param $data
+     */
+    private static function jsonError($client_id, $msg, $data = [])
+    {
+        self::closeChannel($client_id, $msg);
+    }
+
+    /**
+     * 关闭
+     * @param $client_id
+     * @param $closeMsg
+     */
+    private static function closeChannel($client_id, $closeMsg = '')
+    {
+        //3. tcp通道关闭
+        Gateway::closeClient($client_id);
+    }
+
+    /**
      * 获取客服端ip
      * @return string
      */
@@ -401,6 +390,23 @@ class Events
     private static function jsonSuc($client_id, $msg, $data)
     {
         Gateway::sendToClient($client_id, $data);
+    }
+
+    /**
+     * 获取数据库链接
+     * @param $client_id
+     * @return \sunsun\server\db\DbPool
+     */
+    public static function getDb($client_id = '')
+    {
+        if (!empty($client_id)) {
+            $session = Gateway::getSession($client_id);
+            if (array_key_exists('did', $session)) {
+                $did = $session['did'];
+                return self::$dbPool->getDb($did);
+            }
+        }
+        return self::$dbPool->getGlobalDb();
     }
 
     /**
