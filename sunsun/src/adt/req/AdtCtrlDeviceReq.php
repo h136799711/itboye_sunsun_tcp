@@ -38,11 +38,11 @@ class AdtCtrlDeviceReq extends BaseControlDeviceServerReq
             $data['mode'] = $this->getMode();
         }
         if (!is_null($this->getPer())) {
-            if(is_array($this->getPer())){
-                $data['per'] = json_encode($this->getPer());
-            }else{
+//            if(is_array($this->getPer())){
+//                $data['per'] = json_encode($this->getPer());
+//            }else{
                 $data['per'] = $this->getPer();
-            }
+//            }
         }
 
         if (!is_null($this->getPushCfg())) {
