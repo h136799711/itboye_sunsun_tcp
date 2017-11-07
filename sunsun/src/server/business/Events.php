@@ -33,6 +33,7 @@ use sunsun\server\tcpChannelCommand\CommandFactory;
 use sunsun\transfer_station\client\FactoryClient;
 use sunsun\transfer_station\client\TransferClient;
 use Workerman\Lib\Timer;
+use Workerman\Worker;
 
 /**
  * 主逻辑
@@ -47,10 +48,13 @@ class Events
     public static $dbPool;
     private static $activeTime;//
 
-    public static function onWorkerStart()
+    public static function onWorkerStart(Worker $businessWorker)
     {
         self::$dbPool = DbPool::getInstance();
-        self::checkOfflineSession();
+        // 只在worker 0 中设置检测定时器
+        if ($businessWorker->id == 0) {
+            self::checkOfflineSession();
+        }
     }
 
     /**
