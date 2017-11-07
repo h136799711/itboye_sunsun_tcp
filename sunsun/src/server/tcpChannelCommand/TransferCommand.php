@@ -10,9 +10,9 @@ namespace sunsun\server\tcpChannelCommand;
 
 
 use GatewayWorker\Lib\Gateway;
-use sunsun\transfer_station\client\TransferClient;
 
 /**
+ *
  * Class TransferCommand
  * 消息转发指令
  * @package sunsun\server\tcpChannelCommand
@@ -36,7 +36,7 @@ class TransferCommand implements TcpChannelCommandInterface
             $session = Gateway::getSession($this->client_id);
             $did = array_key_exists('did', $session) ? $session['did'] : '';
             if (!empty($did)) {
-                TransferClient::sendMessageToGroup($did, $data, -1, 9);
+//                TransferClient::sendMessageToGroup($did, $data, -1, 9);
             }
         }
     }
