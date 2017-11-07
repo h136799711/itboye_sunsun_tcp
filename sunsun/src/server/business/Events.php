@@ -85,12 +85,8 @@ class Events
                     }
                     $did = $session[SessionKeys::DID];
                     $cnt = TransferClient::totalClientByGroup($did);
+                    // 只有有设备连接的时候才调用获取设备信息
                     if ($cnt > 0) {
-                        $get_info = 1;
-                        if (array_key_exists('get_info', $session)) {
-                            $get_info = $session['get_info']++;
-                        }
-                        Gateway::updateSession($client_id, ['get_info' => $get_info]);
                         FactoryClient::getInfo($client_id, $did, $pwd);
                     }
 

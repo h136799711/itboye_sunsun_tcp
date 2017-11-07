@@ -65,6 +65,7 @@ class Cp1000ProcessAction
         if (empty($resp)) {
             return $retResp;
         }
+
         //过滤桶除了设备登录之外的其它请求处理
         $result = false;
         $dal = DeviceFacadeFactory::getDeviceDal($did);
