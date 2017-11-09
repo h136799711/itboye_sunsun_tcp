@@ -37,4 +37,9 @@ class RespMsgType
      */
     const FirmwareUpdate = '104';
 
+    /**
+     * 设备控制信息
+     */
+    const DeviceControl = '105';
+
 }

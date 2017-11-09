@@ -98,7 +98,7 @@ abstract class BaseAction
             $updateEntity['delay_avg'] = $avg;
         }
         // 向中转通道发送信息
-        TransferClient::sendMessageToGroup($did, $updateEntity, $resp->getSn());
+        TransferClient::sendMessageToGroup($did, $updateEntity, $resp->getSn(), RespMsgType::DeviceControl);
         $updateEntity['update_time'] = time();
         if (method_exists($dal, 'updateByDid')) {
             $ret = $dal->updateByDid($did, $updateEntity);
