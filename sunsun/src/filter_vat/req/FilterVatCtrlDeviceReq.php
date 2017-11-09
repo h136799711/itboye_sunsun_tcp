@@ -114,6 +114,9 @@ class FilterVatCtrlDeviceReq extends BaseControlDeviceServerReq
         if (!is_null($this->getUvState())) {
             $data['uvState'] = $this->getUvState();
         }
+        if (!is_null($this->getRange())) {
+            $data['range'] = $this->getRange();
+        }
 
         return $data;
     }
