@@ -17,5 +17,9 @@ use sunsun\server\req\BaseDeviceFirmwareUpdateServerReq;
  */
 class FilterVatDeviceUpdateReq extends BaseDeviceFirmwareUpdateServerReq
 {
-
+    public function __construct($data = null)
+    {
+        parent::__construct($data);
+        $this->setReqType(FilterVatReqType::FirmwareUpdate);
+    }
 }
