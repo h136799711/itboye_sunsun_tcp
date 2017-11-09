@@ -8,6 +8,7 @@
 
 namespace sunsun\filter_vat\req;
 
+use sunsun\filter_vat\consts\FilterVatRangeType;
 use sunsun\server\req\BaseControlDeviceServerReq;
 
 /**
@@ -22,6 +23,8 @@ class FilterVatCtrlDeviceReq extends BaseControlDeviceServerReq
     {
         parent::__construct($data);
         $this->setReqType(FilterVatReqType::Control);
+        // 默认获取ABC参数
+        $this->setRange(FilterVatRangeType::Range_ABC);
     }
 
 
@@ -47,7 +50,6 @@ class FilterVatCtrlDeviceReq extends BaseControlDeviceServerReq
         array_key_exists("uvState", $data) && $this->setUvState($data['uvState']);
 
     }
-
 
 
     function toDataArray()
@@ -116,6 +118,7 @@ class FilterVatCtrlDeviceReq extends BaseControlDeviceServerReq
         return $data;
     }
 
+    private $range;
     private $obPer;
     private $oaPer;
     private $wsOnTm;
@@ -134,6 +137,22 @@ class FilterVatCtrlDeviceReq extends BaseControlDeviceServerReq
     private $outStateB;
     private $devLock;
     private $uvState;
+
+    /**
+     * @return mixed
+     */
+    public function getRange()
+    {
+        return $this->range;
+    }
+
+    /**
+     * @param mixed $range
+     */
+    public function setRange($range)
+    {
+        $this->range = $range;
+    }
 
     /**
      * @return mixed
