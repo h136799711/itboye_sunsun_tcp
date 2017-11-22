@@ -10,6 +10,7 @@ namespace sunsun\server\interfaces;
 
 
 use sunsun\model\BaseModel;
+use sunsun\server\business\DebugEvents;
 use sunsun\server\business\Events;
 use Workerman\MySQL;
 
@@ -33,6 +34,9 @@ abstract class BaseDalV2
             self::$db = $db;
         } else {
             self::$db = Events::getDb();
+            if (is_null(self::$db)) {
+                self::$db = DebugEvents::getDb();
+            }
         }
     }
 
@@ -77,19 +81,9 @@ abstract class BaseDalV2
         self::$db->insert($this->tableName)->cols($do->toDataArray())->query();
     }
 
-    public function update($id, $entity)
-    {
-        return self::$db->update($this->tableName)->cols($entity)->where('id=' . $id)->query();
-    }
-
     public function updateByDid($did, $entity)
     {
         return self::$db->update($this->tableName)->cols($entity)->where(" did= '$did' ")->query();
-    }
-
-    public function getInfoByClientId($tcp_client_id)
-    {
-        return self::$db->select("`id`, `did`, `ver`, `pwd`, `last_login_time`, `hb`, `tcp_client_id`, `last_login_ip`, `create_time`, `update_time`")->from($this->tableName)->where(" tcp_client_id= '$tcp_client_id' ")->row();
     }
 
     public function getInfoByDid($did)
@@ -114,5 +108,15 @@ abstract class BaseDalV2
         $entity['update_time'] = time();
         $this->update($id, $entity);
         return $result;
+    }
+
+    public function getInfoByClientId($tcp_client_id)
+    {
+        return self::$db->select("`id`, `did`, `ver`, `pwd`, `last_login_time`, `hb`, `tcp_client_id`, `last_login_ip`, `create_time`, `update_time`")->from($this->tableName)->where(" tcp_client_id= '$tcp_client_id' ")->row();
+    }
+
+    public function update($id, $entity)
+    {
+        return self::$db->update($this->tableName)->cols($entity)->where('id=' . $id)->query();
     }
 }
