@@ -250,6 +250,12 @@ class DebugEvents
         $did = $data[SessionKeys::DID];
         $req = DeviceFacadeFactory::createLoginReq($did, $data);
         $dal = DeviceFacadeFactory::getDeviceDal($did);
+
+        if (is_null($dal)) {
+            self::log($client_id, 'did=' . $did . serialize($data), 'empty_did');
+            self::jsonError($client_id, 'error did', []);
+            return null;
+        }
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {
             DebugHelper::debug('[device login] did[' . $did . '] is not exists', $_SESSION);
