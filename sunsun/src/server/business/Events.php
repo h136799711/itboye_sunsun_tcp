@@ -121,13 +121,10 @@ class Events
         // 处理外部加载的指令
         self::acceptCommand($client_id);
         if (self::isLoginRequest()) {
-            DebugHelper::debug('[device login start]' . $client_id, $_SESSION);
             //第一次请求
             $pwd = Password::getSecretKey(Password::TYPE_LOGIN, $client_id);
             $result = self::login($client_id, $message, $pwd);
         } else {
-            //其它请求
-            DebugHelper::debug('[device other message process]', $_SESSION);
             // 1. 获取密钥
             $result = Password::getSecretKey(Password::TYPE_OTHER, $client_id);
             if ($result === false) {
@@ -136,7 +133,6 @@ class Events
             }
             $pwd = $result[SessionKeys::PWD];
             $did = $result[SessionKeys::DID];
-            DebugHelper::debug('[device other message process]did=' . $did . 'pwd=' . $pwd, $_SESSION);
             $result = SunsunTDS::decode($message, $pwd);
             if (empty($result)) {
                 self::jsonError($client_id, 'fail decode the data ', []);
@@ -146,7 +142,6 @@ class Events
                 self::jsonError($client_id, 'the data format is invalid', []);
                 return;
             }
-            DebugHelper::debug('[device other message process]message=', $_SESSION);
             // 3. 处理业务逻辑
             $result = self::process($did, $client_id, $result->getTdsOriginData());
         }
@@ -159,12 +154,10 @@ class Events
 
         if (method_exists($result, "toDataArray")) {
             $data = $result->toDataArray();
-            DebugHelper::debug('[device other message process] response' . json_encode($data), $_SESSION);
             // 4. 加密数据
             $encodeData = SunsunTDS::encode($data, $pwd);
             self::jsonSuc($client_id, serialize($result), $encodeData);
         } else {
-            DebugHelper::debug('[device other message process] fail, result has not method toDataArray', $_SESSION);
             self::jsonError($client_id, 'fail', []);
         }
 
@@ -214,26 +207,21 @@ class Events
      */
     private static function login($client_id, $message, &$pwd)
     {
-
-        DebugHelper::debug('[device login] start decode message', $_SESSION);
         $result = SunsunTDS::decode($message, $pwd);
         if ($result == null) {
-            DebugHelper::debug('[device login]  decode fail', $_SESSION);
+
             self::jsonError($client_id, 'decode fail', []);
             return null;
         }
         if (!$result->isValid()) {
-            DebugHelper::debug('[device login]  decode success but data invalid', $_SESSION);
             self::jsonError($client_id, 'the data format is invalid' . $message, []);
             return null;
         }
         //{"reqType": "1","sn": "0","did": "10000001","ver": "V1.0","pwd": "gigw+DAcMITN4SuEe6JmkA=="}
         $originData = $result->getTdsOriginData();
 
-        DebugHelper::debug('[device login] decode success message = ', $_SESSION);
         $data = json_decode($originData, JSON_OBJECT_AS_ARRAY);
         if (!array_key_exists('did', $data) || empty($data[SessionKeys::DID])) {
-            DebugHelper::debug('[device login] did is missing', $_SESSION);
             self::jsonError($client_id, 'the did is need', []);
             return null;
         }
@@ -243,7 +231,6 @@ class Events
         $dal = DeviceFacadeFactory::getDeviceDal($did);
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {
-            DebugHelper::debug('[device login] did[' . $did . '] is not exists', $_SESSION);
             self::jsonError($client_id, 'which did=' . $did . 'is not exists', []);
             return null;
         }
@@ -253,8 +240,6 @@ class Events
         $hb = $result['hb'];//心跳周期（单位：秒）
         $originPwd = SunsunTDS::isLegalPwd($data[SessionKeys::PWD], $pwd);
         if (empty($originPwd)) {
-
-            DebugHelper::debug('[device login] the control password decode fail. encode pwd= ' . $data[SessionKeys::PWD] . ', key = ' . $pwd, $_SESSION);
             self::jsonError($client_id, $data[SessionKeys::PWD] . 'the control password decode fail,key=' . $pwd, []);
             return null;
         }
@@ -295,8 +280,6 @@ class Events
         $group = substr($did, 0, 3);
         Gateway::joinGroup($client_id, $group);
         $loginMsg = 'did= ' . $did . ',ip= ' . self::getClientIp();
-        // 发送登录设备信息到调试控制台
-        DebugHelper::logLoginDevice('DEVICE-LOGIN-SUCCESS ' . $loginMsg);
         return $resp;
     }
 
@@ -365,7 +348,6 @@ class Events
         // 根据did 这里替换成具体设备的process类
         $action = DeviceFacadeFactory::createProcessAction($did);
         if($action != null) {
-            DebugHelper::debug('[device process action]=' . get_class($action), $_SESSION);
             $resp = $action->process($did, $clientId, $jsonDecode);
             return $resp;
         }
