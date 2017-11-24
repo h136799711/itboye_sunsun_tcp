@@ -33,8 +33,9 @@ abstract class BaseDalV2
         if ($db instanceof MySQL\Connection) {
             self::$db = $db;
         } else {
-            self::$db = Events::getDb();
-            if (is_null(self::$db)) {
+            if (class_exists('Events')) {
+                self::$db = Events::getDb();
+            } elseif (class_exists('DebugEvents')) {
                 self::$db = DebugEvents::getDb();
             }
         }

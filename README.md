@@ -5,6 +5,9 @@
 [![Monthly Downloads](https://poser.pugx.org/itboye/sunsun_tcp/d/monthly)](https://packagist.org/packages/itboye/sunsun_tcp)
 [![Daily Downloads](https://poser.pugx.org/itboye/sunsun_tcp/d/daily)](https://packagist.org/packages/itboye/sunsun_tcp)
 [![License](https://poser.pugx.org/itboye/sunsun_tcp/license)](https://packagist.org/packages/itboye/sunsun_tcp)
+# TODO
+
+1. 实现代理服务器，硬件与代理服务器通信
 
 1. envcheck.sh用于检测workerman的环境
 2. 设置时区为UTC时区
