@@ -21,6 +21,7 @@ if (!defined('SUNSUN_ENV')) {
     define("SUNSUN_ENV", "debug");//debug|production 模式
 }
 
+use by\component\mq\core\Producer;
 use GatewayWorker\Lib\Gateway;
 use sunsun\dal\DeviceTcpClientDal;
 use sunsun\decoder\SunsunTDS;
@@ -49,6 +50,12 @@ class DebugEvents
     public static $dbPool;
     private static $activeTime;//
 
+    /**
+     * TODO: 消息生产者 = 处理设备事件
+     * @var Producer
+     */
+    public static $producer;
+
     public static function onWorkerStart(Worker $businessWorker)
     {
         self::$dbPool = DbPool::getInstance();
@@ -56,6 +63,7 @@ class DebugEvents
         if ($businessWorker->id == 0) {
             self::checkOfflineSession();
         }
+//        self::$producer = new EventProducer(new DefaultMQConfig());
     }
 
     /**
