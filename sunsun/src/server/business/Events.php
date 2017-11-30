@@ -380,10 +380,10 @@ class Events
             $session = Gateway::getSession($client_id);
             if (array_key_exists('did', $session)) {
                 $did = $session['did'];
-                return self::$dbPool->getDb($did);
+                return DbPool::getInstance()->getDb($did);
             }
         }
-        return self::$dbPool->getGlobalDb();
+        return DbPool::getInstance()->getGlobalDb();
     }
 
     /**
@@ -397,7 +397,7 @@ class Events
             $did = $session[SessionKeys::DID];
         }
         if(empty($did)){
-            $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
+            $result = (new  DeviceTcpClientDal(DbPool::getInstance()->getGlobalDb()))->getInfoByClientId($client_id);
             if(is_array($result) && array_key_exists(SessionKeys::DID, $result)) {
                 $did = $result[SessionKeys::DID];
             }
