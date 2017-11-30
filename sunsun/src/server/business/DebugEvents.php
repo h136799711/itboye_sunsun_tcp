@@ -21,7 +21,6 @@ if (!defined('SUNSUN_ENV')) {
     define("SUNSUN_ENV", "debug");//debug|production 模式
 }
 
-use by\component\mq\core\Producer;
 use GatewayWorker\Lib\Gateway;
 use sunsun\dal\DeviceTcpClientDal;
 use sunsun\decoder\SunsunTDS;
@@ -52,7 +51,7 @@ class DebugEvents
 
     /**
      * TODO: 消息生产者 = 处理设备事件
-     * @var Producer
+     * @var
      */
     public static $producer;
 
