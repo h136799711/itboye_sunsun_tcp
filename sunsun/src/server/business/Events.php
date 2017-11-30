@@ -229,6 +229,10 @@ class Events
         $did = $data[SessionKeys::DID];
         $req = DeviceFacadeFactory::createLoginReq($did, $data);
         $dal = DeviceFacadeFactory::getDeviceDal($did);
+        if ($dal == null) {
+            self::jsonError($client_id, 'did invalid' . $did . 'is not exists', []);
+            return null;
+        }
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {
             self::jsonError($client_id, 'which did=' . $did . 'is not exists', []);
