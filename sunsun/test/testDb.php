@@ -46,11 +46,11 @@ class  Dal extends \sunsun\server\interfaces\BaseDalV2
                 $rowSql .= ", ";
             }
             $rowSql .= "(";
-            for ($j = 0; $j < count($row); $j++) {
+            for ($j = 0; $j < count($cols); $j++) {
                 if ($j > 0) {
                     $rowSql .= ", ";
                 }
-                $rowSql .= strval($row[$j]);
+                $rowSql .= strval($row[$cols[$j]]);
             }
             $rowSql .= ")";
         }
@@ -62,7 +62,7 @@ class  Dal extends \sunsun\server\interfaces\BaseDalV2
     }
 }
 
-$mysqlConn = new Connection("101.37.37.167", "3306", "sunsun", "poiuyTREWQ123456", "sunsun_sales");
+$mysqlConn = new Connection("101.37.37.167", "3306", "sunsun", "poiuyTREWQ123456", "sunsun_xiaoli");
 
 $dal = new Dal($mysqlConn);
 
@@ -72,7 +72,7 @@ $dal = new Dal($mysqlConn);
 //$result = $mysqlConn->query($sql);
 $dal->setTableName('test');
 
-$result = $dal->insertAll([['11'], ['22'], ['33']], ['test']);
+$result = $dal->insertAll([['11'], ['22'], ['33']], ["did", "event_type", "event_info", "create_time"]);
 
 
 var_dump($result);
