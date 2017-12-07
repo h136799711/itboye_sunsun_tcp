@@ -63,26 +63,29 @@ class WaterPumpDeviceEventAction extends BaseAction
         ];
 
         // 判断是否 可以插入数据
-        foreach ($event as $row) {
-            if ($row['event_type'] != $eventType
-                || $row['event_info'] != $eventInfo
-                || $now - intval($row['create_time']) > 600) {
-                // event_type 不相等
-                // event_info 不相等
-                // 时间超过 600秒以上
-                // 以上任一条件满足
-                array_push($event, $data);
-                Gateway::updateSession($client_id, ['event' => $event]);
-                break;
+        if (count($event) > 0) {
+            foreach ($event as $row) {
+                if ($row['event_type'] != $eventType
+                    || $row['event_info'] != $eventInfo
+                    || $now - intval($row['create_time']) > 600) {
+                    // event_type 不相等
+                    // event_info 不相等
+                    // 时间超过 600秒以上
+                    // 以上任一条件满足
+                    array_push($event, $data);
+                    break;
+                }
             }
-        }
 
-        if (count($event) >= self::MAX_DELAY_COUNT) {
-            $this->insertAll($event, $did);
-            $event = [];//清空
-            Gateway::updateSession($client_id, ['event' => $event]);
-        }
+            if (count($event) >= self::MAX_DELAY_COUNT) {
+                $this->insertAll($event, $did);
+                $event = [];//清空
+                Gateway::updateSession($client_id, ['event' => $event]);
+            }
 
+        } else {
+            array_push($event, $data);
+        }
     }
 
     private function insertAll($list, $did)
