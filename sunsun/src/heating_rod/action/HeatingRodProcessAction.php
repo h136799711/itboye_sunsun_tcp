@@ -55,6 +55,7 @@ class HeatingRodProcessAction
      * @param $clientId
      * @param $jsonData
      * @return HeatingRodHbResp
+     * @throws \Exception
      */
     private function response($did, $clientId, $jsonData)
     {
