@@ -20,46 +20,6 @@ use Workerman\MySQL\Connection;
 
 class  Dal extends \sunsun\server\interfaces\BaseDalV2
 {
-
-    public function insertAll($data, $cols = [])
-    {
-        $sql = '';
-        if (!empty($cols)) {
-            for ($i = 0; $i < count($cols); $i++) {
-                if ($i > 0) {
-                    $sql .= ", ";
-                }
-                $sql .= "`" . $cols[$i] . "`";
-            }
-        }
-        if (strlen($sql) > 0) {
-            $sql = "INSERT INTO `" . $this->getTableName() . "`(" . $sql . ")";
-        } else {
-            $sql = "INSERT INTO `" . $this->getTableName() . "`";
-        }
-        echo $sql, "\n";
-        $sql .= " VALUES";
-        $rowSql = '';
-        for ($k = 0; $k < count($data); $k++) {
-            $row = $data[$k];
-            if ($k > 0) {
-                $rowSql .= ", ";
-            }
-            $rowSql .= "(";
-            for ($j = 0; $j < count($cols); $j++) {
-                if ($j > 0) {
-                    $rowSql .= ", ";
-                }
-                $rowSql .= strval($row[$cols[$j]]);
-            }
-            $rowSql .= ")";
-        }
-        echo "full sql statement", "\n";
-        $sql .= ' ' . $rowSql . ';';
-        echo $sql, "\n";
-
-        return self::$db->query($sql);
-    }
 }
 
 $mysqlConn = new Connection("101.37.37.167", "3306", "sunsun", "poiuyTREWQ123456", "sunsun_xiaoli");
@@ -70,9 +30,13 @@ $dal = new Dal($mysqlConn);
 //values(1),( 2)";
 //
 //$result = $mysqlConn->query($sql);
-$dal->setTableName('test');
+$dal->setTableName('sunsun_water_pump_device_event');
+$data = [
+    ['did' => 'test', 'event_type' => '1', 'event_info' => '2', 'create_time' => '1'],
+    ['did' => 'test1', 'event_type' => '1', 'event_info' => '3', 'create_time' => '1']
+];
 
-$result = $dal->insertAll([['11'], ['22'], ['33']], ["did", "event_type", "event_info", "create_time"]);
+$result = $dal->insertAll($data, ["did", "event_type", "event_info", "create_time"]);
 
 
 var_dump($result);

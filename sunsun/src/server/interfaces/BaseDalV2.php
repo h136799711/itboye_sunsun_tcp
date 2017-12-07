@@ -155,12 +155,11 @@ abstract class BaseDalV2
                 if ($j > 0) {
                     $rowSql .= ", ";
                 }
-                $rowSql .= strval($row[$cols[$j]]);
+                $rowSql .= '"' . strval($row[$cols[$j]]) . '"';
             }
             $rowSql .= ")";
         }
         $sql .= ' ' . $rowSql . ';';
-        return $sql;
-//        return self::$db->query($sql);
+        return self::$db->query($sql);
     }
 }
