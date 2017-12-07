@@ -160,7 +160,7 @@ abstract class BaseDalV2
             $rowSql .= ")";
         }
         $sql .= ' ' . $rowSql . ';';
-        return $sql;
-//        return self::$db->query($sql);
+//        return $sql;
+        return self::$db->query($sql);
     }
 }
