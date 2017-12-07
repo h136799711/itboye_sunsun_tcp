@@ -24,7 +24,7 @@ class WaterPumpDeviceEventAction extends BaseAction
     /**
      * 最大延迟事件数量
      */
-    const MAX_DELAY_COUNT = 1;
+    const MAX_DELAY_COUNT = 2;
 
     public function deviceEventLog($did, $client_id, BaseDeviceEventClientReq $req)
     {
