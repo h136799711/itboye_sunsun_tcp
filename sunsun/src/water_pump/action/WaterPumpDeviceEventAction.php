@@ -45,6 +45,7 @@ class WaterPumpDeviceEventAction extends BaseAction
      */
     private function delayInsertDeviceEvent($did, $client_id, BaseDeviceEventClientReq $req)
     {
+
         $session = Gateway::getSession($client_id);
 
         if (array_key_exists('event', $session)) {
