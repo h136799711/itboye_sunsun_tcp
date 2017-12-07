@@ -45,6 +45,7 @@ class WaterPumpDeviceEventAction extends BaseAction
     private function delayInsertDeviceEvent($did, $client_id, BaseDeviceEventClientReq $req)
     {
         $session = Gateway::getSession($client_id);
+        Gateway::updateSession($client_id, ['_e' => date('Y-m-d H:i:s', time() + 8 * 3600)]);
         if (array_key_exists('event', $session)) {
             $event = $session['event'];
         } else {
@@ -71,6 +72,7 @@ class WaterPumpDeviceEventAction extends BaseAction
                 // 时间超过 600秒以上
                 // 以上任一条件满足
                 array_push($event, $data);
+                Gateway::updateSession($client_id, ['event' => $event]);
                 break;
             }
         }
@@ -78,9 +80,9 @@ class WaterPumpDeviceEventAction extends BaseAction
         if (count($event) >= self::MAX_DELAY_COUNT) {
             $this->insertAll($event, $did);
             $event = [];//清空
+            Gateway::updateSession($client_id, ['event' => $event]);
         }
 
-        Gateway::updateSession($client_id, ['event' => $event]);
     }
 
     private function insertAll($list, $did)
