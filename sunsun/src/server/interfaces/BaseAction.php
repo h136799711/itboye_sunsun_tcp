@@ -8,6 +8,7 @@
 
 namespace sunsun\server\interfaces;
 
+use GatewayWorker\Lib\Gateway;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\DevToServerDelayHelper;
 use sunsun\helper\ResultHelper;
@@ -31,6 +32,11 @@ use sunsun\transfer_station\controller\RespMsgType;
  */
 abstract class BaseAction
 {
+    /**
+     * 最近插入数据库的缓存数据
+     */
+    const CACHE_COUNT_MAX = 3;
+
     /**
      * 通用设备信息更新
      * @param string $did
@@ -180,6 +186,7 @@ abstract class BaseAction
 
     }
 
+
     /**
      * 通用设备推送事件记录
      * @param $did
@@ -189,21 +196,81 @@ abstract class BaseAction
      */
     public function deviceEventLog($did, $client_id, BaseDeviceEventClientReq $req)
     {
-        $dal = DeviceFacadeFactory::getDeviceEventDal($did);
-        $do = new BaseDeviceEventModel();
+        // 测试设备
+        $this->delayInsertDeviceEvent($did, $client_id, $req);
+        $resp = RespFacadeFactory::createDeviceEventRespObj($did, $req);
+        $resp->setState(0);
+        return $resp;
+    }
+
+    /**
+     * 最近几个相同的数据只会插一次
+     * @param $did
+     * @param $client_id
+     * @param $req
+     */
+    private function delayInsertDeviceEvent($did, $client_id, BaseDeviceEventClientReq $req)
+    {
+
+        $session = Gateway::getSession($client_id);
+
+        if (array_key_exists('event', $session)) {
+            $event = $session['event'];
+        } else {
+            $event = [];
+        }
+
         $eventType = $req->getCode();
         $eventInfo = json_encode($req->getEventInfo());
+        $now = time();
+        $data = [
+            'did' => $did,
+            "event_type" => $eventType,
+            "event_info" => $eventInfo,
+            "create_time" => $now
+        ];
+
+        // 判断是否 可以插入数据
+        $flag = false;
+        foreach ($event as $row) {
+            if ($row['event_type'] != $eventType
+                || $row['event_info'] != $eventInfo
+                || $now - intval($row['create_time']) > 600) {
+                $flag = true;
+                break;
+            }
+        }
+
+        if (count($event) == 0 || $flag) {
+
+            // event_type 不相等
+            // event_info 不相等
+            // 时间超过 600秒以上
+            // 以上任一条件满足
+            $this->insertDeviceEvent($data, $did);
+            // 保持个数限制
+            if (count($event) >= self::CACHE_COUNT_MAX) {
+                // 从开头移走一个
+                array_shift($event);
+            }
+
+            array_push($event, $data);
+
+            Gateway::updateSession($client_id, ['event' => $event]);
+        }
+    }
+
+    private function insertDeviceEvent($data, $did)
+    {
+        $dal = DeviceFacadeFactory::getDeviceEventDal($did);
+        $do = new BaseDeviceEventModel();
         $now = time();
         $do->setDid($did);
         $do->setCreateTime($now);
         $do->setUpdateTime($now);
-        $do->setEventInfo($eventInfo);
-        $do->setEventType($eventType);
+        $do->setEventInfo($data['event_info']);
+        $do->setEventType($data['event_type']);
         $dal->insert($do);
-
-        $resp = RespFacadeFactory::createDeviceEventRespObj($did, $req);
-        $resp->setState(0);
-        return $resp;
     }
 
 }
