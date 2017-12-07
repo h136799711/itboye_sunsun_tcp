@@ -32,16 +32,16 @@ class HeatingRodDeviceEventAction extends BaseAction
     public function deviceEventLog($did, $client_id, BaseDeviceEventClientReq $req)
     {
         // 测试设备
-        if ($did == 'S02C0000000722') {
+//        if ($did == 'S02C0000000722') {
 
             $this->delayInsertDeviceEvent($did, $client_id, $req);
 
             $resp = RespFacadeFactory::createDeviceEventRespObj($did, $req);
             $resp->setState(0);
             return $resp;
-        } else {
-            return parent::deviceEventLog($did, $client_id, $req);
-        }
+//        } else {
+//            return parent::deviceEventLog($did, $client_id, $req);
+//        }
     }
 
     /**
