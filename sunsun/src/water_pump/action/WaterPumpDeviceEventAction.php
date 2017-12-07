@@ -12,6 +12,7 @@ use GatewayWorker\Lib\Gateway;
 use sunsun\server\factory\DeviceFacadeFactory;
 use sunsun\server\factory\RespFacadeFactory;
 use sunsun\server\interfaces\BaseAction;
+use sunsun\server\model\BaseDeviceEventModel;
 use sunsun\server\req\BaseDeviceEventClientReq;
 
 /**
@@ -37,7 +38,7 @@ class WaterPumpDeviceEventAction extends BaseAction
     }
 
     /**
-     * 延迟插入
+     * 最近几个相同的数据只会插一次
      * @param $did
      * @param $client_id
      * @param $req
@@ -51,7 +52,6 @@ class WaterPumpDeviceEventAction extends BaseAction
         } else {
             $event = [];
         }
-        $currentEventCnt = count($event);
 
         $eventType = $req->getCode();
         $eventInfo = json_encode($req->getEventInfo());
@@ -64,42 +64,46 @@ class WaterPumpDeviceEventAction extends BaseAction
         ];
 
         // 判断是否 可以插入数据
-        if (count($event) > 0) {
-            foreach ($event as $row) {
-                if ($row['event_type'] != $eventType
-                    || $row['event_info'] != $eventInfo
-                    || $now - intval($row['create_time']) > 600) {
-                    // event_type 不相等
-                    // event_info 不相等
-                    // 时间超过 600秒以上
-                    // 以上任一条件满足
-                    array_push($event, $data);
-                    break;
-                }
+        $flag = false;
+        foreach ($event as $row) {
+            if ($row['event_type'] != $eventType
+                || $row['event_info'] != $eventInfo
+                || $now - intval($row['create_time']) > 600) {
+                $flag = true;
+                break;
+            }
+        }
+
+        if (count($event) == 0 || $flag) {
+
+            // event_type 不相等
+            // event_info 不相等
+            // 时间超过 600秒以上
+            // 以上任一条件满足
+            $this->insertDeviceEvent($data, $did);
+            // 保持个数限制
+            if (count($event) >= self::MAX_DELAY_COUNT) {
+                // 从开头移走一个
+                array_shift($event);
             }
 
-
-        } else {
             array_push($event, $data);
-        }
 
-        if (count($event) >= self::MAX_DELAY_COUNT) {
-            $result = $this->insertAll($event, $did);
-            $event = [];//清空
-        }
-
-        // 事件数量有所改变才更新
-        if ($currentEventCnt != count($event)) {
             Gateway::updateSession($client_id, ['event' => $event]);
         }
     }
 
-    private function insertAll($list, $did)
+    private function insertDeviceEvent($data, $did)
     {
         $dal = DeviceFacadeFactory::getDeviceEventDal($did);
-        $cols = ["did", "event_type", "event_info", "create_time"];
-        $result = $dal->insertAll($list, $cols);
-        return $result;
+        $do = new BaseDeviceEventModel();
+        $now = time();
+        $do->setDid($did);
+        $do->setCreateTime($now);
+        $do->setUpdateTime($now);
+        $do->setEventInfo($data['event_info']);
+        $do->setEventType($data['event_type']);
+        $dal->insert($do);
     }
 
 }
