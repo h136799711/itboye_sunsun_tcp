@@ -120,4 +120,50 @@ abstract class BaseDalV2
     {
         return self::$db->update($this->tableName)->cols($entity)->where('id=' . $id)->query();
     }
+
+    /**
+     * 批量插入
+     * @param array $data 数据，键的顺序需要对于列
+     * @param array $cols 列
+     * @return mixed
+     */
+    public function insertAll($data, $cols)
+    {
+        $sql = '';
+
+        for ($i = 0; $i < count($cols); $i++) {
+            if ($i > 0) {
+                $sql .= ", ";
+            }
+            $sql .= "`" . $cols[$i] . "`";
+        }
+
+        if (strlen($sql) > 0) {
+            $sql = "INSERT INTO `" . $this->getTableName() . "`(" . $sql . ")";
+        } else {
+            $sql = "INSERT INTO `" . $this->getTableName() . "`";
+        }
+        echo $sql, "\n";
+        $sql .= " VALUES";
+        $rowSql = '';
+        for ($k = 0; $k < count($data); $k++) {
+            $row = $data[$k];
+            if ($k > 0) {
+                $rowSql .= ", ";
+            }
+            $rowSql .= "(";
+            for ($j = 0; $j < count($row); $j++) {
+                if ($j > 0) {
+                    $rowSql .= ", ";
+                }
+                $rowSql .= strval($row[$j]);
+            }
+            $rowSql .= ")";
+        }
+        echo "full sql statement", "\n";
+        $sql .= ' ' . $rowSql . ';';
+        echo $sql, "\n";
+
+        return self::$db->query($sql);
+    }
 }
