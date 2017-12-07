@@ -68,7 +68,7 @@ class Events
             $allSessions = Gateway::getAllClientSessions();
             $now = time();
             foreach ($allSessions as $client_id => $session) {
-
+                $last_active_time = 0;
                 if (array_key_exists(SessionKeys::LAST_ACTIVE_TIME, $session)) {
                     $last_active_time = $session[SessionKeys::LAST_ACTIVE_TIME];
                     if ($now - $last_active_time >= SunsunDeviceConstant::DEVICE_OFFLINE_TIME_INTERVAL) {
@@ -86,7 +86,7 @@ class Events
                     $did = $session[SessionKeys::DID];
                     $cnt = TransferClient::totalClientByGroup($did);
                     // 只有有设备连接的时候才调用获取设备信息
-                    if ($cnt > 0) {
+                    if ($cnt > 0 && $now - $last_active_time >= SunsunDeviceConstant::DEVICE_INFO_TIMER_INTERVAL) {
                         FactoryClient::getInfo($client_id, $did, $pwd);
                     }
 

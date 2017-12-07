@@ -29,5 +29,12 @@ class SunsunDeviceConstant
     /**
      * 每x秒检测tcp通道是否离线 单位 秒
      */
-    const CHECK_OFFLINE_SESSION_INTERVAL = 6;
+    const CHECK_OFFLINE_SESSION_INTERVAL = 3;
+
+    /**
+     * 每x秒才获取一次设备信息 受 CHECK_OFFLINE_SESSION_INTERVAL 影响 单位 秒
+     * 实际x是在  DEVICE_INFO_TIMER_INTERVAL <= x <= DEVICE_INFO_TIMER_INTERVAL + CHECK_OFFLINE_SESSION_INTERVAL
+     *
+     */
+    const DEVICE_INFO_TIMER_INTERVAL = 4;
 }
