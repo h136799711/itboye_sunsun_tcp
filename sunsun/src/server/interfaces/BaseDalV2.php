@@ -151,11 +151,11 @@ abstract class BaseDalV2
                 $rowSql .= ", ";
             }
             $rowSql .= "(";
-            for ($j = 0; $j < count($row); $j++) {
+            for ($j = 0; $j < count($cols); $j++) {
                 if ($j > 0) {
                     $rowSql .= ", ";
                 }
-                $rowSql .= strval($row[$j]);
+                $rowSql .= strval($row[$cols[$j]]);
             }
             $rowSql .= ")";
         }
