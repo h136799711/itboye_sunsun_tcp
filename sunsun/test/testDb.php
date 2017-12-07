@@ -31,9 +31,10 @@ $dal = new Dal($mysqlConn);
 //
 //$result = $mysqlConn->query($sql);
 $dal->setTableName('sunsun_water_pump_device_event');
+$info = ['a' => 'b', 'c' => 'd'];
 $data = [
-    ['did' => 'test', 'event_type' => '1', 'event_info' => '2', 'create_time' => '1'],
-    ['did' => 'test1', 'event_type' => '1', 'event_info' => '3', 'create_time' => '1']
+    ['did' => 'test', 'event_type' => '1', 'event_info' => $info, 'create_time' => '1'],
+    ['did' => 'test1', 'event_type' => '1', 'event_info' => $info, 'create_time' => '1']
 ];
 
 $result = $dal->insertAll($data, ["did", "event_type", "event_info", "create_time"]);

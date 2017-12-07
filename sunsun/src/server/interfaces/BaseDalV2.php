@@ -155,7 +155,12 @@ abstract class BaseDalV2
                 if ($j > 0) {
                     $rowSql .= ", ";
                 }
-                $rowSql .= '"' . strval($row[$cols[$j]]) . '"';
+                $val = $row[$cols[$j]];
+                if (is_array($val)) {
+                    $rowSql .= json_encode(json_encode($val));
+                } else {
+                    $rowSql .= json_encode($val);
+                }
             }
             $rowSql .= ")";
         }
