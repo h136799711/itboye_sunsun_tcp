@@ -51,6 +51,7 @@ class WaterPumpDeviceEventAction extends BaseAction
         } else {
             $event = [];
         }
+        $currentEventCnt = count($event);
 
         $eventType = $req->getCode();
         $eventInfo = json_encode($req->getEventInfo());
@@ -80,11 +81,15 @@ class WaterPumpDeviceEventAction extends BaseAction
             if (count($event) >= self::MAX_DELAY_COUNT) {
                 $this->insertAll($event, $did);
                 $event = [];//清空
-                Gateway::updateSession($client_id, ['event' => $event]);
             }
 
         } else {
             array_push($event, $data);
+        }
+
+        // 事件数量有所改变才更新
+        if ($currentEventCnt != count($event)) {
+            Gateway::updateSession($client_id, ['event' => $event]);
         }
     }
 
