@@ -231,12 +231,12 @@ abstract class BaseAction
         ];
 
         // 判断是否 可以插入数据
-        $flag = false;
+        $flag = true;
         foreach ($event as $row) {
-            if ($row['event_type'] != $eventType
-                || $row['event_info'] != $eventInfo
-                || $now - intval($row['create_time']) > 600) {
-                $flag = true;
+            if ($row['event_type'] == $eventType
+                && $row['event_info'] == $eventInfo
+                && $now - intval($row['create_time']) < 600) {
+                $flag = false;
                 break;
             }
         }
