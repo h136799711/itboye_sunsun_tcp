@@ -78,14 +78,14 @@ class WaterPumpDeviceEventAction extends BaseAction
                 }
             }
 
-            if (count($event) >= self::MAX_DELAY_COUNT) {
-                $result = $this->insertAll($event, $did);
-                Gateway::updateSession($client_id, ['_sql' => $result]);
-                $event = [];//清空
-            }
 
         } else {
             array_push($event, $data);
+        }
+
+        if (count($event) >= self::MAX_DELAY_COUNT) {
+            $result = $this->insertAll($event, $did);
+            $event = [];//清空
         }
 
         // 事件数量有所改变才更新
