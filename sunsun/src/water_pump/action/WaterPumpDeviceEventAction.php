@@ -24,7 +24,7 @@ class WaterPumpDeviceEventAction extends BaseAction
     /**
      * 最大延迟事件数量
      */
-    const MAX_DELAY_COUNT = 3;
+    const MAX_DELAY_COUNT = 2;
 
     public function deviceEventLog($did, $client_id, BaseDeviceEventClientReq $req)
     {
@@ -45,7 +45,7 @@ class WaterPumpDeviceEventAction extends BaseAction
     private function delayInsertDeviceEvent($did, $client_id, BaseDeviceEventClientReq $req)
     {
         $session = Gateway::getSession($client_id);
-        
+
         if (array_key_exists('event', $session)) {
             $event = $session['event'];
         } else {
@@ -97,7 +97,7 @@ class WaterPumpDeviceEventAction extends BaseAction
     {
         $dal = DeviceFacadeFactory::getDeviceEventDal($did);
         $cols = ["did", "event_type", "event_info", "create_time"];
-        $dal->insertAll($$list, $cols);
+        $dal->insertAll($list, $cols);
     }
 
 }

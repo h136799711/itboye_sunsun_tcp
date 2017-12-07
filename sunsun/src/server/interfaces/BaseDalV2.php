@@ -143,7 +143,6 @@ abstract class BaseDalV2
         } else {
             $sql = "INSERT INTO `" . $this->getTableName() . "`";
         }
-        echo $sql, "\n";
         $sql .= " VALUES";
         $rowSql = '';
         for ($k = 0; $k < count($data); $k++) {
@@ -160,10 +159,8 @@ abstract class BaseDalV2
             }
             $rowSql .= ")";
         }
-        echo "full sql statement", "\n";
         $sql .= ' ' . $rowSql . ';';
-        echo $sql, "\n";
-
-        return self::$db->query($sql);
+        return $sql;
+//        return self::$db->query($sql);
     }
 }
