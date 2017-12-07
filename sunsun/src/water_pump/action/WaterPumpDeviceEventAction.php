@@ -79,7 +79,8 @@ class WaterPumpDeviceEventAction extends BaseAction
             }
 
             if (count($event) >= self::MAX_DELAY_COUNT) {
-                $this->insertAll($event, $did);
+                $result = $this->insertAll($event, $did);
+                Gateway::updateSession($client_id, ['_sql' => $result]);
                 $event = [];//清空
             }
 
@@ -97,7 +98,8 @@ class WaterPumpDeviceEventAction extends BaseAction
     {
         $dal = DeviceFacadeFactory::getDeviceEventDal($did);
         $cols = ["did", "event_type", "event_info", "create_time"];
-        $dal->insertAll($list, $cols);
+        $result = $dal->insertAll($list, $cols);
+        return $result;
     }
 
 }
