@@ -24,6 +24,7 @@ if (!defined('SUNSUN_ENV')) {
 use GatewayWorker\Lib\Gateway;
 use sunsun\dal\DeviceTcpClientDal;
 use sunsun\decoder\SunsunTDS;
+use sunsun\helper\LogHelper;
 use sunsun\model\DeviceTcpClientModel;
 use sunsun\server\consts\SessionKeys;
 use sunsun\server\consts\SunsunDeviceConstant;
@@ -296,6 +297,12 @@ class Events
     private static function jsonError($client_id, $msg, $data = [])
     {
         if (!empty($msg)) {
+            // 记录错误日志
+            $session = Gateway::getSession($client_id);
+            if (!empty($session)) {
+                $msg = 'session:' . json_encode($session) . ',msg:' . json_encode($msg);
+            }
+            LogHelper::log(self::getDb(''), $client_id, $msg, 'error');
             Gateway::sendToClient($client_id, $msg);
         }
         self::closeChannel($client_id, $msg);
