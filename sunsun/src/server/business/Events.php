@@ -231,7 +231,7 @@ class Events
         $req = DeviceFacadeFactory::createLoginReq($did, $data);
         $dal = DeviceFacadeFactory::getDeviceDal($did);
         if ($dal == null) {
-            self::jsonError($client_id, 'did invalid' . $did . 'is not exists', []);
+            self::jsonError($client_id, 'did invalid' . $did . 'is not exists. origin_data ' . $originData, []);
             return null;
         }
         $result = $dal->getInfoByDid($did);
