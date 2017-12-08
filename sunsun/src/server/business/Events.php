@@ -236,7 +236,7 @@ class Events
         }
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {
-            self::jsonError($client_id, 'which did=' . $did . 'is not exists', []);
+            self::jsonError($client_id, 'which did=' . $did . 'is not exists. origin_data ' . $originData, []);
             return null;
         }
 
