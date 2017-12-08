@@ -295,6 +295,9 @@ class Events
      */
     private static function jsonError($client_id, $msg, $data = [])
     {
+        if (!empty($msg)) {
+            Gateway::sendToClient($client_id, $msg);
+        }
         self::closeChannel($client_id, $msg);
     }
 
