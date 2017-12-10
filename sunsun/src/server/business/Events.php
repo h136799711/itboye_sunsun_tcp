@@ -215,7 +215,8 @@ class Events
             return null;
         }
         if (!$result->isValid()) {
-            self::jsonError($client_id, 'the data format is invalid' . $message, []);
+            $ip = self::getClientIp();
+            self::jsonError($client_id, $ip . ' the data format is invalid' . $message, []);
             return null;
         }
         //{"reqType": "1","sn": "0","did": "10000001","ver": "V1.0","pwd": "gigw+DAcMITN4SuEe6JmkA=="}
