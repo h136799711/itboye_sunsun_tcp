@@ -40,10 +40,10 @@ class WaterPumpHbAction extends BaseAction
         if ($session && array_key_exists('hb_cnt', $session)) {
             $hbCnt = intval($session['hb_cnt']);
             if ($hbCnt < self::HB_COUNT_MAX) {
-                (DeviceFacadeFactory::getDeviceDal($did))->updateByDid($did, ['update_time' => time()]);
                 $hbCnt++;
             } else {
                 $hbCnt = 1;
+                (DeviceFacadeFactory::getDeviceDal($did))->updateByDid($did, ['update_time' => time()]);
             }
         }
 
