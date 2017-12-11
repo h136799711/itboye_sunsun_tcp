@@ -42,6 +42,8 @@ class WaterPumpHbAction extends BaseAction
             if ($hbCnt < self::HB_COUNT_MAX) {
                 (DeviceFacadeFactory::getDeviceDal($did))->updateByDid($did, ['update_time' => time()]);
                 $hbCnt++;
+            } else {
+                $hbCnt = 1;
             }
         }
 
