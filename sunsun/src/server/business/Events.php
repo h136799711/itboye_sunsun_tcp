@@ -305,6 +305,8 @@ class Events
             if (!empty($session)) {
                 $msg = 'session:' . json_encode($session) . ',msg:' . json_encode($msg);
             }
+            $ip = self::getClientIp();
+            $msg .= ', ip:' . $ip;
             LogHelper::log(self::getDb(''), $client_id, $msg, 'error');
             Gateway::sendToClient($client_id, $msg);
         }
