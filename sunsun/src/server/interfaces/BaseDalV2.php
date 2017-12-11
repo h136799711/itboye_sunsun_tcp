@@ -87,6 +87,19 @@ abstract class BaseDalV2
         return self::$db->update($this->tableName)->cols($entity)->where(" did= '$did' ")->query();
     }
 
+
+    public function updateByDidOnline($did, $step = false)
+    {
+        if ($step === false) {
+            $step = "`hb`";
+        }
+        $now = time();
+        $sql = "UPDATE `" . $this->tableName . "` SET `update_time` = " . $now . " ,  `online_time` = `online_time` + " . $step;
+        $sql .= " WHERE  `did`='$did'";
+        $row_count = self::$db->query($sql);
+        return $row_count;
+    }
+
     public function getInfoByDid($did)
     {
         return self::$db->select("`id`, `did`, `ver`, `pwd`, `last_login_time`, `hb`, `tcp_client_id`, `last_login_ip`, `create_time`, `update_time`")->from($this->tableName)->where(" did= '$did' ")->row();

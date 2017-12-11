@@ -18,26 +18,29 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Workerman\MySQL\Connection;
 
-class  Dal extends \sunsun\server\interfaces\BaseDalV2
-{
-}
+//
+//class  Dal extends \sunsun\server\interfaces\BaseDalV2
+//{
+//}
 
 $mysqlConn = new Connection("101.37.37.167", "3306", "sunsun", "poiuyTREWQ123456", "sunsun_xiaoli");
 
-$dal = new Dal($mysqlConn);
+//$dal = new Dal($mysqlConn);
 
 //$sql = "INSERT INTO `test` ( `test`)
 //values(1),( 2)";
 //
 //$result = $mysqlConn->query($sql);
-$dal->setTableName('sunsun_water_pump_device_event');
-$info = ['a' => 'b', 'c' => 'd'];
-$data = [
-    ['did' => 'test', 'event_type' => '1', 'event_info' => $info, 'create_time' => '1'],
-    ['did' => 'test1', 'event_type' => '1', 'event_info' => $info, 'create_time' => '1']
-];
-
-$result = $dal->insertAll($data, ["did", "event_type", "event_info", "create_time"]);
-
-
-var_dump($result);
+//$dal->setTableName('sunsun_water_pump_device_event');
+//$info = ['a' => 'b', 'c' => 'd'];
+//$data = [
+//    ['did' => 'test', 'event_type' => '1', 'event_info' => $info, 'create_time' => '1'],
+//    ['did' => 'test1', 'event_type' => '1', 'event_info' => $info, 'create_time' => '1']
+//];
+//
+//$result = $dal->insertAll($data, ["did", "event_type", "event_info", "create_time"]);
+//
+//
+//var_dump($result);
+$did = 'S06X0000000003';
+(new \sunsun\adt\dal\AdtDeviceDal($mysqlConn))->updateByDidOnline($did);
