@@ -18,16 +18,25 @@ class LogModel extends BaseModel
             'body' => $this->getBody(),
             'level' => $this->getLevel(),
             'type' => $this->getType(),
-            'ip' => $this->getIp()
+            'remote_ip' => $this->getRemoteIp(),
+            'remote_port' => $this->getRemotePort(),
+            'gateway_ip' => $this->getGatewayIp(),
+            'gateway_port' => $this->getGatewayPort()
         ];
     }
 
     public function __construct()
     {
-        $this->setIp('');
+        $this->setRemoteIp('');
+        $this->setRemotePort('');
+        $this->setGatewayIp('');
+        $this->setGatewayPort('');
     }
 
-    private $ip;
+    private $remoteIp;
+    private $remotePort;
+    private $gatewayIp;
+    private $gatewayPort;
     private $owner;
     private $body;
     private $level;
@@ -36,18 +45,67 @@ class LogModel extends BaseModel
     /**
      * @return mixed
      */
-    public function getIp()
+    public function getRemoteIp()
     {
-        return $this->ip;
+        return $this->remoteIp;
     }
 
     /**
-     * @param mixed $ip
+     * @param mixed $remoteIp
      */
-    public function setIp($ip)
+    public function setRemoteIp($remoteIp)
     {
-        $this->ip = $ip;
+        $this->remoteIp = $remoteIp;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getRemotePort()
+    {
+        return $this->remotePort;
+    }
+
+    /**
+     * @param mixed $remotePort
+     */
+    public function setRemotePort($remotePort)
+    {
+        $this->remotePort = $remotePort;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGatewayIp()
+    {
+        return $this->gatewayIp;
+    }
+
+    /**
+     * @param mixed $gatewayIp
+     */
+    public function setGatewayIp($gatewayIp)
+    {
+        $this->gatewayIp = $gatewayIp;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGatewayPort()
+    {
+        return $this->gatewayPort;
+    }
+
+    /**
+     * @param mixed $gatewayPort
+     */
+    public function setGatewayPort($gatewayPort)
+    {
+        $this->gatewayPort = $gatewayPort;
+    }
+
 
     /**
      * @return mixed

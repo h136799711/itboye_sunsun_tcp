@@ -23,13 +23,16 @@ class LogHelper
         self::log(null, $client_id, $message, $type);
     }
 
-    public static function log($db, $client_id, $message, $type = 'common', $ip = '')
+    public static function log($db, $client_id, $message, $type = 'common', $remoteIp = '', $remotePort = '', $gatewayIp = '', $gatewayPort = '')
     {
 
         if($type == 'error' || ((defined('SUNSUN_ENV') && SUNSUN_ENV == 'debug'))) {
             $dal = new LogDal($db);
             $model = new  LogModel();
-            $model->setIp($ip);
+            $model->setGatewayIp($gatewayIp);
+            $model->setGatewayPort($gatewayPort);
+            $model->setRemotePort($remotePort);
+            $model->setRemoteIp($remoteIp);
             $model->setBody(json_encode($message));
             $model->setCreateTime(time());
             $model->setType($type);

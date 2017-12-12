@@ -305,9 +305,11 @@ class Events
             if (!empty($session)) {
                 $msg = 'session:' . json_encode($session) . ',msg:' . json_encode($msg);
             }
-            $ip = self::getClientIp();
-            $port = self::getRemotePort();
-            LogHelper::log(self::getDb(''), $client_id, $msg, 'error', $ip . ':' . $port);
+            $remoteIp = self::getClientIp();
+            $remotePort = self::getRemotePort();
+            $gatewayPort = self::getGatewayPort();
+            $gatewayIp = self::getGatewayIp();
+            LogHelper::log(self::getDb(''), $client_id, $msg, 'error', $remoteIp, $remotePort, $gatewayIp, $gatewayPort);
             Gateway::sendToClient($client_id, $msg);
         }
         self::closeChannel($client_id, $msg);
@@ -328,6 +330,30 @@ class Events
     {
         if ($_SERVER && array_key_exists("REMOTE_PORT", $_SERVER)) {
             return $_SERVER['REMOTE_PORT'];
+        }
+        return "";
+    }
+
+    /**
+     * 获取当前网关监听的端口
+     * @return string
+     */
+    private static function getGatewayPort()
+    {
+        if ($_SERVER && array_key_exists("GATEWAY_PORT", $_SERVER)) {
+            return $_SERVER['GATEWAY_PORT'];
+        }
+        return "";
+    }
+
+    /**
+     * 获取当前网关ip
+     * @return string
+     */
+    private static function getGatewayIp()
+    {
+        if ($_SERVER && array_key_exists("GATEWAY_ADDR", $_SERVER)) {
+            return $_SERVER['GATEWAY_ADDR'];
         }
         return "";
     }
