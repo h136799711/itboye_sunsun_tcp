@@ -306,8 +306,8 @@ class Events
                 $msg = 'session:' . json_encode($session) . ',msg:' . json_encode($msg);
             }
             $ip = self::getClientIp();
-            $msg .= ', ip:' . $ip;
-            LogHelper::log(self::getDb(''), $client_id, $msg, 'error');
+            $port = self::getRemotePort();
+            LogHelper::log(self::getDb(''), $client_id, $msg, 'error', $ip . ':' . $port);
             Gateway::sendToClient($client_id, $msg);
         }
         self::closeChannel($client_id, $msg);
@@ -322,6 +322,14 @@ class Events
     {
         //3. tcp通道关闭
         Gateway::closeClient($client_id);
+    }
+
+    private static function getRemotePort()
+    {
+        if ($_SERVER && array_key_exists("REMOTE_PORT", $_SERVER)) {
+            return $_SERVER['REMOTE_PORT'];
+        }
+        return "";
     }
 
     /**

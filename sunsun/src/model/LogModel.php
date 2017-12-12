@@ -17,15 +17,37 @@ class LogModel extends BaseModel
             'owner' => $this->getOwner(),
             'body' => $this->getBody(),
             'level' => $this->getLevel(),
-            'type' => $this->getType()
+            'type' => $this->getType(),
+            'ip' => $this->getIp()
         ];
     }
 
+    public function __construct()
+    {
+        $this->setIp('');
+    }
 
+    private $ip;
     private $owner;
     private $body;
     private $level;
     private $type;
+
+    /**
+     * @return mixed
+     */
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
+    /**
+     * @param mixed $ip
+     */
+    public function setIp($ip)
+    {
+        $this->ip = $ip;
+    }
 
     /**
      * @return mixed
