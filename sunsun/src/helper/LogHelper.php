@@ -29,9 +29,9 @@ class LogHelper
         if($type == 'error' || ((defined('SUNSUN_ENV') && SUNSUN_ENV == 'debug'))) {
             $dal = new LogDal($db);
             $model = new  LogModel();
+            $model->setRemotePort($remotePort);
             $model->setGatewayIp($gatewayIp);
             $model->setGatewayPort($gatewayPort);
-            $model->setRemotePort($remotePort);
             $model->setRemoteIp($remoteIp);
             $model->setBody(json_encode($message));
             $model->setCreateTime(time());

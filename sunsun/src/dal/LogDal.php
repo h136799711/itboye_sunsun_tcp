@@ -16,12 +16,7 @@ class LogDal extends BaseDal
 
     public function insert(LogModel $do)
     {
-        self::$db->insert($this->tableName)->cols(array(
-            'owner' => $do->getOwner(),
-            'body' => $do->getBody(),
-            'level' => $do->getLevel(),
-            'type' => $do->getType(),
-            'create_time' => $do->getCreateTime()))->query();
+        self::$db->insert($this->tableName)->cols($do->toDataArray())->query();
     }
 
     public function clearAll()
