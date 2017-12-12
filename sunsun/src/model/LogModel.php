@@ -14,14 +14,15 @@ class LogModel extends BaseModel
     public function toDataArray()
     {
         return [
-            'owner' => $this->getOwner(),
             'body' => $this->getBody(),
+            'owner' => $this->getOwner(),
             'level' => $this->getLevel(),
             'type' => $this->getType(),
+            'create_time' => time(),
             'remote_ip' => $this->getRemoteIp(),
             'remote_port' => $this->getRemotePort(),
             'gateway_ip' => $this->getGatewayIp(),
-            'gateway_port' => $this->getGatewayPort()
+            'gateway_port' => $this->getGatewayPort(),
         ];
     }
 
