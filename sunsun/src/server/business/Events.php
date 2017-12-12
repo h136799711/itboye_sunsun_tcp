@@ -224,7 +224,7 @@ class Events
 
         $data = json_decode($originData, JSON_OBJECT_AS_ARRAY);
         if (!array_key_exists('did', $data) || empty($data[SessionKeys::DID])) {
-            self::jsonError($client_id, 'the did is need', []);
+            self::jsonError($client_id, serialize($originData) . 'the did is need', []);
             return null;
         }
         //2. Device 这里替换成具体设备的请求工厂类
