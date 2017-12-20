@@ -298,9 +298,9 @@ class Events
      */
     private static function jsonError($client_id, $msg, $data = [])
     {
+        $session = Gateway::getSession($client_id);
         if (!empty($msg)) {
             // 记录错误日志
-            $session = Gateway::getSession($client_id);
             if (!empty($session)) {
                 $msg = 'session:' . json_encode($session) . ',msg:' . json_encode($msg);
             }
@@ -309,9 +309,35 @@ class Events
             $gatewayPort = self::getGatewayPort();
             $gatewayIp = self::getGatewayIp();
             LogHelper::log(self::getDb(''), $client_id, $msg, 'error', $remoteIp, $remotePort, $gatewayIp, $gatewayPort);
-            Gateway::sendToClient($client_id, $msg);
+//            Gateway::sendToClient($client_id, $msg);
         }
-        self::closeChannel($client_id, $msg);
+
+        // 最近30分钟, 发生3次以上错误，才会断开
+        if (!empty($session)) {
+            if (!array_key_exists(SessionKeys::ERROR, $session)) {
+                $error = [];
+            } else {
+                $error = $session['_error'];
+            }
+
+            $newError = [];
+            $limit = time() - SunsunDeviceConstant::ERROR_LIMIT_LAST_TIME;
+            for ($i = 0; $i < count($error); $i++) {
+                if ($error[$i] > $limit) {
+                    array_push($newError, $error[$i]);
+                    break;
+                }
+            }
+
+            if (count($newError) + 1 > SunsunDeviceConstant::ERROR_LIMIT_COUNT) {
+                self::closeChannel($client_id, $msg);
+            }
+
+            array_push($newError, time());
+
+            Gateway::updateSession($client_id, [SessionKeys::ERROR => $error]);
+        }
+
     }
 
     /**

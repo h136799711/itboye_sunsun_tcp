@@ -37,4 +37,17 @@ class SunsunDeviceConstant
      *
      */
     const DEVICE_INFO_TIMER_INTERVAL = 4;
+
+    /**
+     * 统计最近时间以内的错误,单位: 秒
+     * 600 秒以内的
+     */
+    const ERROR_LIMIT_LAST_TIME = 600;
+
+    /**
+     * 统计ERROR_LIMIT_LAST_TIME指定时间以内的错误数量
+     * 2
+     */
+    const ERROR_LIMIT_COUNT = 2;
+
 }

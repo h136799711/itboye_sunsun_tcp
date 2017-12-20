@@ -16,4 +16,5 @@ class SessionKeys
     const LAST_ACTIVE_TIME = 'last_active_time';
     const LAST_GET_INFO = 'last_get_info';
     const IS_FIRST = 'is_first';
+    const ERROR = "_error";
 }
