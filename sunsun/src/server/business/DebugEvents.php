@@ -18,7 +18,7 @@ namespace sunsun\server\business;
 date_default_timezone_set("Etc/GMT");
 // 外部没有定义过则默认正式环境
 if (!defined('SUNSUN_ENV')) {
-    define("SUNSUN_ENV", "debug");//debug|production 模式
+    define("SUNSUN_ENV", "production");//debug|production 模式
 }
 
 use GatewayWorker\Lib\Gateway;
@@ -49,12 +49,6 @@ class DebugEvents
     public static $dbPool;
     private static $activeTime;//
 
-    /**
-     * TODO: 消息生产者 = 处理设备事件
-     * @var
-     */
-    public static $producer;
-
     public static function onWorkerStart(Worker $businessWorker)
     {
         self::$dbPool = DbPool::getInstance();
@@ -62,7 +56,6 @@ class DebugEvents
         if ($businessWorker->id == 0) {
             self::checkOfflineSession();
         }
-//        self::$producer = new EventProducer(new DefaultMQConfig());
     }
 
     /**
@@ -76,7 +69,7 @@ class DebugEvents
             $allSessions = Gateway::getAllClientSessions();
             $now = time();
             foreach ($allSessions as $client_id => $session) {
-
+                $last_active_time = 0;
                 if (array_key_exists(SessionKeys::LAST_ACTIVE_TIME, $session)) {
                     $last_active_time = $session[SessionKeys::LAST_ACTIVE_TIME];
                     if ($now - $last_active_time >= SunsunDeviceConstant::DEVICE_OFFLINE_TIME_INTERVAL) {
@@ -94,7 +87,7 @@ class DebugEvents
                     $did = $session[SessionKeys::DID];
                     $cnt = TransferClient::totalClientByGroup($did);
                     // 只有有设备连接的时候才调用获取设备信息
-                    if ($cnt > 0) {
+                    if ($cnt > 0 && $now - $last_active_time >= SunsunDeviceConstant::DEVICE_INFO_TIMER_INTERVAL) {
                         FactoryClient::getInfo($client_id, $did, $pwd);
                     }
 
@@ -129,14 +122,10 @@ class DebugEvents
         // 处理外部加载的指令
         self::acceptCommand($client_id);
         if (self::isLoginRequest()) {
-            DebugHelper::debug('[device login start]' . $client_id, $_SESSION);
-            self::log($client_id, '[login]' . serialize($message));
             //第一次请求
             $pwd = Password::getSecretKey(Password::TYPE_LOGIN, $client_id);
             $result = self::login($client_id, $message, $pwd);
         } else {
-            //其它请求
-            DebugHelper::debug('[device other message process]', $_SESSION);
             // 1. 获取密钥
             $result = Password::getSecretKey(Password::TYPE_OTHER, $client_id);
             if ($result === false) {
@@ -145,7 +134,6 @@ class DebugEvents
             }
             $pwd = $result[SessionKeys::PWD];
             $did = $result[SessionKeys::DID];
-            DebugHelper::debug('[device other message process]did=' . $did . 'pwd=' . $pwd, $_SESSION);
             $result = SunsunTDS::decode($message, $pwd);
             if (empty($result)) {
                 self::jsonError($client_id, 'fail decode the data ', []);
@@ -155,7 +143,6 @@ class DebugEvents
                 self::jsonError($client_id, 'the data format is invalid', []);
                 return;
             }
-            DebugHelper::debug('[device other message process]message=', $_SESSION);
             // 3. 处理业务逻辑
             $result = self::process($did, $client_id, $result->getTdsOriginData());
         }
@@ -168,12 +155,12 @@ class DebugEvents
 
         if (method_exists($result, "toDataArray")) {
             $data = $result->toDataArray();
-            DebugHelper::debug('[device other message process] response' . json_encode($data), $_SESSION);
             // 4. 加密数据
             $encodeData = SunsunTDS::encode($data, $pwd);
+
+            self::logInfo(serialize($data), false);
             self::jsonSuc($client_id, serialize($result), $encodeData);
         } else {
-            DebugHelper::debug('[device other message process] fail, result has not method toDataArray', $_SESSION);
             self::jsonError($client_id, 'fail', []);
         }
 
@@ -200,6 +187,8 @@ class DebugEvents
         }
     }
 
+    //============================帮助方法
+
     /**
      * 该次请求是否作为登录请求处理
      * @return bool
@@ -212,13 +201,6 @@ class DebugEvents
         return $_SESSION[SessionKeys::IS_FIRST] == 0;
     }
 
-    //============================帮助方法
-
-    public static function log($client_id, $message, $type = 'error')
-    {
-        LogHelper::log(self::$dbPool->getGlobalDb(), $client_id, $message, $type);
-    }
-
     /**
      * 设备登录
      * @param $client_id
@@ -228,45 +210,37 @@ class DebugEvents
      */
     private static function login($client_id, $message, &$pwd)
     {
-
-        DebugHelper::debug('[device login] start decode message', $_SESSION);
         $result = SunsunTDS::decode($message, $pwd);
         if ($result == null) {
-            DebugHelper::debug('[device login]  decode fail', $_SESSION);
+
             self::jsonError($client_id, 'decode fail', []);
             return null;
         }
         if (!$result->isValid()) {
-            DebugHelper::debug('[device login]  decode success but data invalid', $_SESSION);
-            self::jsonError($client_id, 'the data format is invalid' . $message, []);
+            self::jsonError($client_id, ' the data format is invalid' . $message, []);
             return null;
         }
-
         //{"reqType": "1","sn": "0","did": "10000001","ver": "V1.0","pwd": "gigw+DAcMITN4SuEe6JmkA=="}
         $originData = $result->getTdsOriginData();
-        self::log($client_id, '[login_origin_data]' . serialize($originData));
 
         $data = json_decode($originData, JSON_OBJECT_AS_ARRAY);
         if (!array_key_exists('did', $data) || empty($data[SessionKeys::DID])) {
-            DebugHelper::debug('[device login] did is missing', $_SESSION);
-            self::jsonError($client_id, 'the did is need', []);
+            self::jsonError($client_id, serialize($originData) . 'the did is need', []);
             return null;
         }
-        self::log($client_id, '[login_did]' . serialize($data));
         //2. Device 这里替换成具体设备的请求工厂类
         $did = $data[SessionKeys::DID];
         $req = DeviceFacadeFactory::createLoginReq($did, $data);
         $dal = DeviceFacadeFactory::getDeviceDal($did);
-
-        if (is_null($dal)) {
-            self::log($client_id, 'did=' . $did . serialize($data), 'empty_did');
-            self::jsonError($client_id, 'error did', []);
+        if ($dal == null) {
+            self::jsonError($client_id, 'did invalid' . $did . 'is not exists. origin_data ' . $originData, []);
             return null;
         }
+        // 1. 增加过滤\u0003
+        $did = str_replace("\u0003", "", $did);
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {
-            DebugHelper::debug('[device login] did[' . $did . '] is not exists', $_SESSION);
-            self::jsonError($client_id, 'which did=' . $did . 'is not exists', []);
+            self::jsonError($client_id, 'which did=' . $did . 'is not exists. origin_data ' . $originData, []);
             return null;
         }
 
@@ -275,9 +249,7 @@ class DebugEvents
         $hb = $result['hb'];//心跳周期（单位：秒）
         $originPwd = SunsunTDS::isLegalPwd($data[SessionKeys::PWD], $pwd);
         if (empty($originPwd)) {
-
-            DebugHelper::debug('[device login] the control password decode fail. encode pwd= ' . $data[SessionKeys::PWD] . ', key = ' . $pwd, $_SESSION);
-            self::jsonError($client_id, $data[SessionKeys::PWD] . 'the control password decode fail,key=' . $pwd, []);
+            self::jsonError($client_id, $data[SessionKeys::PWD] . 'the control password decode fail,key=' . $pwd . ' and origin_data ' . $originData, []);
             return null;
         }
 
@@ -299,6 +271,7 @@ class DebugEvents
             $entity['device_type'] = $type;
         }
         $dal->update($id, $entity);
+        self::logInfo("login success", $did);
         self::loginSuccess($client_id, $did);
         // 设置did,pwd
         $_SESSION[SessionKeys::DID] = $did;
@@ -316,9 +289,7 @@ class DebugEvents
         // 同一种类型的did，分配到同一个组，用于查询在线的设备，不同类型
         $group = substr($did, 0, 3);
         Gateway::joinGroup($client_id, $group);
-        $loginMsg = 'did= ' . $did . ',ip= ' . self::getClientIp();
-        // 发送登录设备信息到调试控制台
-        DebugHelper::logLoginDevice('DEVICE-LOGIN-SUCCESS ' . $loginMsg);
+
         return $resp;
     }
 
@@ -330,6 +301,19 @@ class DebugEvents
      */
     private static function jsonError($client_id, $msg, $data = [])
     {
+        if (!empty($msg)) {
+            // 记录错误日志
+            $session = Gateway::getSession($client_id);
+            if (!empty($session)) {
+                $msg = 'session:' . json_encode($session) . ',msg:' . json_encode($msg);
+            }
+            $remoteIp = self::getClientIp();
+            $remotePort = self::getRemotePort();
+            $gatewayPort = self::getGatewayPort();
+            $gatewayIp = self::getGatewayIp();
+            LogHelper::log(self::getDb(''), $client_id, $msg, 'error', $remoteIp, $remotePort, $gatewayIp, $gatewayPort);
+            Gateway::sendToClient($client_id, $msg);
+        }
         self::closeChannel($client_id, $msg);
     }
 
@@ -342,6 +326,38 @@ class DebugEvents
     {
         //3. tcp通道关闭
         Gateway::closeClient($client_id);
+    }
+
+    private static function getRemotePort()
+    {
+        if ($_SERVER && array_key_exists("REMOTE_PORT", $_SERVER)) {
+            return $_SERVER['REMOTE_PORT'];
+        }
+        return "";
+    }
+
+    /**
+     * 获取当前网关监听的端口
+     * @return string
+     */
+    private static function getGatewayPort()
+    {
+        if ($_SERVER && array_key_exists("GATEWAY_PORT", $_SERVER)) {
+            return $_SERVER['GATEWAY_PORT'];
+        }
+        return "";
+    }
+
+    /**
+     * 获取当前网关ip
+     * @return string
+     */
+    private static function getGatewayIp()
+    {
+        if ($_SERVER && array_key_exists("GATEWAY_ADDR", $_SERVER)) {
+            return $_SERVER['GATEWAY_ADDR'];
+        }
+        return "";
     }
 
     /**
@@ -387,7 +403,6 @@ class DebugEvents
         // 根据did 这里替换成具体设备的process类
         $action = DeviceFacadeFactory::createProcessAction($did);
         if ($action != null) {
-            DebugHelper::debug('[device process action]=' . get_class($action), $_SESSION);
             $resp = $action->process($did, $clientId, $jsonDecode);
             return $resp;
         }
@@ -416,10 +431,10 @@ class DebugEvents
             $session = Gateway::getSession($client_id);
             if (array_key_exists('did', $session)) {
                 $did = $session['did'];
-                return self::$dbPool->getDb($did);
+                return DbPool::getInstance()->getDb($did);
             }
         }
-        return self::$dbPool->getGlobalDb();
+        return DbPool::getInstance()->getGlobalDb();
     }
 
     /**
@@ -433,7 +448,7 @@ class DebugEvents
             $did = $session[SessionKeys::DID];
         }
         if (empty($did)) {
-            $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
+            $result = (new  DeviceTcpClientDal(DbPool::getInstance()->getGlobalDb()))->getInfoByClientId($client_id);
             if (is_array($result) && array_key_exists(SessionKeys::DID, $result)) {
                 $did = $result[SessionKeys::DID];
             }
@@ -442,6 +457,17 @@ class DebugEvents
             DeviceFacadeFactory::getDeviceDal($did)->logoutByClientId($client_id);
         }
         Gateway::closeClient($client_id);
+    }
+
+    private static function logInfo($msg, $did)
+    {
+        if (empty($did)) {
+            $did = $_SESSION[SessionKeys::DID];
+        }
+
+        if ($did === 'S02C0000002833') {
+            LogHelper::log(self::getDb(), $did, $msg, 'ONE_DEVICE');
+        }
     }
 
 }
