@@ -32,12 +32,8 @@ class SunsunTDS
     {
         $jsonData = json_encode($data);
         $encryptData = Des::encrypt($jsonData, $pwd);
-//        echo $encryptData.'--';
         $hexEncryptData = self::toHex($encryptData);
-//        for($i=0;$i < strlen($hexEncryptData) ;$i+=2){
-//            echo substr($hexEncryptData,$i,2).' ';
-//        }
-//        echo '--';
+
         $msgType = "0001";
         $hexDataLength = strlen($hexEncryptData);
         $dataLength = ($hexDataLength + 16) / 2;
@@ -49,9 +45,6 @@ class SunsunTDS
         //补4位
         $hexSum = str_pad(dechex($sum), 4, "0", STR_PAD_LEFT);
         $hexEncodeData .= $hexSum . $hexEncryptData;
-//        for($i=0;$i < strlen($hexEncodeData) ;$i+=2){
-//            echo substr($hexEncodeData,$i,2).' ';
-//        }
 
         return (self::toAscii($hexEncodeData));
     }

@@ -18,7 +18,7 @@ namespace sunsun\server\business;
 date_default_timezone_set("Etc/GMT");
 // 外部没有定义过则默认正式环境
 if (!defined('SUNSUN_ENV')) {
-    define("SUNSUN_ENV", "production");//debug|production 模式
+    define("SUNSUN_ENV", "debug");//debug|production 模式
 }
 
 use GatewayWorker\Lib\Gateway;
@@ -158,7 +158,8 @@ class DebugEvents
             // 4. 加密数据
             $encodeData = SunsunTDS::encode($data, $pwd);
 
-            self::logInfo(serialize($data), false);
+            self::logInfo(json_encode($data), false);
+            self::logInfo(json_encode($encodeData), false);
             self::jsonSuc($client_id, serialize($result), $encodeData);
         } else {
             self::jsonError($client_id, 'fail', []);
