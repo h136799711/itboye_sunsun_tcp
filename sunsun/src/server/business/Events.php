@@ -313,31 +313,32 @@ class Events
         }
 
         // 最近30分钟, 发生3次以上错误，才会断开
-        if (!empty($session)) {
-            if (!array_key_exists(SessionKeys::ERROR, $session)) {
-                $error = [];
-            } else {
-                $error = $session['_error'];
-            }
+//        if (!empty($session)) {
+//            if (!array_key_exists(SessionKeys::ERROR, $session)) {
+//                $error = [];
+//            } else {
+//                $error = $session['_error'];
+//            }
+//
+//            $newError = [];
+//            $limit = time() - SunsunDeviceConstant::ERROR_LIMIT_LAST_TIME;
+//            for ($i = 0; $i < count($error); $i++) {
+//                if ($error[$i] > $limit) {
+//                    array_push($newError, $error[$i]);
+//                    break;
+//                }
+//            }
+//
+//            if (count($newError) + 1 > SunsunDeviceConstant::ERROR_LIMIT_COUNT) {
+//                self::closeChannel($client_id, $msg);
+//            }
+//
+//            array_push($newError, time());
+//
+//            Gateway::updateSession($client_id, [SessionKeys::ERROR => $error]);
+//        }
 
-            $newError = [];
-            $limit = time() - SunsunDeviceConstant::ERROR_LIMIT_LAST_TIME;
-            for ($i = 0; $i < count($error); $i++) {
-                if ($error[$i] > $limit) {
-                    array_push($newError, $error[$i]);
-                    break;
-                }
-            }
-
-            if (count($newError) + 1 > SunsunDeviceConstant::ERROR_LIMIT_COUNT) {
-                self::closeChannel($client_id, $msg);
-            }
-
-            array_push($newError, time());
-
-            Gateway::updateSession($client_id, [SessionKeys::ERROR => $error]);
-        }
-
+        self::closeChannel($client_id, $msg);
     }
 
     /**
