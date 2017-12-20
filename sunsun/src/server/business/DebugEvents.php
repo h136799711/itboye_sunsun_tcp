@@ -155,6 +155,7 @@ class DebugEvents
 
         if (method_exists($result, "toDataArray")) {
             $data = $result->toDataArray();
+            $data = self::toStringData($data);
             // 4. 加密数据
             $encodeData = SunsunTDS::encode($data, $pwd);
 
@@ -166,6 +167,19 @@ class DebugEvents
         }
 
         return;
+    }
+
+    public static function toStringData($data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $key => &$value) {
+                $data[$key] = self::toStringData($value);
+            }
+        } elseif (!is_object($data) && !is_string($data)) {
+            return strval($data);
+        }
+
+        return $data;
     }
 
     /**
@@ -272,7 +286,7 @@ class DebugEvents
             $entity['device_type'] = $type;
         }
         $dal->update($id, $entity);
-        self::logInfo("login success", $did);
+
         self::loginSuccess($client_id, $did);
         // 设置did,pwd
         $_SESSION[SessionKeys::DID] = $did;
