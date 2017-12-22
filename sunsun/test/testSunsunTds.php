@@ -26,11 +26,15 @@ $str = "{\"resType\":\"101\",\"sn\":\"971\",\"state\":\"0\",\"tm\":\"20171222053
 
 $data = json_decode($str, JSON_OBJECT_AS_ARRAY);
 $data = toStringData($data);
-$pwd = "g7Z9vMKD";
+$pwd = "1234bcda";
+
 
 $encodeText = \sunsun\decoder\SunsunTDS::encode($data, $pwd);
 var_dump(serialize($encodeText));
 $encrypt = $encodeText;
+//$encrypt = "";
+
+//$encrypt = base64_decode($encrypt);
 $encodeText = \sunsun\decoder\SunsunTDS::decode($encrypt, $pwd);
 var_dump($encodeText->getTdsOriginData());
 

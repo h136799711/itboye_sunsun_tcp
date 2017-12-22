@@ -25,7 +25,7 @@ $worker->name = 'heating_rod_worker';
 // bussinessWorker进程数量
 $worker->count = 4;
 // 设置业务处理类
-$worker->eventHandler = "\sunsun\server\business\DebugEvents";
+$worker->eventHandler = "\sunsun\server\business\Events";
 // 服务注册地址
 $worker->registerAddress = '127.0.0.1:1239';
 // 进程启动时设置一个定时器，定时向所有客户端连接发送数据
