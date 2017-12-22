@@ -23,9 +23,11 @@ if (!defined('SUNSUN_ENV')) {
 
 use GatewayWorker\Lib\Gateway;
 use sunsun\dal\DeviceTcpClientDal;
+use sunsun\dal\LogDal;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\LogHelper;
 use sunsun\model\DeviceTcpClientModel;
+use sunsun\model\LogModel;
 use sunsun\server\consts\SessionKeys;
 use sunsun\server\consts\SunsunDeviceConstant;
 use sunsun\server\db\DbPool;
@@ -481,7 +483,18 @@ class DebugEvents
         }
 
         if ($did === 'S02C0000002833') {
-            LogHelper::log(self::getDb(), $did, $msg, 'ONE_DEVICE');
+            $dal = new LogDal(self::getDb());
+            $model = new  LogModel();
+            $model->setRemotePort(self::getRemotePort());
+            $model->setGatewayIp(self::getGatewayIp());
+            $model->setGatewayPort(self::getGatewayPort());
+            $model->setRemoteIp(self::getClientIp());
+            $model->setBody($msg);
+            $model->setCreateTime(time());
+            $model->setType("S02C0000002833");
+            $model->setLevel(1);
+            $model->setOwner($did);
+            $dal->insert($model);
         }
     }
 
