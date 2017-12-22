@@ -157,7 +157,7 @@ class DebugEvents
 
         if (method_exists($result, "toDataArray")) {
             $data = $result->toDataArray();
-            $data = self::toStringData($data);
+//            $data = self::toStringData($data);
             // 4. 加密数据
             $encodeData = SunsunTDS::encode($data, $pwd);
 
