@@ -236,6 +236,7 @@ class Events
         }
         // 1. 增加过滤\u0003
         $did = str_replace("\u0003", "", $did);
+        $did = str_replace("\\u0003", "", $did);
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {
             self::jsonError($client_id, 'which did=' . $did . 'is not exists. origin_data ' . $originData, []);
