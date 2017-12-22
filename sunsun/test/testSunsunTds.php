@@ -22,22 +22,17 @@ function toStringData($data)
     return $data;
 }
 
-$str = "{\"resType\":101,\"sn\":352,\"state\":0,\"tm\":\"20171220073250\",\"hb\":120}";
-$data = [
-    'resType' => 101,
-    "sn" => 352,
-    "state" => 0,
-    "tm" => "20171220073250",
-    "hb" => 120
-];
+$str = "{\"resType\":\"101\",\"sn\":\"971\",\"state\":\"0\",\"tm\":\"20171222053120\",\"hb\":\"120\"}";
+
+$data = json_decode($str, JSON_OBJECT_AS_ARRAY);
 $data = toStringData($data);
 $pwd = "g7Z9vMKD";
 
 $encodeText = \sunsun\decoder\SunsunTDS::encode($data, $pwd);
-echo(json_encode($encodeText));
+var_dump(serialize($encodeText));
 $encrypt = $encodeText;
 $encodeText = \sunsun\decoder\SunsunTDS::decode($encrypt, $pwd);
-var_dump($encodeText);
+var_dump($encodeText->getTdsOriginData());
 
 //
 //$data = [
