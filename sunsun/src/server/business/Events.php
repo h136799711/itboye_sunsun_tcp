@@ -346,6 +346,7 @@ class Events
      * 关闭
      * @param $client_id
      * @param $closeMsg
+     * @throws \Exception
      */
     private static function closeChannel($client_id, $closeMsg = '')
     {
@@ -479,6 +480,7 @@ class Events
             }
         }
         if (!empty($did)) {
+            (new  DeviceTcpClientDal(DbPool::getInstance()->getGlobalDb()))->logoutByClientId($client_id);
             DeviceFacadeFactory::getDeviceDal($did)->logoutByClientId($client_id);
         }
         Gateway::closeClient($client_id);
