@@ -471,6 +471,7 @@ class DebugEvents
             }
         }
         if (!empty($did)) {
+            (new  DeviceTcpClientDal(DbPool::getInstance()->getGlobalDb()))->logoutByClientId($client_id);
             DeviceFacadeFactory::getDeviceDal($did)->logoutByClientId($client_id);
         }
         Gateway::closeClient($client_id);
