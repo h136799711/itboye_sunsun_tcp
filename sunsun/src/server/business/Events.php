@@ -119,6 +119,7 @@ class Events
             return;
         }
         self::$activeTime = time();
+        $_SESSION[SessionKeys::LAST_ACTIVE_TIME] = self::$activeTime;
         // 处理外部加载的指令
         self::acceptCommand($client_id);
         if (self::isLoginRequest()) {
@@ -424,7 +425,6 @@ class Events
 
     private static function process($did, $clientId, $originData)
     {
-        $_SESSION[SessionKeys::LAST_ACTIVE_TIME] = self::$activeTime;
         $jsonDecode = json_decode($originData, JSON_OBJECT_AS_ARRAY);
         // 根据did 这里替换成具体设备的process类
         $action = DeviceFacadeFactory::createProcessAction($did);
