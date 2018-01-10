@@ -161,8 +161,8 @@ class Events
             // 4. 加密数据
             $encodeData = SunsunTDS::encode($data, $pwd);
 
-            self::logInfo(serialize($data), false);
-            self::logInfo(json_encode($encodeData), false);
+            self::logInfo(json_encode($data), false);
+            self::logInfo(serialize($encodeData), false);
             self::jsonSuc($client_id, serialize($result), $encodeData);
         } else {
             self::jsonError($client_id, 'fail', []);
