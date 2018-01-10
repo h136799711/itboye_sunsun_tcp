@@ -23,9 +23,11 @@ if (!defined('SUNSUN_ENV')) {
 
 use GatewayWorker\Lib\Gateway;
 use sunsun\dal\DeviceTcpClientDal;
+use sunsun\dal\LogDal;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\LogHelper;
 use sunsun\model\DeviceTcpClientModel;
+use sunsun\model\LogModel;
 use sunsun\server\consts\SessionKeys;
 use sunsun\server\consts\SunsunDeviceConstant;
 use sunsun\server\db\DbPool;
@@ -158,6 +160,9 @@ class Events
             $data = $result->toDataArray();
             // 4. 加密数据
             $encodeData = SunsunTDS::encode($data, $pwd);
+
+            self::logInfo(serialize($data), false);
+            self::logInfo(json_encode($encodeData), false);
             self::jsonSuc($client_id, serialize($result), $encodeData);
         } else {
             self::jsonError($client_id, 'fail', []);
@@ -466,6 +471,7 @@ class Events
     /**
      * 当客户端断开连接时触发
      * @param int $client_id 连接id
+     * @throws \Exception
      */
     public static function onClose($client_id)
     {
@@ -484,6 +490,29 @@ class Events
             DeviceFacadeFactory::getDeviceDal($did)->logoutByClientId($client_id);
         }
         Gateway::closeClient($client_id);
+    }
+
+
+    private static function logInfo($msg, $did)
+    {
+        if (empty($did)) {
+            $did = $_SESSION[SessionKeys::DID];
+        }
+
+        if ($did === 'S037C0000000154') {
+            $dal = new LogDal(self::getDb());
+            $model = new  LogModel();
+            $model->setType("S037C0000000154");
+            $model->setRemotePort(self::getRemotePort());
+            $model->setGatewayIp(self::getGatewayIp());
+            $model->setGatewayPort(self::getGatewayPort());
+            $model->setRemoteIp(self::getClientIp());
+            $model->setBody($msg);
+            $model->setCreateTime(time());
+            $model->setLevel(1);
+            $model->setOwner($did);
+            $dal->insert($model);
+        }
     }
 
 }
