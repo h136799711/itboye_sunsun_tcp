@@ -52,6 +52,15 @@ class WaterPumpCtrlDeviceReq extends BaseControlDeviceServerReq
         if (!is_null($this->getWh())) {
             $data['wh'] = $this->getWh();
         }
+        if (!is_null($this->getWg())) {
+            $data['wg'] = $this->getWg();
+        }
+        if (!is_null($this->getWc())) {
+            $data['wc'] = $this->getWc();
+        }
+        if (!is_null($this->getWe())) {
+            $data['we'] = $this->getWe();
+        }
 
         return $data;
     }
@@ -65,8 +74,15 @@ class WaterPumpCtrlDeviceReq extends BaseControlDeviceServerReq
         array_key_exists("state", $data) && $this->setState($data['state']);
         array_key_exists("fcd", $data) && $this->setFcd($data['fcd']);
         array_key_exists("wh", $data) && $this->setWh($data['wh']);
+        array_key_exists("wg", $data) && $this->setWg($data['wg']);
+        array_key_exists("we", $data) && $this->setWe($data['we']);
+        array_key_exists("wc", $data) && $this->setWc($data['wc']);
     }
 
+    // 新增3个 造浪 2018-01-15
+    private $wg;
+    private $we;
+    private $wc;
 
     private $devLock;
     private $gear;
@@ -75,6 +91,54 @@ class WaterPumpCtrlDeviceReq extends BaseControlDeviceServerReq
     private $state;
     private $fcd;
     private $wh;
+
+    /**
+     * @return mixed
+     */
+    public function getWg()
+    {
+        return $this->wg;
+    }
+
+    /**
+     * @param mixed $wg
+     */
+    public function setWg($wg)
+    {
+        $this->wg = $wg;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWe()
+    {
+        return $this->we;
+    }
+
+    /**
+     * @param mixed $we
+     */
+    public function setWe($we)
+    {
+        $this->we = $we;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWc()
+    {
+        return $this->wc;
+    }
+
+    /**
+     * @param mixed $wc
+     */
+    public function setWc($wc)
+    {
+        $this->wc = $wc;
+    }
 
     /**
      * @return mixed

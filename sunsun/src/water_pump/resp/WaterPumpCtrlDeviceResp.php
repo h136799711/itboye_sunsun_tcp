@@ -63,6 +63,15 @@ class WaterPumpCtrlDeviceResp extends BaseControlDeviceClientResp implements ToD
         if (!is_null($this->getFault())) {
             $data['fault'] = $this->getFault();
         }
+        if (!is_null($this->getWg())) {
+            $data['wg'] = $this->getWg();
+        }
+        if (!is_null($this->getWc())) {
+            $data['wc'] = $this->getWc();
+        }
+        if (!is_null($this->getWe())) {
+            $data['we'] = $this->getWe();
+        }
 
         return $data;
     }
@@ -90,7 +99,10 @@ class WaterPumpCtrlDeviceResp extends BaseControlDeviceClientResp implements ToD
             'state'=>$this->getState(),
             'fault'=>$this->getFault(),
             'fcd'=>$this->getFcd(),
-            'wh'=>$this->getWh()
+            'wh' => $this->getWh(),
+            'wg' => $this->getWg(),
+            'wc' => $this->getWc(),
+            'we' => $this->getWe()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;
@@ -108,6 +120,9 @@ class WaterPumpCtrlDeviceResp extends BaseControlDeviceClientResp implements ToD
         return "";
     }
 
+    private $wg;
+    private $we;
+    private $wc;
 
     private $devLock;
     private $updState;
@@ -121,6 +136,54 @@ class WaterPumpCtrlDeviceResp extends BaseControlDeviceClientResp implements ToD
     private $fault;
     private $fcd;
     private $wh;
+
+    /**
+     * @return mixed
+     */
+    public function getWg()
+    {
+        return $this->wg;
+    }
+
+    /**
+     * @param mixed $wg
+     */
+    public function setWg($wg)
+    {
+        $this->wg = $wg;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWe()
+    {
+        return $this->we;
+    }
+
+    /**
+     * @param mixed $we
+     */
+    public function setWe($we)
+    {
+        $this->we = $we;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWc()
+    {
+        return $this->wc;
+    }
+
+    /**
+     * @param mixed $wc
+     */
+    public function setWc($wc)
+    {
+        $this->wc = $wc;
+    }
 
     /**
      * @return mixed
