@@ -511,7 +511,7 @@ class Events
             $model->setCreateTime(time());
             $model->setLevel(1);
             $model->setOwner($did);
-            $dal->insert($model);
+            //$dal->insert($model);
         }
     }
 
