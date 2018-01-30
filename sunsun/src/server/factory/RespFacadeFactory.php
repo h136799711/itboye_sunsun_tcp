@@ -11,6 +11,7 @@ namespace sunsun\server\factory;
 
 use sunsun\adt\resp\AdtRespFactory;
 use sunsun\aph300\resp\Aph300RespFactory;
+use sunsun\aq118\resp\Aq118RespFactory;
 use sunsun\aq806\resp\Aq806RespFactory;
 use sunsun\cp1000\resp\Cp1000RespFactory;
 use sunsun\filter_vat\resp\FilterVatRespFactory;
@@ -103,6 +104,9 @@ class RespFacadeFactory
                 break;
             case DeviceType::Did_FilterVat:
                 $factory = new FilterVatRespFactory();
+                break;
+            case DeviceType::Did_AQ118:
+                $factory = new Aq118RespFactory();
                 break;
             default:
                 break;

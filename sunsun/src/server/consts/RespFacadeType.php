@@ -11,6 +11,7 @@ namespace sunsun\server\consts;
 
 use sunsun\adt\resp\AdtRespType;
 use sunsun\aph300\resp\Aph300RespType;
+use sunsun\aq118\resp\Aq118RespType;
 use sunsun\aq806\resp\Aq806RespType;
 use sunsun\cp1000\resp\Cp1000RespType;
 use sunsun\filter_vat\resp\FilterVatRespType;
@@ -114,6 +115,14 @@ class RespFacadeType
         $this->deviceArr[DeviceType::Did_CP1000][self::FIRMWARE_UPDATE] = Cp1000RespType::FirmwareUpdate;
         $this->deviceArr[DeviceType::Did_CP1000][self::CONTROL] = Cp1000RespType::Control;
         $this->deviceArr[DeviceType::Did_CP1000][self::EVENT] = Cp1000RespType::Event;
+        // aq118 S08
+        $this->deviceArr[DeviceType::Did_AQ118] = [];
+        $this->deviceArr[DeviceType::Did_AQ118][self::LOGIN] = Aq118RespType::Login;
+        $this->deviceArr[DeviceType::Did_AQ118][self::HEART_BEAT] = Aq118RespType::Heartbeat;
+        $this->deviceArr[DeviceType::Did_AQ118][self::DEVICE_INFO] = Aq118RespType::DeviceInfo;
+        $this->deviceArr[DeviceType::Did_AQ118][self::FIRMWARE_UPDATE] = Aq118RespType::FirmwareUpdate;
+        $this->deviceArr[DeviceType::Did_AQ118][self::CONTROL] = Aq118RespType::Control;
+        $this->deviceArr[DeviceType::Did_AQ118][self::EVENT] = Aq118RespType::Event;
 
     }
 }

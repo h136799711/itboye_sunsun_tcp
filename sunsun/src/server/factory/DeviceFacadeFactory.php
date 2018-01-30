@@ -19,6 +19,11 @@ use sunsun\aph300\dal\Aph300DeviceDal;
 use sunsun\aph300\dal\Aph300DeviceEventDal;
 use sunsun\aph300\req\Aph300ReqFactory;
 use sunsun\aph300\req\Aph300ReqType;
+use sunsun\aq118\action\Aq118ProcessAction;
+use sunsun\aq118\dal\Aq118DeviceDal;
+use sunsun\aq118\dal\Aq118DeviceEventDal;
+use sunsun\aq118\req\Aq118ReqFactory;
+use sunsun\aq118\req\Aq118ReqType;
 use sunsun\aq806\action\Aq806ProcessAction;
 use sunsun\aq806\dal\Aq806DeviceDal;
 use sunsun\aq806\dal\Aq806DeviceEventDal;
@@ -90,6 +95,9 @@ class DeviceFacadeFactory
             case DeviceType::Did_CP1000:
                 $logic = new Cp1000DeviceEventDal();
                 break;
+            case DeviceType::Did_AQ118:
+                $logic = new Aq118DeviceEventDal();
+                break;
             default:
                 break;
         }
@@ -125,6 +133,9 @@ class DeviceFacadeFactory
                 break;
             case DeviceType::Did_CP1000:
                 $logic = new Cp1000DeviceDal();
+                break;
+            case DeviceType::Did_AQ118:
+                $logic = new Aq118DeviceDal();
                 break;
             default:break;
         }
@@ -171,6 +182,9 @@ class DeviceFacadeFactory
             case DeviceType::Did_CP1000:
                 $req = Cp1000ReqFactory::create(Cp1000ReqType::Login, $data);
                 break;
+            case DeviceType::Did_AQ118:
+                $req = Aq118ReqFactory::create(Aq118ReqType::Login, $data);
+                break;
             default:break;
         }
         return $req;
@@ -205,6 +219,9 @@ class DeviceFacadeFactory
                 break;
             case DeviceType::Did_CP1000:
                 $action = new Cp1000ProcessAction();
+                break;
+            case DeviceType::Did_AQ118:
+                $action = new Aq118ProcessAction();
                 break;
             default:break;
         }

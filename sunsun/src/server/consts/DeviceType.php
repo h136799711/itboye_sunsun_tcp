@@ -12,6 +12,7 @@ class DeviceType
 {
     // 【S01: 过滤桶】 【S02:加热棒】 【S03:森森806】 【S04:APH-300】 【S05:变频水泵】 【S06:ADT】
     // 【S07: CP1000水泵】
+    // 【S08: aq118】
     const Did_FilterVat = 'S01';
     const Did_HeatingRod = 'S02';
     const Did_AQ806 = 'S03';
@@ -19,6 +20,7 @@ class DeviceType
     const Did_WaterPump = 'S05';
     const Did_ADT = 'S06';
     const Did_CP1000 = 'S07';
+    const Did_AQ118 = 'S08';
     const Did_Unknown= 'XXX';
 
     public static function getDeviceType($did){
@@ -44,6 +46,9 @@ class DeviceType
                 break;
             case DeviceType::Did_CP1000:
                 return DeviceType::Did_CP1000;
+                break;
+            case DeviceType::Did_AQ118:
+                return DeviceType::Did_AQ118;
                 break;
             default:
                 return DeviceType::Did_Unknown;
