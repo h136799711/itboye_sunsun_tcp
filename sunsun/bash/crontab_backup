@@ -1,0 +1,12 @@
+# event trigger
+*/1 * * * *  /home/git/monitor_heating_event.sh
+*/1 * * * * /home/git/monitor_aq806_event.sh
+*/1 * * * * /home/git/monitor_aph300_event.sh
+*/1 * * * * /home/git/monitor_cp1000_event.sh
+*/1 * * * * /home/git/monitor_filter_event.sh
+*/1 * * * * /home/git/monitor_water_event.sh
+*/1 * * * * /home/git/monitor_adt_event.sh
+# 
+*/30 * * * * /home/git/ip2loc.sh
+# offline notify
+*/5 * * * * /home/git/offline_notify.sh
