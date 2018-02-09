@@ -9,11 +9,13 @@
 namespace sunsun\server\interfaces;
 
 use GatewayWorker\Lib\Gateway;
+use sunsun\dal\DeviceTcpClientDal;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\DevToServerDelayHelper;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
 use sunsun\server\consts\SunsunDeviceConstant;
+use sunsun\server\db\DbPool;
 use sunsun\server\factory\DeviceFacadeFactory;
 use sunsun\server\factory\RespFacadeFactory;
 use sunsun\server\model\BaseDeviceEventModel;
@@ -203,6 +205,10 @@ abstract class BaseAction
         ];
 
         $ret = $dal->updateByDid($did, $entity);
+        // 更新时间
+        $tcpClientDal = new DeviceTcpClientDal(DbPool::getInstance()->getGlobalDb());
+
+        $tcpClientDal->updateByDid($did, ['tcp_client_id' => $clientId, 'prev_login_time' => $time]);
 
         $resp->setLoginSuccess();
 
