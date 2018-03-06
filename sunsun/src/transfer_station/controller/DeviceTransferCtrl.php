@@ -70,7 +70,7 @@ class DeviceTransferCtrl implements DeviceClientInterface
             }
         }
         // TODO token暂时不用
-        if (empty($did) || empty($token) || empty($uid)){
+        if (empty($did) || empty($token)) {
             return ResultHelper::fail('did|token|uid invalid');
         }
         // client_id 加入到 did
