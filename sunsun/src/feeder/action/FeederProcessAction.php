@@ -11,10 +11,8 @@ namespace sunsun\feeder\action;
 
 use sunsun\feeder\req\FeederReqFactory;
 use sunsun\feeder\req\FeederReqType;
-use sunsun\feeder\resp\FeederHbResp;
 use sunsun\feeder\resp\FeederRespFactory;
 use sunsun\feeder\resp\FeederRespType;
-use sunsun\feeder\resp\FeederUnknownResp;
 use sunsun\helper\LogHelper;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
@@ -55,7 +53,7 @@ class FeederProcessAction
      * @param $did
      * @param $clientId
      * @param $jsonData
-     * @return null|\sunsun\feeder\resp\FeederDeviceEventResp|FeederHbResp|FeederUnknownResp
+     * @return null|\sunsun\feeder\resp\FeederHbResp
      */
     private function request($did, $clientId, $jsonData)
     {
@@ -90,7 +88,8 @@ class FeederProcessAction
      * @param $did
      * @param $clientId
      * @param $jsonData
-     * @return FeederHbResp
+     * @return null|\sunsun\feeder\resp\FeederHbResp
+     * @throws \Exception
      */
     private function response($did, $clientId, $jsonData)
     {

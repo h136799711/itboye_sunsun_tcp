@@ -18,7 +18,7 @@ class FeederBaseDal extends BaseDalV2
     public function __construct($db = null)
     {
         if ($db == null) {
-            $db = DbPool::getInstance()->getDbByType(DeviceType::Did_CP1000);
+            $db = DbPool::getInstance()->getDbByType(DeviceType::Did_Feeder);
         }
         parent::__construct($db);
     }

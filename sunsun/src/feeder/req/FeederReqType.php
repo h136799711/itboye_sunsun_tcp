@@ -6,38 +6,38 @@
  * Time: 17:56
  */
 
-namespace sunsun\feeder\resp;
+namespace sunsun\feeder\req;
 
 
-class FeederRespType
+class FeederReqType
 {
     /**
      * 登录
      */
-    const Login = 601;
+    const Login = 901;
 
     /**
      * 心跳包
      */
-    const Heartbeat = 602;
+    const Heartbeat = 902;
 
     /**
      * 设备信息
      */
-    const DeviceInfo = 603;
+    const DeviceInfo = 903;
 
     /**
      * 设置请求
      */
-    const Control = 604;
+    const Control = 904;
 
     /**
      * 推送请求
      */
-    const Event = 605;
+    const Event = 905;
 
     /**
      *  固件更新
      */
-    const FirmwareUpdate = 606;
+    const FirmwareUpdate = 906;
 }
