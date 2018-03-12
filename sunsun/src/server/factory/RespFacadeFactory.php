@@ -14,6 +14,7 @@ use sunsun\aph300\resp\Aph300RespFactory;
 use sunsun\aq118\resp\Aq118RespFactory;
 use sunsun\aq806\resp\Aq806RespFactory;
 use sunsun\cp1000\resp\Cp1000RespFactory;
+use sunsun\feeder\resp\FeederRespFactory;
 use sunsun\filter_vat\resp\FilterVatRespFactory;
 use sunsun\heating_rod\resp\HeatingRodRespFactory;
 use sunsun\server\consts\DeviceType;
@@ -107,6 +108,9 @@ class RespFacadeFactory
                 break;
             case DeviceType::Did_AQ118:
                 $factory = new Aq118RespFactory();
+                break;
+            case DeviceType::Did_Feeder:
+                $factory = new FeederRespFactory();
                 break;
             default:
                 break;

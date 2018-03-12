@@ -69,6 +69,12 @@ class DbPool
                 break;
             case DeviceType::Did_ADT:
                 break;
+            case DeviceType::Did_CP1000:
+                break;
+            case DeviceType::Did_AQ118:
+                break;
+            case DeviceType::Did_Feeder:
+                break;
             default:
                 break;
         }
