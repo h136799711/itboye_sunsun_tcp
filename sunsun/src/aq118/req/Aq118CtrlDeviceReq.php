@@ -20,6 +20,7 @@ class Aq118CtrlDeviceReq extends BaseControlDeviceServerReq
 
     private $devLock;
     private $dCyc;
+    private $tCfg;
 
     public function __construct($data = null)
     {
@@ -40,9 +41,30 @@ class Aq118CtrlDeviceReq extends BaseControlDeviceServerReq
         if (!is_null($this->getDCyc())) {
             $data['d_cyc'] = $this->getDCyc();
         }
+        if (!is_null($this->getTCfg())) {
+            $data['t_cfg'] = $this->getTCfg();
+        }
 
         return $data;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTCfg()
+    {
+        return $this->tCfg;
+    }
+
+    /**
+     * @param mixed $tCfg
+     */
+    public function setTCfg($tCfg)
+    {
+        $this->tCfg = $tCfg;
+    }
+
+
 
     /**
      * @return mixed
@@ -80,6 +102,7 @@ class Aq118CtrlDeviceReq extends BaseControlDeviceServerReq
     {
         array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
         array_key_exists("d_cyc", $data) && $this->setDCyc($data['d_cyc']);
+        array_key_exists("t_cfg", $data) && $this->setTCfg($data['t_cfg']);
 
     }
 

@@ -210,6 +210,9 @@ abstract class BaseAction
 
         $tcpClientDal->updateByDid($did, ['tcp_client_id' => $clientId, 'prev_login_time' => $time]);
 
+        $dal = new DeviceTcpClientDal(DbPool::getInstance()->getGlobalDb());
+        $dal->updateByDid($did, ['prev_login_time' => $time]);
+
         $resp->setLoginSuccess();
 
         return $resp;

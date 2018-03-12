@@ -21,6 +21,7 @@ class DeviceType
     const Did_ADT = 'S06';
     const Did_CP1000 = 'S07';
     const Did_AQ118 = 'S08';
+    const Did_Feeder = 'S09';
     const Did_Unknown= 'XXX';
 
     public static function getDeviceType($did){
@@ -49,6 +50,9 @@ class DeviceType
                 break;
             case DeviceType::Did_AQ118:
                 return DeviceType::Did_AQ118;
+                break;
+            case DeviceType::Did_Feeder:
+                return DeviceType::Did_Feeder;
                 break;
             default:
                 return DeviceType::Did_Unknown;

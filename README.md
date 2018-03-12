@@ -23,13 +23,5 @@ sunsunxiaoli.com
 
 # 分布式下的数据库操作问题
 1. 考虑Events中调用AsyncTcpConnection 发送数据并接收结果
-
-~~## -1. SERVER 统一设备服务【已停用】~~   
-~~### 采用同一个register服务，不同设备开放不同端口~~   
-~~### 目前只有变频水泵接入了该服务~~   
-~~register服务使用端口: 1212~~   
-~~gateway开放外部链接端口：8290~~   
-~~gateway内部服务端口 4700 - 4708~~   
-~~### 变频水泵 all_water_pump_gateway【已停用】~~   
-~~gateway开放外部链接端口：8286~~   
-~~gateway内部服务端口 4730 - 4734~~   
+最大端口 1245
+8290
