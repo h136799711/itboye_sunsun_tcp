@@ -51,7 +51,7 @@ class WaterPumpCtrlDeviceResp extends BaseControlDeviceClientResp implements ToD
         if (!is_null($this->getCfg())) {
             $data['cfg'] = $this->getCfg();
         }
-        if (!is_null($this->getType())) {
+        if (!empty($this->getType())) {
             $data['device_type'] = $this->getType();
         }
         if (!is_null($this->getState())) {

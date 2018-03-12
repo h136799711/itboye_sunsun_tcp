@@ -53,7 +53,8 @@ class WaterPumpDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEn
         if (!is_null($this->getCfg())) {
             $data['cfg'] = $this->getCfg();
         }
-        if (!is_null($this->getType())) {
+
+        if (!empty($this->getType())) {
             $data['device_type'] = $this->getType();
         }
         if (!is_null($this->getState())) {
@@ -105,6 +106,7 @@ class WaterPumpDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEn
         array_key_exists("wg", $data) && $this->setWg($data['wg']);
         array_key_exists("we", $data) && $this->setWe($data['we']);
         array_key_exists("wc", $data) && $this->setWc($data['wc']);
+        array_key_exists("type", $data) && $this->setType($data['type']);
 
     }
 
