@@ -59,6 +59,9 @@ class FeederDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntit
         }
         if (!is_null($this->getFp())) {
             $data['fp'] = $this->getFp();
+            if (is_array($data['fp'])) {
+                $data['fp'] = json_encode($data['fp']);
+            }
         }
         if (!is_null($this->getFc())) {
             $data['fc'] = $this->getFc();
