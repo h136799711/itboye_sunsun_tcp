@@ -483,7 +483,7 @@ class DebugEvents
             $did = $_SESSION[SessionKeys::DID];
         }
 
-        if ($did === 'S02C0000002833') {
+//        if ($did === 'S09X0000002833') {
             $dal = new LogDal(self::getDb());
             $model = new  LogModel();
             $model->setRemotePort(self::getRemotePort());
@@ -492,11 +492,11 @@ class DebugEvents
             $model->setRemoteIp(self::getClientIp());
             $model->setBody($msg);
             $model->setCreateTime(time());
-            $model->setType("S02C0000002833");
+            $model->setType($did);
             $model->setLevel(1);
             $model->setOwner($did);
             $dal->insert($model);
-        }
+//        }
     }
 
 }

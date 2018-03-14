@@ -14,6 +14,7 @@ use sunsun\aph300\resp\Aph300RespType;
 use sunsun\aq118\resp\Aq118RespType;
 use sunsun\aq806\resp\Aq806RespType;
 use sunsun\cp1000\resp\Cp1000RespType;
+use sunsun\feeder\resp\FeederRespType;
 use sunsun\filter_vat\resp\FilterVatRespType;
 use sunsun\heating_rod\resp\HeatingRodRespType;
 use sunsun\water_pump\resp\WaterPumpRespType;
@@ -123,6 +124,14 @@ class RespFacadeType
         $this->deviceArr[DeviceType::Did_AQ118][self::FIRMWARE_UPDATE] = Aq118RespType::FirmwareUpdate;
         $this->deviceArr[DeviceType::Did_AQ118][self::CONTROL] = Aq118RespType::Control;
         $this->deviceArr[DeviceType::Did_AQ118][self::EVENT] = Aq118RespType::Event;
+        // feeder S09
+        $this->deviceArr[DeviceType::Did_Feeder] = [];
+        $this->deviceArr[DeviceType::Did_Feeder][self::LOGIN] = FeederRespType::Login;
+        $this->deviceArr[DeviceType::Did_Feeder][self::HEART_BEAT] = FeederRespType::Heartbeat;
+        $this->deviceArr[DeviceType::Did_Feeder][self::DEVICE_INFO] = FeederRespType::DeviceInfo;
+        $this->deviceArr[DeviceType::Did_Feeder][self::FIRMWARE_UPDATE] = FeederRespType::FirmwareUpdate;
+        $this->deviceArr[DeviceType::Did_Feeder][self::CONTROL] = FeederRespType::Control;
+        $this->deviceArr[DeviceType::Did_Feeder][self::EVENT] = FeederRespType::Event;
 
     }
 }
