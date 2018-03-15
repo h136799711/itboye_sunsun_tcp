@@ -17,29 +17,6 @@ class WaterPumpLoginReq extends BaseDeviceLoginClientReq
     {
         parent::__construct($data);
         $this->setReqType(WaterPumpReqType::Login);
-        if (!empty($data)) {
-            if(array_key_exists('type',$data)){
-                $this->setType($data['type']);
-            }
-        }
-    }
-
-    private $type;
-
-    /**
-     * @return mixed
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param mixed $type
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
     }
 
     function toDataArray()

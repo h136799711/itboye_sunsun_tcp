@@ -271,7 +271,7 @@ class Events
             'offline_notify' => 1,
         ];
         // 部分设备有这个device_type 参数
-        if (method_exists($req, 'getType')) {
+        if (method_exists($req, 'getType') && strlen($req->getType()) > 0) {
             $type = $req->getType();
             $entity['device_type'] = $type;
         }
