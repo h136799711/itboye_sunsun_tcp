@@ -250,7 +250,10 @@ abstract class BaseAction
         }
 
         $eventType = $req->getCode();
-        $eventInfo = json_encode($req->getEventInfo());
+
+        $eventInfo = $req->getEventInfo();
+        unset($eventInfo['sn']);//必须除去sn
+        $eventInfo = json_encode($eventInfo);
         $now = time();
         $data = [
             'did' => $did,
