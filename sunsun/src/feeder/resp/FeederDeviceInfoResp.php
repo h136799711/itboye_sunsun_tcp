@@ -29,6 +29,7 @@ class FeederDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntit
     private $fi;
     private $ws;
     private $fault;
+    private $fcd;
 
 
     public function __construct(FeederDeviceInfoReq $req = null)
@@ -75,6 +76,9 @@ class FeederDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntit
         if (!is_null($this->getM())) {
             $data['m'] = $this->getM();
         }
+        if (!is_null($this->getFcd())) {
+            $data['fcd'] = $this->getFcd();
+        }
 
 
         return $data;
@@ -93,6 +97,7 @@ class FeederDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntit
             'fp' => $this->getFp(),
             'ws' => $this->getWs(),
             'fc' => $this->getFc(),
+            'fcd' => $this->getFcd(),
             'fault' => $this->getFault()
         ];
         if ($this->getUpdState() == -1) {
@@ -102,6 +107,22 @@ class FeederDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntit
         }
 
         return $data;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFcd()
+    {
+        return $this->fcd;
+    }
+
+    /**
+     * @param mixed $fcd
+     */
+    public function setFcd($fcd)
+    {
+        $this->fcd = $fcd;
     }
 
     public function check()
