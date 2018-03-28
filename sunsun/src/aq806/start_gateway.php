@@ -23,7 +23,7 @@ $gateway = new Gateway("tcp://0.0.0.0:8284");
 // gateway名称，status方便查看,过滤桶
 $gateway->name = 'aq806_gateway';
 // gateway进程数
-$gateway->count = 4;
+$gateway->count = 5;
 // 本机ip，分布式部署时使用内网ip
 $gateway->lanIp = '101.37.37.167';
 // 内部通讯起始端口，假如$gateway->count=4，起始端口为3900
@@ -38,6 +38,14 @@ $gateway->pingInterval = 30;
 $gateway->pingNotResponseLimit = 6;
 
 $gateway->pingData = '';
+
+$gateway->router = function ($worker_connections, $client_connection, $cmd, $buffer) {
+    $index = array_rand($worker_connections) + 1;
+    if ($index > count($worker_connections)) {
+        $index = count($worker_connections);
+    }
+    return $worker_connections[$index];
+};
 /* 
 // 当客户端连接上来时，设置连接的onWebSocketConnect，即在websocket握手时的回调
 $gateway->onConnect = function($connection)
