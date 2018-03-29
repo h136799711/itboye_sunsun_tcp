@@ -33,7 +33,6 @@ class Aq806CtrlDeviceReq extends BaseControlDeviceServerReq
         if (!is_null($this->getDevLock())) {
             $data['devLock'] = $this->getDevLock();
         }
-        $data['devLock'] = 0;
 
         if (!is_null($this->getTmL())) {
             $data['tm_l'] = "".$this->getTmL();
