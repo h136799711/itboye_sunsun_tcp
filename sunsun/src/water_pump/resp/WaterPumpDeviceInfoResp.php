@@ -76,7 +76,16 @@ class WaterPumpDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEn
         if (!is_null($this->getWe())) {
             $data['we'] = $this->getWe();
         }
+        if (!is_null($this->getM())) {
+            $data['m'] = $this->getM();
+        }
 
+        if (!is_null($this->getPer())) {
+            $data['per'] = $this->getPer();
+            if (is_array($data['per'])) {
+                $data['per'] = json_encode($data['per']);
+            }
+        }
         return $data;
     }
 
@@ -108,6 +117,9 @@ class WaterPumpDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEn
         array_key_exists("wc", $data) && $this->setWc($data['wc']);
         array_key_exists("type", $data) && $this->setType($data['type']);
 
+        array_key_exists("m", $data) && $this->setM($data['m']);
+        array_key_exists("per", $data) && $this->setPer($data['per']);
+
     }
 
     public function toDataArray()
@@ -126,7 +138,9 @@ class WaterPumpDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEn
             'state'=>$this->getState(),
             'fault'=>$this->getFault(),
             'wh'=>$this->getWh(),
-            'fcd'=>$this->getFcd()
+            'fcd'=>$this->getFcd(),
+            'm' => $this->getM(),
+            'per' => $this->getPer()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;
@@ -144,6 +158,10 @@ class WaterPumpDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEn
         return "";
     }
 
+    private $m;
+    private $per;
+
+
     private $wg;
     private $we;
     private $wc;
@@ -160,6 +178,38 @@ class WaterPumpDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEn
     private $fault;
     private $fcd;
     private $wh;
+
+    /**
+     * @return mixed
+     */
+    public function getM()
+    {
+        return $this->m;
+    }
+
+    /**
+     * @param mixed $m
+     */
+    public function setM($m)
+    {
+        $this->m = $m;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPer()
+    {
+        return $this->per;
+    }
+
+    /**
+     * @param mixed $per
+     */
+    public function setPer($per)
+    {
+        $this->per = $per;
+    }
 
     /**
      * @return mixed

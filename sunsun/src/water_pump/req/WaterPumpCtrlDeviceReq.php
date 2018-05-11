@@ -61,6 +61,13 @@ class WaterPumpCtrlDeviceReq extends BaseControlDeviceServerReq
         if (!is_null($this->getWe())) {
             $data['we'] = $this->getWe();
         }
+        // 新增 20180511
+        if (!is_null($this->getM())) {
+            $data['m'] = $this->getM();
+        }
+        if (!is_null($this->getPer())) {
+            $data['per'] = $this->getPer();
+        }
 
         return $data;
     }
@@ -77,7 +84,15 @@ class WaterPumpCtrlDeviceReq extends BaseControlDeviceServerReq
         array_key_exists("wg", $data) && $this->setWg($data['wg']);
         array_key_exists("we", $data) && $this->setWe($data['we']);
         array_key_exists("wc", $data) && $this->setWc($data['wc']);
+
+        array_key_exists("m", $data) && $this->setM($data['m']);
+        array_key_exists("per", $data) && $this->setPer($data['per']);
+
     }
+
+    // 新增2个 20180511
+    private $m;
+    private $per;
 
     // 新增3个 造浪 2018-01-15
     private $wg;
@@ -91,6 +106,38 @@ class WaterPumpCtrlDeviceReq extends BaseControlDeviceServerReq
     private $state;
     private $fcd;
     private $wh;
+
+    /**
+     * @return mixed
+     */
+    public function getM()
+    {
+        return $this->m;
+    }
+
+    /**
+     * @param mixed $m
+     */
+    public function setM($m)
+    {
+        $this->m = $m;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPer()
+    {
+        return $this->per;
+    }
+
+    /**
+     * @param mixed $per
+     */
+    public function setPer($per)
+    {
+        $this->per = $per;
+    }
 
     /**
      * @return mixed

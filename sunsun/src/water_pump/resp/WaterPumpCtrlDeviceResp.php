@@ -73,6 +73,16 @@ class WaterPumpCtrlDeviceResp extends BaseControlDeviceClientResp implements ToD
             $data['we'] = $this->getWe();
         }
 
+        if (!is_null($this->getM())) {
+            $data['m'] = $this->getM();
+        }
+
+        if (!is_null($this->getPer())) {
+            $data['per'] = $this->getPer();
+            if (is_array($data['per'])) {
+                $data['per'] = json_encode($data['per']);
+            }
+        }
         return $data;
     }
 
@@ -102,7 +112,10 @@ class WaterPumpCtrlDeviceResp extends BaseControlDeviceClientResp implements ToD
             'wh' => $this->getWh(),
             'wg' => $this->getWg(),
             'wc' => $this->getWc(),
-            'we' => $this->getWe()
+            'we' => $this->getWe(),
+
+            'm' => $this->getM(),
+            'per' => $this->getPer()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;
@@ -120,6 +133,9 @@ class WaterPumpCtrlDeviceResp extends BaseControlDeviceClientResp implements ToD
         return "";
     }
 
+    private $m;
+    private $per;
+
     private $wg;
     private $we;
     private $wc;
@@ -136,6 +152,38 @@ class WaterPumpCtrlDeviceResp extends BaseControlDeviceClientResp implements ToD
     private $fault;
     private $fcd;
     private $wh;
+
+    /**
+     * @return mixed
+     */
+    public function getM()
+    {
+        return $this->m;
+    }
+
+    /**
+     * @param mixed $m
+     */
+    public function setM($m)
+    {
+        $this->m = $m;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPer()
+    {
+        return $this->per;
+    }
+
+    /**
+     * @param mixed $per
+     */
+    public function setPer($per)
+    {
+        $this->per = $per;
+    }
 
     /**
      * @return mixed
