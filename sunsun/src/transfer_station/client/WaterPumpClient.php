@@ -16,7 +16,15 @@ use sunsun\water_pump\req\WaterPumpDeviceInfoReq;
 
 class WaterPumpClient extends BaseClient implements DeviceClientInterface
 {
+    private static $instance = null;
 
+    public static function getInstance()
+    {
+        if (self::$instance == null) {
+            self::$instance = new WaterPumpClient();
+        }
+        return self::$instance;
+    }
     public function getInfo($client_id, $did, $pwd = '')
     {
         if (empty($pwd)) {

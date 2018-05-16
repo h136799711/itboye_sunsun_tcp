@@ -93,8 +93,15 @@ class Events
                         FactoryClient::getInfo($client_id, $did, $pwd);
                     }
 
-                    // 2. 更新会话信息
-                    Gateway::updateSession($client_id, ['app_cnt' => $cnt]);
+
+                    if (array_key_exists('app_cnt', $session)) {
+                        $currentCnt = $session['app_cnt'];
+                        if ($cnt != $currentCnt) {
+                            // 2. 更新会话信息
+                            Gateway::updateSession($client_id, ['app_cnt' => $cnt]);
+                        }
+                    }
+
                 }
             }
         });
@@ -157,6 +164,7 @@ class Events
         }
 
         if (method_exists($result, "toDataArray")) {
+//            Gateway::joinGroup($client_id)
             $data = $result->toDataArray();
             // 4. 加密数据
             $encodeData = SunsunTDS::encode($data, $pwd);

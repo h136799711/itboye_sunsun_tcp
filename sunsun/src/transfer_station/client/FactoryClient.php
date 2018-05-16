@@ -57,7 +57,7 @@ class FactoryClient
                 (new FilterClient())->getInfo($client_id,$did,$pwd);
                 break;
             case DeviceType::Did_WaterPump:
-                (new WaterPumpClient())->getInfo($client_id,$did,$pwd);
+                WaterPumpClient::getInstance()->getInfo($client_id,$did,$pwd);
                 break;
             case DeviceType::Did_AQ806:
                 (new Aq806Client())->getInfo($client_id,$did,$pwd);
