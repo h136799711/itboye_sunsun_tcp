@@ -56,7 +56,7 @@ class Events
         self::$dbPool = DbPool::getInstance();
         // 只在worker 0 中设置检测定时器
         if ($businessWorker->id == 0) {
-            self::checkOfflineSession();
+//            self::checkOfflineSession();
         }
     }
 
