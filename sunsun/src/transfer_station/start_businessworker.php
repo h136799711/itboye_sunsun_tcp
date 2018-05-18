@@ -24,7 +24,7 @@ $worker = new BusinessWorker();
 // worker名称
 $worker->name = 'transfer_worker';
 // bussinessWorker进程数量
-$worker->count = 4;
+$worker->count = 8;
 //$worker->eventHandler = "\sunsun\transfer_station\events\Transfer";
 // 服务注册地址
 $worker->registerAddress = '127.0.0.1:1250';
