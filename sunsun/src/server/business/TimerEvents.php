@@ -36,6 +36,7 @@ use Workerman\Worker;
  */
 class TimerEvents
 {
+    static $doing = false;
 
     public static function onWorkerStart(Worker $businessWorker)
     {
@@ -49,10 +50,12 @@ class TimerEvents
     private static function checkOfflineSession()
     {
         Timer::add(SunsunDeviceConstant::CHECK_OFFLINE_SESSION_INTERVAL, function () {
-
+            if (self::$doing) return;
             $allSessions = Gateway::getAllClientSessions();
             $now = time();
             foreach ($allSessions as $client_id => $session) {
+                self::$doing = true;
+                $now = time();
                 $last_active_time = 0;
                 if (array_key_exists(SessionKeys::LAST_ACTIVE_TIME, $session)) {
                     $last_active_time = $session[SessionKeys::LAST_ACTIVE_TIME];
@@ -86,6 +89,7 @@ class TimerEvents
 
                 }
             }
+            self::$doing = false;
         });
     }
 
