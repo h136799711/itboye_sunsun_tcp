@@ -23,7 +23,7 @@ use Workerman\MySQL\Connection;
 //{
 //}
 
-$mysqlConn = new Connection("101.37.37.167", "3306", "sunsun", "poiuyTREWQ123456", "sunsun_xiaoli");
+$mysqlConn = new Connection("rm-bp1utkoj82w47hlam.mysql.rds.aliyuncs.com", "3306", "sunsun", "poiuyTREWQ123456", "sunsun_xiaoli");
 
 //$dal = new Dal($mysqlConn);
 
@@ -43,4 +43,5 @@ $mysqlConn = new Connection("101.37.37.167", "3306", "sunsun", "poiuyTREWQ123456
 //
 //var_dump($result);
 $did = 'S06X0000000003';
-(new \sunsun\adt\dal\AdtDeviceDal($mysqlConn))->updateByDidOnline($did);
+$result = (new \sunsun\adt\dal\AdtDeviceDal($mysqlConn))->getInfoByDid($did);
+var_dump($result);
