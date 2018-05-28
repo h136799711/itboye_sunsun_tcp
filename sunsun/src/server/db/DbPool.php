@@ -12,7 +12,7 @@ namespace sunsun\server\db;
 use sunsun\server\consts\DeviceType;
 use Workerman\MySQL\Connection;
 
-define("SUNSUN_WORKER_HOST", "101.37.37.167");
+define("SUNSUN_WORKER_HOST", "db1.sunsunxiaoli.com");
 define("SUNSUN_WORKER_PORT", "3306");
 define("SUNSUN_WORKER_USER", "sunsun");
 define("SUNSUN_WORKER_PASSWORD", "poiuyTREWQ123456");
