@@ -51,6 +51,7 @@ class TimerEvents
     {
         Timer::add(SunsunDeviceConstant::CHECK_OFFLINE_SESSION_INTERVAL, function () {
             if (self::$doing) return;
+            TransferClient::sendMessageToGroup("Timer_event", "1", time());
             $allSessions = Gateway::getAllClientSessions();
             $now = time();
             foreach ($allSessions as $client_id => $session) {
@@ -59,10 +60,10 @@ class TimerEvents
                 $last_active_time = 0;
                 if (array_key_exists(SessionKeys::LAST_ACTIVE_TIME, $session)) {
                     $last_active_time = $session[SessionKeys::LAST_ACTIVE_TIME];
-                    if ($now - $last_active_time >= SunsunDeviceConstant::DEVICE_OFFLINE_TIME_INTERVAL) {
-                        Gateway::closeClient($client_id);
-                        continue;
-                    }
+//                    if ($now - $last_active_time >= SunsunDeviceConstant::DEVICE_OFFLINE_TIME_INTERVAL) {
+//                        Gateway::closeClient($client_id);
+//                        continue;
+//                    }
                 }
 
                 if (is_array($session) && array_key_exists(SessionKeys::DID, $session)) {
