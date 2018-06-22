@@ -51,7 +51,7 @@ class TimerEvents
     {
         Timer::add(SunsunDeviceConstant::CHECK_OFFLINE_SESSION_INTERVAL, function () {
             if (self::$doing) return;
-            TransferClient::sendMessageToGroup("Timer_event", "1", time());
+//            TransferClient::sendMessageToGroup("Timer_event", "1", time());
             $allSessions = Gateway::getAllClientSessions();
             $now = time();
             foreach ($allSessions as $client_id => $session) {
