@@ -17,6 +17,16 @@ use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 class HeatingRodClient extends BaseClient implements DeviceClientInterface
 {
+    public function updateAppCnt($did, $cnt = 0)
+    {
+        $this->setRegisterAddr();
+        $clientIds = Gateway::getClientIdByUid($did);
+        if (is_array($clientIds) && count($clientIds) > 0 ) {
+            $clientId = $clientIds[0];
+            Gateway::updateSession($clientId, ['app_cnt' => $cnt]);
+        }
+    }
+
     public function deviceInfo()
     {
         // TODO: Implement deviceInfo() method.

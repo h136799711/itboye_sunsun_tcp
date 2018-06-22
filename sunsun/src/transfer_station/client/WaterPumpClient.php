@@ -18,6 +18,16 @@ class WaterPumpClient extends BaseClient implements DeviceClientInterface
 {
     private static $instance = null;
 
+    public function updateAppCnt($did, $cnt = 0)
+    {
+        $this->setRegisterAddr();
+        $clientIds = Gateway::getClientIdByUid($did);
+        if (is_array($clientIds) && count($clientIds) > 0 ) {
+            $clientId = $clientIds[0];
+            Gateway::updateSession($clientId, ['app_cnt' => $cnt]);
+        }
+    }
+
     public static function getInstance()
     {
         if (self::$instance == null) {

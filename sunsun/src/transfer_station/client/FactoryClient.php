@@ -44,10 +44,22 @@ class FactoryClient
             case DeviceType::Did_CP1000:
                 return new Cp1000Client();
                 break;
+            case DeviceType::Did_AQ118:
+                return new Aq118Client();
+                break;
+            case DeviceType::Did_Feeder:
+                return new Feeder();
+                break;
             default:
                 break;
         }
         return null;
+    }
+
+    public static function updateAppCnt($did, $cnt)
+    {
+        $client = self::createClient($did);
+        $client->updateAppCnt($did, $cnt);
     }
 
     public static function getInfo($client_id,$did,$pwd){

@@ -26,6 +26,16 @@ class FilterClient extends BaseClient implements DeviceClientInterface
         // TODO: Implement firmwareUpdate() method.
     }
 
+    public function updateAppCnt($did, $cnt = 0)
+    {
+        $this->setRegisterAddr();
+        $clientIds = Gateway::getClientIdByUid($did);
+        if (is_array($clientIds) && count($clientIds) > 0 ) {
+            $clientId = $clientIds[0];
+            Gateway::updateSession($clientId, ['app_cnt' => $cnt]);
+        }
+    }
+
     private  function setRegisterAddr(){
         Gateway::$registerAddress = "101.37.37.167:1237";
     }

@@ -73,9 +73,19 @@ class DeviceTransferCtrl implements DeviceClientInterface
         if (empty($did) || empty($token)) {
             return ResultHelper::fail('did|token|uid invalid');
         }
+
+        // 更新在线设备数
+        $this->updateAppCnt($did);
+
         // client_id 加入到 did
         Gateway::joinGroup($this->getClientId(), $did);
         return ResultHelper::success('login success');
+    }
+
+    public function updateAppCnt($did, $cnt = 0)
+    {
+        $cnt = Gateway::getClientCountByGroup($did);
+        FactoryClient::updateAppCnt($did, $cnt);
     }
 
     public function deviceInfo()

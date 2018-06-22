@@ -29,4 +29,13 @@ interface DeviceClientInterface
      * @return mixed
      */
     public function firmwareUpdate();
+
+
+    /**
+     * APP监听数量更新
+     * @param $did
+     * @param int $cnt
+     * @return mixed
+     */
+    public function updateAppCnt($did, $cnt = 0);
 }

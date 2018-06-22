@@ -24,4 +24,6 @@ class BaseClient
         $sn =  intval($str);
         return $sn % 2147483648;
     }
+
+
 }

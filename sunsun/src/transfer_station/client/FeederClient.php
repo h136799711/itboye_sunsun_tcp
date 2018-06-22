@@ -9,13 +9,13 @@
 namespace sunsun\transfer_station\client;
 
 use GatewayClient\Gateway;
-use sunsun\aph300\dal\Aph300DeviceDal;
-use sunsun\aph300\req\Aph300DeviceInfoReq;
 use sunsun\decoder\SunsunTDS;
+use sunsun\feeder\dal\FeederDeviceDal;
+use sunsun\feeder\req\FeederDeviceInfoReq;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 
-class AphClient extends BaseClient implements DeviceClientInterface
+class FeederClient extends BaseClient implements DeviceClientInterface
 {
     public function updateAppCnt($did, $cnt = 0)
     {
@@ -27,6 +27,10 @@ class AphClient extends BaseClient implements DeviceClientInterface
         }
     }
 
+    private function setRegisterAddr(){
+        Gateway::$registerAddress = "101.37.37.167:1245";
+    }
+
     public function deviceInfo()
     {
         // TODO: Implement deviceInfo() method.
@@ -36,14 +40,12 @@ class AphClient extends BaseClient implements DeviceClientInterface
     {
         // TODO: Implement firmwareUpdate() method.
     }
-    private function setRegisterAddr(){
-        Gateway::$registerAddress = "101.37.37.167:1240";
-    }
+
     public function getInfo($client_id,$did, $pwd=''){
         if(empty($pwd)){
             $pwd = $this->getDevicePwd($did);
         }
-        $req = new Aph300DeviceInfoReq();
+        $req = new FeederDeviceInfoReq();
         $req->setSn($this->getSn());
         $data = SunsunTDS::encode($req->toDataArray(), $pwd);
         $this->setRegisterAddr();
@@ -52,7 +54,7 @@ class AphClient extends BaseClient implements DeviceClientInterface
     }
 
     protected function getDevicePwd($did){
-        $result = (new Aph300DeviceDal())->getInfoByDid($did);
+        $result = (new FeederDeviceDal())->getInfoByDid($did);
         if (empty($result)) {
             return '';
         }
