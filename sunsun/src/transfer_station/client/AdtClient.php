@@ -12,9 +12,8 @@ use GatewayClient\Gateway;
 use sunsun\adt\dal\AdtDeviceDal;
 use sunsun\adt\req\AdtDeviceInfoReq;
 use sunsun\decoder\SunsunTDS;
+use sunsun\server\consts\SessionKeys;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
-
-Gateway::$registerAddress = "101.37.37.167:1242";
 
 class AdtClient extends BaseClient implements DeviceClientInterface
 {
@@ -25,6 +24,17 @@ class AdtClient extends BaseClient implements DeviceClientInterface
         if (is_array($clientIds) && count($clientIds) > 0 ) {
             $clientId = $clientIds[0];
             Gateway::updateSession($clientId, ['app_cnt' => $cnt]);
+            $session = Gateway::getSession($clientId);
+
+            $pwd = '';
+            if (array_key_exists(SessionKeys::PWD, $session)) {
+                $pwd = $session[SessionKeys::PWD];
+            }
+
+            if (!empty($pwd)) {
+                //获取一次设备信息
+                $this->getInfo($clientId, $did, $pwd);
+            }
         }
     }
 

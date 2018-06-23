@@ -12,6 +12,7 @@ use GatewayClient\Gateway;
 use sunsun\aq806\dal\Aq806DeviceDal;
 use sunsun\aq806\req\Aq806DeviceInfoReq;
 use sunsun\decoder\SunsunTDS;
+use sunsun\server\consts\SessionKeys;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 
@@ -20,11 +21,23 @@ class Aq806Client extends BaseClient implements DeviceClientInterface
 
     public function updateAppCnt($did, $cnt = 0)
     {
+
         $this->setRegisterAddr();
         $clientIds = Gateway::getClientIdByUid($did);
         if (is_array($clientIds) && count($clientIds) > 0 ) {
             $clientId = $clientIds[0];
             Gateway::updateSession($clientId, ['app_cnt' => $cnt]);
+            $session = Gateway::getSession($clientId);
+
+            $pwd = '';
+            if (array_key_exists(SessionKeys::PWD, $session)) {
+                $pwd = $session[SessionKeys::PWD];
+            }
+
+            if (!empty($pwd)) {
+                //获取一次设备信息
+                $this->getInfo($clientId, $did, $pwd);
+            }
         }
     }
 

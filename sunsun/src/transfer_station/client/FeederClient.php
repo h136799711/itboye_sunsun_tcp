@@ -12,6 +12,7 @@ use GatewayClient\Gateway;
 use sunsun\decoder\SunsunTDS;
 use sunsun\feeder\dal\FeederDeviceDal;
 use sunsun\feeder\req\FeederDeviceInfoReq;
+use sunsun\server\consts\SessionKeys;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 
@@ -24,6 +25,17 @@ class FeederClient extends BaseClient implements DeviceClientInterface
         if (is_array($clientIds) && count($clientIds) > 0 ) {
             $clientId = $clientIds[0];
             Gateway::updateSession($clientId, ['app_cnt' => $cnt]);
+            $session = Gateway::getSession($clientId);
+
+            $pwd = '';
+            if (array_key_exists(SessionKeys::PWD, $session)) {
+                $pwd = $session[SessionKeys::PWD];
+            }
+
+            if (!empty($pwd)) {
+                //获取一次设备信息
+                $this->getInfo($clientId, $did, $pwd);
+            }
         }
     }
 
