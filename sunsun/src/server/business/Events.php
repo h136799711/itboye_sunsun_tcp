@@ -29,13 +29,9 @@ use sunsun\helper\LogHelper;
 use sunsun\model\DeviceTcpClientModel;
 use sunsun\model\LogModel;
 use sunsun\server\consts\SessionKeys;
-use sunsun\server\consts\SunsunDeviceConstant;
 use sunsun\server\db\DbPool;
 use sunsun\server\factory\DeviceFacadeFactory;
 use sunsun\server\tcpChannelCommand\CommandFactory;
-use sunsun\transfer_station\client\FactoryClient;
-use sunsun\transfer_station\client\TransferClient;
-use Workerman\Lib\Timer;
 use Workerman\Worker;
 
 /**
@@ -54,57 +50,6 @@ class Events
     public static function onWorkerStart(Worker $businessWorker)
     {
         self::$dbPool = DbPool::getInstance();
-        // 只在worker 0 中设置检测定时器
-        if ($businessWorker->id == 0) {
-          //  self::checkOfflineSession();
-        }
-    }
-
-    /**
-     * 检测离线的会话，并断开该通道
-     *
-     */
-    private static function checkOfflineSession()
-    {
-        Timer::add(SunsunDeviceConstant::CHECK_OFFLINE_SESSION_INTERVAL, function () {
-
-            $allSessions = Gateway::getAllClientSessions();
-            $now = time();
-            foreach ($allSessions as $client_id => $session) {
-                $last_active_time = 0;
-                if (array_key_exists(SessionKeys::LAST_ACTIVE_TIME, $session)) {
-                    $last_active_time = $session[SessionKeys::LAST_ACTIVE_TIME];
-                    if ($now - $last_active_time >= SunsunDeviceConstant::DEVICE_OFFLINE_TIME_INTERVAL) {
-                        Gateway::closeClient($client_id);
-                        continue;
-                    }
-                }
-
-                if (is_array($session) && array_key_exists(SessionKeys::DID, $session)) {
-
-                    $pwd = '';
-                    if (array_key_exists(SessionKeys::PWD, $session)) {
-                        $pwd = $session[SessionKeys::PWD];
-                    }
-                    $did = $session[SessionKeys::DID];
-                    $cnt = TransferClient::totalClientByGroup($did);
-                    // 只有有设备连接的时候才调用获取设备信息
-                    if ($cnt > 0 && $now - $last_active_time >= SunsunDeviceConstant::DEVICE_INFO_TIMER_INTERVAL) {
-                        FactoryClient::getInfo($client_id, $did, $pwd);
-                    }
-
-
-                    if (array_key_exists('app_cnt', $session)) {
-                        $currentCnt = $session['app_cnt'];
-                        if ($cnt != $currentCnt) {
-                            // 2. 更新会话信息
-                            Gateway::updateSession($client_id, ['app_cnt' => $cnt]);
-                        }
-                    }
-
-                }
-            }
-        });
     }
 
     /**
@@ -310,6 +255,7 @@ class Events
      * @param $client_id
      * @param $msg
      * @param $data
+     * @throws \Exception
      */
     private static function jsonError($client_id, $msg, $data = [])
     {
@@ -324,34 +270,7 @@ class Events
             $gatewayPort = self::getGatewayPort();
             $gatewayIp = self::getGatewayIp();
             LogHelper::log(self::getDb(''), $client_id, $msg, 'error', $remoteIp, $remotePort, $gatewayIp, $gatewayPort);
-//            Gateway::sendToClient($client_id, $msg);
         }
-
-        // 最近30分钟, 发生3次以上错误，才会断开
-//        if (!empty($session)) {
-//            if (!array_key_exists(SessionKeys::ERROR, $session)) {
-//                $error = [];
-//            } else {
-//                $error = $session['_error'];
-//            }
-//
-//            $newError = [];
-//            $limit = time() - SunsunDeviceConstant::ERROR_LIMIT_LAST_TIME;
-//            for ($i = 0; $i < count($error); $i++) {
-//                if ($error[$i] > $limit) {
-//                    array_push($newError, $error[$i]);
-//                    break;
-//                }
-//            }
-//
-//            if (count($newError) + 1 > SunsunDeviceConstant::ERROR_LIMIT_COUNT) {
-//                self::closeChannel($client_id, $msg);
-//            }
-//
-//            array_push($newError, time());
-//
-//            Gateway::updateSession($client_id, [SessionKeys::ERROR => $error]);
-//        }
 
         self::closeChannel($client_id, $msg);
     }
