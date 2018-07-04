@@ -114,9 +114,8 @@ class Events
             // 4. 加密数据
             $encodeData = SunsunTDS::encode($data, $pwd);
 
-            self::logInfo(json_encode($data), false);
-            self::logInfo(serialize($encodeData), false);
             self::jsonSuc($client_id, serialize($result), $encodeData);
+
         } else {
             self::jsonError($client_id, 'fail', []);
         }
@@ -211,8 +210,8 @@ class Events
             return null;
         }
 
-        $data['origin_pwd'] = $originPwd;
         //更新控制密码
+        $data['origin_pwd'] = $originPwd;
         $ver = $req->getVer();
         $entity = [
             'ver' => $ver,
@@ -230,6 +229,7 @@ class Events
         }
         $dal->update($id, $entity);
         self::loginSuccess($client_id, $did);
+        self::autoUpdate($client_id, $did, $pwd, $ver);
         // 设置did,pwd
         $_SESSION[SessionKeys::DID] = $did;
         // 存在session中 就不需要再到数据库查询一次了
@@ -338,6 +338,7 @@ class Events
      */
     private static function loginSuccess($client_id, $did)
     {
+
         // 表示该设备已经登录过了，之后的请求走另一个处理方式
         $_SESSION[SessionKeys::IS_FIRST] = 1;
         $dal = new DeviceTcpClientDal(DbPool::getInstance()->getGlobalDb());
@@ -442,4 +443,8 @@ class Events
         }
     }
 
+    private static function autoUpdate($clientId, $did, $pwd, $ver)
+    {
+        
+    }
 }
