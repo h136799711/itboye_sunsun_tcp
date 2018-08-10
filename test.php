@@ -26,7 +26,7 @@ echo "update";
 //\sunsun\decoder\SunsunTDS::isLegalPwd("gP89BA8V0OBusxrqB4B0eg==", "7QHzqX5i");
 $value = ("gP89BA8V0OBusxrqB4B0eg==");
 var_dump($value);
-$key = "1234a";
+$key = "1234bcda";
 $decrypt = openssl_decrypt($value, "des-ecb", $key);
 
 var_dump($decrypt);

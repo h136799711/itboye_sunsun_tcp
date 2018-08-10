@@ -445,6 +445,6 @@ class Events
 
     private static function autoUpdate($clientId, $did, $pwd, $ver)
     {
-        
+
     }
 }

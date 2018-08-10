@@ -48,7 +48,7 @@ class FactoryClient
                 return new Aq118Client();
                 break;
             case DeviceType::Did_Feeder:
-                return new Feeder();
+                return new FeederClient();
                 break;
             default:
                 break;
