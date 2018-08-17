@@ -93,7 +93,7 @@ class BaseDeviceEventModel extends BaseModel
             'update_time' => $this->getUpdateTime(),
         ];
         if (strpos($this->getDid(), 'S03') === 0) {
-            $data['hash_id'] = (int) rand(1, 10);
+            $data['hash_id'] = (int) rand(1, 5);
         }
 
         return $data;
