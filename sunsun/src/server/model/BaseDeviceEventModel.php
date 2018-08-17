@@ -85,12 +85,17 @@ class BaseDeviceEventModel extends BaseModel
 
     public function toDataArray()
     {
-        return [
+        $data = [
             'did' => $this->getDid(),
             'event_type' => $this->getEventType(),
             'event_info' => $this->getEventInfo(),
             'create_time' => $this->getCreateTime(),
-            'update_time' => $this->getUpdateTime()
+            'update_time' => $this->getUpdateTime(),
         ];
+        if (strpos($this->getDid(), 'S03')) {
+            $data['hash_id'] = (int) rand(1, 10);
+        }
+
+        return $data;
     }
 }
