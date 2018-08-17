@@ -42,8 +42,7 @@ class Password
                 $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
                 if (is_array($result) && array_key_exists(SessionKeys::DID, $result)) {
                     $did = $result[SessionKeys::DID];
-                    $pwd = $result[SessionKeys::PWD];
-                    Gateway::updateSession($client_id, [SessionKeys::DID => $did, SessionKeys::PWD => $pwd]);
+                    Gateway::updateSession($client_id, [SessionKeys::DID => $did]);
                 }
             }
             return $result;

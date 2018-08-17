@@ -23,11 +23,9 @@ if (!defined('SUNSUN_ENV')) {
 
 use GatewayWorker\Lib\Gateway;
 use sunsun\dal\DeviceTcpClientDal;
-use sunsun\dal\LogDal;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\LogHelper;
 use sunsun\model\DeviceTcpClientModel;
-use sunsun\model\LogModel;
 use sunsun\server\consts\SessionKeys;
 use sunsun\server\db\DbPool;
 use sunsun\server\factory\DeviceFacadeFactory;
@@ -423,24 +421,6 @@ class Events
 
     private static function logInfo($msg, $did)
     {
-        if (empty($did)) {
-            $did = $_SESSION[SessionKeys::DID];
-        }
-
-        if ($did === 'S037C0000000154') {
-            $dal = new LogDal(self::getDb());
-            $model = new  LogModel();
-            $model->setType("S037C0000000154");
-            $model->setRemotePort(self::getRemotePort());
-            $model->setGatewayIp(self::getGatewayIp());
-            $model->setGatewayPort(self::getGatewayPort());
-            $model->setRemoteIp(self::getClientIp());
-            $model->setBody($msg);
-            $model->setCreateTime(time());
-            $model->setLevel(1);
-            $model->setOwner($did);
-            //$dal->insert($model);
-        }
     }
 
     private static function autoUpdate($clientId, $did, $pwd, $ver)
