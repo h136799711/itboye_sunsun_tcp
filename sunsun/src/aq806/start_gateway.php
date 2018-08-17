@@ -39,15 +39,7 @@ $gateway->pingNotResponseLimit = 12;
 
 $gateway->pingData = '';
 
-$gateway->router = function ($worker_connections, $client_connection, $cmd, $buffer) {
-    if (!isset($client_connection->businessworker_address) || !isset($worker_connections[$client_connection->businessworker_address])) {
-        $client_connection->businessworker_address = array_rand($worker_connections);
-        if ($client_connection->businessworker_address == '101.37.37.167:aq806_worker:0') {
-            $client_connection->businessworker_address = '101.37.37.167:aq806_worker:1';
-        }
-    }
-    return $worker_connections[$client_connection->businessworker_address];
-};
+
 /* 
 // 当客户端连接上来时，设置连接的onWebSocketConnect，即在websocket握手时的回调
 $gateway->onConnect = function($connection)
