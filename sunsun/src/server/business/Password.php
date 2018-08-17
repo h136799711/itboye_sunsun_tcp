@@ -30,6 +30,10 @@ class Password
             return Password::LOGIN_ENCRYPT_PASSWORD;
         } else {
             $session = Gateway::getSession($client_id);
+            if (!is_array($session)) {
+                return false;
+            }
+
             $result = false;
             if (array_key_exists(SessionKeys::DID, $session)) {
                 $did = $session[SessionKeys::DID];
