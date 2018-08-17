@@ -18,7 +18,7 @@ class Aq806DeviceEventModel extends BaseDeviceEventModel
      */
     public function toDataArray()
     {
-        $hashId = random_int(0, 10);
+        $hashId = random_int(1, 10);
         return [
             'did' => $this->getDid(),
             'event_type' => $this->getEventType(),
