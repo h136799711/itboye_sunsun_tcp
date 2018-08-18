@@ -22,12 +22,13 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 // bussinessWorker 进程
 $worker = new BusinessWorker();
 // worker名称
-$worker->name = 'adt_worker';
-$worker->eventHandler = "\sunsun\server\business\Events";
+$worker->name = 'aq806_worker';
 // bussinessWorker进程数量
-$worker->count = 4;
+$worker->count = 20;
+// 设置业务处理类
+$worker->eventHandler = "\sunsun\server\business\Events";
 // 服务注册地址
-$worker->registerAddress = 'adt.sunsunxiaoli.com:1242';
+$worker->registerAddress = '101.37.37.167:1238';
 // 进程启动时设置一个定时器，定时向所有客户端连接发送数据
 $worker->onWorkerStart = function ($worker) {
     // 定时，每10秒一次，
