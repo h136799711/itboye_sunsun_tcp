@@ -53,7 +53,7 @@ class SlaveEvents
     public static function onWorkerStart(Worker $businessWorker)
     {
         self::$dbPool = DbPool::getInstance();
-        self::$mqttClient = new Client("mqtt://apollo.ssxiali.com:61613", [
+        self::$mqttClient = new Client("mqtt://apollo.ssxiaoli.com:61613", [
             'username' => 'hebidu',
             'password' => '136799711',
             'debug' => false
