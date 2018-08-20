@@ -4,6 +4,7 @@
 namespace sunsun\dal;
 
 use sunsun\server\business\Events;
+use sunsun\server\db\DbPool;
 use Workerman\MySQL;
 
 
@@ -35,6 +36,8 @@ class BaseDal
                 }
                 elseif(property_exists('Events','db')){
                     self::$db = \Events::$db;
+                } else {
+                    self::$db = DbPool::getInstance()->getGlobalDb();
                 }
             }
     }

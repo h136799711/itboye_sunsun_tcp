@@ -30,11 +30,25 @@ class DbPool
 {
     protected $db;
     private static $dbPool = null;
+    protected $dbList;
+
+    /**
+     * DbPool constructor.
+     * @param $dbList
+     */
+    public function __construct()
+    {
+        $this->dbList = [];
+        array_push($this->dbList, new Connection(SUNSUN_WORKER_HOST, SUNSUN_WORKER_PORT, SUNSUN_WORKER_USER, SUNSUN_WORKER_PASSWORD,SUNSUN_WORKER_DB_NAME));
+        array_push($this->dbList, new Connection(SUNSUN_WORKER_HOST, SUNSUN_WORKER_PORT, SUNSUN_WORKER_USER, SUNSUN_WORKER_PASSWORD,SUNSUN_WORKER_DB_NAME));
+        //array_push($this->dbList, new Connection(SUNSUN_WORKER_HOST, SUNSUN_WORKER_PORT, SUNSUN_WORKER_USER, SUNSUN_WORKER_PASSWORD,SUNSUN_WORKER_DB_NAME));
+    }
+
 
     public static function getInstance(){
         if(self::$dbPool == null){
             self::$dbPool = new DbPool();
-            self::$dbPool->setDb(new Connection(SUNSUN_WORKER_HOST, SUNSUN_WORKER_PORT, SUNSUN_WORKER_USER, SUNSUN_WORKER_PASSWORD, SUNSUN_WORKER_DB_NAME));
+//            self::$dbPool->setDb(new Connection(SUNSUN_WORKER_HOST, SUNSUN_WORKER_PORT, SUNSUN_WORKER_USER, SUNSUN_WORKER_PASSWORD, SUNSUN_WORKER_DB_NAME));
         }
         return self::$dbPool;
     }
@@ -49,8 +63,9 @@ class DbPool
      * @return mixed
      */
     public function getDb($did){
-        $type = substr($did,0,3);
-        return $this->getDbByType($type);
+        return $this->randDb();
+//        $type = substr($did,0,3);
+//        return $this->getDbByType($type);
     }
     /**
      * 根据type获取指定的数据库链接
@@ -88,6 +103,21 @@ class DbPool
      * @return mixed
      */
     public function getGlobalDb(){
-        return $this->db;
+        return $this->randDb();
+    }
+
+
+    protected function randDb() {
+        if (count($this->dbList) == 1) {
+            $index = 0;
+        } elseif (count($this->dbList) > 1) {
+            $index = (int) rand(0, count($this->dbList));
+            if ($index >= count($this->dbList)) {
+                $index = count($this->dbList) - 1;
+            }
+        } else {
+            return null;
+        }
+        return $this->dbList[$index];
     }
 }

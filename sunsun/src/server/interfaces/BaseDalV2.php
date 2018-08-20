@@ -12,6 +12,7 @@ namespace sunsun\server\interfaces;
 use sunsun\model\BaseModel;
 use sunsun\server\business\DebugEvents;
 use sunsun\server\business\Events;
+use sunsun\server\db\DbPool;
 use Workerman\MySQL;
 
 abstract class BaseDalV2
@@ -37,6 +38,8 @@ abstract class BaseDalV2
                 self::$db = Events::getDb();
             } elseif (class_exists('DebugEvents')) {
                 self::$db = DebugEvents::getDb();
+            } else {
+                self::$db = DbPool::getInstance()->getGlobalDb();
             }
         }
     }

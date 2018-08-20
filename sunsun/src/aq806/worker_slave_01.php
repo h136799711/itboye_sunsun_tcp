@@ -24,9 +24,9 @@ $worker = new BusinessWorker();
 // worker名称
 $worker->name = 'aq806_worker';
 // bussinessWorker进程数量
-$worker->count = 20;
+$worker->count = 8;
 // 设置业务处理类
-$worker->eventHandler = "\sunsun\server\business\Events";
+$worker->eventHandler = "\sunsun\server\business\SlaveEvents";
 // 服务注册地址
 $worker->registerAddress = '101.37.37.167:1238';
 // 进程启动时设置一个定时器，定时向所有客户端连接发送数据
