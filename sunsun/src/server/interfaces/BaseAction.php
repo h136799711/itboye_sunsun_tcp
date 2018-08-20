@@ -308,6 +308,7 @@ abstract class BaseAction
             if (SlaveEvents::$mqttClient != null) {
                 SlaveEvents::$mqttClient->publish("event_".substr($did, 0, 3), json_encode($data),
                 ['qos' => 0, 'retain' => false, 'dup' => false], function(\Exception $exception) {
+                    SlaveEvents::$mqttClient->reconnect(5);
                     //SlaveEvents::sendEmailTo($exception->getMessage(), "aq806内部发送事件异常");
                 });
             }
