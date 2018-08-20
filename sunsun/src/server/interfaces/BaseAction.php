@@ -303,7 +303,6 @@ abstract class BaseAction
         $do->setUpdateTime($now);
         $do->setEventInfo($data['event_info']);
         $do->setEventType($data['event_type']);
-        $dal->insert($do);
         try {
             if (SlaveEvents::$mqttClient != null) {
                 SlaveEvents::$mqttClient->publish("event_".substr($did, 0, 3), json_encode($data),
@@ -311,9 +310,11 @@ abstract class BaseAction
                     SlaveEvents::$mqttClient->reconnect(5);
                     //SlaveEvents::sendEmailTo($exception->getMessage(), "aq806内部发送事件异常");
                 });
+            } else {
+                $dal->insert($do);
             }
         } catch (\Exception $exception) {
-
+            $dal->insert($do);
         }
     }
 
