@@ -17,5 +17,5 @@ use sunsun\server\interfaces\BaseAction;
  */
 class Aq806DeviceEventAction extends BaseAction
 {
-    
+
 }
