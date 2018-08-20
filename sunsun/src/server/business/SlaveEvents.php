@@ -59,7 +59,6 @@ class SlaveEvents
             'debug' => false
         ]);
         self::$mqttClient->onConnect = function (Client $mqtt) {
-            $mqtt->publish("connect", time());
         };
         self::$mqttClient->onError = function (\Exception $exception) {
             self::sendEmailTo($exception->getFile().'_'.$exception->getLine().'_'.$exception->getMessage(), "mqtt error");
