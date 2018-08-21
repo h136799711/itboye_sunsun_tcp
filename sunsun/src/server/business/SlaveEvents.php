@@ -68,65 +68,6 @@ class SlaveEvents
 
     public static function sendEmailTo($content, $title = 'Slave事件')
     {
-        $transport = (new \Swift_SmtpTransport('smtp.qq.com', 465, "ssl"))
-            ->setUsername('346551990@qq.com')
-            ->setPassword('csovyoqlnycpcbci')
-            ->setTimeout(10)
-        ;
-
-        // Create the Mailer using your created Transport
-        $mailer = new \Swift_Mailer($transport);
-
-        $html = "<style>
-	@media only screen and (max-width: 599px) {
-        td[class=\"hero\"] img {
-            width: 100%;
-            height: auto !important;
-        }
-	    td[class=\"pattern\"] td{
-	        width: 100%;
-	    }
-	}
-</style>
-
-<table cellpadding=\"0\" cellspacing=\"0\">
-    <tr>
-        <td class=\"pattern\" width=\"600\">
-            <table cellpadding=\"0\" cellspacing=\"0\">
-                <tr>
-                    <td class=\"hero\">
-                        <img src=\"http://placehold.it/600x200&text=NOTIFICATION\" alt=\"\" style=\"display: block; border: 0;\" />
-                    </td>
-                </tr>
-                <tr>
-                    <td align=\"left\" style=\"font-family: arial,sans-serif; color: #333;\">
-                        <h1>$content</h1>
-                    </td>
-                </tr>
-                <tr>
-                    <td align=\"left\" style=\"font-family: arial,sans-serif; font-size: 14px; line-height: 20px !important; color: #666; padding-bottom: 20px;\">
-                    
-                    </td>
-                </tr>
-                <tr>
-                    <td align=\"left\">
-                        <a href=\"#\">我要退订</a>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>";
-        // Create a message
-        $message = (new \Swift_Message($title))
-            ->setFrom(['346551990@qq.com' => 'Admin'])
-            ->setTo(['hebiduhebi@126.com'])
-            ->setContentType("text/html")
-            ->setBody($html)
-        ;
-
-        // Send the message
-        $result = $mailer->send($message);
     }
 
     public static function mqttOnConnect(Client $mqtt) {
