@@ -27,7 +27,7 @@ $worker->name = 'transfer_worker';
 $worker->count = 8;
 //$worker->eventHandler = "\sunsun\transfer_station\events\Transfer";
 // 服务注册地址
-$worker->registerAddress = '127.0.0.1:1250';
+$worker->registerAddress = '172.16.23.85:1250';
 // 进程启动时设置一个定时器，定时向所有客户端连接发送数据
 $worker->onWorkerStart = function ($worker) {
     // 定时，每10秒一次，

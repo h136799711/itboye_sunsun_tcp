@@ -33,7 +33,7 @@ class ServerAddressConfig
     // construct
     public function __construct()
     {
-        $this->registerAddress = '101.37.37.167';
+        $this->registerAddress = '172.16.23.85';
     }
 
     // override function __toString()

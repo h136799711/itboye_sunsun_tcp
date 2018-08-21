@@ -27,7 +27,7 @@ $worker->name = 'server_aq806_worker';
 // bussinessWorker进程数量
 $worker->count = 4;
 // 服务注册地址
-$worker->registerAddress = '127.0.0.1:1212';
+$worker->registerAddress = '172.16.23.85:1212';
 $worker->eventHandler = "\sunsun\server\business\Events";
 // 如果不是在根目录启动，则运行runAll方法
 if (!defined('GLOBAL_START')) {

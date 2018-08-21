@@ -28,7 +28,7 @@ $worker->name = 'adt_timer_worker';
 $worker->count = 1;
 $worker->eventHandler = "\sunsun\server\business\TimerEvents";
 // 服务注册地址
-$worker->registerAddress = '127.0.0.1:1242';
+$worker->registerAddress = '172.16.23.85:1242';
 // 进程启动时设置一个定时器，定时向所有客户端连接发送数据
 
 // 如果不是在根目录启动，则运行runAll方法

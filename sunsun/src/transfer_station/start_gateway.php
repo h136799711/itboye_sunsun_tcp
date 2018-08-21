@@ -25,12 +25,12 @@ $gateway->name = 'transfer_station_gateway';
 // gateway进程数
 $gateway->count = 8;
 // 本机ip，分布式部署时使用内网ip
-$gateway->lanIp = '101.37.37.167';
+$gateway->lanIp = '172.16.23.85';
 // 内部通讯起始端口，假如$gateway->count=4，起始端口为3900
 // 则一般会使用 4个端口作为内部通讯端口
 $gateway->startPort = 5900;
 // 服务注册地址
-$gateway->registerAddress = '127.0.0.1:1250';
+$gateway->registerAddress = '172.16.23.85:1250';
 
 // 心跳间隔
 $gateway->pingInterval = 20;
