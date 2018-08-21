@@ -52,7 +52,6 @@ class RespFacadeFactory
      */
     public static function createHeartBeatRespObj($did, BaseHeartBeatClientReq $req = null)
     {
-
         $jsonData = [];
         if (!empty($req)) {
             $jsonData = $req->toDataArray();

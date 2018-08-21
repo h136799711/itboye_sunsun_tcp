@@ -102,6 +102,7 @@ abstract class BaseAction
         }
 
         Gateway::updateSession($clientId, ['hb_cnt' => $hbCnt]);
+        //
 
         $respObj = RespFacadeFactory::createHeartBeatRespObj($did, $req);
         return $respObj;
