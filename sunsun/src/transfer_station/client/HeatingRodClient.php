@@ -51,7 +51,7 @@ class HeatingRodClient extends BaseClient implements DeviceClientInterface
     }
 
     private function setRegisterAddr(){
-        Gateway::$registerAddress = "101.37.37.167:1239";
+        Gateway::$registerAddress = "172.16.23.85:1239";
     }
     public function getInfo($client_id,$did, $pwd=''){
         if(empty($pwd)){

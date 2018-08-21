@@ -51,7 +51,7 @@ class Cp1000Client extends BaseClient implements DeviceClientInterface
 
     private function setRegisterAddr()
     {
-        Gateway::$registerAddress = "101.37.37.167:1243";
+        Gateway::$registerAddress = "172.16.23.85:1243";
     }
 
     public function getInfo($client_id, $did, $pwd = '')

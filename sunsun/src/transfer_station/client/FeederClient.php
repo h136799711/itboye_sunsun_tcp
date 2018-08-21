@@ -40,7 +40,7 @@ class FeederClient extends BaseClient implements DeviceClientInterface
     }
 
     private function setRegisterAddr(){
-        Gateway::$registerAddress = "101.37.37.167:1245";
+        Gateway::$registerAddress = "172.16.23.85:1245";
     }
 
     public function deviceInfo()

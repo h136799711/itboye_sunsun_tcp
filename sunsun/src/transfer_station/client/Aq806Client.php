@@ -52,7 +52,7 @@ class Aq806Client extends BaseClient implements DeviceClientInterface
     }
 
     private function setRegisterAddr(){
-        Gateway::$registerAddress = "101.37.37.167:1238";
+        Gateway::$registerAddress = "172.16.23.84:1238";
     }
 
     public function getInfo($client_id,$did, $pwd=''){

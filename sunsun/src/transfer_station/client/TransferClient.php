@@ -15,7 +15,7 @@ use sunsun\transfer_station\controller\RespMsgType;
 class TransferClient
 {
     private static function setRegisterAddr(){
-        Gateway::$registerAddress = "101.37.37.167:1250";
+        Gateway::$registerAddress = "172.16.23.85:1250";
     }
     /**
      * 获取分组内有多少个客户端链接

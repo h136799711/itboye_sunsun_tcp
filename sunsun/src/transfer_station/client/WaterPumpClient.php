@@ -75,7 +75,7 @@ class WaterPumpClient extends BaseClient implements DeviceClientInterface
 
     // private function
     private function setRegisterAddr(){
-        Gateway::$registerAddress = "101.37.37.167:1241";
+        Gateway::$registerAddress = "172.16.23.85:1241";
     }
 
     protected function getDevicePwd($did){
