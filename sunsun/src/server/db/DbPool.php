@@ -14,7 +14,9 @@ use Workerman\MySQL\Connection;
 
 #define("SUNSUN_WORKER_HOST", "db1.sunsunxiaoli.com");
 // 外网rds
-define("SUNSUN_WORKER_HOST", "rm-bp1utkoj82w47hlamxo.mysql.rds.aliyuncs.com");
+
+//define("SUNSUN_WORKER_HOST", "rm-bp1utkoj82w47hlamxo.mysql.rds.aliyuncs.com");
+define("SUNSUN_WORKER_HOST", "rm-bp1utkoj82w47hlam.mysql.rds.aliyuncs.com");
 define("SUNSUN_WORKER_PORT", "3306");
 define("SUNSUN_WORKER_USER", "sunsun");
 define("SUNSUN_WORKER_PASSWORD", "poiuyTREWQ123456");
