@@ -33,9 +33,9 @@ $gateway->startPort = 5900;
 $gateway->registerAddress = \sunsun\ServerAddress::SLAVE_01_INNER_IP.':1250';
 
 // 心跳间隔
-$gateway->pingInterval = 20;
+$gateway->pingInterval = 360;
 
-$gateway->pingNotResponseLimit = 12;
+$gateway->pingNotResponseLimit = 1;
 
 $gateway->pingData = '';
 /* 

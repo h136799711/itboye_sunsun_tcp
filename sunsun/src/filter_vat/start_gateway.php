@@ -33,9 +33,9 @@ $gateway->startPort = 2900;
 $gateway->registerAddress = '172.16.23.85:1237';
 
 // 心跳间隔
-$gateway->pingInterval = 20;
+$gateway->pingInterval = 360;
 
-$gateway->pingNotResponseLimit = 12;
+$gateway->pingNotResponseLimit = 1;
 
 $gateway->pingData = '';
 /* 
