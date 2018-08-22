@@ -28,7 +28,7 @@ $worker->count = 4;
 // 设置业务处理类
 $worker->eventHandler = "\sunsun\server\business\Events";
 // 服务注册地址
-$worker->registerAddress = '172.16.23.85:1244';
+$worker->registerAddress = \sunsun\ServerAddress::SLAVE_01_INNER_IP.':1244';
 // 如果不是在根目录启动，则运行runAll方法
 if (!defined('GLOBAL_START')) {
     Worker::runAll();

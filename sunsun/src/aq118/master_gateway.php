@@ -19,23 +19,23 @@ use Workerman\Worker;
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
 // gateway 进程，这里使用Text协议，可以用telnet测试
-$gateway = new Gateway("tcp://0.0.0.0:8287");
+$gateway = new Gateway("tcp://0.0.0.0:8292");
 // gateway名称，status方便查看,过滤桶
-$gateway->name = 'adt_gateway';
+$gateway->name = 'aq118_gateway';
 // gateway进程数
 $gateway->count = 4;
 // 本机ip，分布式部署时使用内网ip
-$gateway->lanIp = '172.21.0.4';
-// 内部通讯起始端口，假如$gateway->count=4，起始端口为 4300
+$gateway->lanIp = \sunsun\ServerAddress::MASTER_INNER_IP;
+// 内部通讯起始端口，假如$gateway->count=4，起始端口为3900
 // 则一般会使用 4个端口作为内部通讯端口
-$gateway->startPort = 4300;
+$gateway->startPort = 3500;
 // 服务注册地址
-$gateway->registerAddress = 'adt.sunsunxiaoli.com:1242';
+$gateway->registerAddress = \sunsun\ServerAddress::SLAVE_01_INNER_IP.':1244';
 
 // 心跳间隔
-$gateway->pingInterval = 360;
+$gateway->pingInterval = 20;
 
-$gateway->pingNotResponseLimit = 1;
+$gateway->pingNotResponseLimit = 12;
 
 $gateway->pingData = '';
 /* 

@@ -18,6 +18,7 @@ namespace sunsun;
 
 class ServerAddressConfig
 {
+
     // member function
 
     public static function getInstance()
