@@ -1,1 +1,0 @@
-php ../../src/server/heating_gateway_8283.php start -d && php ../../src/server/heating_bw.php start -d

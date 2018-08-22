@@ -1,1 +1,0 @@
-php ../../src/aph300/start_gateway.php stop && php ../../src/aph300/start_businessworker.php stop && php ../../src/aph300/start_aph300_register.php stop && ps -ef | grep aph300 | grep -v grep | cut -c 9-15 | xargs kill -9 && ps -ef | grep WorkerMan | grep 1240 | grep -v grep | cut -c 9-15 | xargs kill -9

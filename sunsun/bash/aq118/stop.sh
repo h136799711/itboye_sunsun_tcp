@@ -1,1 +1,0 @@
-php ../../src/aq118/start_gateway.php stop && php ../../src/aq118/start_businessworker.php stop && php ../../src/aq118/timer_worker.php stop && php ../../src/aq118/start_aq118_register.php stop && ps -ef | grep aq118 | grep -v grep | cut -c 9-15 | xargs kill -9 && ps -ef | grep WorkerMan | grep 1244 | grep -v grep | cut -c 9-15 | xargs kill -9

@@ -1,1 +1,0 @@
-php ../../src/adt/start_gateway.php stop && php ../../src/adt/start_businessworker.php stop && php ../../src/adt/start_adt_register.php stop && ps -ef | grep adt | grep -v grep | cut -c 9-15 | xargs kill -9 && ps -ef | grep WorkerMan | grep 1242 | grep -v grep | cut -c 9-15 | xargs kill -9

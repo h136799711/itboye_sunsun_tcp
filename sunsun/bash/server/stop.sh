@@ -1,1 +1,0 @@
-php ../../src/server/start_gateway.php stop && php ../../src/server/start_businessworker.php stop && php ../../src/server/start_sserver_register.php stop && ps -ef | grep server | grep -v grep | cut -c 9-15 | xargs kill -9 && ps -ef | grep WorkerMan | grep 1212 | grep -v grep | cut -c 9-15 | xargs kill -9

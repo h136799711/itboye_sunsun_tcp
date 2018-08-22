@@ -1,1 +1,0 @@
-php ../../src/server/adt_gateway_8287.php start -d && php ../../src/server/adt_bw.php start -d

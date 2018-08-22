@@ -1,1 +1,0 @@
-php ../../src/transfer_station/start_gateway.php stop && php ../../src/transfer_station/start_businessworker.php stop && php ../../src/transfer_station/start_transfer_register.php stop && ps -ef | grep transfer | grep -v grep | cut -c 9-15 | xargs kill -9 && ps -ef | grep WorkerMan | grep 1250 | grep -v grep | cut -c 9-15 | xargs kill -9

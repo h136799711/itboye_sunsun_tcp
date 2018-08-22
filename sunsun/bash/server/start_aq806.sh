@@ -1,1 +1,0 @@
-php ../../src/server/aq806_gateway_8284.php start -d && php ../../src/server/aq806_bw.php start -d

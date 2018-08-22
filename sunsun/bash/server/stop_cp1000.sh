@@ -1,1 +1,0 @@
-php ../../src/server/cp1000_gateway_8288.php stop && php ../../src/server/cp1000_bw.php stop
