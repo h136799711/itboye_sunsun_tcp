@@ -88,22 +88,6 @@ abstract class BaseAction
      */
     public function deviceHeartBeat($did, $clientId, BaseHeartBeatClientReq $req)
     {
-        $session = Gateway::getSession($clientId);
-        $hbCnt = 1;
-
-        if ($session && array_key_exists('hb_cnt', $session)) {
-            $hbCnt = intval($session['hb_cnt']);
-            if ($hbCnt < self::HB_COUNT_MAX) {
-                $hbCnt++;
-            } else {
-                $hbCnt = 1;
-                (DeviceFacadeFactory::getDeviceDal($did))->updateByDid($did, ['update_time' => time()]);
-            }
-        }
-
-        Gateway::updateSession($clientId, ['hb_cnt' => $hbCnt]);
-        //
-
         $respObj = RespFacadeFactory::createHeartBeatRespObj($did, $req);
         return $respObj;
     }
