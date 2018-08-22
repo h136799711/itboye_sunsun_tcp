@@ -1,1 +1,0 @@
- php ../../src/water_pump/timer_worker.php start -d
