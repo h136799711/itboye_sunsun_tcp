@@ -13,5 +13,6 @@ class ServerAddress
 {
     const MASTER_INNER_IP = "172.16.23.84";
     const SLAVE_01_INNER_IP = "172.16.23.85";
+    const REGISTER_IP = "172.16.23.84";
 
 }

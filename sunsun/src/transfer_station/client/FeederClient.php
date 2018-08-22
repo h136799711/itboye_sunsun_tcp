@@ -13,6 +13,7 @@ use sunsun\decoder\SunsunTDS;
 use sunsun\feeder\dal\FeederDeviceDal;
 use sunsun\feeder\req\FeederDeviceInfoReq;
 use sunsun\server\consts\SessionKeys;
+use sunsun\ServerAddress;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 
@@ -40,7 +41,7 @@ class FeederClient extends BaseClient implements DeviceClientInterface
     }
 
     private function setRegisterAddr(){
-        Gateway::$registerAddress = "172.16.23.85:1245";
+        Gateway::$registerAddress = ServerAddress::REGISTER_IP . ":1245";
     }
 
     public function deviceInfo()

@@ -13,6 +13,7 @@ use sunsun\cp1000\dal\Cp1000DeviceDal;
 use sunsun\cp1000\req\Cp1000DeviceInfoReq;
 use sunsun\decoder\SunsunTDS;
 use sunsun\server\consts\SessionKeys;
+use sunsun\ServerAddress;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 class Cp1000Client extends BaseClient implements DeviceClientInterface
@@ -51,7 +52,7 @@ class Cp1000Client extends BaseClient implements DeviceClientInterface
 
     private function setRegisterAddr()
     {
-        Gateway::$registerAddress = "172.16.23.85:1243";
+        Gateway::$registerAddress = ServerAddress::REGISTER_IP . ":1243";
     }
 
     public function getInfo($client_id, $did, $pwd = '')

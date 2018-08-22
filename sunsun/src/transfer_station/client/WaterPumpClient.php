@@ -11,6 +11,7 @@ namespace sunsun\transfer_station\client;
 use GatewayClient\Gateway;
 use sunsun\decoder\SunsunTDS;
 use sunsun\server\consts\SessionKeys;
+use sunsun\ServerAddress;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
 use sunsun\water_pump\dal\WaterPumpDeviceDal;
 use sunsun\water_pump\req\WaterPumpDeviceInfoReq;
@@ -75,7 +76,7 @@ class WaterPumpClient extends BaseClient implements DeviceClientInterface
 
     // private function
     private function setRegisterAddr(){
-        Gateway::$registerAddress = "172.16.23.85:1241";
+        Gateway::$registerAddress = ServerAddress::REGISTER_IP . ":1241";
     }
 
     protected function getDevicePwd($did){

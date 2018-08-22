@@ -13,6 +13,7 @@ use sunsun\aq806\dal\Aq806DeviceDal;
 use sunsun\aq806\req\Aq806DeviceInfoReq;
 use sunsun\decoder\SunsunTDS;
 use sunsun\server\consts\SessionKeys;
+use sunsun\ServerAddress;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 
@@ -52,7 +53,7 @@ class Aq806Client extends BaseClient implements DeviceClientInterface
     }
 
     private function setRegisterAddr(){
-        Gateway::$registerAddress = "172.16.23.84:1238";
+        Gateway::$registerAddress = ServerAddress::REGISTER_IP . ":1238";
     }
 
     public function getInfo($client_id,$did, $pwd=''){

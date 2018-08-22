@@ -13,6 +13,7 @@ use sunsun\adt\dal\AdtDeviceDal;
 use sunsun\adt\req\AdtDeviceInfoReq;
 use sunsun\decoder\SunsunTDS;
 use sunsun\server\consts\SessionKeys;
+use sunsun\ServerAddress;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 class AdtClient extends BaseClient implements DeviceClientInterface
@@ -64,7 +65,7 @@ class AdtClient extends BaseClient implements DeviceClientInterface
 
     private function setRegisterAddr()
     {
-        Gateway::$registerAddress = "172.16.23.85:1242";
+        Gateway::$registerAddress = ServerAddress::REGISTER_IP . ":1242";
     }
 
     protected function getDevicePwd($did){

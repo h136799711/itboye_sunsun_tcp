@@ -13,6 +13,7 @@ use sunsun\aq118\dal\Aq118DeviceDal;
 use sunsun\aq118\req\Aq118DeviceInfoReq;
 use sunsun\decoder\SunsunTDS;
 use sunsun\server\consts\SessionKeys;
+use sunsun\ServerAddress;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 
@@ -41,7 +42,7 @@ class Aq118Client extends BaseClient implements DeviceClientInterface
     }
 
     private function setRegisterAddr(){
-        Gateway::$registerAddress = "172.16.23.85:1244";
+        Gateway::$registerAddress = ServerAddress::REGISTER_IP . ":1244";
     }
 
     public function deviceInfo()

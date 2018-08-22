@@ -13,6 +13,7 @@ use sunsun\decoder\SunsunTDS;
 use sunsun\filter_vat\dal\FilterVatDeviceDal;
 use sunsun\filter_vat\req\FilterVatDeviceInfoReq;
 use sunsun\server\consts\SessionKeys;
+use sunsun\ServerAddress;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 class FilterClient extends BaseClient implements DeviceClientInterface
@@ -50,7 +51,7 @@ class FilterClient extends BaseClient implements DeviceClientInterface
     }
 
     private  function setRegisterAddr(){
-        Gateway::$registerAddress = "172.16.23.85:1237";
+        Gateway::$registerAddress = ServerAddress::REGISTER_IP . ":1237";
     }
 
     public function getInfo($client_id,$did, $pwd=''){

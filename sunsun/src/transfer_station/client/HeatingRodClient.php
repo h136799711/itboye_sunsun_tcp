@@ -13,6 +13,7 @@ use sunsun\decoder\SunsunTDS;
 use sunsun\heating_rod\dal\HeatingRodDeviceDal;
 use sunsun\heating_rod\req\HeatingRodDeviceInfoReq;
 use sunsun\server\consts\SessionKeys;
+use sunsun\ServerAddress;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 
@@ -51,7 +52,7 @@ class HeatingRodClient extends BaseClient implements DeviceClientInterface
     }
 
     private function setRegisterAddr(){
-        Gateway::$registerAddress = "172.16.23.85:1239";
+        Gateway::$registerAddress = ServerAddress::REGISTER_IP . ":1239";
     }
     public function getInfo($client_id,$did, $pwd=''){
         if(empty($pwd)){

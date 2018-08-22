@@ -9,13 +9,14 @@
 namespace sunsun\transfer_station\client;
 
 use GatewayClient\Gateway;
+use sunsun\ServerAddress;
 use sunsun\transfer_station\controller\RespMsgType;
 
 
 class TransferClient
 {
     private static function setRegisterAddr(){
-        Gateway::$registerAddress = "172.16.23.85:1250";
+        Gateway::$registerAddress = ServerAddress::REGISTER_IP . ":1250";
     }
     /**
      * 获取分组内有多少个客户端链接

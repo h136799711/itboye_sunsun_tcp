@@ -13,6 +13,7 @@ use sunsun\aph300\dal\Aph300DeviceDal;
 use sunsun\aph300\req\Aph300DeviceInfoReq;
 use sunsun\decoder\SunsunTDS;
 use sunsun\server\consts\SessionKeys;
+use sunsun\ServerAddress;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 
@@ -50,7 +51,7 @@ class AphClient extends BaseClient implements DeviceClientInterface
         // TODO: Implement firmwareUpdate() method.
     }
     private function setRegisterAddr(){
-        Gateway::$registerAddress = "172.16.23.85:1240";
+        Gateway::$registerAddress = ServerAddress::REGISTER_IP . ":1240";
     }
     public function getInfo($client_id,$did, $pwd=''){
         if(empty($pwd)){
