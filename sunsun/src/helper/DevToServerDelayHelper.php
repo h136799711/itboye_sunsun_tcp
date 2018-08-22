@@ -18,6 +18,8 @@ class DevToServerDelayHelper
 
     // 记录并统计最近几次的通信延时
     public static  function logRespTime($clientId,BaseRespPo $resp){
+
+        return 0;
         $sn = $resp->getSn();
         $session = Gateway::getSession($clientId);
         if(!array_key_exists('delay',$session)){
@@ -69,6 +71,7 @@ class DevToServerDelayHelper
 
     public static function start($sn, $client_id)
     {
+        return 0;
         // ============START 用于统计网络延时=========
         $session = Gateway::getSession($client_id);
         $delay = [];
