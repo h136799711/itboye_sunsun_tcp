@@ -15,7 +15,6 @@
 use GatewayWorker\BusinessWorker;
 use Workerman\Worker;
 
-define("SUNSUN_ENV", "debug");//debug|production 模式
 // 自动加载类
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
@@ -23,14 +22,16 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 // bussinessWorker 进程
 $worker = new BusinessWorker();
 // worker名称
-$worker->name = 'feeder_timer_worker';
+$worker->name = 'feeder_worker';
 // bussinessWorker进程数量
-$worker->count = 1;
-$worker->eventHandler = "\sunsun\server\business\TimerEvents";
+$worker->count = 4;
+// 设置业务处理类
+$worker->eventHandler = "\sunsun\server\business\Events";
 // 服务注册地址
-$worker->registerAddress = '172.16.23.85:1245';
+$worker->registerAddress = \sunsun\ServerAddress::SLAVE_01_INNER_IP.':1245';
 // 进程启动时设置一个定时器，定时向所有客户端连接发送数据
-
+$worker->onWorkerStart = function ($worker) {
+};
 // 如果不是在根目录启动，则运行runAll方法
 if (!defined('GLOBAL_START')) {
     Worker::runAll();

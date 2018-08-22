@@ -19,18 +19,18 @@ use Workerman\Worker;
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
 // gateway 进程，这里使用Text协议，可以用telnet测试
-$gateway = new Gateway("tcp://0.0.0.0:8282");
+$gateway = new Gateway("tcp://0.0.0.0:8286");
 // gateway名称，status方便查看,过滤桶
-$gateway->name = 'filter_vat_gateway';
+$gateway->name = 'water_pump_gateway';
 // gateway进程数
-$gateway->count = 4;
+$gateway->count = 8;
 // 本机ip，分布式部署时使用内网ip
-$gateway->lanIp = '172.16.23.85';
-// 内部通讯起始端口，假如$gateway->count=4，起始端口为4000
-// 则一般会使用4000 4001 4002 4003 4个端口作为内部通讯端口 
-$gateway->startPort = 2900;
+$gateway->lanIp = \sunsun\ServerAddress::SLAVE_01_INNER_IP;
+// 内部通讯起始端口，假如$gateway->count=4，起始端口为3900
+// 则一般会使用 4个端口作为内部通讯端口
+$gateway->startPort = 4200;
 // 服务注册地址
-$gateway->registerAddress = '172.16.23.85:1237';
+$gateway->registerAddress = \sunsun\ServerAddress::SLAVE_01_INNER_IP.':1241';
 
 // 心跳间隔
 $gateway->pingInterval = 360;
