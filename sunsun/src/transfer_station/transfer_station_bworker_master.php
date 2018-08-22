@@ -27,8 +27,7 @@ $worker->name = 'transfer_worker';
 $worker->count = 8;
 //$worker->eventHandler = "\sunsun\transfer_station\events\Transfer";
 // 服务注册地址
-$worker->registerAddress = \sunsun\ServerAddress::MASTER_INNER_IP.':1250';
-
+$worker->registerAddress = \sunsun\ServerAddress::MASTER_INNER_IP . ':1250';
 // 如果不是在根目录启动，则运行runAll方法
 if (!defined('GLOBAL_START')) {
     Worker::runAll();
