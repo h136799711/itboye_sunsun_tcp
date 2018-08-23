@@ -42,9 +42,49 @@ class Events
     public static $dbPool;
     private static $activeTime;//
 
+
+
     public static function onWorkerStart(Worker $businessWorker)
     {
         self::$dbPool = DbPool::getInstance();
+        for ($i=0;$i< self::$limitTimeSeconds;$i++) {
+            self::$reqCnt[$i] = [
+                [time() - $i, 0]
+            ];
+        }
+    }
+    // 30秒内不能超过600次链接 否则都主动关闭链接
+    static $limitTimeSeconds = 30;
+    static $limitCnt = 600;
+    static $reqCnt = [];
+
+    protected static function ifOverLimitTimes() {
+        $now = time();
+        // 大于该索引的都要去除
+        $expiredTimeIndex = 0;
+        $limit = 0;
+        for ($i=0;$i< self::$limitTimeSeconds;$i++) {
+            $passedTime = self::$reqCnt[$i];
+            if ($passedTime[$i] == $now - 30) {
+                $expiredTimeIndex = $i;
+            } elseif($passedTime[$i] > $now - 30) {
+                $limit++;
+            }
+        }
+        if ($limit + 1 >= self::$limitTimeSeconds) {
+            return true;
+        }
+
+        for ($k=0;$k <= $expiredTimeIndex; $k++) {
+            self::$reqCnt[self::$limitTimeSeconds - 1 - $k] = self::$reqCnt[$expiredTimeIndex - $k];
+        }
+        for ($k=0;$k <= $expiredTimeIndex; $k++) {
+            self::$reqCnt[$k] = [
+                $now - $k, 0
+            ];
+        }
+        self::$reqCnt[0][1]++;
+        return false;
     }
 
     /**
@@ -55,12 +95,17 @@ class Events
      */
     public static function onConnect($client_id)
     {
+        // 限制高并发链接
+        if (self::ifOverLimitTimes()) {
+            Gateway::closeClient($client_id);
+        }
     }
 
     /**
      * 当客户端发来消息时触发
      * @param int $client_id 连接id
      * @param $message
+     * @throws \Exception
      */
     public static function onMessage($client_id, $message)
     {
@@ -158,6 +203,7 @@ class Events
      * @param $message
      * @param $pwd
      * @return null|\sunsun\adt\resp\AdtCtrlDeviceResp|\sunsun\adt\resp\AdtDeviceInfoResp|\sunsun\adt\resp\AdtDeviceUpdateResp|\sunsun\adt\resp\AdtHbResp|\sunsun\aq806\resp\Aq806CtrlDeviceResp|\sunsun\aq806\resp\Aq806DeviceInfoResp|\sunsun\aq806\resp\Aq806DeviceUpdateResp|\sunsun\aq806\resp\Aq806HbResp|\sunsun\filter_vat\resp\FilterVatCtrlDeviceResp|\sunsun\filter_vat\resp\FilterVatDeviceEventResp|\sunsun\filter_vat\resp\FilterVatDeviceInfoResp|\sunsun\filter_vat\resp\FilterVatDeviceUpdateResp|\sunsun\filter_vat\resp\FilterVatHbResp|\sunsun\filter_vat\resp\FilterVatLoginResp|\sunsun\water_pump\resp\WaterPumpCtrlDeviceResp|\sunsun\water_pump\resp\WaterPumpDeviceInfoResp|\sunsun\water_pump\resp\WaterPumpDeviceUpdateResp|\sunsun\water_pump\resp\WaterPumpHbResp
+     * @throws \Exception
      */
     private static function login($client_id, $message, &$pwd)
     {
@@ -224,7 +270,7 @@ class Events
         }
         $dal->update($id, $entity);
         self::loginSuccess($client_id, $did);
-        self::autoUpdate($client_id, $did, $pwd, $ver);
+
         // 设置did,pwd
         $_SESSION[SessionKeys::DID] = $did;
         // 存在session中 就不需要再到数据库查询一次了
@@ -395,13 +441,4 @@ class Events
         }
     }
 
-
-    private static function logInfo($msg, $did)
-    {
-    }
-
-    private static function autoUpdate($clientId, $did, $pwd, $ver)
-    {
-
-    }
 }

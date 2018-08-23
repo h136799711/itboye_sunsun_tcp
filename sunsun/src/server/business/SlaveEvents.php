@@ -453,8 +453,4 @@ class SlaveEvents
         Gateway::closeClient($client_id);
     }
 
-    private static function logInfo($msg, $did)
-    {
-    }
-
 }

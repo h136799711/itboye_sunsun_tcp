@@ -56,6 +56,7 @@ class Aq806ProcessAction
      * @param $clientId
      * @param $jsonData
      * @return Aq806HbResp
+     * @throws \Exception
      */
     private function response($did, $clientId, $jsonData)
     {
