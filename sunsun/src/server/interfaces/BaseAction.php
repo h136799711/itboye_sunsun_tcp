@@ -212,7 +212,7 @@ abstract class BaseAction
     public function deviceEventLog($did, $client_id, BaseDeviceEventClientReq $req)
     {
         // 测试设备
-        $this->delayInsertDeviceEvent($did, $client_id, $req);
+//        $this->delayInsertDeviceEvent($did, $client_id, $req);
         $resp = RespFacadeFactory::createDeviceEventRespObj($did, $req);
         $resp->setState(0);
         return $resp;
