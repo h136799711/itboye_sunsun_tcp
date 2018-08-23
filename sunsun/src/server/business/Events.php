@@ -112,12 +112,12 @@ class Events
             $encodeData = SunsunTDS::encode($data, $pwd);
 
             self::jsonSuc($client_id, serialize($result), $encodeData);
-
+            return ;
         } else {
             self::jsonError($client_id, 'fail', []);
         }
 
-        return;
+        return Gateway::sendToClient($client_id, "error");
     }
 
     /**
@@ -269,7 +269,7 @@ class Events
 //            LogHelper::log(self::getDb(''), $client_id, $msg, 'error', $remoteIp, $remotePort, $gatewayIp, $gatewayPort);
         }
 
-        self::closeChannel($client_id, $msg);
+//        self::closeChannel($client_id, $msg);
     }
 
     /**
