@@ -14,7 +14,6 @@ use sunsun\decoder\SunsunTDS;
 use sunsun\helper\DevToServerDelayHelper;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
-use sunsun\server\business\SlaveEvents;
 use sunsun\server\consts\SunsunDeviceConstant;
 use sunsun\server\db\DbPool;
 use sunsun\server\factory\DeviceFacadeFactory;
@@ -289,19 +288,19 @@ abstract class BaseAction
         $do->setUpdateTime($now);
         $do->setEventInfo($data['event_info']);
         $do->setEventType($data['event_type']);
-        try {
-            if (SlaveEvents::$mqttClient != null) {
-                SlaveEvents::$mqttClient->publish("event_".substr($did, 0, 3), json_encode($data),
-                ['qos' => 0, 'retain' => false, 'dup' => false], function(\Exception $exception) {
-                    SlaveEvents::$mqttClient->reconnect(5);
-                    //SlaveEvents::sendEmailTo($exception->getMessage(), "aq806内部发送事件异常");
-                });
-            } else {
+//        try {
+//            if (SlaveEvents::$mqttClient != null) {
+//                SlaveEvents::$mqttClient->publish("event_".substr($did, 0, 3), json_encode($data),
+//                ['qos' => 0, 'retain' => false, 'dup' => false], function(\Exception $exception) {
+//                    SlaveEvents::$mqttClient->reconnect(5);
+//                    //SlaveEvents::sendEmailTo($exception->getMessage(), "aq806内部发送事件异常");
+//                });
+//            } else {
                 $dal->insert($do);
-            }
-        } catch (\Exception $exception) {
-            $dal->insert($do);
-        }
+//            }
+//        } catch (\Exception $exception) {
+//            $dal->insert($do);
+//        }
     }
 
 }
