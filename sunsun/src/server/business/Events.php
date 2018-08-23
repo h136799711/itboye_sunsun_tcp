@@ -254,18 +254,18 @@ class Events
      */
     private static function jsonError($client_id, $msg, $data = [])
     {
-        $session = Gateway::getSession($client_id);
-        if (!empty($msg)) {
+//        $session = Gateway::getSession($client_id);
+//        if (!empty($msg)) {
             // 记录错误日志
-            if (!empty($session)) {
-                $msg = 'session:' . json_encode($session) . ',msg:' . json_encode($msg);
-            }
-            $remoteIp = self::getClientIp();
-            $remotePort = self::getRemotePort();
-            $gatewayPort = self::getGatewayPort();
-            $gatewayIp = self::getGatewayIp();
+//            if (!empty($session)) {
+//                $msg = 'session:' . json_encode($session) . ',msg:' . json_encode($msg);
+//            }
+//            $remoteIp = self::getClientIp();
+//            $remotePort = self::getRemotePort();
+//            $gatewayPort = self::getGatewayPort();
+//            $gatewayIp = self::getGatewayIp();
 //            LogHelper::log(self::getDb(''), $client_id, $msg, 'error', $remoteIp, $remotePort, $gatewayIp, $gatewayPort);
-        }
+//        }
 
         self::closeChannel($client_id, $msg);
     }
@@ -385,7 +385,14 @@ class Events
      */
     public static function onClose($client_id)
     {
-        Gateway::closeClient($client_id);
+        $session = $_SESSION;
+        if (is_array($session) && array_key_exists(SessionKeys::DID, $session)) {
+            $did = $session[SessionKeys::DID];
+        }
+
+        if (!empty($did)) {
+            DeviceFacadeFactory::getDeviceDal($did)->logoutByClientId($client_id);
+        }
     }
 
 

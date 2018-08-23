@@ -38,7 +38,8 @@ class LogHelper
             $model->setType($type);
             $model->setLevel(1);
             $model->setOwner($client_id);
-            $dal->insert($model);
+            $info = json_encode($model->toDataArray(), JSON_OBJECT_AS_ARRAY);
+            file_put_contents("worker.log", $info, FILE_APPEND | LOCK_EX);
         }
     }
 }
