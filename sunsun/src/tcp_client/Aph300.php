@@ -41,7 +41,7 @@ function createTcp($tcpDevice){
 function initClients(){
 
     $ports = [
-        'k8284'=>[]
+        'k8285'=>[]
     ];
 
     foreach ($ports as $key=>&$value){
@@ -95,7 +95,7 @@ $task->onWorkerStart = function($task)
     $size = 1;//$input->getOption('size');
     $portClients = initClients();
     $time = microtime(true);
-    $port = 8284;//$input->getOption('port');
+    $port = 8285;//$input->getOption('port');
     $times = 5*3600;//在线时间 秒
     $sockets = [];
     $clients = $portClients['k'.$port];
@@ -106,7 +106,7 @@ $task->onWorkerStart = function($task)
 
     for($i=0;$i<$size;$i++){
         $one  = $clients[$i+$start];
-        $tcpDevice = createTcp(new Aq806Device('tcp://'.'47.98.81.81'.':'.$port,null, $one));
+        $tcpDevice = createTcp(new Aph300Device('tcp://s04.sunsunxiaoli.com:'.$port,null, $one));
         array_push($sockets,$tcpDevice);
         break;
     }
@@ -114,7 +114,7 @@ $task->onWorkerStart = function($task)
     Timer::add(3,function() use ($sockets,$size) {
         for($i=0;$i<$size;$i++){
             $tcpDevice  = $sockets[$i];
-            if($tcpDevice instanceof  Aq806Device){
+            if($tcpDevice instanceof  Aph300Device){
                 $tcpDevice->heartBeat();
             }
         }

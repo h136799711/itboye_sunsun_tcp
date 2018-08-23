@@ -28,20 +28,21 @@ class Aq806Device extends AsyncTcpConnection
     public $reconnectCnt = 0;// 当前重连次数
 
     public function message($msg){
-        if(!$this->isLogined){
-            $decode = SunsunTDS::decode($msg, $this->pwd);
-        }else{
-            $decode = SunsunTDS::decode($msg, $this->publicPwd);
-        }
-        echo $msg;
+//        if($this->isLogined){
+        $decode = SunsunTDS::decode($msg, $this->pwd);
+//        }else{
+//            $decode = SunsunTDS::decode($msg, $this->publicPwd);
+//        }
+//        echo $msg;
         if($decode->isValid()){
             $data = $decode->getTdsData();
-            var_dump($data);
+//            var_dump($data);
             $orginData = $decode->getTdsOriginData();
-            var_dump($orginData);
+//            var_dump($orginData);
             if(is_string($orginData)){
                 $orginData = json_decode($orginData, JSON_OBJECT_AS_ARRAY);
             }
+            var_dump($orginData);
             if(is_array($orginData)){
                 if(array_key_exists('resType',$orginData)){
                     $resType = $orginData['resType'];

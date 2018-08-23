@@ -33,12 +33,9 @@ class Aph300Device extends AsyncTcpConnection
 //        }else{
 //            $decode = SunsunTDS::decode($msg, $this->publicPwd);
 //        }
-        echo $msg;
         if($decode->isValid()){
             $data = $decode->getTdsData();
-            var_dump($data);
             $orginData = $decode->getTdsOriginData();
-            var_dump($orginData);
             if(is_string($orginData)){
                 $orginData = json_decode($orginData, JSON_OBJECT_AS_ARRAY);
             }
@@ -54,9 +51,11 @@ class Aph300Device extends AsyncTcpConnection
                 }else{
                     echo '非法数据';
                 }
+            }else {
+                file_put_contents("empty data aph300.log", $data, FILE_APPEND | LOCK_EX);
             }
         }else{
-            echo '非法数据';
+            file_put_contents("invalid_aph300.log", $msg, FILE_APPEND | LOCK_EX);
         }
     }
 
