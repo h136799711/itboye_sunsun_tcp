@@ -14,6 +14,7 @@ use sunsun\decoder\SunsunTDS;
 use sunsun\helper\DevToServerDelayHelper;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
+use sunsun\server\business\SlaveEvents;
 use sunsun\server\consts\SunsunDeviceConstant;
 use sunsun\server\db\DbPool;
 use sunsun\server\factory\DeviceFacadeFactory;
@@ -26,6 +27,7 @@ use sunsun\server\resp\BaseControlDeviceClientResp;
 use sunsun\server\resp\BaseDeviceFirmwareUpdateClientResp;
 use sunsun\transfer_station\client\TransferClient;
 use sunsun\transfer_station\controller\RespMsgType;
+use Workerman\Mqtt\Client;
 
 /**
  * 通用设备处理类
@@ -212,7 +214,7 @@ abstract class BaseAction
     public function deviceEventLog($did, $client_id, BaseDeviceEventClientReq $req)
     {
         // 测试设备
-//        $this->delayInsertDeviceEvent($did, $client_id, $req);
+        $this->delayInsertDeviceEvent($did, $client_id, $req);
         $resp = RespFacadeFactory::createDeviceEventRespObj($did, $req);
         $resp->setState(0);
         return $resp;
@@ -288,19 +290,20 @@ abstract class BaseAction
         $do->setUpdateTime($now);
         $do->setEventInfo($data['event_info']);
         $do->setEventType($data['event_type']);
-//        try {
-//            if (SlaveEvents::$mqttClient != null) {
-//                SlaveEvents::$mqttClient->publish("event_".substr($did, 0, 3), json_encode($data),
-//                ['qos' => 0, 'retain' => false, 'dup' => false], function(\Exception $exception) {
-//                    SlaveEvents::$mqttClient->reconnect(5);
-//                    //SlaveEvents::sendEmailTo($exception->getMessage(), "aq806内部发送事件异常");
-//                });
-//            } else {
-//                $dal->insert($do);
-//            }
-//        } catch (\Exception $exception) {
-//            $dal->insert($do);
-//        }
+
+        try {
+            if (SlaveEvents::$mqttClient instanceof Client) {
+                SlaveEvents::$mqttClient->publish("event_".substr($did, 0, 3), json_encode($data),
+                ['qos' => 0, 'retain' => false, 'dup' => false], function(\Exception $exception) {
+                    SlaveEvents::$mqttClient->reconnect(5);
+                    //SlaveEvents::sendEmailTo($exception->getMessage(), "aq806内部发送事件异常");
+                });
+            } else {
+                $dal->insert($do);
+            }
+        } catch (\Exception $exception) {
+            $dal->insert($do);
+        }
     }
 
 }
