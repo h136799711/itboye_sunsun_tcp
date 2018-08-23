@@ -47,43 +47,53 @@ class Events
     public static function onWorkerStart(Worker $businessWorker)
     {
         self::$dbPool = DbPool::getInstance();
-        for ($i=0;$i< self::$limitTimeSeconds;$i++) {
-            self::$reqCnt[$i] = [
-                [time() - $i, 0]
-            ];
-        }
     }
+
     // 30秒内不能超过600次链接 否则都主动关闭链接
-    static $limitTimeSeconds = 30;
-    static $limitCnt = 600;
+    static $limitTimeSeconds = 3;
+    static $limitCnt = 100;
     static $reqCnt = [];
 
-    protected static function ifOverLimitTimes() {
+    public static function getReqCnt() {
         $now = time();
-        // 大于该索引的都要去除
-        $expiredTimeIndex = 0;
-        $limit = 0;
-        for ($i=0;$i< self::$limitTimeSeconds;$i++) {
-            $passedTime = self::$reqCnt[$i];
-            if ($passedTime[$i] == $now - 30) {
-                $expiredTimeIndex = $i;
-            } elseif($passedTime[$i] > $now - 30) {
-                $limit++;
+        $cnt = 0;
+        for ($i = 0; $i < count(self::$reqCnt); $i++) {
+            if (self::$reqCnt[$i][0] > $now - self::$limitTimeSeconds) {
+                $cnt += self::$reqCnt[$i][1];
             }
         }
-        if ($limit + 1 >= self::$limitTimeSeconds) {
+        return $cnt;
+    }
+
+    public static function ifOverLimitTimes()
+    {
+        $now = time();
+        $limit = 0;
+        // 大于该索引的都要去除
+        $expiredTimeIndex = -1;
+        for ($i = 0; $i < count(self::$reqCnt); $i++) {
+            $passedTime = &self::$reqCnt[$i];
+            if ($passedTime[0] <= $now - self::$limitTimeSeconds) {
+                $expiredTimeIndex = $i;
+            } else {
+                $limit += $passedTime[1];
+            }
+        }
+        self::$reqCnt = array_reverse(self::$reqCnt);
+        while ($expiredTimeIndex-- > 0) {
+            array_pop(self::$reqCnt);
+        }
+        self::$reqCnt = array_reverse(self::$reqCnt);
+
+        if ($limit >= self::$limitCnt) {
             return true;
         }
 
-        for ($k=0;$k <= $expiredTimeIndex; $k++) {
-            self::$reqCnt[self::$limitTimeSeconds - 1 - $k] = self::$reqCnt[$expiredTimeIndex - $k];
+        if (count(self::$reqCnt) > 0 && self::$reqCnt[count(self::$reqCnt) - 1][0] == $now) {
+            self::$reqCnt[count(self::$reqCnt) - 1][1]++;
+        } else {
+            array_push(self::$reqCnt, [$now, 1]);
         }
-        for ($k=0;$k <= $expiredTimeIndex; $k++) {
-            self::$reqCnt[$k] = [
-                $now - $k, 0
-            ];
-        }
-        self::$reqCnt[0][1]++;
         return false;
     }
 
