@@ -22,9 +22,7 @@ if (!defined('SUNSUN_ENV')) {
 }
 
 use GatewayWorker\Lib\Gateway;
-use sunsun\dal\DeviceTcpClientDal;
 use sunsun\decoder\SunsunTDS;
-use sunsun\model\DeviceTcpClientModel;
 use sunsun\server\consts\SessionKeys;
 use sunsun\server\db\DbPool;
 use sunsun\server\factory\DeviceFacadeFactory;
@@ -338,19 +336,6 @@ class Events
 
         // 表示该设备已经登录过了，之后的请求走另一个处理方式
         $_SESSION[SessionKeys::IS_FIRST] = 1;
-        $dal = new DeviceTcpClientDal(DbPool::getInstance()->getGlobalDb());
-        $result = $dal->getInfoByDid($did);
-        if (empty($result)) {
-            // insert
-            $po = new  DeviceTcpClientModel();
-            $po->setDid($did);
-            $po->setTcpClientId($client_id);
-            $po->setPrevLoginTime(time());
-            $dal->insert($po);
-        } else {
-            // update
-            $dal->updateByDid($did, ['tcp_client_id' => $client_id, 'prev_login_time' => time()]);
-        }
     }
 
     private static function process($did, $clientId, $originData)
@@ -400,20 +385,6 @@ class Events
      */
     public static function onClose($client_id)
     {
-        $session = $_SESSION;
-        if (is_array($session) && array_key_exists(SessionKeys::DID, $session)) {
-            $did = $session[SessionKeys::DID];
-        }
-        if(empty($did)){
-            $result = (new  DeviceTcpClientDal(DbPool::getInstance()->getGlobalDb()))->getInfoByClientId($client_id);
-            if(is_array($result) && array_key_exists(SessionKeys::DID, $result)) {
-                $did = $result[SessionKeys::DID];
-            }
-        }
-        if (!empty($did)) {
-            (new  DeviceTcpClientDal(DbPool::getInstance()->getGlobalDb()))->logoutByClientId($client_id);
-            DeviceFacadeFactory::getDeviceDal($did)->logoutByClientId($client_id);
-        }
         Gateway::closeClient($client_id);
     }
 
