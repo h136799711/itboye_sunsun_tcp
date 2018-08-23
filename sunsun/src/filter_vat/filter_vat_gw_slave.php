@@ -30,7 +30,7 @@ $gateway->lanIp = \sunsun\ServerAddress::SLAVE_01_INNER_IP;
 // 则一般会使用4000 4001 4002 4003 4个端口作为内部通讯端口 
 $gateway->startPort = 2900;
 // 服务注册地址
-$worker->registerAddress = \sunsun\ServerAddress::MASTER_INNER_IP.':1237';
+$gateway->registerAddress = \sunsun\ServerAddress::MASTER_INNER_IP.':1237';
 
 // 心跳间隔
 $gateway->pingInterval = 360;
