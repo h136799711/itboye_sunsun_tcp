@@ -267,7 +267,7 @@ class Events
 //            LogHelper::log(self::getDb(''), $client_id, $msg, 'error', $remoteIp, $remotePort, $gatewayIp, $gatewayPort);
         }
 
-//        self::closeChannel($client_id, $msg);
+        self::closeChannel($client_id, $msg);
     }
 
     /**
