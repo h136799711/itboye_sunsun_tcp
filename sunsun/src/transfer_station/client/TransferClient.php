@@ -44,6 +44,7 @@ class TransferClient
      * @param $data
      * @param $sn
      * @param string $type
+     * @throws \Exception
      */
     public static function sendMessageToGroup($group, $data, $sn, $type = RespMsgType::Info)
     {
@@ -52,13 +53,18 @@ class TransferClient
         $ret['sn'] = $sn;
         $ret['group'] = $group;
         self::setRegisterAddr();
-        Gateway::sendToGroup($group,json_encode($ret));
+        try {
+            Gateway::sendToGroup($group,json_encode($ret));
+        } catch (\Exception $exception) {
+
+        }
     }
 
     /**
      * 发送原始消息
      * @param $group
      * @param $data
+     * @throws \Exception
      */
     public static function sendOriginMessageToGroup($group, $data)
     {

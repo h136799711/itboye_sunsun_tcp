@@ -132,6 +132,7 @@ abstract class BaseAction
      * @param $clientId
      * @param BaseDeviceFirmwareUpdateClientResp $resp
      * @return array
+     * @throws \Exception
      */
     public function firmUpdate($did, $clientId, BaseDeviceFirmwareUpdateClientResp $resp)
     {
