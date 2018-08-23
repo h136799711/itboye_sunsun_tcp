@@ -25,7 +25,7 @@ $gateway->name = 'heating_rod_gateway';
 // gateway进程数
 $gateway->count = 4;
 // 本机ip，分布式部署时使用内网ip
-$gateway->lanIp = \sunsun\ServerAddress::SLAVE_01_INNER_IP;
+$gateway->lanIp = \sunsun\ServerAddress::MASTER_INNER_IP;
 // 内部通讯起始端口，假如$gateway->count=4，起始端口为3900
 // 则一般会使用 4个端口作为内部通讯端口
 $gateway->startPort = 3900;
