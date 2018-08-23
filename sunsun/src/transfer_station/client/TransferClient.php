@@ -53,11 +53,7 @@ class TransferClient
         $ret['sn'] = $sn;
         $ret['group'] = $group;
         self::setRegisterAddr();
-        try {
-            Gateway::sendToGroup($group,json_encode($ret));
-        } catch (\Exception $exception) {
-
-        }
+        Gateway::sendToGroup($group,json_encode($ret));
     }
 
     /**
