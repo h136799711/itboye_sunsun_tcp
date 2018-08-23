@@ -296,7 +296,7 @@ abstract class BaseAction
 //                    //SlaveEvents::sendEmailTo($exception->getMessage(), "aq806内部发送事件异常");
 //                });
 //            } else {
-                $dal->insert($do);
+//                $dal->insert($do);
 //            }
 //        } catch (\Exception $exception) {
 //            $dal->insert($do);
