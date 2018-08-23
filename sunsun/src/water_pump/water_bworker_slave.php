@@ -28,7 +28,7 @@ $worker->name = 'water_pump_worker';
 $worker->count = 4;
 $worker->eventHandler = "\sunsun\server\business\Events";
 // 服务注册地址
-$worker->registerAddress = \sunsun\ServerAddress::SLAVE_01_INNER_IP.':1241';
+$worker->registerAddress = \sunsun\ServerAddress::MASTER_INNER_IP.':1241';
 // 进程启动时设置一个定时器，定时向所有客户端连接发送数据
 $worker->onWorkerStart = function ($worker) {
     // 定时，每10秒一次，
