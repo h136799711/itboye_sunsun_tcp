@@ -1,0 +1,1 @@
+register 服务 与 Worker、Gateway服务分开启动管理
