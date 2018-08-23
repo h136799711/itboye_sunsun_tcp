@@ -81,7 +81,7 @@ class DeviceTransferCtrl implements DeviceClientInterface
         Gateway::joinGroup($this->getClientId(), $did);
 
         // 获取设备信息
-        FactoryClient::createClient($did)->deviceInfo();
+//        FactoryClient::createClient($did)->deviceInfo();
 
         return ResultHelper::success('login success');
     }
