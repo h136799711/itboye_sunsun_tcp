@@ -39,6 +39,7 @@ class Aph300Device extends AsyncTcpConnection
             if(is_string($orginData)){
                 $orginData = json_decode($orginData, JSON_OBJECT_AS_ARRAY);
             }
+            echo json_encode($orginData, JSON_OBJECT_AS_ARRAY);
             if(is_array($orginData)){
                 if(array_key_exists('resType',$orginData)){
                     $resType = $orginData['resType'];

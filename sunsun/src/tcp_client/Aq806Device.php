@@ -33,12 +33,13 @@ class Aq806Device extends AsyncTcpConnection
 //        }else{
 //            $decode = SunsunTDS::decode($msg, $this->publicPwd);
 //        }
-//        echo $msg;
+        echo $msg;
         if($decode->isValid()){
             $data = $decode->getTdsData();
 //            var_dump($data);
             $orginData = $decode->getTdsOriginData();
 //            var_dump($orginData);
+            echo json_encode($orginData, JSON_OBJECT_AS_ARRAY);
             if(is_string($orginData)){
                 $orginData = json_decode($orginData, JSON_OBJECT_AS_ARRAY);
             }

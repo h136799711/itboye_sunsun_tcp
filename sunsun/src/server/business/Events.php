@@ -24,7 +24,6 @@ if (!defined('SUNSUN_ENV')) {
 use GatewayWorker\Lib\Gateway;
 use sunsun\dal\DeviceTcpClientDal;
 use sunsun\decoder\SunsunTDS;
-use sunsun\helper\LogHelper;
 use sunsun\model\DeviceTcpClientModel;
 use sunsun\server\consts\SessionKeys;
 use sunsun\server\db\DbPool;
@@ -267,7 +266,7 @@ class Events
             $remotePort = self::getRemotePort();
             $gatewayPort = self::getGatewayPort();
             $gatewayIp = self::getGatewayIp();
-            LogHelper::log(self::getDb(''), $client_id, $msg, 'error', $remoteIp, $remotePort, $gatewayIp, $gatewayPort);
+//            LogHelper::log(self::getDb(''), $client_id, $msg, 'error', $remoteIp, $remotePort, $gatewayIp, $gatewayPort);
         }
 
         self::closeChannel($client_id, $msg);

@@ -106,7 +106,7 @@ $task->onWorkerStart = function($task)
 
     for($i=0;$i<$size;$i++){
         $one  = $clients[$i+$start];
-        $tcpDevice = createTcp(new Aq806Device('tcp://'.'47.98.81.81'.':'.$port,null, $one));
+        $tcpDevice = createTcp(new Aq806Device('tcp://'.'47.99.79.32'.':'.$port,null, $one));
         array_push($sockets,$tcpDevice);
         break;
     }
