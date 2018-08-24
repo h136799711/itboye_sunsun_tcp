@@ -23,6 +23,7 @@ if (!defined('SUNSUN_ENV')) {
 
 use GatewayWorker\Lib\Gateway;
 use sunsun\decoder\SunsunTDS;
+use sunsun\helper\LogHelper;
 use sunsun\server\consts\SessionKeys;
 use sunsun\server\db\DbPool;
 use sunsun\server\factory\DeviceFacadeFactory;
@@ -310,18 +311,17 @@ class Events
      */
     private static function jsonError($client_id, $msg, $data = [])
     {
-//        $session = Gateway::getSession($client_id);
-//        if (!empty($msg)) {
-            // 记录错误日志
-//            if (!empty($session)) {
-//                $msg = 'session:' . json_encode($session) . ',msg:' . json_encode($msg);
-//            }
-//            $remoteIp = self::getClientIp();
-//            $remotePort = self::getRemotePort();
-//            $gatewayPort = self::getGatewayPort();
-//            $gatewayIp = self::getGatewayIp();
-//            LogHelper::log(self::getDb(''), $client_id, $msg, 'error', $remoteIp, $remotePort, $gatewayIp, $gatewayPort);
-//        }
+        $session = Gateway::getSession($client_id);
+        if (!empty($msg)) {
+            if (!empty($session)) {
+                $msg = 'session:' . json_encode($session) . ',msg:' . json_encode($msg);
+            }
+            $remoteIp = self::getClientIp();
+            $remotePort = self::getRemotePort();
+            $gatewayPort = self::getGatewayPort();
+            $gatewayIp = self::getGatewayIp();
+            LogHelper::log(self::getDb(''), $client_id, $msg, 'error', $remoteIp, $remotePort, $gatewayIp, $gatewayPort);
+        }
 
         self::closeChannel($client_id, $msg);
     }
