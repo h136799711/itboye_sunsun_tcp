@@ -24,7 +24,7 @@ $worker = new BusinessWorker();
 // worker名称
 $worker->name = 'aq806_worker';
 // bussinessWorker进程数量
-$worker->count = 16;
+$worker->count = 64;
 // 设置业务处理类
 $worker->eventHandler = "\sunsun\server\business\Events";
 // 服务注册地址
