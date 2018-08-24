@@ -443,12 +443,8 @@ class Events
      */
     public static function onClose($client_id)
     {
-        $session = $_SESSION;
-        if (is_array($session) && array_key_exists(SessionKeys::DID, $session)) {
-            $did = $session[SessionKeys::DID];
-        }
-
-        if (!empty($did)) {
+        if (is_array($_SESSION) && array_key_exists(SessionKeys::DID, $_SESSION)) {
+            $did = $_SESSION[SessionKeys::DID];
             DeviceFacadeFactory::getDeviceDal($did)->logoutByClientId($client_id);
         }
     }
