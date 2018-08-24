@@ -106,9 +106,9 @@ class Events
     public static function onConnect($client_id)
     {
         // 限制高并发链接
-        if (self::ifOverLimitTimes()) {
-            Gateway::closeClient($client_id);
-        }
+//        if (self::ifOverLimitTimes()) {
+//            Gateway::closeClient($client_id);
+//        }
     }
 
     /**
