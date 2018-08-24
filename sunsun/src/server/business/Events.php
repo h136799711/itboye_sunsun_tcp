@@ -123,6 +123,9 @@ class Events
         if (empty($message) || !is_string($message)) {
             return;
         }
+        if ($message == 'A') {
+            return;
+        }
         self::$activeTime = time();
         $_SESSION[SessionKeys::LAST_ACTIVE_TIME] = self::$activeTime;
         // 处理外部加载的指令
@@ -220,8 +223,7 @@ class Events
     {
         $result = SunsunTDS::decode($message, $pwd);
         if ($result == null) {
-
-            self::jsonError($client_id, 'decode fail', []);
+            self::jsonError($client_id, $pwd.'decode fail'.serialize($message), []);
             return null;
         }
         if (!$result->isValid()) {
