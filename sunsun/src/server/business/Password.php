@@ -9,7 +9,6 @@
 namespace sunsun\server\business;
 
 use GatewayWorker\Lib\Gateway;
-use sunsun\dal\DeviceTcpClientDal;
 use sunsun\server\consts\SessionKeys;
 
 class Password
@@ -40,13 +39,6 @@ class Password
                 if (array_key_exists(SessionKeys::PWD, $session)) {
                     $pwd = $session[SessionKeys::PWD];
                     $result = [SessionKeys::DID => $did, SessionKeys::PWD => $pwd];
-                }
-            } else {
-                // 如果丢失了会话,则恢复did,pwd2个参数
-                $result = (new  DeviceTcpClientDal())->getInfoByClientId($client_id);
-                if (is_array($result) && array_key_exists(SessionKeys::DID, $result)) {
-                    $did = $result[SessionKeys::DID];
-                    Gateway::updateSession($client_id, [SessionKeys::DID => $did]);
                 }
             }
             return $result;
