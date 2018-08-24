@@ -119,10 +119,8 @@ class Events
      */
     public static function onMessage($client_id, $message)
     {
-        if (empty($message) || !is_string($message)) {
-            return;
-        }
-        if ($message == 'A') {
+        if (empty($message) || !is_string($message) || $message == 'A') {
+            Gateway::sendToClient($client_id, $message);
             return;
         }
         self::$activeTime = time();

@@ -23,7 +23,7 @@ $gateway = new Gateway("tcp://0.0.0.0:8284");
 // gateway名称，status方便查看,过滤桶
 $gateway->name = 'aq806_gateway';
 // gateway进程数
-$gateway->count = 10;
+$gateway->count = 32;
 // 本机ip，分布式部署时使用内网ip
 $gateway->lanIp =  \sunsun\ServerAddress::MASTER_INNER_IP;
 // 内部通讯起始端口，假如$gateway->count=4，起始端口为3900
