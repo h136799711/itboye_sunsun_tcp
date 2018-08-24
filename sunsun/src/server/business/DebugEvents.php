@@ -18,24 +18,15 @@ namespace sunsun\server\business;
 date_default_timezone_set("Etc/GMT");
 // 外部没有定义过则默认正式环境
 if (!defined('SUNSUN_ENV')) {
-    define("SUNSUN_ENV", "debug");//debug|production 模式
+    define("SUNSUN_ENV", "production");//debug|production 模式
 }
 
 use GatewayWorker\Lib\Gateway;
-use sunsun\dal\DeviceTcpClientDal;
-use sunsun\dal\LogDal;
 use sunsun\decoder\SunsunTDS;
-use sunsun\helper\LogHelper;
-use sunsun\model\DeviceTcpClientModel;
-use sunsun\model\LogModel;
 use sunsun\server\consts\SessionKeys;
-use sunsun\server\consts\SunsunDeviceConstant;
 use sunsun\server\db\DbPool;
 use sunsun\server\factory\DeviceFacadeFactory;
 use sunsun\server\tcpChannelCommand\CommandFactory;
-use sunsun\transfer_station\client\FactoryClient;
-use sunsun\transfer_station\client\TransferClient;
-use Workerman\Lib\Timer;
 use Workerman\Worker;
 
 /**
@@ -51,53 +42,59 @@ class DebugEvents
     public static $dbPool;
     private static $activeTime;//
 
+
+
     public static function onWorkerStart(Worker $businessWorker)
     {
         self::$dbPool = DbPool::getInstance();
-        // 只在worker 0 中设置检测定时器
-        if ($businessWorker->id == 0) {
-            self::checkOfflineSession();
-        }
     }
 
-    /**
-     * 检测离线的会话，并断开该通道
-     *
-     */
-    private static function checkOfflineSession()
-    {
-        Timer::add(SunsunDeviceConstant::CHECK_OFFLINE_SESSION_INTERVAL, function () {
+    // 30秒内不能超过600次链接 否则都主动关闭链接
+    static $limitTimeSeconds = 3;
+    static $limitCnt = 100;
+    static $reqCnt = [];
 
-            $allSessions = Gateway::getAllClientSessions();
-            $now = time();
-            foreach ($allSessions as $client_id => $session) {
-                $last_active_time = 0;
-                if (array_key_exists(SessionKeys::LAST_ACTIVE_TIME, $session)) {
-                    $last_active_time = $session[SessionKeys::LAST_ACTIVE_TIME];
-                    if ($now - $last_active_time >= SunsunDeviceConstant::DEVICE_OFFLINE_TIME_INTERVAL) {
-                        Gateway::closeClient($client_id);
-                        continue;
-                    }
-                }
-
-                if (is_array($session) && array_key_exists(SessionKeys::DID, $session)) {
-
-                    $pwd = '';
-                    if (array_key_exists(SessionKeys::PWD, $session)) {
-                        $pwd = $session[SessionKeys::PWD];
-                    }
-                    $did = $session[SessionKeys::DID];
-                    $cnt = TransferClient::totalClientByGroup($did);
-                    // 只有有设备连接的时候才调用获取设备信息
-                    if ($cnt > 0 && $now - $last_active_time >= SunsunDeviceConstant::DEVICE_INFO_TIMER_INTERVAL) {
-                        FactoryClient::getInfo($client_id, $did, $pwd);
-                    }
-
-                    // 2. 更新会话信息
-                    Gateway::updateSession($client_id, ['app_cnt' => $cnt]);
-                }
+    public static function getReqCnt() {
+        $now = time();
+        $cnt = 0;
+        for ($i = 0; $i < count(self::$reqCnt); $i++) {
+            if (self::$reqCnt[$i][0] > $now - self::$limitTimeSeconds) {
+                $cnt += self::$reqCnt[$i][1];
             }
-        });
+        }
+        return $cnt;
+    }
+
+    public static function ifOverLimitTimes()
+    {
+        $now = time();
+        $limit = 0;
+        // 大于该索引的都要去除
+        $expiredTimeIndex = -1;
+        for ($i = 0; $i < count(self::$reqCnt); $i++) {
+            $passedTime = &self::$reqCnt[$i];
+            if ($passedTime[0] <= $now - self::$limitTimeSeconds) {
+                $expiredTimeIndex = $i;
+            } else {
+                $limit += $passedTime[1];
+            }
+        }
+        self::$reqCnt = array_reverse(self::$reqCnt);
+        while ($expiredTimeIndex-- > 0) {
+            array_pop(self::$reqCnt);
+        }
+        self::$reqCnt = array_reverse(self::$reqCnt);
+
+        if ($limit >= self::$limitCnt) {
+            return true;
+        }
+
+        if (count(self::$reqCnt) > 0 && self::$reqCnt[count(self::$reqCnt) - 1][0] == $now) {
+            self::$reqCnt[count(self::$reqCnt) - 1][1]++;
+        } else {
+            array_push(self::$reqCnt, [$now, 1]);
+        }
+        return false;
     }
 
     /**
@@ -108,12 +105,17 @@ class DebugEvents
      */
     public static function onConnect($client_id)
     {
+        // 限制高并发链接
+        if (self::ifOverLimitTimes()) {
+            Gateway::closeClient($client_id);
+        }
     }
 
     /**
      * 当客户端发来消息时触发
      * @param int $client_id 连接id
      * @param $message
+     * @throws \Exception
      */
     public static function onMessage($client_id, $message)
     {
@@ -121,6 +123,7 @@ class DebugEvents
             return;
         }
         self::$activeTime = time();
+        $_SESSION[SessionKeys::LAST_ACTIVE_TIME] = self::$activeTime;
         // 处理外部加载的指令
         self::acceptCommand($client_id);
         if (self::isLoginRequest()) {
@@ -156,32 +159,18 @@ class DebugEvents
         }
 
         if (method_exists($result, "toDataArray")) {
+//            Gateway::joinGroup($client_id)
             $data = $result->toDataArray();
-//            $data = self::toStringData($data);
             // 4. 加密数据
             $encodeData = SunsunTDS::encode($data, $pwd);
 
-            self::logInfo(serialize($data), false);
-            self::logInfo(json_encode($encodeData), false);
             self::jsonSuc($client_id, serialize($result), $encodeData);
+            return ;
         } else {
             self::jsonError($client_id, 'fail', []);
         }
 
-        return;
-    }
-
-    public static function toStringData($data)
-    {
-        if (is_array($data)) {
-            foreach ($data as $key => &$value) {
-                $data[$key] = self::toStringData($value);
-            }
-        } elseif (!is_object($data) && !is_string($data)) {
-            return strval($data);
-        }
-
-        return $data;
+        return Gateway::sendToClient($client_id, "error");
     }
 
     /**
@@ -224,6 +213,7 @@ class DebugEvents
      * @param $message
      * @param $pwd
      * @return null|\sunsun\adt\resp\AdtCtrlDeviceResp|\sunsun\adt\resp\AdtDeviceInfoResp|\sunsun\adt\resp\AdtDeviceUpdateResp|\sunsun\adt\resp\AdtHbResp|\sunsun\aq806\resp\Aq806CtrlDeviceResp|\sunsun\aq806\resp\Aq806DeviceInfoResp|\sunsun\aq806\resp\Aq806DeviceUpdateResp|\sunsun\aq806\resp\Aq806HbResp|\sunsun\filter_vat\resp\FilterVatCtrlDeviceResp|\sunsun\filter_vat\resp\FilterVatDeviceEventResp|\sunsun\filter_vat\resp\FilterVatDeviceInfoResp|\sunsun\filter_vat\resp\FilterVatDeviceUpdateResp|\sunsun\filter_vat\resp\FilterVatHbResp|\sunsun\filter_vat\resp\FilterVatLoginResp|\sunsun\water_pump\resp\WaterPumpCtrlDeviceResp|\sunsun\water_pump\resp\WaterPumpDeviceInfoResp|\sunsun\water_pump\resp\WaterPumpDeviceUpdateResp|\sunsun\water_pump\resp\WaterPumpHbResp
+     * @throws \Exception
      */
     private static function login($client_id, $message, &$pwd)
     {
@@ -255,6 +245,7 @@ class DebugEvents
         }
         // 1. 增加过滤\u0003
         $did = str_replace("\u0003", "", $did);
+        $did = str_replace("\\u0003", "", $did);
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {
             self::jsonError($client_id, 'which did=' . $did . 'is not exists. origin_data ' . $originData, []);
@@ -270,8 +261,8 @@ class DebugEvents
             return null;
         }
 
-        $data['origin_pwd'] = $originPwd;
         //更新控制密码
+        $data['origin_pwd'] = $originPwd;
         $ver = $req->getVer();
         $entity = [
             'ver' => $ver,
@@ -283,13 +274,13 @@ class DebugEvents
             'offline_notify' => 1,
         ];
         // 部分设备有这个device_type 参数
-        if (method_exists($req, 'getType')) {
+        if (method_exists($req, 'getType') && strlen($req->getType()) > 0) {
             $type = $req->getType();
             $entity['device_type'] = $type;
         }
         $dal->update($id, $entity);
-
         self::loginSuccess($client_id, $did);
+
         // 设置did,pwd
         $_SESSION[SessionKeys::DID] = $did;
         // 存在session中 就不需要再到数据库查询一次了
@@ -306,7 +297,7 @@ class DebugEvents
         // 同一种类型的did，分配到同一个组，用于查询在线的设备，不同类型
         $group = substr($did, 0, 3);
         Gateway::joinGroup($client_id, $group);
-
+        $loginMsg = 'did= ' . $did . ',ip= ' . self::getClientIp();
         return $resp;
     }
 
@@ -315,22 +306,23 @@ class DebugEvents
      * @param $client_id
      * @param $msg
      * @param $data
+     * @throws \Exception
      */
     private static function jsonError($client_id, $msg, $data = [])
     {
-        if (!empty($msg)) {
-            // 记录错误日志
-            $session = Gateway::getSession($client_id);
-            if (!empty($session)) {
-                $msg = 'session:' . json_encode($session) . ',msg:' . json_encode($msg);
-            }
-            $remoteIp = self::getClientIp();
-            $remotePort = self::getRemotePort();
-            $gatewayPort = self::getGatewayPort();
-            $gatewayIp = self::getGatewayIp();
-            LogHelper::log(self::getDb(''), $client_id, $msg, 'error', $remoteIp, $remotePort, $gatewayIp, $gatewayPort);
-            Gateway::sendToClient($client_id, $msg);
-        }
+//        $session = Gateway::getSession($client_id);
+//        if (!empty($msg)) {
+        // 记录错误日志
+//            if (!empty($session)) {
+//                $msg = 'session:' . json_encode($session) . ',msg:' . json_encode($msg);
+//            }
+//            $remoteIp = self::getClientIp();
+//            $remotePort = self::getRemotePort();
+//            $gatewayPort = self::getGatewayPort();
+//            $gatewayIp = self::getGatewayIp();
+//            LogHelper::log(self::getDb(''), $client_id, $msg, 'error', $remoteIp, $remotePort, $gatewayIp, $gatewayPort);
+//        }
+
         self::closeChannel($client_id, $msg);
     }
 
@@ -338,6 +330,7 @@ class DebugEvents
      * 关闭
      * @param $client_id
      * @param $closeMsg
+     * @throws \Exception
      */
     private static function closeChannel($client_id, $closeMsg = '')
     {
@@ -396,30 +389,17 @@ class DebugEvents
      */
     private static function loginSuccess($client_id, $did)
     {
+
         // 表示该设备已经登录过了，之后的请求走另一个处理方式
         $_SESSION[SessionKeys::IS_FIRST] = 1;
-        $dal = new DeviceTcpClientDal(DbPool::getInstance()->getGlobalDb());
-        $result = $dal->getInfoByDid($did);
-        if (empty($result)) {
-            // insert
-            $po = new  DeviceTcpClientModel();
-            $po->setDid($did);
-            $po->setTcpClientId($client_id);
-            $po->setPrevLoginTime(time());
-            $dal->insert($po);
-        } else {
-            // update
-            $dal->updateByDid($did, ['tcp_client_id' => $client_id, 'prev_login_time' => time()]);
-        }
     }
 
     private static function process($did, $clientId, $originData)
     {
-        $_SESSION[SessionKeys::LAST_ACTIVE_TIME] = self::$activeTime;
         $jsonDecode = json_decode($originData, JSON_OBJECT_AS_ARRAY);
         // 根据did 这里替换成具体设备的process类
         $action = DeviceFacadeFactory::createProcessAction($did);
-        if ($action != null) {
+        if($action != null) {
             $resp = $action->process($did, $clientId, $jsonDecode);
             return $resp;
         }
@@ -457,6 +437,7 @@ class DebugEvents
     /**
      * 当客户端断开连接时触发
      * @param int $client_id 连接id
+     * @throws \Exception
      */
     public static function onClose($client_id)
     {
@@ -464,39 +445,10 @@ class DebugEvents
         if (is_array($session) && array_key_exists(SessionKeys::DID, $session)) {
             $did = $session[SessionKeys::DID];
         }
-        if (empty($did)) {
-            $result = (new  DeviceTcpClientDal(DbPool::getInstance()->getGlobalDb()))->getInfoByClientId($client_id);
-            if (is_array($result) && array_key_exists(SessionKeys::DID, $result)) {
-                $did = $result[SessionKeys::DID];
-            }
-        }
+
         if (!empty($did)) {
-            (new  DeviceTcpClientDal(DbPool::getInstance()->getGlobalDb()))->logoutByClientId($client_id);
             DeviceFacadeFactory::getDeviceDal($did)->logoutByClientId($client_id);
         }
-        Gateway::closeClient($client_id);
-    }
-
-    private static function logInfo($msg, $did)
-    {
-        if (empty($did)) {
-            $did = $_SESSION[SessionKeys::DID];
-        }
-
-//        if ($did === 'S09X0000002833') {
-            $dal = new LogDal(self::getDb());
-            $model = new  LogModel();
-            $model->setRemotePort(self::getRemotePort());
-            $model->setGatewayIp(self::getGatewayIp());
-            $model->setGatewayPort(self::getGatewayPort());
-            $model->setRemoteIp(self::getClientIp());
-            $model->setBody($msg);
-            $model->setCreateTime(time());
-            $model->setType($did);
-            $model->setLevel(1);
-            $model->setOwner($did);
-            $dal->insert($model);
-//        }
     }
 
 }
