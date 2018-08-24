@@ -11,6 +11,7 @@ namespace sunsun\helper;
 
 use sunsun\dal\LogDal;
 use sunsun\model\LogModel;
+use Workerman\Worker;
 
 class LogHelper
 {
@@ -39,7 +40,7 @@ class LogHelper
             $model->setLevel(1);
             $model->setOwner($client_id);
             $info = json_encode($model->toDataArray(), JSON_OBJECT_AS_ARRAY);
-            file_put_contents("worker.log", $info, FILE_APPEND | LOCK_EX);
+            Worker::log($info);
         }
     }
 }
