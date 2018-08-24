@@ -33,7 +33,7 @@ $gateway->startPort = 3400;
 $gateway->registerAddress = \sunsun\ServerAddress::MASTER_INNER_IP . ':1238';
 
 // 心跳间隔
-$gateway->pingInterval = 360;
+$gateway->pingInterval = 130;
 
 $gateway->pingNotResponseLimit = 1;
 
