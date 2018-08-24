@@ -12,18 +12,18 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-use GatewayWorker\Gateway;
 use Workerman\Worker;
 
 // 自动加载类
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
 // gateway 进程，这里使用Text协议，可以用telnet测试
-$gateway = new Gateway("tcp://0.0.0.0:8284");
+$gateway = new \sunsun\ByGateway("tcp://0.0.0.0:8284");
 // gateway名称，status方便查看,过滤桶
 $gateway->name = 'aq806_gateway';
 // gateway进程数
 $gateway->count = 4;
+$gateway->connectIp = "39.104.19.175";
 // 本机ip，分布式部署时使用内网ip
 $gateway->lanIp =  '172.24.72.11';
 // 内部通讯起始端口，假如$gateway->count=4，起始端口为3900
