@@ -26,9 +26,9 @@ $worker->name = 'hebidu_worker';
 // bussinessWorker进程数量
 $worker->count = 4;
 // 设置业务处理类
-$worker->eventHandler = "\sunsun\server\business\DebugEvents";
+$worker->eventHandler = "\sunsun\server\business\ProxyEvents";
 // 服务注册地址
-$worker->registerAddress = '127.0.0.1:1238';
+$worker->registerAddress = '127.0.0.1:1201';
 // 如果不是在根目录启动，则运行runAll方法
 if (!defined('GLOBAL_START')) {
     Worker::runAll();
