@@ -49,54 +49,6 @@ class Events
         self::$dbPool = DbPool::getInstance();
     }
 
-    // 30秒内不能超过600次链接 否则都主动关闭链接
-    static $limitTimeSeconds = 3;
-    static $limitCnt = 100;
-    static $reqCnt = [];
-
-    public static function getReqCnt() {
-        $now = time();
-        $cnt = 0;
-        for ($i = 0; $i < count(self::$reqCnt); $i++) {
-            if (self::$reqCnt[$i][0] > $now - self::$limitTimeSeconds) {
-                $cnt += self::$reqCnt[$i][1];
-            }
-        }
-        return $cnt;
-    }
-
-    public static function ifOverLimitTimes()
-    {
-        $now = time();
-        $limit = 0;
-        // 大于该索引的都要去除
-        $expiredTimeIndex = -1;
-        for ($i = 0; $i < count(self::$reqCnt); $i++) {
-            $passedTime = &self::$reqCnt[$i];
-            if ($passedTime[0] <= $now - self::$limitTimeSeconds) {
-                $expiredTimeIndex = $i;
-            } else {
-                $limit += $passedTime[1];
-            }
-        }
-        self::$reqCnt = array_reverse(self::$reqCnt);
-        while ($expiredTimeIndex-- > 0) {
-            array_pop(self::$reqCnt);
-        }
-        self::$reqCnt = array_reverse(self::$reqCnt);
-
-        if ($limit >= self::$limitCnt) {
-            return true;
-        }
-
-        if (count(self::$reqCnt) > 0 && self::$reqCnt[count(self::$reqCnt) - 1][0] == $now) {
-            self::$reqCnt[count(self::$reqCnt) - 1][1]++;
-        } else {
-            array_push(self::$reqCnt, [$now, 1]);
-        }
-        return false;
-    }
-
     /**
      * 当客户端连接时触发
      * 如果业务不需此回调可以删除onConnect
@@ -115,6 +67,7 @@ class Events
      * 当客户端发来消息时触发
      * @param int $client_id 连接id
      * @param $message
+     * @return bool|void
      * @throws \Exception
      */
     public static function onMessage($client_id, $message)
@@ -145,26 +98,20 @@ class Events
                 self::jsonError($client_id, 'fail decode the data ', []);
                 return;
             }
+
             if (!$result->isValid()) {
-                self::jsonError($client_id, 'the data format is invalid', []);
+                self::jsonError($client_id, 'the data format is invalid' . json_encode($result->getTdsOriginData(),
+                        JSON_OBJECT_AS_ARRAY), []);
                 return;
             }
             // 3. 处理业务逻辑
             $result = self::process($did, $client_id, $result->getTdsOriginData());
         }
 
-        // 这个必须，用于处理有些请求不返回信息的情况
-        // 目前只有心跳
-        if (empty($result)) {
-            return;
-        }
-
         if (method_exists($result, "toDataArray")) {
-//            Gateway::joinGroup($client_id)
             $data = $result->toDataArray();
             // 4. 加密数据
             $encodeData = SunsunTDS::encode($data, $pwd);
-
             self::jsonSuc($client_id, serialize($result), $encodeData);
             return ;
         } else {
