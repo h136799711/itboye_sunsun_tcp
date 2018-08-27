@@ -146,7 +146,7 @@ class Events
                 return;
             }
             if (!$result->isValid()) {
-                self::jsonError($client_id, 'the data format is invalid', []);
+                self::jsonError($client_id, 'the data format is invalid'.$result->getTdsOriginData(), []);
                 return;
             }
             // 3. 处理业务逻辑
@@ -393,6 +393,14 @@ class Events
         $_SESSION[SessionKeys::IS_FIRST] = 1;
     }
 
+    /**
+     * process 异步处理
+     *
+     * @param $did
+     * @param $clientId
+     * @param $originData
+     * @return null|\sunsun\po\BaseRespPo
+     */
     private static function process($did, $clientId, $originData)
     {
         $jsonDecode = json_decode($originData, JSON_OBJECT_AS_ARRAY);
