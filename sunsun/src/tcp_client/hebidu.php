@@ -28,7 +28,8 @@ function createTcp($tcpDevice){
     };
     $tcpDevice->onClose = function($tcpDevice)
     {
-        $tcpDevice->reConnect(10);
+        echo "close";
+        $tcpDevice->reConnect(5);
     };
     $tcpDevice->onError = function($tcpDevice, $code, $msg)
     {
@@ -98,14 +99,13 @@ $task->onWorkerStart = function($task)
     $port = 8181;//$input->getOption('port');
     $times = 5*3600;//在线时间 秒
     $sockets = [];
-
-
+    $size = 500;
+    $clients = $portClients['k' . $port];
     for($i=0;$i<$size;$i++) {
+        $one = $clients[$i + $start];
         $tcpDevice = createTcp(new Aq806Device('tcp://hebidu.cn:'.$port,null, $one));
         array_push($sockets,$tcpDevice);
-        break;
     }
-
     Timer::add(3,function() use ($sockets,$size) {
         for($i=0;$i<$size;$i++){
             $tcpDevice  = $sockets[$i];

@@ -51,7 +51,7 @@ class DebugEvents
 
     // 30秒内不能超过600次链接 否则都主动关闭链接
     static $limitTimeSeconds = 3;
-    static $limitCnt = 100;
+    static $limitCnt = 10;
     static $reqCnt = [];
 
     public static function getReqCnt() {
@@ -102,11 +102,13 @@ class DebugEvents
      * 如果业务不需此回调可以删除onConnect
      *
      * @param int $client_id 连接id
+     * @throws \Exception
      */
     public static function onConnect($client_id)
     {
         // 限制高并发链接
         if (self::ifOverLimitTimes()) {
+            Gateway::sendToClient($client_id, 'over limit');
             Gateway::closeClient($client_id);
         }
     }
