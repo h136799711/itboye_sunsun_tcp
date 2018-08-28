@@ -70,8 +70,17 @@ class ProxyEvents
         $rootPath = dirname(dirname(dirname(dirname(__DIR__)))).'/.env';
         (new Dotenv())->load($rootPath);
         $mqttUri = getenv("MQTT_URI");
+        $mqttUsername = getenv('MQTT_USER');
+        $mqttPass = getenv('MQTT_PASSWORD');
         self::$mqttState = 0;
-        self::$mqtt = new Client($mqttUri);
+        self::$mqtt = new Client($mqttUri, [
+            'keepalive' => 60,
+            'client_id'=> 'workerman-mqtt-'.$businessWorker->name.'-'.$businessWorker->id,
+            'connect_timeout' => 10,
+            'username' => $mqttUsername,
+            'password' => $mqttPass,
+            'reconnect_period' => 1
+        ]);
         self::$mqtt->onConnect = function(Client $mqtt) {
             self::$mqttState = 1;
         };
@@ -85,6 +94,11 @@ class ProxyEvents
         self::$dbPool = DbPool::getInstance();
     }
 
+    public static function publish($topic, $content) {
+        self::$mqtt->publish($topic, $content, [
+            ''
+        ]);
+    }
 
     /**
      * 当客户端连接时触发
