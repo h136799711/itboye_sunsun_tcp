@@ -428,7 +428,7 @@ class ProxyEvents
         if (is_array($_SESSION) && array_key_exists(SessionKeys::DID, $_SESSION)) {
             $did = $_SESSION[SessionKeys::DID];
             self::publish("logout", json_encode(['did'=>$did, 'client_id'=>$client_id]));
-            DeviceFacadeFactory::getDeviceDal($did)->logoutByClientId($client_id);
+//            DeviceFacadeFactory::getDeviceDal($did)->logoutByClientId($client_id);
         }
     }
 
