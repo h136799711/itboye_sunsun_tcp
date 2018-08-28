@@ -73,7 +73,6 @@ class Events
     public static function onMessage($client_id, $message)
     {
         if (empty($message) || !is_string($message) || $message == 'A') {
-            Gateway::sendToClient($client_id, $message);
             return;
         }
         self::$activeTime = time();
@@ -117,8 +116,6 @@ class Events
         } else {
             self::jsonError($client_id, 'fail', []);
         }
-
-        return Gateway::sendToClient($client_id, "error");
     }
 
     /**
