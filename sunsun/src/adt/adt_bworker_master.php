@@ -26,7 +26,7 @@ $worker->name = 'adt_worker';
 $worker->eventHandler = "\sunsun\server\business\ProxyEvents";
 // bussinessWorker进程数量
 $worker->count = 4;
-// 服务注册地址
+// 服务注册地址 d 
 $worker->registerAddress = \sunsun\ServerAddress::MASTER_INNER_IP.':1242';
 
 // 如果不是在根目录启动，则运行runAll方法
