@@ -110,7 +110,7 @@ class ProxyEvents
      */
     public static function onMessage($client_id, $message)
     {
-        if (array_key_exists('close', $_SESSION) && $_SESSION['close'] == 1) {
+        if (is_array($_SESSION) && array_key_exists('close', $_SESSION) && $_SESSION['close'] == 1) {
             self::closeChannel($client_id, 'this need close socket');
             return ;
         }
