@@ -8,7 +8,6 @@
 
 namespace sunsun\server\business;
 
-use GatewayWorker\Lib\Gateway;
 use sunsun\server\consts\SessionKeys;
 
 class Password
@@ -28,18 +27,12 @@ class Password
         if ($type == Password::TYPE_LOGIN) {
             return Password::LOGIN_ENCRYPT_PASSWORD;
         } else {
-            $session = Gateway::getSession($client_id);
-            if (!is_array($session)) {
-                return false;
-            }
 
             $result = false;
-            if (array_key_exists(SessionKeys::DID, $session)) {
-                $did = $session[SessionKeys::DID];
-                if (array_key_exists(SessionKeys::PWD, $session)) {
-                    $pwd = $session[SessionKeys::PWD];
-                    $result = [SessionKeys::DID => $did, SessionKeys::PWD => $pwd];
-                }
+            if (array_key_exists(SessionKeys::DID, $_SESSION) && array_key_exists(SessionKeys::PWD, $_SESSION)) {
+                $did = $_SESSION[SessionKeys::DID];
+                $pwd = $_SESSION[SessionKeys::PWD];
+                $result = [SessionKeys::DID => $did, SessionKeys::PWD => $pwd];
             }
             return $result;
         }

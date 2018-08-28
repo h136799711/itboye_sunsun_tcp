@@ -25,7 +25,8 @@
     "workerman/gateway-worker": "3.0.12",
     "workerman/mysql": "1.0.1",
     "workerman/gatewayclient": "3.0.12",
-    "workerman/mqtt": "1.0"
+    "workerman/mqtt": "1.0",
+    "symfony/dotenv": "^4.1"
   },
   "autoload": {
     "psr-4": {

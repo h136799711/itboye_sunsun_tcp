@@ -241,10 +241,6 @@ class Events
         $resp->setHb($hb);
         //绑定did 和 client_id
         Gateway::bindUid($client_id, $did);
-        // 同一种类型的did，分配到同一个组，用于查询在线的设备，不同类型
-        $group = substr($did, 0, 3);
-        Gateway::joinGroup($client_id, $group);
-        $loginMsg = 'did= ' . $did . ',ip= ' . self::getClientIp();
         return $resp;
     }
 

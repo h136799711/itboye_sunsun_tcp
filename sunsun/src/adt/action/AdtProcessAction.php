@@ -56,6 +56,7 @@ class AdtProcessAction
      * @param $clientId
      * @param $jsonData
      * @return AdtHbResp
+     * @throws \Exception
      */
     private function response($did, $clientId, $jsonData)
     {

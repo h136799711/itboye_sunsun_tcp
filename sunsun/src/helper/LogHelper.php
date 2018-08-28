@@ -9,7 +9,6 @@
 namespace sunsun\helper;
 
 
-use sunsun\dal\LogDal;
 use sunsun\model\LogModel;
 use Workerman\Worker;
 
@@ -28,7 +27,7 @@ class LogHelper
     {
 
         if($type == 'error' || ((defined('SUNSUN_ENV') && SUNSUN_ENV == 'debug'))) {
-            $dal = new LogDal($db);
+//            $dal = new LogDal($db);
             $model = new  LogModel();
             $model->setRemotePort($remotePort);
             $model->setGatewayIp($gatewayIp);
