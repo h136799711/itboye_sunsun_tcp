@@ -28,6 +28,7 @@ use sunsun\helper\LogHelper;
 use sunsun\server\consts\SessionKeys;
 use sunsun\server\db\DbPool;
 use sunsun\server\factory\DeviceFacadeFactory;
+use sunsun\server\tcpChannelCommand\CommandFactory;
 use Symfony\Component\Dotenv\Dotenv;
 use Workerman\Mqtt\Client;
 use Workerman\Worker;
@@ -116,6 +117,26 @@ class ProxyEvents
     }
 
     /**
+     * 处理指令
+     * @param $client_id
+     */
+    public static function acceptCommand($client_id)
+    {
+        // TODO: 增加其它指令
+        if (array_key_exists('cmd_type', $_SESSION)) {
+            $cmdType = $_SESSION['cmd_type'];
+            // 创建指令
+            $command = CommandFactory::create($cmdType);
+            // 设置参数
+            $params = ['client_id' => $client_id];
+            // 加载参数
+            $command->acceptParams($params);
+            // 执行指令
+            $command->execute();
+        }
+    }
+
+    /**
      * 当客户端发来消息时触发
      * @param int $client_id 连接id
      * @param $message
@@ -136,7 +157,7 @@ class ProxyEvents
 
         self::$activeTime = time();
         $_SESSION[SessionKeys::LAST_ACTIVE_TIME] = self::$activeTime;
-
+        self::acceptCommand($client_id);
         if (self::isLoginRequest()) {
             // 限制登录消息
             if (self::$msgLimitGate->ifOverLimit()) {
