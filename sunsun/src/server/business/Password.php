@@ -29,7 +29,7 @@ class Password
         } else {
 
             $result = false;
-            if (array_key_exists(SessionKeys::DID, $_SESSION) && array_key_exists(SessionKeys::PWD, $_SESSION)) {
+            if (is_array($_SESSION) && array_key_exists(SessionKeys::DID, $_SESSION) && array_key_exists(SessionKeys::PWD, $_SESSION)) {
                 $did = $_SESSION[SessionKeys::DID];
                 $pwd = $_SESSION[SessionKeys::PWD];
                 $result = [SessionKeys::DID => $did, SessionKeys::PWD => $pwd];
