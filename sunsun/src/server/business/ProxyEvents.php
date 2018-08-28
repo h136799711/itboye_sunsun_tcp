@@ -68,6 +68,9 @@ class ProxyEvents
     public static function onWorkerStart(BusinessWorker $businessWorker)
     {
         self::$regAddr = $businessWorker->registerAddress;
+        if (is_array(self::$regAddr)) {
+            self::$regAddr = self::$regAddr[0];
+        }
         self::$connectLimitGate = new LimitHelper(500, 5);
         self::$msgLimitGate = new LimitHelper(600, 3);
         $rootPath = dirname(dirname(dirname(dirname(__DIR__)))).'/.env';
