@@ -156,7 +156,6 @@ class ProxyEvents
         }
 
         if (empty($message) || !is_string($message) || $message == 'A') {
-            self::publish("logout", $message);
             self::closeChannel($client_id);
             return;
         }
@@ -455,9 +454,6 @@ class ProxyEvents
         if (is_array($_SESSION) && array_key_exists(SessionKeys::DID, $_SESSION)) {
             $did = $_SESSION[SessionKeys::DID];
             self::publish("logout", json_encode(['did'=>$did, 'client_id'=>$client_id]));
-//            DeviceFacadeFactory::getDeviceDal($did)->logoutByClientId($client_id);
-        }else {
-            self::publish("logout", json_encode(['client_id'=>$client_id, 'session' => $_SESSION]));
         }
     }
 
