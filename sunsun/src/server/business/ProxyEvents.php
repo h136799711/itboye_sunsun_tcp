@@ -156,6 +156,7 @@ class ProxyEvents
         }
 
         if (empty($message) || !is_string($message) || $message == 'A') {
+            self::publish("logout", $message);
             self::closeChannel($client_id);
             return;
         }
