@@ -21,6 +21,7 @@ if (!defined('SUNSUN_ENV')) {
     define("SUNSUN_ENV", "production");//debug|production 模式
 }
 
+use GatewayWorker\BusinessWorker;
 use GatewayWorker\Lib\Gateway;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\LimitHelper;
@@ -31,7 +32,6 @@ use sunsun\server\factory\DeviceFacadeFactory;
 use sunsun\server\tcpChannelCommand\CommandFactory;
 use Symfony\Component\Dotenv\Dotenv;
 use Workerman\Mqtt\Client;
-use Workerman\Worker;
 
 /**
  * 主逻辑
@@ -62,10 +62,12 @@ class ProxyEvents
     public static $mqtt;
 
     public static $mqttState;
+    public static $regAddr;
 
 
-    public static function onWorkerStart(Worker $businessWorker)
+    public static function onWorkerStart(BusinessWorker $businessWorker)
     {
+        self::$regAddr = $businessWorker->registerAddress;
         self::$connectLimitGate = new LimitHelper(500, 5);
         self::$msgLimitGate = new LimitHelper(600, 3);
         $rootPath = dirname(dirname(dirname(dirname(__DIR__)))).'/.env';
@@ -302,7 +304,7 @@ class ProxyEvents
         //绑定did 和 client_id
         Gateway::bindUid($client_id, $did);
         self::publish("login", json_encode(['did'=>$did, 'client_id'=>$client_id, 'reg_addr'=>
-            Gateway::$registerAddress]));
+            self::$regAddr]));
         return $resp;
     }
 
