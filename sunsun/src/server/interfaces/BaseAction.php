@@ -14,7 +14,6 @@ use sunsun\decoder\SunsunTDS;
 use sunsun\helper\DevToServerDelayHelper;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
-use sunsun\server\business\SlaveEvents;
 use sunsun\server\consts\SunsunDeviceConstant;
 use sunsun\server\db\DbPool;
 use sunsun\server\factory\DeviceFacadeFactory;
@@ -27,7 +26,6 @@ use sunsun\server\resp\BaseControlDeviceClientResp;
 use sunsun\server\resp\BaseDeviceFirmwareUpdateClientResp;
 use sunsun\transfer_station\client\TransferClient;
 use sunsun\transfer_station\controller\RespMsgType;
-use Workerman\Mqtt\Client;
 
 /**
  * 通用设备处理类
@@ -226,7 +224,7 @@ abstract class BaseAction
      * @param $client_id
      * @param $req
      */
-    private function delayInsertDeviceEvent($did, $client_id, BaseDeviceEventClientReq $req)
+    protected function delayInsertDeviceEvent($did, $client_id, BaseDeviceEventClientReq $req)
     {
 
         $session = Gateway::getSession($client_id);
@@ -291,19 +289,7 @@ abstract class BaseAction
         $do->setEventInfo($data['event_info']);
         $do->setEventType($data['event_type']);
 
-        try {
-            if (SlaveEvents::$mqttClient instanceof Client) {
-                SlaveEvents::$mqttClient->publish("event_".substr($did, 0, 3), json_encode($data),
-                ['qos' => 0, 'retain' => false, 'dup' => false], function(\Exception $exception) {
-                    SlaveEvents::$mqttClient->reconnect(5);
-                    //SlaveEvents::sendEmailTo($exception->getMessage(), "aq806内部发送事件异常");
-                });
-            } else {
-                $dal->insert($do);
-            }
-        } catch (\Exception $exception) {
-            $dal->insert($do);
-        }
+        $dal->insert($do);
     }
 
 }
