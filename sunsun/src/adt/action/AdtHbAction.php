@@ -9,6 +9,8 @@
 namespace sunsun\adt\action;
 
 
+use sunsun\adt\consts\AdtEventEnum;
+use sunsun\server\business\ProxyEvents;
 use sunsun\server\interfaces\BaseAction;
 use sunsun\server\req\BaseHeartBeatClientReq;
 
@@ -30,8 +32,7 @@ class AdtHbAction extends BaseAction
     public function deviceHeartBeat($did, $clientId, BaseHeartBeatClientReq $req)
     {
         $respObj = parent::deviceHeartBeat($did, $clientId, $req);
-
-
+        ProxyEvents::publish(AdtEventEnum::AdtHb, json_encode(['did'=>$did, 'time'=>time()]));
         return $respObj;
     }
 }

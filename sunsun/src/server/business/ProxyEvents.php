@@ -95,9 +95,9 @@ class ProxyEvents
     }
 
     public static function publish($topic, $content) {
-        self::$mqtt->publish($topic, $content, [
-            ''
-        ]);
+        if (self::$mqttState == 1 && self::$mqtt) {
+            self::$mqtt->publish($topic, $content);
+        }
     }
 
     /**
