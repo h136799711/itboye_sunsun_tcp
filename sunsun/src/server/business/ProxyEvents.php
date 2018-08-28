@@ -81,7 +81,6 @@ class ProxyEvents
         self::$mqttState = 0;
         self::$mqtt = new Client($mqttUri, [
             'keepalive' => 60,
-            'client_id'=> 'workerman-mqtt-'.$businessWorker->name.'-'.$businessWorker->id,
             'connect_timeout' => 10,
             'username' => $mqttUsername,
             'password' => $mqttPass,
