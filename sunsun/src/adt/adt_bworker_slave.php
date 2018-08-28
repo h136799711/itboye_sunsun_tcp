@@ -23,7 +23,7 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 $worker = new BusinessWorker();
 // worker名称
 $worker->name = 'adt_worker';
-$worker->eventHandler = "\sunsun\server\business\Events";
+$worker->eventHandler = "\sunsun\server\business\ProxyEvent";
 // bussinessWorker进程数量
 $worker->count = 4;
 // 服务注册地址
