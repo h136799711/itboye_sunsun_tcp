@@ -175,7 +175,7 @@ class Events
         $originData = $result->getTdsOriginData();
 
         $data = json_decode($originData, JSON_OBJECT_AS_ARRAY);
-        if (!array_key_exists('did', $data) || empty($data[SessionKeys::DID])) {
+        if (empty($data) || !array_key_exists('did', $data) || empty($data[SessionKeys::DID])) {
             self::jsonError($client_id, serialize($originData) . 'the did is need', []);
             return null;
         }
