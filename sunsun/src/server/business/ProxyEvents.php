@@ -116,9 +116,9 @@ class ProxyEvents
     public static function onConnect($client_id)
     {
         // 限制高并发链接
-        if (self::$connectLimitGate->ifOverLimit()) {
-            self::closeChannel($client_id, 'over limit');
-        }
+//        if (self::$connectLimitGate->ifOverLimit()) {
+//            self::closeChannel($client_id, 'over limit');
+//        }
     }
 
     /**
