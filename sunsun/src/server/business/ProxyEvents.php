@@ -201,7 +201,7 @@ class ProxyEvents
             $encodeData = SunsunTDS::encode($data, $pwd);
             self::jsonSuc($client_id, serialize($result), $encodeData);
         } else {
-            self::jsonError($client_id, 'fail', []);
+            self::jsonError($client_id, 'fail'.json_encode($result), []);
         }
     }
 
