@@ -162,6 +162,7 @@ class ProxyEvents
         self::$activeTime = time();
         $_SESSION[SessionKeys::LAST_ACTIVE_TIME] = self::$activeTime;
         self::acceptCommand($client_id);
+
         if (self::isLoginRequest()) {
             // 限制登录消息
 //            if (self::$msgLimitGate->ifOverLimit()) {
@@ -171,6 +172,7 @@ class ProxyEvents
             //第一次请求
             $pwd = Password::getSecretKey(Password::TYPE_LOGIN, $client_id);
             $result = self::login($client_id, $message, $pwd);
+
         } else {
             // 1. 获取密钥
             $result = Password::getSecretKey(Password::TYPE_OTHER, $client_id);
@@ -230,6 +232,7 @@ class ProxyEvents
     private static function login($client_id, $message, &$pwd)
     {
         $result = SunsunTDS::decode($message, $pwd);
+
         if ($result == null) {
             self::jsonError($client_id, $pwd.'decode fail'.serialize($message), []);
             return null;
@@ -305,7 +308,7 @@ class ProxyEvents
         $resp->setHb($hb);
         //绑定did 和 client_id
         Gateway::bindUid($client_id, $did);
-        self::publish("login", json_encode(['did'=>$did, 'client_id'=>$client_id, 'reg_addr'=>
+        self::publish("login".rand(0, 10), json_encode(['did'=>$did, 'client_id'=>$client_id, 'reg_addr'=>
             self::$regAddr]));
         return $resp;
     }
@@ -452,7 +455,7 @@ class ProxyEvents
     {
         if (is_array($_SESSION) && array_key_exists(SessionKeys::DID, $_SESSION)) {
             $did = $_SESSION[SessionKeys::DID];
-            self::publish("logout", json_encode(['did'=>$did, 'client_id'=>$client_id]));
+            self::publish("logout".rand(0, 10), json_encode(['did'=>$did, 'client_id'=>$client_id]));
         }
     }
 

@@ -29,15 +29,15 @@ $data = toStringData($data);
 $pwd = "1234bcda";
 
 
-$encodeText = \sunsun\decoder\SunsunTDS::encode($data, $pwd);
-var_dump(serialize($encodeText));
-$encrypt = $encodeText;
-//$encrypt = "";
-
+//$encodeText = \sunsun\decoder\SunsunTDS::encode($data, $pwd);
+//var_dump(serialize($encodeText));
+//$encrypt = $encodeText;
+//$encrypt = "+lZacT+tM08fOC0qYfx8RzbnkJsT0rm9qViATJPLZYfpRkyZcUNldQG3DWtuGY/ZOiuxnPshe76IaVa/CVM8j24MAjVQqjQFMbTjz1jJFcq50TqhBEWNdswqMhp3Opqgobo9PBvGoyJsRuWbBmQJ0o8GAhXyhj9Dr5wyfSQzq66gIzTSjf9FsieQzxOp2K1U6EbgtpuhQwbJElY24aqvEefHCCebQUH4sgdb6NdSebYNVLfmaMzRaPROEDxlyaNTK2SEHEUI1FxVCdnZYMBqikITuojNFY9U/u2rGe3A2g6AJF+DgFEn+SNzjV6SVq+bYXXKuD2TAVLOKTlfp+jz2g==";
+$encrypt = "HDTimfo9deYH7GMQHbgBT0P+x/BFOAGLWeRzguc6gVaGThWDmYCwRA==";
 //$encrypt = base64_decode($encrypt);
-$encodeText = \sunsun\decoder\SunsunTDS::decode($encrypt, $pwd);
-var_dump($encodeText->getTdsOriginData());
-
+$encodeText = \sunsun\helper\Des::decrypt($encrypt, 'fg1f4hUu');
+var_dump($encodeText);
+//$encodeText = \sunsun\decoder\SunsunTDS::isLegalPwd($encrypt, $pwd);
 //
 //$data = [
 //    'reqType' => "1",

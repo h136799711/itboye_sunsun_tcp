@@ -91,6 +91,9 @@ class SunsunTDS
     private static function originData($data, $pwd, $msgTypeHex)
     {
         //$msgTypeHex == 0001
+        var_dump($data);
+        var_dump($pwd);
+        var_dump(Des::decrypt($data, $pwd));
         return Des::decrypt($data, $pwd);
     }
 
