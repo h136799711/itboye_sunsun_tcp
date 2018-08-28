@@ -280,7 +280,8 @@ class ProxyEvents
         $resp->setHb($hb);
         //绑定did 和 client_id
         Gateway::bindUid($client_id, $did);
-        self::publish("login", json_encode(['did'=>$did, 'client_id'=>$client_id]));
+        self::publish("login", json_encode(['did'=>$did, 'client_id'=>$client_id, 'reg_addr'=>
+            Gateway::$registerAddress]));
         return $resp;
     }
 
