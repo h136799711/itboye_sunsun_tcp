@@ -165,10 +165,10 @@ class ProxyEvents
         self::acceptCommand($client_id);
         if (self::isLoginRequest()) {
             // 限制登录消息
-            if (self::$msgLimitGate->ifOverLimit()) {
-                Gateway::closeClient($client_id);
-                return ;
-            }
+//            if (self::$msgLimitGate->ifOverLimit()) {
+//                Gateway::closeClient($client_id);
+//                return ;
+//            }
             //第一次请求
             $pwd = Password::getSecretKey(Password::TYPE_LOGIN, $client_id);
             $result = self::login($client_id, $message, $pwd);
@@ -456,7 +456,7 @@ class ProxyEvents
             self::publish("logout", json_encode(['did'=>$did, 'client_id'=>$client_id]));
 //            DeviceFacadeFactory::getDeviceDal($did)->logoutByClientId($client_id);
         }else {
-            self::publish("logout", json_encode(['client_id'=>$client_id]));
+            self::publish("logout", json_encode(['client_id'=>$client_id, 'session' => $_SESSION]));
         }
     }
 
