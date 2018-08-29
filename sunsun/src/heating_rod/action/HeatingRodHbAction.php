@@ -8,7 +8,6 @@
 
 namespace sunsun\heating_rod\action;
 
-use sunsun\heating_rod\consts\HeatingEventEnum;
 use sunsun\server\business\ProxyEvents;
 use sunsun\server\interfaces\BaseAction;
 use sunsun\server\req\BaseHeartBeatClientReq;
@@ -23,7 +22,7 @@ class HeatingRodHbAction extends BaseAction
     public function deviceHeartBeat($did, $clientId, BaseHeartBeatClientReq $req)
     {
         $respObj = parent::deviceHeartBeat($did, $clientId, $req);
-        ProxyEvents::publish(HeatingEventEnum::Hb, json_encode(['did'=>$did, 'time'=>time()]));
+        ProxyEvents::publish(['type'=>'hb', 'did'=>$did, 'time'=>time()]);
         return $respObj;
     }
 }

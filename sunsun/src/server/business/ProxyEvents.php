@@ -106,7 +106,7 @@ class ProxyEvents
     }
 
     public static function publish($content) {
-        if (count(self::$cacheMsg) < 50000) {
+        if (is_array(self::$cacheMsg) && count(self::$cacheMsg) < 50000) {
             array_push(self::$cacheMsg, [self::$workerName, $content]);
         }
     }

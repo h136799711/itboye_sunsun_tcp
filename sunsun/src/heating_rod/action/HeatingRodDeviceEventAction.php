@@ -8,7 +8,6 @@
 
 namespace sunsun\heating_rod\action;
 
-use sunsun\heating_rod\consts\HeatingEventEnum;
 use sunsun\server\business\ProxyEvents;
 use sunsun\server\factory\RespFacadeFactory;
 use sunsun\server\interfaces\BaseAction;
@@ -35,9 +34,10 @@ class HeatingRodDeviceEventAction extends BaseAction
             'did' => $did,
             "event_type" => $eventType,
             "event_info" => $eventInfo,
-            "create_time" => $now
+            "create_time" => $now,
+            'type'=>'event',
         ];
-        ProxyEvents::publish(HeatingEventEnum::Event, json_encode($data));
+        ProxyEvents::publish($data);
         return $resp;
     }
 }
