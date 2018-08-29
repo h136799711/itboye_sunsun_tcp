@@ -64,6 +64,7 @@ class ProxyEvents
 
     public static $regAddr;
     public static $cacheMsg;
+    public static $workerName;
 
 
     public static function onWorkerStart(BusinessWorker $businessWorker)
@@ -72,6 +73,7 @@ class ProxyEvents
         if (is_array(self::$regAddr)) {
             self::$regAddr = self::$regAddr[0];
         }
+        self::$workerName = $businessWorker->name;
         $rootPath = dirname(dirname(dirname(dirname(__DIR__)))).'/.env';
         (new Dotenv())->load($rootPath);
         self::$connectLimitGate = new LimitHelper(500, 5);
@@ -88,12 +90,14 @@ class ProxyEvents
         $port = getenv("AMQP_PORT");
         self::$eventClient = new AmqpClient($host, $port, $user, $pass, $vhost);
         self::$eventClient->openConnection();
+        self::$eventClient->bindQueueAndExchange(self::$workerName, "sunsun_amqp");
         // 一秒 100
         Timer::add(1, function() {
             $cnt = 100;
             while($cnt-- && count(self::$cacheMsg) > 0) {
                 $vo = array_shift(self::$cacheMsg);
-                self::$eventClient->publish($vo[0], $vo[1]);
+                $content = json_encode(['topic'=>$vo[0], 'content' => $vo[1]]);
+                self::$eventClient->publish("sunsun_amqp", $content);
             }
         });
     }
