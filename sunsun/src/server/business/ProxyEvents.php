@@ -91,7 +91,7 @@ class ProxyEvents
         // 一秒 100
         Timer::add(1, function() {
             $cnt = 100;
-            while($cnt--) {
+            while($cnt-- && count(self::$cacheMsg) > 0) {
                 $vo = array_shift(self::$cacheMsg);
                 self::$eventClient->publish($vo[0], $vo[1]);
             }
