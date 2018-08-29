@@ -93,14 +93,14 @@ class ProxyEvents
         $port = getenv("AMQP_PORT");
         self::$eventClient = new AmqpClient($host, $port, $user, $pass, $vhost);
         self::$eventClient->openConnection();
-        self::$eventClient->bindQueueAndExchange(self::$workerName.self::$workerId, "event.".self::$workerName);
-        self::$eventClient->bindQueueAndExchange(self::$workerName.self::$workerId, "logout.".self::$workerName);
-        self::$eventClient->bindQueueAndExchange(self::$workerName.self::$workerId, "login.".self::$workerName);
-        self::$eventClient->bindQueueAndExchange(self::$workerName.self::$workerId, "hb.".self::$workerName);
+        self::$eventClient->bindQueueAndExchange(self::$workerName, "event.".self::$workerName);
+        self::$eventClient->bindQueueAndExchange(self::$workerName, "logout.".self::$workerName);
+        self::$eventClient->bindQueueAndExchange(self::$workerName, "login.".self::$workerName);
+        self::$eventClient->bindQueueAndExchange(self::$workerName, "hb.".self::$workerName);
 
         // 一秒 100
         Timer::add(1, function() {
-            $cnt = 100;
+            $cnt = 300;
             while($cnt-- && count(self::$cacheMsg) > 0) {
                 $vo = array_shift(self::$cacheMsg);
                 self::$eventClient->publish($vo[0], $vo[1]);
