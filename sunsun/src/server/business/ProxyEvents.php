@@ -184,7 +184,7 @@ class ProxyEvents
             $msgChannel = 2;
             // 1. 获取密钥
             $result = Password::getSecretKey(Password::TYPE_OTHER, $client_id);
-            if ($result === false) {
+            if (empty($result)) {
                 self::jsonError($client_id, "get encrypt password failed", null);
                 return;
             }
@@ -201,8 +201,13 @@ class ProxyEvents
                         JSON_OBJECT_AS_ARRAY), []);
                 return;
             }
+            $decodeData = $result->getTdsOriginData();
             // 3. 处理业务逻辑
-            $result = self::process($did, $client_id, $result->getTdsOriginData());
+            $result = self::process($did, $client_id, $decodeData);
+            if (empty($result)) {
+                self::jsonError($client_id, "process result is empty".json_encode($decodeData), null);
+                return ;
+            }
         }
 
         if (method_exists($result, "toDataArray")) {
