@@ -37,9 +37,6 @@ class AdtProcessAction
      */
     public function process($did, $clientId, $jsonDecode)
     {
-        if ($did == 'S06C0000000073') {
-            var_dump($jsonDecode);
-        }
         if (is_array($jsonDecode)) {
             if (array_key_exists("reqType", $jsonDecode)) {
                 //1. 设备主动请求的数据
