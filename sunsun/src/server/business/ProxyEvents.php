@@ -23,6 +23,7 @@ if (!defined('SUNSUN_ENV')) {
 
 use GatewayWorker\BusinessWorker;
 use GatewayWorker\Lib\Gateway;
+use sunsun\AmqpClient;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\LimitHelper;
 use sunsun\helper\LogHelper;
@@ -31,7 +32,7 @@ use sunsun\server\db\DbPool;
 use sunsun\server\factory\DeviceFacadeFactory;
 use sunsun\server\tcpChannelCommand\CommandFactory;
 use Symfony\Component\Dotenv\Dotenv;
-use Workerman\Mqtt\Client;
+use Workerman\Lib\Timer;
 
 /**
  * 主逻辑
@@ -57,12 +58,12 @@ class ProxyEvents
     public static $msgLimitGate;
 
     /**
-     * @var Client
+     * @var AmqpClient
      */
-    public static $mqtt;
+    public static $eventClient;
 
-    public static $mqttState;
     public static $regAddr;
+    public static $cacheMsg;
 
 
     public static function onWorkerStart(BusinessWorker $businessWorker)
@@ -71,37 +72,35 @@ class ProxyEvents
         if (is_array(self::$regAddr)) {
             self::$regAddr = self::$regAddr[0];
         }
-        self::$connectLimitGate = new LimitHelper(500, 5);
-        self::$msgLimitGate = new LimitHelper(600, 3);
         $rootPath = dirname(dirname(dirname(dirname(__DIR__)))).'/.env';
         (new Dotenv())->load($rootPath);
-        $mqttUri = getenv("MQTT_URI");
-        $mqttUsername = getenv('MQTT_USER');
-        $mqttPass = getenv('MQTT_PASSWORD');
-        self::$mqttState = 0;
-        self::$mqtt = new Client($mqttUri, [
-            'keepalive' => 60,
-            'connect_timeout' => 10,
-            'username' => $mqttUsername,
-            'password' => $mqttPass,
-            'reconnect_period' => 1
-        ]);
-        self::$mqtt->onConnect = function(Client $mqtt) {
-            self::$mqttState = 1;
-        };
-        self::$mqtt->onError = function (\Exception $exception) {
-            self::$mqttState = -1;
-        };
-        self::$mqtt->onClose = function () {
-            self::$mqttState = -1;
-        };
-        self::$mqtt->connect();
+        self::$connectLimitGate = new LimitHelper(500, 5);
+        self::$msgLimitGate = new LimitHelper(600, 3);
         self::$dbPool = DbPool::getInstance();
+        self::$cacheMsg = [];
+    }
+
+    public static function initAmqp() {
+        $host = getenv('AMQP_HOST');
+        $user = getenv('AMQP_USER');
+        $pass = getenv('AMQP_PASS');
+        $vhost = getenv('AMQP_VHOST');
+        $port = getenv("AMQP_PORT");
+        self::$eventClient = new AmqpClient($host, $port, $user, $pass, $vhost);
+        self::$eventClient->openConnection();
+        // 一秒 100
+        Timer::add(1, function() {
+            $cnt = 100;
+            while($cnt--) {
+                $vo = array_shift(self::$cacheMsg);
+                self::$eventClient->publish($vo[0], $vo[1]);
+            }
+        });
     }
 
     public static function publish($topic, $content) {
-        if (self::$mqttState == 1 && self::$mqtt) {
-            self::$mqtt->publish($topic, $content);
+        if (count(self::$cacheMsg) < 50000) {
+            array_push(self::$cacheMsg, [$topic, $content]);
         }
     }
 
