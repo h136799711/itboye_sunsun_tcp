@@ -33,6 +33,7 @@ class HeatingRodProcessAction
      * @param string $clientId tcp通道标识
      * @param array $jsonDecode 明文传输过来的数据json格式
      * @return BaseRespPo   exception
+     * @throws \Exception
      * @internal array
      */
     public function process($did, $clientId, $jsonDecode)
@@ -61,9 +62,8 @@ class HeatingRodProcessAction
     {
         $resType = $jsonData['resType'];
         $resp = HeatingRodRespFactory::create($resType, $jsonData);
-        $retResp = null;
         if (empty($resp)) {
-            return $retResp;
+            return null;
         }
         //过滤桶除了设备登录之外的其它请求处理
         $result = false;
@@ -88,7 +88,7 @@ class HeatingRodProcessAction
             LogHelper::debug($did, $clientId, $result['info']);
         }
 
-        return $retResp;
+        return $resp;
     }
 
     /**
