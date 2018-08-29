@@ -205,7 +205,7 @@ class ProxyEvents
             // 3. 处理业务逻辑
             $result = self::process($did, $client_id, $decodeData);
             if (empty($result)) {
-                self::jsonError($client_id, "process result is empty".json_encode($decodeData), null);
+                self::jsonError($client_id, "process result is empty".$decodeData, null);
                 return ;
             }
         }
