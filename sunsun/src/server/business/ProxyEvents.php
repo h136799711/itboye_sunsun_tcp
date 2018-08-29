@@ -96,6 +96,7 @@ class ProxyEvents
         self::$eventClient->bindQueueAndExchange(self::$workerName.self::$workerId, "event.".self::$workerName);
         self::$eventClient->bindQueueAndExchange(self::$workerName.self::$workerId, "logout.".self::$workerName);
         self::$eventClient->bindQueueAndExchange(self::$workerName.self::$workerId, "login.".self::$workerName);
+        self::$eventClient->bindQueueAndExchange(self::$workerName.self::$workerId, "hb.".self::$workerName);
 
         // 一秒 100
         Timer::add(1, function() {
@@ -109,7 +110,7 @@ class ProxyEvents
 
     public static function publish($topic, $content) {
         if (count(self::$cacheMsg) < 50000) {
-            array_push(self::$cacheMsg, [$topic, $content]);
+            array_push(self::$cacheMsg, [$topic.".".self::$workerName, $content]);
         }
     }
 
@@ -316,7 +317,7 @@ class ProxyEvents
         $resp->setHb($hb);
         //绑定did 和 client_id
         Gateway::bindUid($client_id, $did);
-        self::publish("login.".self::$workerName, json_encode(['did'=>$did, 'client_id'=>$client_id, 'reg_addr'=>
+        self::publish("login", json_encode(['did'=>$did, 'client_id'=>$client_id, 'reg_addr'=>
             self::$regAddr]));
         return $resp;
     }
@@ -463,7 +464,7 @@ class ProxyEvents
     {
         if (is_array($_SESSION) && array_key_exists(SessionKeys::DID, $_SESSION)) {
             $did = $_SESSION[SessionKeys::DID];
-            self::publish("logout".self::$workerName, json_encode(['did'=>$did, 'client_id'=>$client_id]));
+            self::publish("logout", json_encode(['did'=>$did, 'client_id'=>$client_id]));
         }
     }
 

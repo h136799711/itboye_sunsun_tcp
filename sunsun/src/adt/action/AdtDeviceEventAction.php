@@ -8,7 +8,6 @@
 
 namespace sunsun\adt\action;
 
-use sunsun\adt\consts\AdtEventEnum;
 use sunsun\server\business\ProxyEvents;
 use sunsun\server\factory\RespFacadeFactory;
 use sunsun\server\interfaces\BaseAction;
@@ -38,7 +37,7 @@ class AdtDeviceEventAction extends BaseAction
             "event_info" => $eventInfo,
             "create_time" => $now
         ];
-        ProxyEvents::publish(AdtEventEnum::AdtEvent, json_encode($data));
+        ProxyEvents::publish("event", json_encode($data));
         return $resp;
     }
 }
