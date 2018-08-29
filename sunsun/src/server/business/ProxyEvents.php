@@ -93,24 +93,21 @@ class ProxyEvents
         $port = getenv("AMQP_PORT");
         self::$eventClient = new AmqpClient($host, $port, $user, $pass, $vhost);
         self::$eventClient->openConnection();
-        self::$eventClient->bindQueueAndExchange(self::$workerName, "event.".self::$workerName);
-        self::$eventClient->bindQueueAndExchange(self::$workerName, "logout.".self::$workerName);
-        self::$eventClient->bindQueueAndExchange(self::$workerName, "login.".self::$workerName);
-        self::$eventClient->bindQueueAndExchange(self::$workerName, "hb.".self::$workerName);
+        self::$eventClient->bindQueueAndExchange(self::$workerName, self::$workerName);
 
         // 一秒 100
         Timer::add(1, function() {
             $cnt = 300;
             while($cnt-- && count(self::$cacheMsg) > 0) {
                 $vo = array_shift(self::$cacheMsg);
-                self::$eventClient->publish($vo[0], $vo[1]);
+                self::$eventClient->publish($vo[0], json_encode($vo[1]));
             }
         });
     }
 
-    public static function publish($topic, $content) {
+    public static function publish($content) {
         if (count(self::$cacheMsg) < 50000) {
-            array_push(self::$cacheMsg, [$topic.".".self::$workerName, $content]);
+            array_push(self::$cacheMsg, [self::$workerName, $content]);
         }
     }
 
@@ -317,8 +314,8 @@ class ProxyEvents
         $resp->setHb($hb);
         //绑定did 和 client_id
         Gateway::bindUid($client_id, $did);
-        self::publish("login", json_encode(['did'=>$did, 'client_id'=>$client_id, 'reg_addr'=>
-            self::$regAddr]));
+        self::publish(['type'=>'login', 'did'=>$did, 'client_id'=>$client_id, 'reg_addr'=>
+            self::$regAddr]);
         return $resp;
     }
 
@@ -464,7 +461,7 @@ class ProxyEvents
     {
         if (is_array($_SESSION) && array_key_exists(SessionKeys::DID, $_SESSION)) {
             $did = $_SESSION[SessionKeys::DID];
-            self::publish("logout", json_encode(['did'=>$did, 'client_id'=>$client_id]));
+            self::publish(['type'=>'logout', 'did'=>$did, 'client_id'=>$client_id]);
         }
     }
 

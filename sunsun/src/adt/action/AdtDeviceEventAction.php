@@ -35,9 +35,10 @@ class AdtDeviceEventAction extends BaseAction
             'did' => $did,
             "event_type" => $eventType,
             "event_info" => $eventInfo,
-            "create_time" => $now
+            "create_time" => $now,
+            'type'=>'event',
         ];
-        ProxyEvents::publish("event", json_encode($data));
+        ProxyEvents::publish($data);
         return $resp;
     }
 }
