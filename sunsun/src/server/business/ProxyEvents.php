@@ -65,6 +65,7 @@ class ProxyEvents
     public static $regAddr;
     public static $cacheMsg;
     public static $workerName;
+    public static $workerId;
 
 
     public static function onWorkerStart(BusinessWorker $businessWorker)
@@ -74,12 +75,14 @@ class ProxyEvents
             self::$regAddr = self::$regAddr[0];
         }
         self::$workerName = $businessWorker->name;
+        self::$workerId = $businessWorker->id;
         $rootPath = dirname(dirname(dirname(dirname(__DIR__)))).'/.env';
         (new Dotenv())->load($rootPath);
         self::$connectLimitGate = new LimitHelper(500, 5);
         self::$msgLimitGate = new LimitHelper(600, 3);
         self::$dbPool = DbPool::getInstance();
         self::$cacheMsg = [];
+        self::initAmqp();
     }
 
     public static function initAmqp() {
@@ -90,14 +93,16 @@ class ProxyEvents
         $port = getenv("AMQP_PORT");
         self::$eventClient = new AmqpClient($host, $port, $user, $pass, $vhost);
         self::$eventClient->openConnection();
-        self::$eventClient->bindQueueAndExchange(self::$workerName, "sunsun_amqp");
+        self::$eventClient->bindQueueAndExchange(self::$workerName.self::$workerId, "event.".self::$workerName);
+        self::$eventClient->bindQueueAndExchange(self::$workerName.self::$workerId, "logout.".self::$workerName);
+        self::$eventClient->bindQueueAndExchange(self::$workerName.self::$workerId, "login.".self::$workerName);
+
         // 一秒 100
         Timer::add(1, function() {
             $cnt = 100;
             while($cnt-- && count(self::$cacheMsg) > 0) {
                 $vo = array_shift(self::$cacheMsg);
-                $content = json_encode(['topic'=>$vo[0], 'content' => $vo[1]]);
-                self::$eventClient->publish("sunsun_amqp", $content);
+                self::$eventClient->publish($vo[0], $vo[1]);
             }
         });
     }
@@ -118,9 +123,9 @@ class ProxyEvents
     public static function onConnect($client_id)
     {
         // 限制高并发链接
-//        if (self::$connectLimitGate->ifOverLimit()) {
-//            self::closeChannel($client_id, 'over limit');
-//        }
+        if (self::$connectLimitGate->ifOverLimit()) {
+            self::closeChannel($client_id, 'over limit');
+        }
     }
 
     /**
@@ -311,7 +316,7 @@ class ProxyEvents
         $resp->setHb($hb);
         //绑定did 和 client_id
         Gateway::bindUid($client_id, $did);
-        self::publish("login".rand(0, 10), json_encode(['did'=>$did, 'client_id'=>$client_id, 'reg_addr'=>
+        self::publish("login.".self::$workerName, json_encode(['did'=>$did, 'client_id'=>$client_id, 'reg_addr'=>
             self::$regAddr]));
         return $resp;
     }
@@ -458,7 +463,7 @@ class ProxyEvents
     {
         if (is_array($_SESSION) && array_key_exists(SessionKeys::DID, $_SESSION)) {
             $did = $_SESSION[SessionKeys::DID];
-            self::publish("logout".rand(0, 10), json_encode(['did'=>$did, 'client_id'=>$client_id]));
+            self::publish("logout".self::$workerName, json_encode(['did'=>$did, 'client_id'=>$client_id]));
         }
     }
 
