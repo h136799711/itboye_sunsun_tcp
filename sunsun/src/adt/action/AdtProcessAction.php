@@ -15,8 +15,6 @@ use sunsun\adt\resp\AdtHbResp;
 use sunsun\adt\resp\AdtRespFactory;
 use sunsun\adt\resp\AdtRespType;
 use sunsun\adt\resp\AdtUnknownResp;
-use sunsun\helper\LogHelper;
-use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
 use sunsun\server\factory\DeviceFacadeFactory;
 
@@ -39,6 +37,9 @@ class AdtProcessAction
      */
     public function process($did, $clientId, $jsonDecode)
     {
+        if ($did == 'S06C0000000073') {
+            var_dump($jsonDecode);
+        }
         if (is_array($jsonDecode)) {
             if (array_key_exists("reqType", $jsonDecode)) {
                 //1. 设备主动请求的数据
@@ -63,10 +64,10 @@ class AdtProcessAction
     {
         $resType = $jsonData['resType'];
         $resp = AdtRespFactory::create($resType, $jsonData);
-        $retResp = null;
         if (empty($resp)) {
-            return $retResp;
+            return null;
         }
+
         //除了设备登录之外的其它请求处理
         $result = false;
         $dal = DeviceFacadeFactory::getDeviceDal($did);
@@ -86,11 +87,7 @@ class AdtProcessAction
                 break;
         }
 
-        if (!ResultHelper::isSuccess($result)) {
-            LogHelper::debug($did, $clientId, $result['info']);
-        }
-
-        return $retResp;
+        return $resp;
     }
 
     /**

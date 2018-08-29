@@ -204,6 +204,11 @@ class ProxyEvents
             $decodeData = $result->getTdsOriginData();
             // 3. 处理业务逻辑
             $result = self::process($did, $client_id, $decodeData);
+
+            if ($did == 'S06C0000000073') {
+                var_dump($result);
+                var_dump('main process resp');
+            }
             if (empty($result)) {
                 self::jsonError($client_id, "process result is empty".$decodeData, null);
                 return ;
@@ -426,6 +431,10 @@ class ProxyEvents
         $action = DeviceFacadeFactory::createProcessAction($did);
         if($action != null) {
             $resp = $action->process($did, $clientId, $jsonDecode);
+            if ($did == 'S06C0000000073') {
+                var_dump($resp);
+                var_dump('process resp');
+            }
             return $resp;
         }
         return null;
