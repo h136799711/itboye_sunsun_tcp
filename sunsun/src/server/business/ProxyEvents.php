@@ -168,18 +168,20 @@ class ProxyEvents
         self::$activeTime = time();
         $_SESSION[SessionKeys::LAST_ACTIVE_TIME] = self::$activeTime;
         self::acceptCommand($client_id);
-
+        $msgChannel = 0;
         if (self::isLoginRequest()) {
             // 限制登录消息
 //            if (self::$msgLimitGate->ifOverLimit()) {
 //                Gateway::closeClient($client_id);
 //                return ;
 //            }
+            $msgChannel = 1;
             //第一次请求
             $pwd = Password::getSecretKey(Password::TYPE_LOGIN, $client_id);
             $result = self::login($client_id, $message, $pwd);
 
         } else {
+            $msgChannel = 2;
             // 1. 获取密钥
             $result = Password::getSecretKey(Password::TYPE_OTHER, $client_id);
             if ($result === false) {
@@ -209,7 +211,7 @@ class ProxyEvents
             $encodeData = SunsunTDS::encode($data, $pwd);
             self::jsonSuc($client_id, serialize($result), $encodeData);
         } else {
-            self::jsonError($client_id, 'fail'.json_encode($result), []);
+            self::jsonError($client_id, 'msg_channel_'.$msgChannel.'fail'.json_encode($result), []);
         }
     }
 
