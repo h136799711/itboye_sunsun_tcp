@@ -56,14 +56,14 @@ class FilterVatProcessAction
      * @param $clientId
      * @param $jsonData
      * @return FilterVatHbResp
+     * @throws \Exception
      */
     private function response($did, $clientId, $jsonData)
     {
         $resType = $jsonData['resType'];
         $resp = FilterVatRespFactory::create($resType, $jsonData);
-        $retResp = null;
         if (empty($resp)) {
-            return $retResp;
+            return null;
         }
         $dal = DeviceFacadeFactory::getDeviceDal($did);
         //过滤桶除了设备登录之外的其它请求处理
@@ -88,7 +88,7 @@ class FilterVatProcessAction
             LogHelper::debug($did, $clientId, $result['info']);
         }
 
-        return $retResp;
+        return $resp;
     }
 
     /**

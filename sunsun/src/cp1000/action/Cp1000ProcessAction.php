@@ -15,8 +15,6 @@ use sunsun\cp1000\resp\Cp1000HbResp;
 use sunsun\cp1000\resp\Cp1000RespFactory;
 use sunsun\cp1000\resp\Cp1000RespType;
 use sunsun\cp1000\resp\Cp1000UnknownResp;
-use sunsun\helper\LogHelper;
-use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
 use sunsun\server\factory\DeviceFacadeFactory;
 
@@ -56,14 +54,14 @@ class Cp1000ProcessAction
      * @param $clientId
      * @param $jsonData
      * @return Cp1000HbResp
+     * @throws \Exception
      */
     private function response($did, $clientId, $jsonData)
     {
         $resType = $jsonData['resType'];
         $resp = Cp1000RespFactory::create($resType, $jsonData);
-        $retResp = null;
         if (empty($resp)) {
-            return $retResp;
+            return null;
         }
 
         //过滤桶除了设备登录之外的其它请求处理
@@ -85,11 +83,7 @@ class Cp1000ProcessAction
                 break;
         }
 
-        if (!ResultHelper::isSuccess($result)) {
-            LogHelper::debug($did, $clientId, $result['info']);
-        }
-
-        return $retResp;
+        return $resp;
     }
 
     /**

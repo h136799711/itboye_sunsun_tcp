@@ -15,8 +15,6 @@ use sunsun\aq806\resp\Aq806HbResp;
 use sunsun\aq806\resp\Aq806RespFactory;
 use sunsun\aq806\resp\Aq806RespType;
 use sunsun\aq806\resp\Aq806UnknownResp;
-use sunsun\helper\LogHelper;
-use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
 use sunsun\server\factory\DeviceFacadeFactory;
 
@@ -63,9 +61,8 @@ class Aq806ProcessAction
     {
         $resType = $jsonData['resType'];
         $resp = Aq806RespFactory::create($resType, $jsonData);
-        $retResp = null;
         if (empty($resp)) {
-            return $retResp;
+            return null;
         }
         //过滤桶除了设备登录之外的其它请求处理
         $result = false;
@@ -86,11 +83,7 @@ class Aq806ProcessAction
                 break;
         }
 
-        if (!ResultHelper::isSuccess($result)) {
-            LogHelper::debug($did, $clientId, $result['info']);
-        }
-
-        return $retResp;
+        return $resp;
     }
 
     /**

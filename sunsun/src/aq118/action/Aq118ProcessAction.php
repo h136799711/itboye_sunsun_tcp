@@ -14,8 +14,6 @@ use sunsun\aq118\req\Aq118ReqType;
 use sunsun\aq118\resp\Aq118HbResp;
 use sunsun\aq118\resp\Aq118RespFactory;
 use sunsun\aq118\resp\Aq118RespType;
-use sunsun\helper\LogHelper;
-use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
 use sunsun\server\factory\DeviceFacadeFactory;
 
@@ -33,6 +31,7 @@ class Aq118ProcessAction
      * @param string $clientId tcp通道标识
      * @param array $jsonDecode 明文传输过来的数据json格式
      * @return BaseRespPo   exception
+     * @throws \Exception
      * @internal array
      */
     public function process($did, $clientId, $jsonDecode)
@@ -96,9 +95,8 @@ class Aq118ProcessAction
     {
         $resType = $jsonData['resType'];
         $resp = Aq118RespFactory::create($resType, $jsonData);
-        $retResp = null;
         if (empty($resp)) {
-            return $retResp;
+            return null;
         }
         //过滤桶除了设备登录之外的其它请求处理
         $result = false;
@@ -119,10 +117,6 @@ class Aq118ProcessAction
                 break;
         }
 
-        if (!ResultHelper::isSuccess($result)) {
-            LogHelper::debug($did, $clientId, $result['info']);
-        }
-
-        return $retResp;
+        return $resp;
     }
 }

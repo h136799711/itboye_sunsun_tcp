@@ -14,8 +14,6 @@ use sunsun\aph300\req\Aph300ReqType;
 use sunsun\aph300\resp\Aph300HbResp;
 use sunsun\aph300\resp\Aph300RespFactory;
 use sunsun\aph300\resp\Aph300RespType;
-use sunsun\helper\LogHelper;
-use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
 use sunsun\server\factory\DeviceFacadeFactory;
 
@@ -33,6 +31,7 @@ class Aph300ProcessAction
      * @param string $clientId tcp通道标识
      * @param array $jsonDecode 明文传输过来的数据json格式
      * @return BaseRespPo   exception
+     * @throws \Exception
      * @internal array
      */
     public function process($did, $clientId, $jsonDecode)
@@ -55,14 +54,14 @@ class Aph300ProcessAction
      * @param $clientId
      * @param $jsonData
      * @return Aph300HbResp
+     * @throws \Exception
      */
     private function response($did, $clientId, $jsonData)
     {
         $resType = $jsonData['resType'];
         $resp = Aph300RespFactory::create($resType, $jsonData);
-        $retResp = null;
         if (empty($resp)) {
-            return $retResp;
+            return null;
         }
         //过滤桶除了设备登录之外的其它请求处理
         $result = false;
@@ -83,11 +82,8 @@ class Aph300ProcessAction
                 break;
         }
 
-        if (!ResultHelper::isSuccess($result)) {
-            LogHelper::debug($did, $clientId, $result['info']);
-        }
 
-        return $retResp;
+        return $resp;
     }
 
     /**

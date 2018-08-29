@@ -9,8 +9,6 @@
 namespace sunsun\water_pump\action;
 
 
-use sunsun\helper\LogHelper;
-use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
 use sunsun\server\factory\DeviceFacadeFactory;
 use sunsun\water_pump\req\WaterPumpReqFactory;
@@ -56,14 +54,14 @@ class WaterPumpProcessAction
      * @param $clientId
      * @param $jsonData
      * @return WaterPumpHbResp
+     * @throws \Exception
      */
     private function response($did, $clientId, $jsonData)
     {
         $resType = $jsonData['resType'];
         $resp = WaterPumpRespFactory::create($resType, $jsonData);
-        $retResp = null;
         if (empty($resp)) {
-            return $retResp;
+            return null;
         }
         //过滤桶除了设备登录之外的其它请求处理
         $result = false;
@@ -84,11 +82,7 @@ class WaterPumpProcessAction
                 break;
         }
 
-        if (!ResultHelper::isSuccess($result)) {
-            LogHelper::debug($did, $clientId, $result['info']);
-        }
-
-        return null;
+        return $resp;
     }
 
     /**
