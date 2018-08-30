@@ -32,6 +32,7 @@ class FilterVatProcessAction
      * @param string $clientId tcp通道标识
      * @param array $jsonDecode 明文传输过来的数据json格式
      * @return BaseRespPo   exception
+     * @throws \Exception
      * @internal array
      */
     public function process($did, $clientId, $jsonDecode)

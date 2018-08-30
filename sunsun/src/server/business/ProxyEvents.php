@@ -27,10 +27,12 @@ use sunsun\AmqpClient;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\LimitHelper;
 use sunsun\helper\LogHelper;
-use sunsun\po\BaseRespPo;
 use sunsun\server\consts\SessionKeys;
 use sunsun\server\db\DbPool;
 use sunsun\server\factory\DeviceFacadeFactory;
+use sunsun\server\resp\BaseControlDeviceClientResp;
+use sunsun\server\resp\BaseDeviceFirmwareUpdateClientResp;
+use sunsun\server\resp\BaseDeviceInfoClientResp;
 use sunsun\server\tcpChannelCommand\CommandFactory;
 use Symfony\Component\Dotenv\Dotenv;
 use Workerman\Lib\Timer;
@@ -216,9 +218,12 @@ class ProxyEvents
                 self::jsonError($client_id, "process result is empty".$decodeData, null);
                 return ;
             }
-            
-            if ($result instanceof BaseRespPo) {
-                // 服务器发起请求 设备响应的情况下不回复信息 否则设备会报错
+
+            if ($result instanceof BaseDeviceInfoClientResp
+               || $result instanceof BaseDeviceFirmwareUpdateClientResp
+               || $result instanceof  BaseControlDeviceClientResp) {
+                // 设备响应的信息 不回复信息
+                // 只响应设备请求的信息
                 return ;
             }
 

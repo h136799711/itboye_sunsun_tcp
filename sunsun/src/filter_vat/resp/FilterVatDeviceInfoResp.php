@@ -10,15 +10,15 @@ namespace sunsun\filter_vat\resp;
 
 
 use sunsun\filter_vat\req\FilterVatDeviceInfoReq;
-use sunsun\po\BaseRespPo;
 use sunsun\server\interfaces\ToDbEntityArrayInterface;
+use sunsun\server\resp\BaseDeviceInfoClientResp;
 
 /**
  * Class FilterVatHbReq
  * 设备状态响应包
  * @package sunsun\filter_vat\req
  */
-class FilterVatDeviceInfoResp extends BaseRespPo implements ToDbEntityArrayInterface
+class FilterVatDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntityArrayInterface
 {
     public function toDbEntityArray()
     {
