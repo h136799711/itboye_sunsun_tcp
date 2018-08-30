@@ -27,6 +27,9 @@ use sunsun\helper\LogHelper;
 use sunsun\server\consts\SessionKeys;
 use sunsun\server\db\DbPool;
 use sunsun\server\factory\DeviceFacadeFactory;
+use sunsun\server\resp\BaseControlDeviceClientResp;
+use sunsun\server\resp\BaseDeviceFirmwareUpdateClientResp;
+use sunsun\server\resp\BaseDeviceInfoClientResp;
 use sunsun\server\tcpChannelCommand\CommandFactory;
 use Workerman\Worker;
 
@@ -106,6 +109,14 @@ class Events
             }
             // 3. 处理业务逻辑
             $result = self::process($did, $client_id, $result->getTdsOriginData());
+
+            if ($result instanceof BaseDeviceInfoClientResp
+                || $result instanceof BaseDeviceFirmwareUpdateClientResp
+                || $result instanceof  BaseControlDeviceClientResp) {
+                // 设备响应的信息 不回复信息
+                // 只响应设备请求的信息
+                return ;
+            }
         }
 
         if (method_exists($result, "toDataArray")) {

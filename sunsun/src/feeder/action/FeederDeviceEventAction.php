@@ -9,13 +9,13 @@
 namespace sunsun\feeder\action;
 
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
 /**
  * Class FeederDeviceEventAction
  * 设备事件记录
  * @package sunsun\feeder\action
  */
-class FeederDeviceEventAction extends BaseAction
+class FeederDeviceEventAction extends BaseActionV2
 {
 }

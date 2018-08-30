@@ -13,8 +13,6 @@ use sunsun\feeder\req\FeederReqFactory;
 use sunsun\feeder\req\FeederReqType;
 use sunsun\feeder\resp\FeederRespFactory;
 use sunsun\feeder\resp\FeederRespType;
-use sunsun\helper\LogHelper;
-use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
 use sunsun\server\factory\DeviceFacadeFactory;
 
@@ -32,6 +30,7 @@ class FeederProcessAction
      * @param string $clientId tcp通道标识
      * @param array $jsonDecode 明文传输过来的数据json格式
      * @return BaseRespPo   exception
+     * @throws \Exception
      * @internal array
      */
     public function process($did, $clientId, $jsonDecode)
@@ -95,9 +94,8 @@ class FeederProcessAction
     {
         $resType = $jsonData['resType'];
         $resp = FeederRespFactory::create($resType, $jsonData);
-        $retResp = null;
         if (empty($resp)) {
-            return $retResp;
+            return null;
         }
 
         //过滤桶除了设备登录之外的其它请求处理
@@ -119,10 +117,7 @@ class FeederProcessAction
                 break;
         }
 
-        if (!ResultHelper::isSuccess($result)) {
-            LogHelper::debug($did, $clientId, $result['info']);
-        }
 
-        return $retResp;
+        return $resp;
     }
 }
