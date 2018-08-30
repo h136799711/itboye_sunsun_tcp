@@ -95,6 +95,7 @@ class ProxyEvents
         $pass = getenv('AMQP_PASS');
         $vhost = getenv('AMQP_VHOST');
         $port = getenv("AMQP_PORT");
+        // 这边是在启动的时候不用管
         self::$eventClient = new AmqpClient($host, $port, $user, $pass, $vhost);
         self::$eventClient->openConnection();
         self::$eventClient->bindQueueAndExchange(self::$workerName, self::$workerName);
