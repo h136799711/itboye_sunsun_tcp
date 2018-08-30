@@ -9,13 +9,13 @@
 namespace sunsun\filter_vat\action;
 
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
 /**
  * Class FilterVatDeviceEventAction
  * 设备事件记录
  * @package sunsun\filter_vat\action
  */
-class FilterVatDeviceEventAction extends BaseAction
+class FilterVatDeviceEventAction extends BaseActionV2
 {
 }

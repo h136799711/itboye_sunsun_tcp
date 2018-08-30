@@ -8,13 +8,13 @@
 
 namespace sunsun\filter_vat\action;
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
 /**
  * Class FilterVatHbAction
  * 心跳包处理
  * @package sunsun\filter_vat\action
  */
-class FilterVatHbAction extends BaseAction
+class FilterVatHbAction extends BaseActionV2
 {
 }
