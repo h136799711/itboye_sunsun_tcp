@@ -27,6 +27,7 @@ use sunsun\AmqpClient;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\LimitHelper;
 use sunsun\helper\LogHelper;
+use sunsun\po\BaseRespPo;
 use sunsun\server\consts\SessionKeys;
 use sunsun\server\db\DbPool;
 use sunsun\server\factory\DeviceFacadeFactory;
@@ -169,6 +170,7 @@ class ProxyEvents
         $_SESSION[SessionKeys::LAST_ACTIVE_TIME] = self::$activeTime;
         self::acceptCommand($client_id);
         $msgChannel = 0;
+        $did = '';
         if (self::isLoginRequest()) {
             // 限制登录消息
 //            if (self::$msgLimitGate->ifOverLimit()) {
@@ -191,6 +193,7 @@ class ProxyEvents
             $pwd = $result[SessionKeys::PWD];
             $did = $result[SessionKeys::DID];
             $result = SunsunTDS::decode($message, $pwd);
+
             if (empty($result)) {
                 self::jsonError($client_id, 'fail decode the data ', []);
                 return;
@@ -202,6 +205,10 @@ class ProxyEvents
                 return;
             }
             $decodeData = $result->getTdsOriginData();
+            if ($did == 'S01C0000000467') {
+                var_dump($decodeData);
+                var_dump('decode data');
+            }
             // 3. 处理业务逻辑
             $result = self::process($did, $client_id, $decodeData);
 
@@ -209,10 +216,20 @@ class ProxyEvents
                 self::jsonError($client_id, "process result is empty".$decodeData, null);
                 return ;
             }
+            
+            if ($result instanceof BaseRespPo) {
+                // 服务器发起请求 设备响应的情况下不回复信息 否则设备会报错
+                return ;
+            }
+
         }
 
         if (method_exists($result, "toDataArray")) {
             $data = $result->toDataArray();
+            if ($did == 'S01C0000000467') {
+                var_dump($data);
+                var_dump('to data array');
+            }
             // 4. 加密数据
             $encodeData = SunsunTDS::encode($data, $pwd);
             self::jsonSuc($client_id, serialize($result), $encodeData);

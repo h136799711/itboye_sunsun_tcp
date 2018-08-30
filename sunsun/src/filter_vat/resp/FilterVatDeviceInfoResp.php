@@ -153,7 +153,7 @@ class FilterVatDeviceInfoResp extends BaseRespPo implements ToDbEntityArrayInter
             'wsOffTm' => $this->getWsOffTm(),
             'wsOnTm' => $this->getWsOnTm(),
             'obPer' => $this->getObPer(),
-            'uvState' => $this->getUvState()
+            'uvState' => $this->getUvState(),
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;

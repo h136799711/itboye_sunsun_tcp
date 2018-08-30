@@ -15,8 +15,6 @@ use sunsun\filter_vat\resp\FilterVatHbResp;
 use sunsun\filter_vat\resp\FilterVatRespFactory;
 use sunsun\filter_vat\resp\FilterVatRespType;
 use sunsun\filter_vat\resp\FilterVatUnknownResp;
-use sunsun\helper\LogHelper;
-use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
 use sunsun\server\factory\DeviceFacadeFactory;
 
@@ -82,10 +80,6 @@ class FilterVatProcessAction
                 break;
             default:
                 break;
-        }
-
-        if (!ResultHelper::isSuccess($result)) {
-            LogHelper::debug($did, $clientId, $result['info']);
         }
 
         return $resp;
