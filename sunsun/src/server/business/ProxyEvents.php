@@ -151,6 +151,8 @@ class ProxyEvents
 
     /**
      * 当客户端发来消息时触发
+     * 注意:
+     *    谨慎发送信息给设备，如果设备处理不了信息,设备会断开重连
      * @param int $client_id 连接id
      * @param $message
      * @return bool|void
@@ -207,10 +209,6 @@ class ProxyEvents
                 return;
             }
             $decodeData = $result->getTdsOriginData();
-            if ($did == 'S01C0000000467') {
-                var_dump($decodeData);
-                var_dump('decode data');
-            }
             // 3. 处理业务逻辑
             $result = self::process($did, $client_id, $decodeData);
 
@@ -231,10 +229,6 @@ class ProxyEvents
 
         if (method_exists($result, "toDataArray")) {
             $data = $result->toDataArray();
-            if ($did == 'S01C0000000467') {
-                var_dump($data);
-                var_dump('to data array');
-            }
             // 4. 加密数据
             $encodeData = SunsunTDS::encode($data, $pwd);
             self::jsonSuc($client_id, serialize($result), $encodeData);
