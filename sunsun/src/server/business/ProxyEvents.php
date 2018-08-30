@@ -36,6 +36,7 @@ use sunsun\server\resp\BaseDeviceInfoClientResp;
 use sunsun\server\tcpChannelCommand\CommandFactory;
 use Symfony\Component\Dotenv\Dotenv;
 use Workerman\Lib\Timer;
+use Workerman\Worker;
 
 /**
  * 主逻辑
@@ -100,10 +101,15 @@ class ProxyEvents
 
         // 一秒 100
         Timer::add(1, function() {
-            $cnt = 300;
-            while($cnt-- && count(self::$cacheMsg) > 0) {
-                $vo = array_shift(self::$cacheMsg);
-                self::$eventClient->publish($vo[0], json_encode($vo[1]));
+            // 增加异常捕获，防止 amqp服务器出错影响链接通道
+            try {
+                $cnt = 300;
+                while($cnt-- && count(self::$cacheMsg) > 0) {
+                    $vo = array_shift(self::$cacheMsg);
+                    self::$eventClient->publish($vo[0], json_encode($vo[1]));
+                }
+            } catch (\Exception $exception) {
+                Worker::log($exception->getTraceAsString());
             }
         });
     }
