@@ -8,13 +8,13 @@
 
 namespace sunsun\aq118\action;
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
 /**
  * Class Aq118HbAction
  * 心跳包处理
  * @package sunsun\aq118\action
  */
-class Aq118HbAction extends BaseAction
+class Aq118HbAction extends BaseActionV2
 {
 }

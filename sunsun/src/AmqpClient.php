@@ -115,7 +115,7 @@ class AmqpClient
         'nowait' => false,
         'callback' => null,
         'ticket' => null,
-    ], $prefetch_count = 1000) {
+    ], $prefetchCount = 0) {
 
         $consumerOptions = array_merge([
             'no_local' => false,
@@ -126,7 +126,10 @@ class AmqpClient
             'ticket' => null,
         ], $consumerOptions);
 
-        $this->channel->basic_qos(null, $prefetch_count, null);
+        if ($prefetchCount > 0) {
+            $this->channel->basic_qos(null, $prefetchCount, null);
+        }
+
         /*
             queue: Queue from where to get the messages
             consumer_tag: Consumer identifier
