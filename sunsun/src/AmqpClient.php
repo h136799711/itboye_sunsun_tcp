@@ -11,6 +11,7 @@ namespace sunsun;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
+use PhpAmqpLib\Wire\AMQPTable;
 
 class AmqpClient
 {
@@ -74,6 +75,7 @@ class AmqpClient
      * @param $exchangeName
      * @param array $queueOptions
      * @param array $exchangeOptions
+     * @param array $arguments
      */
     public function bindQueueAndExchange($queueName, $exchangeName, $queueOptions = [
         'durable' => true, // 持久化 服务重启后数据能恢复
@@ -83,12 +85,18 @@ class AmqpClient
         'type' => 'direct',
         'durable' => true,
         'auto_delete' => false
+    ], $arguments = [
+        'x-max-length' => 50000
     ]) {
         $exchangeOptions = array_merge(['type' => 'direct', 'durable' => true, 'auto_delete' => false], $exchangeOptions);
         $queueOptions = array_merge(['exclusive'=>false, 'durable' => true, 'auto_delete' => false], $queueOptions);
-
+        $table = new AMQPTable();
+        foreach ($arguments as $key => $val) {
+            $table->set($key, $val);
+        }
         $this->channel->queue_declare($queueName, false,
-            $queueOptions['durable'], $queueOptions['exclusive'], $queueOptions['auto_delete']);
+            $queueOptions['durable'], $queueOptions['exclusive'], $queueOptions['auto_delete'], false, $table);
+
         $this->channel->exchange_declare($exchangeName, $exchangeOptions['type'],
             false, $exchangeOptions['durable'], $exchangeOptions['auto_delete']);
         $this->channel->queue_bind($queueName, $exchangeName);
