@@ -8,14 +8,14 @@
 
 namespace sunsun\aq806\action;
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
 /**
  * Class Aq806DeviceEventAction
  * 设备事件记录
  * @package sunsun\aq806\action
  */
-class Aq806DeviceEventAction extends BaseAction
+class Aq806DeviceEventAction extends BaseActionV2
 {
 
 }

@@ -8,7 +8,7 @@
 
 namespace sunsun\water_pump\action;
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
 
 /**
@@ -16,7 +16,7 @@ use sunsun\server\interfaces\BaseAction;
  * 心跳包处理
  * @package sunsun\water_pump\action
  */
-class WaterPumpHbAction extends BaseAction
+class WaterPumpHbAction extends BaseActionV2
 {
 
 }

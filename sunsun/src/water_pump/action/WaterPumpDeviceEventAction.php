@@ -8,13 +8,13 @@
 
 namespace sunsun\water_pump\action;
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
 /**
  * Class WaterPumpDeviceEventAction
  * 设备事件记录
  * @package sunsun\water_pump\action
  */
-class WaterPumpDeviceEventAction extends BaseAction
+class WaterPumpDeviceEventAction extends BaseActionV2
 {
 }
