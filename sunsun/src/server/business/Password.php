@@ -37,4 +37,5 @@ class Password
             return $result;
         }
     }
+
 }

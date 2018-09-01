@@ -33,6 +33,7 @@ use sunsun\server\factory\DeviceFacadeFactory;
 use sunsun\server\resp\BaseControlDeviceClientResp;
 use sunsun\server\resp\BaseDeviceFirmwareUpdateClientResp;
 use sunsun\server\resp\BaseDeviceInfoClientResp;
+use sunsun\server\resp\BaseDeviceLoginServerResp;
 use sunsun\server\tcpChannelCommand\CommandFactory;
 use Symfony\Component\Dotenv\Dotenv;
 use Workerman\Lib\Timer;
@@ -193,7 +194,13 @@ class ProxyEvents
             //第一次请求
             $pwd = Password::getSecretKey(Password::TYPE_LOGIN, $client_id);
             $result = self::login($client_id, $message, $pwd);
-
+            if (!($result instanceof BaseDeviceLoginServerResp)) {
+                self::jsonError($client_id, 'msg_channel_'.$msgChannel.'fail'.json_encode($result), []);
+                return;
+            }
+            if (is_array($_SESSION) && array_key_exists(SessionKeys::PWD, $_SESSION)) {
+                $pwd = $_SESSION[SessionKeys::PWD];
+            }
         } else {
             $msgChannel = 2;
             // 1. 获取密钥
@@ -207,23 +214,23 @@ class ProxyEvents
             $result = SunsunTDS::decode($message, $pwd);
 
             if (empty($result)) {
-                self::jsonError($client_id, 'fail decode the data ', []);
+//                self::jsonError($client_id, 'fail decode the data ', []);
                 return;
             }
 
             if (!$result->isValid()) {
-                self::jsonError($client_id, 'the data format is invalid' . json_encode($result->getTdsOriginData(),
-                        JSON_OBJECT_AS_ARRAY), []);
+//                self::jsonError($client_id, 'the data format is invalid' . json_encode($result->getTdsOriginData(),
+//                        JSON_OBJECT_AS_ARRAY), []);
                 return;
             }
             $decodeData = $result->getTdsOriginData();
             // 3. 处理业务逻辑
             $result = self::process($did, $client_id, $decodeData);
 
-            if (empty($result)) {
-                self::jsonError($client_id, "process result is empty".$decodeData, null);
-                return ;
-            }
+//            if (empty($result)) {
+//                self::jsonError($client_id, "process result is empty".$decodeData, null);
+//                return ;
+//            }
 
             if ($result instanceof BaseDeviceInfoClientResp
                || $result instanceof BaseDeviceFirmwareUpdateClientResp
@@ -237,12 +244,19 @@ class ProxyEvents
 
         if (method_exists($result, "toDataArray")) {
             $data = $result->toDataArray();
+            $newData = [];
+            foreach ($data as $key=>$val) {
+                if (!is_null($val)) {
+                    $newData[$key] = $val;
+                }
+            }
             // 4. 加密数据
-            $encodeData = SunsunTDS::encode($data, $pwd);
-            self::jsonSuc($client_id, serialize($result), $encodeData);
-        } else {
-            self::jsonError($client_id, 'msg_channel_'.$msgChannel.'fail'.json_encode($result), []);
+            $encodeData = SunsunTDS::encode($newData, $pwd);
+            Gateway::sendToClient($client_id, $encodeData);
         }
+//        else {
+//            self::jsonError($client_id, 'msg_channel_'.$msgChannel.'fail'.json_encode($result), []);
+//        }
     }
 
     //============================帮助方法
@@ -267,7 +281,7 @@ class ProxyEvents
      * @return null|\sunsun\adt\resp\AdtCtrlDeviceResp|\sunsun\adt\resp\AdtDeviceInfoResp|\sunsun\adt\resp\AdtDeviceUpdateResp|\sunsun\adt\resp\AdtHbResp|\sunsun\aq806\resp\Aq806CtrlDeviceResp|\sunsun\aq806\resp\Aq806DeviceInfoResp|\sunsun\aq806\resp\Aq806DeviceUpdateResp|\sunsun\aq806\resp\Aq806HbResp|\sunsun\filter_vat\resp\FilterVatCtrlDeviceResp|\sunsun\filter_vat\resp\FilterVatDeviceEventResp|\sunsun\filter_vat\resp\FilterVatDeviceInfoResp|\sunsun\filter_vat\resp\FilterVatDeviceUpdateResp|\sunsun\filter_vat\resp\FilterVatHbResp|\sunsun\filter_vat\resp\FilterVatLoginResp|\sunsun\water_pump\resp\WaterPumpCtrlDeviceResp|\sunsun\water_pump\resp\WaterPumpDeviceInfoResp|\sunsun\water_pump\resp\WaterPumpDeviceUpdateResp|\sunsun\water_pump\resp\WaterPumpHbResp
      * @throws \Exception
      */
-    private static function login($client_id, $message, &$pwd)
+    private static function login($client_id, $message, $pwd)
     {
         $result = SunsunTDS::decode($message, $pwd);
 
@@ -307,6 +321,11 @@ class ProxyEvents
         $id = $result['id'];
         $pwd = $result[SessionKeys::PWD];
         $hb = $result['hb'];//心跳周期（单位：秒）
+
+        // 设置did,pwd
+        $_SESSION[SessionKeys::DID] = $did;
+        // 存在session中 就不需要再到数据库查询一次了
+        $_SESSION[SessionKeys::PWD] = $pwd;
         $originPwd = SunsunTDS::isLegalPwd($data[SessionKeys::PWD], $pwd);
         if (empty($originPwd)) {
             self::jsonError($client_id, $data[SessionKeys::PWD] . 'the control password decode fail,key=' . $pwd . ' and origin_data ' . $originData, []);
@@ -333,10 +352,6 @@ class ProxyEvents
         $dal->update($id, $entity);
         self::loginSuccess($client_id, $did);
 
-        // 设置did,pwd
-        $_SESSION[SessionKeys::DID] = $did;
-        // 存在session中 就不需要再到数据库查询一次了
-        $_SESSION[SessionKeys::PWD] = $pwd;
         //设置返回响应包
         //3. Device 这里替换成具体设备的登录响应类
         $resp = DeviceFacadeFactory::createLoginResp($did);
@@ -454,17 +469,6 @@ class ProxyEvents
             return $resp;
         }
         return null;
-    }
-
-    /**
-     * 返回正确信息
-     * @param $client_id
-     * @param $msg
-     * @param $data
-     */
-    private static function jsonSuc($client_id, $msg, $data)
-    {
-        Gateway::sendToClient($client_id, $data);
     }
 
     /**
