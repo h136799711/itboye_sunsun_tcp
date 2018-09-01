@@ -346,7 +346,7 @@ class ProxyEvents
         $resp->setHb($hb);
         //绑定did 和 client_id
         Gateway::bindUid($client_id, $did);
-        self::publish(['type'=>'login', 'did'=>$did, 'client_id'=>$client_id, 'reg_addr'=>
+        self::publish(['type'=>'login', 't'=>time(), 'did'=>$did, 'client_id'=>$client_id, 'reg_addr'=>
             self::$regAddr]);
         return $resp;
     }
@@ -493,7 +493,7 @@ class ProxyEvents
     {
         if (is_array($_SESSION) && array_key_exists(SessionKeys::DID, $_SESSION)) {
             $did = $_SESSION[SessionKeys::DID];
-            self::publish(['type'=>'logout', 'did'=>$did, 'client_id'=>$client_id]);
+            self::publish(['type'=>'logout', 't'=>time(),'did'=>$did, 'client_id'=>$client_id]);
         }
     }
 
