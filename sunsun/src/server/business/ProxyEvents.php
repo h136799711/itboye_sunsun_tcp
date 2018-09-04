@@ -217,10 +217,6 @@ class ProxyEvents
                 return;
             }
 
-            if ($did == 'S037C0000000793' || $did == 'S035C0000011032') {
-                self::publish(['type'=>'test', 'content'=>$result]);
-            }
-
             if (!$result->isValid()) {
 //                self::jsonError($client_id, 'the data format is invalid' . json_encode($result->getTdsOriginData(),
 //                        JSON_OBJECT_AS_ARRAY), []);
