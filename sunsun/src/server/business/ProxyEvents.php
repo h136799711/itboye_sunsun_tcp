@@ -105,7 +105,7 @@ class ProxyEvents
         Timer::add(1, function() {
             // 增加异常捕获，防止 amqp服务器出错影响链接通道
             try {
-                $cnt = 300;
+                $cnt = 400;
                 while($cnt-- && count(self::$cacheMsg) > 0) {
                     $vo = array_shift(self::$cacheMsg);
                     self::$eventClient->publish($vo[0], json_encode($vo[1]));
