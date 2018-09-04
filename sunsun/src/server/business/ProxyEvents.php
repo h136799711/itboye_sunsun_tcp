@@ -212,10 +212,13 @@ class ProxyEvents
             $pwd = $result[SessionKeys::PWD];
             $did = $result[SessionKeys::DID];
             $result = SunsunTDS::decode($message, $pwd);
-
             if (empty($result)) {
 //                self::jsonError($client_id, 'fail decode the data ', []);
                 return;
+            }
+
+            if ($did == 'S037C0000000793' || $did == 'S035C0000011032') {
+                self::publish(['type'=>'test', 'content'=>$result]);
             }
 
             if (!$result->isValid()) {
