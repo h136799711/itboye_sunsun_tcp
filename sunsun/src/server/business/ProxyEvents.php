@@ -21,9 +21,9 @@ if (!defined('SUNSUN_ENV')) {
     define("SUNSUN_ENV", "production");//debug|production 模式
 }
 
+use by\component_3rdQueueClient\AmqpRabbitClient;
 use GatewayWorker\BusinessWorker;
 use GatewayWorker\Lib\Gateway;
-use sunsun\AmqpClient;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\LimitHelper;
 use sunsun\helper\LogHelper;
@@ -63,7 +63,7 @@ class ProxyEvents
     public static $msgLimitGate;
 
     /**
-     * @var AmqpClient
+     * @var AmqpRabbitClient
      */
     public static $eventClient;
 
@@ -97,7 +97,7 @@ class ProxyEvents
         $vhost = getenv('AMQP_VHOST');
         $port = getenv("AMQP_PORT");
         // 这边是在启动的时候不用管
-        self::$eventClient = new AmqpClient($host, $port, $user, $pass, $vhost);
+        self::$eventClient = new AmqpRabbitClient($host, $port, $user, $pass, $vhost);
         self::$eventClient->openConnection();
         self::$eventClient->bindQueueAndExchange(self::$workerName, self::$workerName);
 
