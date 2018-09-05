@@ -22,6 +22,7 @@ class DeviceType
     const Did_CP1000 = 'S07';
     const Did_AQ118 = 'S08';
     const Did_Feeder = 'S09';
+    const Did_PetFeeder = 'S10';
     const Did_Unknown= 'XXX';
 
     public static function getDeviceType($did){
@@ -29,6 +30,9 @@ class DeviceType
         switch ($type){
             case DeviceType::Did_FilterVat:
                 return DeviceType::Did_FilterVat;
+                break;
+            case DeviceType::Did_PetFeeder:
+                return DeviceType::Did_PetFeeder;
                 break;
             case DeviceType::Did_WaterPump:
                 return DeviceType::Did_WaterPump;
