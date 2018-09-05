@@ -25,5 +25,5 @@ class ServerAddress
     const Aq118_Register = "172.16.23.84:1244";
     const Feeder_Register = "172.16.23.84:1245";
     const Pet_Feeder_Register = "172.16.23.84:1246";
-    
+
 }
