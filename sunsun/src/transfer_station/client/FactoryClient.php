@@ -20,11 +20,13 @@ class FactoryClient
      */
     public static function createClient($did)
     {
-
         $type = DeviceType::getDeviceType($did);
         switch ($type) {
             case DeviceType::Did_FilterVat:
                 return new FilterClient();
+                break;
+            case DeviceType::Did_PetFeeder:
+                return new PetFeederClient();
                 break;
             case DeviceType::Did_WaterPump:
                 return new WaterPumpClient();

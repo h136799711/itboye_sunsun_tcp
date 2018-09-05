@@ -50,6 +50,10 @@ use sunsun\heating_rod\dal\HeatingRodDeviceDal;
 use sunsun\heating_rod\dal\HeatingRodDeviceEventDal;
 use sunsun\heating_rod\req\HeatingRodReqFactory;
 use sunsun\heating_rod\req\HeatingRodReqType;
+use sunsun\pet_feeder\action\PetFeederProcessAction;
+use sunsun\pet_feeder\dal\PetFeederDeviceDal;
+use sunsun\pet_feeder\req\PetFeederReqFactory;
+use sunsun\pet_feeder\req\PetFeederReqType;
 use sunsun\server\consts\DeviceType;
 use sunsun\water_pump\action\WaterPumpProcessAction;
 use sunsun\water_pump\dal\WaterPumpDeviceDal;
@@ -73,7 +77,11 @@ class DeviceFacadeFactory
 
     }
 
-
+    /**
+     * 新版本的 不用 改这个方法
+     * @param $did
+     * @return null|AdtDeviceEventDal|Aph300DeviceEventDal|Aq806DeviceEventDal|FilterVatDeviceEventDal|HeatingRodDeviceEventDal|WaterPumpDeviceEventDal
+     */
     public static function getDeviceEventDal($did)
     {
         $type = substr($did, 0, 3);
@@ -121,6 +129,9 @@ class DeviceFacadeFactory
         $type = substr($did,0,3);
         $logic = null;
         switch ($type){
+            case DeviceType::Did_PetFeeder:
+                $logic = new PetFeederDeviceDal();
+                break;
             case DeviceType::Did_ADT:
                 $logic = new AdtDeviceDal();
                 break;
@@ -172,6 +183,9 @@ class DeviceFacadeFactory
         $type = substr($did,0,3);
         $req = null;
         switch ($type){
+            case DeviceType::Did_PetFeeder:
+                $req = PetFeederReqFactory::create(PetFeederReqType::Login,$data);
+                break;
             case DeviceType::Did_ADT:
                 $req = AdtReqFactory::create(AdtReqType::Login,$data);
                 break;
@@ -213,6 +227,9 @@ class DeviceFacadeFactory
         $type = substr($did,0,3);
         $action = null;
         switch ($type){
+            case DeviceType::Did_PetFeeder:
+                $action = new PetFeederProcessAction();
+                break;
             case DeviceType::Did_ADT:
                 $action = new AdtProcessAction();
                 break;

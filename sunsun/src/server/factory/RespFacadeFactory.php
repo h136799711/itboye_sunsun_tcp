@@ -17,6 +17,7 @@ use sunsun\cp1000\resp\Cp1000RespFactory;
 use sunsun\feeder\resp\FeederRespFactory;
 use sunsun\filter_vat\resp\FilterVatRespFactory;
 use sunsun\heating_rod\resp\HeatingRodRespFactory;
+use sunsun\pet_feeder\resp\PetFeederRespFactory;
 use sunsun\server\consts\DeviceType;
 use sunsun\server\consts\RespFacadeType;
 use sunsun\server\req\BaseDeviceEventClientReq;
@@ -84,6 +85,9 @@ class RespFacadeFactory
     {
         $factory = null;
         switch ($deviceType) {
+            case DeviceType::Did_PetFeeder:
+                $factory = new PetFeederRespFactory();
+                break;
             case DeviceType::Did_CP1000:
                 $factory = new Cp1000RespFactory();
                 break;
