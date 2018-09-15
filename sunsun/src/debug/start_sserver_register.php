@@ -12,17 +12,17 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
+use GatewayWorker\Register;
+use Workerman\Worker;
+
 // 自动加载类
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
-\sunsun\ByGatewayClient::$registerAddress = "master.sunsunxiaoli.com:1238";
-// gateway 进程，这里使用Text协议，可以用telnet测试
+// register 必须是text协议
+$register = new Register('text://0.0.0.0:1211');
 
-try {
-    $reg = \sunsun\ByGatewayClient::getAllGatewayAddressesFromRegister();
-    var_dump($reg);
-
-} catch (Exception $e) {
-
+// 如果不是在根目录启动，则运行runAll方法
+if (!defined('GLOBAL_START')) {
+    Worker::runAll();
 }
 
