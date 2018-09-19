@@ -109,7 +109,7 @@ class ProxyEvents
                 while($cnt-- && count(self::$cacheMsg) > 0) {
                     $vo = array_shift(self::$cacheMsg);
                     self::$eventClient->publish($vo[0], json_encode($vo[1]));
-//                    usleep(10000);
+                    usleep(10000);
                 }
             } catch (\Exception $exception) {
                 Worker::log($exception->getTraceAsString());
