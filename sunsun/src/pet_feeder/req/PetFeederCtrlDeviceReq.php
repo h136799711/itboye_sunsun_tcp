@@ -24,6 +24,8 @@ class PetFeederCtrlDeviceReq extends BaseControlDeviceServerReq
     private $ws;
     private $fp;
     private $url;
+    private $fc;
+    private $a;
 
     public function __construct($data = null)
     {
@@ -60,8 +62,46 @@ class PetFeederCtrlDeviceReq extends BaseControlDeviceServerReq
         if (!empty($this->getUrl())) {
             $data['url'] = $this->getUrl();
         }
+        if (!empty($this->getFc())) {
+            $data['fc'] = $this->getFc();
+        }
+        if (!empty($this->getA())) {
+            $data['a'] = $this->getA();
+        }
 
         return $data;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFc()
+    {
+        return $this->fc;
+    }
+
+    /**
+     * @param mixed $fc
+     */
+    public function setFc($fc)
+    {
+        $this->fc = $fc;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getA()
+    {
+        return $this->a;
+    }
+
+    /**
+     * @param mixed $a
+     */
+    public function setA($a)
+    {
+        $this->a = $a;
     }
 
     /**
@@ -168,5 +208,7 @@ class PetFeederCtrlDeviceReq extends BaseControlDeviceServerReq
         array_key_exists("url", $data) && $this->setUrl($data['url']);
         array_key_exists("fp", $data) && $this->setFp($data['fp']);
         array_key_exists("ws", $data) && $this->setWs($data['ws']);
+        array_key_exists("fc", $data) && $this->setFc($data['fc']);
+        array_key_exists("a", $data) && $this->setA($data['a']);
     }
 }

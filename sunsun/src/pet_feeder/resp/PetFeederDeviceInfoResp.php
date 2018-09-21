@@ -19,7 +19,40 @@ use sunsun\server\resp\BaseDeviceInfoClientResp;
  */
 class PetFeederDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntityArrayInterface
 {
+    private $fc;
+    private $a;
 
+    /**
+     * @return mixed
+     */
+    public function getFc()
+    {
+        return $this->fc;
+    }
+
+    /**
+     * @param mixed $fc
+     */
+    public function setFc($fc)
+    {
+        $this->fc = $fc;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getA()
+    {
+        return $this->a;
+    }
+
+    /**
+     * @param mixed $a
+     */
+    public function setA($a)
+    {
+        $this->a = $a;
+    }
     private $m;
     private $ws;
     private $fi;
@@ -48,6 +81,12 @@ class PetFeederDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEn
             $data['upd_state'] = $this->getUpdState();
         } else {
             $data['upd_state'] = 0;
+        }
+        if (!is_null($this->getFc())) {
+            $data['fc'] = $this->getFc();
+        }
+        if (!is_null($this->getA())) {
+            $data['a'] = $this->getA();
         }
 
         if (!is_null($this->getPushCfg())) {
@@ -238,7 +277,9 @@ class PetFeederDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEn
             'fp' => $this->getFp(),
             'ws' => $this->getWs(),
             'fcd' => $this->getFcd(),
-            'fault' => $this->getFault()
+            'fault' => $this->getFault(),
+            'fc' => $this->getFc(),
+            'a' => $this->getA()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;

@@ -30,6 +30,8 @@ class PetFeederCtrlDeviceResp extends BaseControlDeviceClientResp implements ToD
     private $pushCfg;
     private $devLock;
     private $updState;
+    private $fc;
+    private $a;
 
 
     public function __construct(PetFeederCtrlDeviceReq $req = null)
@@ -52,6 +54,15 @@ class PetFeederCtrlDeviceResp extends BaseControlDeviceClientResp implements ToD
             $data['upd_state'] = 0;
         }
 
+        if (!is_null($this->getFc())) {
+            $data['fc'] = $this->getFc();
+        }
+        if (!is_null($this->getA())) {
+            $data['a'] = $this->getA();
+        }
+        if (!is_null($this->getFault())) {
+            $data['fault'] = $this->getFault();
+        }
         if (!is_null($this->getPushCfg())) {
             $data['push_cfg'] = $this->getPushCfg();
         }
@@ -79,6 +90,38 @@ class PetFeederCtrlDeviceResp extends BaseControlDeviceClientResp implements ToD
 
 
         return $data;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFc()
+    {
+        return $this->fc;
+    }
+
+    /**
+     * @param mixed $fc
+     */
+    public function setFc($fc)
+    {
+        $this->fc = $fc;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getA()
+    {
+        return $this->a;
+    }
+
+    /**
+     * @param mixed $a
+     */
+    public function setA($a)
+    {
+        $this->a = $a;
     }
 
     /**
@@ -238,7 +281,9 @@ class PetFeederCtrlDeviceResp extends BaseControlDeviceClientResp implements ToD
             'fp' => $this->getFp(),
             'ws' => $this->getWs(),
             'fcd' => $this->getFcd(),
-            'fault' => $this->getFault()
+            'fault' => $this->getFault(),
+            'fc' => $this->getFc(),
+            'a' => $this->getA()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;
