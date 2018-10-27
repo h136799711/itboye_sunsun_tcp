@@ -427,7 +427,7 @@ class Aq806CtrlDeviceReq extends BaseControlDeviceServerReq
         array_key_exists("uvWh", $data) && $this->setUvWh($data['uvWh']);
         array_key_exists("pWh", $data) && $this->setPWh($data['pWh']);
         array_key_exists("lWh", $data) && $this->setLWh($data['lWh']);
-        array_key_exists("phCmd", $data) && $this->setLWh($data['phCmd']);
+        array_key_exists("phCmd", $data) && $this->setPhCmd($data['phCmd']);
 
 
     }
