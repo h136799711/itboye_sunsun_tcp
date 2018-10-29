@@ -62,6 +62,23 @@ class PetFeederDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEn
     private $pushCfg;
     private $updState;
     private $devLock;
+    private $vol;
+
+    /**
+     * @return mixed
+     */
+    public function getVol()
+    {
+        return $this->vol;
+    }
+
+    /**
+     * @param mixed $vol
+     */
+    public function setVol($vol)
+    {
+        $this->vol = $vol;
+    }
 
     public function __construct(PetFeederDeviceInfoReq $req = null)
     {
@@ -115,8 +132,9 @@ class PetFeederDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEn
         if (!is_null($this->getFcd())) {
             $data['fcd'] = $this->getFcd();
         }
-
-
+        if (!is_null($this->getVol())) {
+            $data['vol'] = $this->getVol();
+        }
         return $data;
     }
 
@@ -279,7 +297,8 @@ class PetFeederDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEn
             'fcd' => $this->getFcd(),
             'fault' => $this->getFault(),
             'fc' => $this->getFc(),
-            'a' => $this->getA()
+            'a' => $this->getA(),
+            'vol' => $this->getVol()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;

@@ -32,6 +32,23 @@ class PetFeederCtrlDeviceResp extends BaseControlDeviceClientResp implements ToD
     private $updState;
     private $fc;
     private $a;
+    private $vol;
+
+    /**
+     * @return mixed
+     */
+    public function getVol()
+    {
+        return $this->vol;
+    }
+
+    /**
+     * @param mixed $vol
+     */
+    public function setVol($vol)
+    {
+        $this->vol = $vol;
+    }
 
 
     public function __construct(PetFeederCtrlDeviceReq $req = null)
@@ -88,7 +105,9 @@ class PetFeederCtrlDeviceResp extends BaseControlDeviceClientResp implements ToD
             $data['m'] = $this->getM();
         }
 
-
+        if (!is_null($this->getVol())) {
+            $data['vol'] = $this->getVol();
+        }
         return $data;
     }
 
@@ -283,7 +302,8 @@ class PetFeederCtrlDeviceResp extends BaseControlDeviceClientResp implements ToD
             'fcd' => $this->getFcd(),
             'fault' => $this->getFault(),
             'fc' => $this->getFc(),
-            'a' => $this->getA()
+            'a' => $this->getA(),
+            'vol' => $this->getVol()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;

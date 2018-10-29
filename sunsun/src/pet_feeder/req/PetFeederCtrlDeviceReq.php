@@ -26,6 +26,23 @@ class PetFeederCtrlDeviceReq extends BaseControlDeviceServerReq
     private $url;
     private $fc;
     private $a;
+    private $vol;
+
+    /**
+     * @return mixed
+     */
+    public function getVol()
+    {
+        return $this->vol;
+    }
+
+    /**
+     * @param mixed $vol
+     */
+    public function setVol($vol)
+    {
+        $this->vol = $vol;
+    }
 
     public function __construct($data = null)
     {
@@ -67,6 +84,10 @@ class PetFeederCtrlDeviceReq extends BaseControlDeviceServerReq
         }
         if (!empty($this->getA())) {
             $data['a'] = $this->getA();
+        }
+
+        if (!is_null($this->getVol())) {
+            $data['vol'] = $this->getVol();
         }
 
         return $data;
@@ -210,5 +231,6 @@ class PetFeederCtrlDeviceReq extends BaseControlDeviceServerReq
         array_key_exists("ws", $data) && $this->setWs($data['ws']);
         array_key_exists("fc", $data) && $this->setFc($data['fc']);
         array_key_exists("a", $data) && $this->setA($data['a']);
+        array_key_exists('vol', $data) && $this->setVol($data['vol']);
     }
 }
