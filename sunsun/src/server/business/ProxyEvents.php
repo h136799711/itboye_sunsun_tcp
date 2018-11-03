@@ -458,6 +458,13 @@ class ProxyEvents
         $_SESSION[SessionKeys::IS_FIRST] = 1;
     }
 
+    /**
+     * @param $did
+     * @param $clientId
+     * @param $originData
+     * @return null|\sunsun\po\BaseRespPo
+     * @throws \Exception
+     */
     private static function process($did, $clientId, $originData)
     {
         $jsonDecode = json_decode($originData, JSON_OBJECT_AS_ARRAY);
