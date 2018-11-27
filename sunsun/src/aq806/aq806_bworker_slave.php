@@ -29,19 +29,7 @@ $worker->count = 60;
 $worker->eventHandler = "\sunsun\server\business\ProxyEvents";
 // 服务注册地址
 $worker->registerAddress = \sunsun\ServerAddress::MASTER_INNER_IP . ':1238';
-// 进程启动时设置一个定时器，定时向所有客户端连接发送数据
-$worker->onWorkerStart = function ($worker) {
-    // 定时，每10秒一次，
-    //todo: 检查是否客户端超时
-//    \Workerman\Lib\Timer::add(10, function()use($worker)
-//    {
-//        // 遍历当前进程所有的客户端连接，发送当前服务器的时间
-//        foreach($worker->connections as $connection)
-//        {
-//            //
-//        }
-//    });
-};
+
 // 如果不是在根目录启动，则运行runAll方法
 if (!defined('GLOBAL_START')) {
     Worker::runAll();
