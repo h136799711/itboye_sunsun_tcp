@@ -18,7 +18,7 @@ use Workerman\Worker;
 // 自动加载类
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
-
+define("BusEventVersion", "ProxyEventsV2");
 // bussinessWorker 进程
 $worker = new BusinessWorker();
 // worker名称
@@ -26,7 +26,7 @@ $worker->name = 'pet_feeder_worker';
 // bussinessWorker进程数量
 $worker->count = 4;
 // 设置业务处理类
-$worker->eventHandler = "\sunsun\server\business\ProxyEventsV2";
+$worker->eventHandler = "\sunsun\server\business\\".BusEventVersion;
 // 服务注册地址
 $worker->registerAddress = \sunsun\ServerAddress::MASTER_INNER_IP.':1246';
 

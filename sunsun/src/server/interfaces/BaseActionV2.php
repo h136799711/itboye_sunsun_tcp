@@ -12,7 +12,7 @@ use sunsun\dal\DeviceTcpClientDal;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
-use sunsun\server\business\ProxyEvents;
+use sunsun\server\business\ProxyEventsV2;
 use sunsun\server\consts\SunsunDeviceConstant;
 use sunsun\server\db\DbPool;
 use sunsun\server\factory\DeviceFacadeFactory;
@@ -79,7 +79,7 @@ abstract class BaseActionV2
     public function deviceHeartBeat($did, $clientId, BaseHeartBeatClientReq $req)
     {
         $respObj = RespFacadeFactory::createHeartBeatRespObj($did, $req);
-        ProxyEvents::publish(['type'=>'hb', 'did'=>$did, 'time'=>time()]);
+        $this->publish(['type'=>'hb', 'did'=>$did, 'time'=>time()]);
         return $respObj;
     }
 
@@ -212,7 +212,15 @@ abstract class BaseActionV2
             "create_time" => $now,
             'type'=>'event',
         ];
-        ProxyEvents::publish($data);
+        $this->publish($data);
         return $resp;
+    }
+
+    protected function publish($data) {
+        if (!defined("BusEventVersion")) {
+            define("BusEventVersion", "ProxyEvents");
+        }
+//        call_user_func_array(["\sunsun\server\business\\".BusEventVersion, "publish"], $data);
+        ProxyEventsV2::publish($data);
     }
 }

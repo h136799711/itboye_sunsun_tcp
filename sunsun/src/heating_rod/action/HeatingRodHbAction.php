@@ -8,21 +8,13 @@
 
 namespace sunsun\heating_rod\action;
 
-use sunsun\server\business\ProxyEvents;
-use sunsun\server\interfaces\BaseAction;
-use sunsun\server\req\BaseHeartBeatClientReq;
+use sunsun\server\interfaces\BaseActionV2;
 
 /**
  * Class HeatingRodHbAction
  * 心跳包处理
  * @package sunsun\heating_rod\action
  */
-class HeatingRodHbAction extends BaseAction
+class HeatingRodHbAction extends BaseActionV2
 {
-    public function deviceHeartBeat($did, $clientId, BaseHeartBeatClientReq $req)
-    {
-        $respObj = parent::deviceHeartBeat($did, $clientId, $req);
-        ProxyEvents::publish(['type'=>'hb', 'did'=>$did, 'time'=>time()]);
-        return $respObj;
-    }
 }

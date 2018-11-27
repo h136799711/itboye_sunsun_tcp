@@ -9,9 +9,7 @@
 namespace sunsun\cp1000\action;
 
 
-use sunsun\server\business\ProxyEvents;
 use sunsun\server\interfaces\BaseAction;
-use sunsun\server\req\BaseHeartBeatClientReq;
 
 /**
  * Class Cp1000HbAction
@@ -20,10 +18,4 @@ use sunsun\server\req\BaseHeartBeatClientReq;
  */
 class Cp1000HbAction extends BaseAction
 {
-    public function deviceHeartBeat($did, $clientId, BaseHeartBeatClientReq $req)
-    {
-        $respObj = parent::deviceHeartBeat($did, $clientId, $req);
-        ProxyEvents::publish(['type'=>'hb', 'did'=>$did, 'time'=>time()]);
-        return $respObj;
-    }
 }

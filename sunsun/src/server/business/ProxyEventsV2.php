@@ -139,7 +139,7 @@ class ProxyEventsV2
      */
     public static function onMessage($client_id, $message)
     {
-        echo "message=>".$message, "\n";
+//        echo "message=>".$message, "\n";
         if (is_array($_SESSION) && array_key_exists('close', $_SESSION) && $_SESSION['close'] == 1) {
             self::closeChannel($client_id, 'this need close socket');
             return ;
@@ -182,7 +182,7 @@ class ProxyEventsV2
             $pwd = $result[SessionKeys::PWD];
             $did = $result[SessionKeys::DID];
             $decodeData = Des::decrypt($message, $pwd);
-            var_dump($decodeData);
+//            var_dump($decodeData);
             if (empty($decodeData)) {
 //                self::jsonError($client_id, 'fail decode the data ', []);
                 return;
@@ -272,7 +272,7 @@ class ProxyEventsV2
     {
         $originData = Des::decrypt($message, $pwd);
 
-        var_dump("login data => ".$originData);
+//        var_dump("login data => ".$originData);
         if (empty($originData)) {
             self::jsonError($client_id, $pwd.'decode fail'.serialize($message), []);
             return null;

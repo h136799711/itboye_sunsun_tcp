@@ -21,11 +21,6 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 // gateway 进程，这里使用Text协议，可以用telnet测试
 $gateway = new Gateway("\sunsun\SunsunV1://0.0.0.0:8289");
 
-list($scheme, $address) = explode(':', "\sunsun\SunsunV1://0.0.0.0:8289", 2);
-$scheme         = ucfirst($scheme);
-var_dump(substr($scheme,0,1));
-$protocol = substr($scheme,0,1) === '\\' ? $scheme : '\\Protocols\\' . $scheme;
-var_dump($protocol);
 // gateway名称，status方便查看,过滤桶
 $gateway->name = 'pet_feeder_gateway';
 // gateway进程数
