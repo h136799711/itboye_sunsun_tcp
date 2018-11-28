@@ -8,8 +8,8 @@
 
 namespace sunsun\cp1000\action;
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
-class Cp1000DeviceInfoAction extends BaseAction
+class Cp1000DeviceInfoAction extends BaseActionV2
 {
 }

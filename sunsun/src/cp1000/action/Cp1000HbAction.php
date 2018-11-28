@@ -9,13 +9,13 @@
 namespace sunsun\cp1000\action;
 
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
 /**
  * Class Cp1000HbAction
  * 心跳包处理
  * @package sunsun\cp1000\action
  */
-class Cp1000HbAction extends BaseAction
+class Cp1000HbAction extends BaseActionV2
 {
 }
