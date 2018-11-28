@@ -14,8 +14,6 @@ use sunsun\heating_rod\req\HeatingRodReqType;
 use sunsun\heating_rod\resp\HeatingRodHbResp;
 use sunsun\heating_rod\resp\HeatingRodRespFactory;
 use sunsun\heating_rod\resp\HeatingRodRespType;
-use sunsun\helper\LogHelper;
-use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
 use sunsun\server\factory\DeviceFacadeFactory;
 
@@ -82,10 +80,6 @@ class HeatingRodProcessAction
                 break;
             default:
                 break;
-        }
-
-        if (!ResultHelper::isSuccess($result)) {
-            LogHelper::debug($did, $clientId, $result['info']);
         }
 
         return $resp;

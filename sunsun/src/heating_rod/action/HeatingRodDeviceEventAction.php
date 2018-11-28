@@ -8,13 +8,13 @@
 
 namespace sunsun\heating_rod\action;
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
 /**
  * Class HeatingRodDeviceEventAction
  * 设备事件记录
  * @package sunsun\heating_rod\action
  */
-class HeatingRodDeviceEventAction extends BaseAction
+class HeatingRodDeviceEventAction extends BaseActionV2
 {
 }

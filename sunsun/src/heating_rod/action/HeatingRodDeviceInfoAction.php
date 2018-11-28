@@ -9,8 +9,8 @@
 namespace sunsun\heating_rod\action;
 
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
-class HeatingRodDeviceInfoAction extends BaseAction
+class HeatingRodDeviceInfoAction extends BaseActionV2
 {
 }
