@@ -8,8 +8,8 @@
 
 namespace sunsun\filter_vat\action;
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
-class FilterVatDeviceCtrlAction extends BaseAction
+class FilterVatDeviceCtrlAction extends BaseActionV2
 {
 }

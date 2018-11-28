@@ -9,8 +9,8 @@
 namespace sunsun\filter_vat\action;
 
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
-class FilterVatDeviceUpdateAction extends BaseAction
+class FilterVatDeviceUpdateAction extends BaseActionV2
 {
 }
