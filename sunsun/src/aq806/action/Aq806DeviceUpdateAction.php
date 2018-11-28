@@ -8,9 +8,9 @@
 
 namespace sunsun\aq806\action;
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
-class Aq806DeviceUpdateAction extends BaseAction
+class Aq806DeviceUpdateAction extends BaseActionV2
 {
 
 }

@@ -25,8 +25,9 @@ $worker = new BusinessWorker();
 $worker->name = 'aq806_worker';
 // bussinessWorker进程数量
 $worker->count = 160;
+define("BusEventVersion", "ProxyEventsV2");
 // 设置业务处理类
-$worker->eventHandler = "\sunsun\server\business\ProxyEvents";
+$worker->eventHandler = "\sunsun\server\business\\".BusEventVersion;
 // 服务注册地址
 $worker->registerAddress = '127.0.0.1:1238';
 
