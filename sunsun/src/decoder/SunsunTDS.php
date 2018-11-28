@@ -14,8 +14,8 @@ use sunsun\po\TdsPo;
 
 /**
  * Class SunsunTDS
+ * 【已弃用】
  * 加解密
- * TODO： 需要根据设备、设备版本 来进行处理
  * @package sunsun\decoder
  */
 class SunsunTDS
