@@ -30,9 +30,7 @@ define("BusEventVersion", "ProxyEventsV2");
 $worker->eventHandler = "\sunsun\server\business\\".BusEventVersion;
 // 服务注册地址
 $worker->registerAddress = \sunsun\ServerAddress::MASTER_INNER_IP.':1243';
-// 进程启动时设置一个定时器，定时向所有客户端连接发送数据
-$worker->onWorkerStart = function ($worker) {
-};
+
 // 如果不是在根目录启动，则运行runAll方法
 if (!defined('GLOBAL_START')) {
     Worker::runAll();
