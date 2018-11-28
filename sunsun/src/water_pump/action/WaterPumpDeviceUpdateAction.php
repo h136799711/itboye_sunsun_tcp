@@ -9,9 +9,9 @@
 namespace sunsun\water_pump\action;
 
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
-class WaterPumpDeviceUpdateAction extends BaseAction
+class WaterPumpDeviceUpdateAction extends BaseActionV2
 {
 
 }

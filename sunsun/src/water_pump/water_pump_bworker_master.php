@@ -26,7 +26,9 @@ $worker = new BusinessWorker();
 $worker->name = 'water_pump_worker';
 // bussinessWorker进程数量
 $worker->count = 4;
-$worker->eventHandler = "\sunsun\server\business\ProxyEvents";
+define("BusEventVersion", "ProxyEventsV2");
+// 设置业务处理类
+$worker->eventHandler = "\sunsun\server\business\\".BusEventVersion;
 // 服务注册地址
 $worker->registerAddress = \sunsun\ServerAddress::MASTER_INNER_IP.':1241';
 
