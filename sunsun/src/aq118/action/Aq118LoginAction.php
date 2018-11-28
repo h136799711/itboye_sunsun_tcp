@@ -9,8 +9,8 @@
 namespace sunsun\aq118\action;
 
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
-class Aq118LoginAction extends BaseAction
+class Aq118LoginAction extends BaseActionV2
 {
 }

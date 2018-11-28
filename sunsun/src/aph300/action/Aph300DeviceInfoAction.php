@@ -9,9 +9,9 @@
 namespace sunsun\aph300\action;
 
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
-class Aph300DeviceInfoAction extends BaseAction
+class Aph300DeviceInfoAction extends BaseActionV2
 {
 
 }

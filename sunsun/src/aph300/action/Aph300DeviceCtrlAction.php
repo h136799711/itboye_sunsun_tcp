@@ -8,8 +8,8 @@
 
 namespace sunsun\aph300\action;
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
-class Aph300DeviceCtrlAction extends BaseAction
+class Aph300DeviceCtrlAction extends BaseActionV2
 {
 }

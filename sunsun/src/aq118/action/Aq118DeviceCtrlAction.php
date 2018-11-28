@@ -8,9 +8,9 @@
 
 namespace sunsun\aq118\action;
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
-class Aq118DeviceCtrlAction extends BaseAction
+class Aq118DeviceCtrlAction extends BaseActionV2
 {
 
 }
