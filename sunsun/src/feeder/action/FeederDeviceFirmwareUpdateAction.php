@@ -8,8 +8,8 @@
 
 namespace sunsun\feeder\action;
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
-class FeederDeviceFirmwareUpdateAction extends BaseAction
+class FeederDeviceFirmwareUpdateAction extends BaseActionV2
 {
 }

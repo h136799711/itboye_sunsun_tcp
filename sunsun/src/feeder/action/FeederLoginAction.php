@@ -8,8 +8,8 @@
 
 namespace sunsun\feeder\action;
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
-class FeederLoginAction extends BaseAction
+class FeederLoginAction extends BaseActionV2
 {
 }

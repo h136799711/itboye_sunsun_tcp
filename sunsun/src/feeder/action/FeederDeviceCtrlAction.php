@@ -9,8 +9,8 @@
 namespace sunsun\feeder\action;
 
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
-class FeederDeviceCtrlAction extends BaseAction
+class FeederDeviceCtrlAction extends BaseActionV2
 {
 }
