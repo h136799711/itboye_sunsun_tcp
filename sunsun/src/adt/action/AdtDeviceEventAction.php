@@ -8,13 +8,13 @@
 
 namespace sunsun\adt\action;
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
 /**
  * Class AdtDeviceEventAction
  * 设备事件记录
  * @package sunsun\adt\action
  */
-class AdtDeviceEventAction extends BaseAction
+class AdtDeviceEventAction extends BaseActionV2
 {
 }

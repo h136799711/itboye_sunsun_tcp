@@ -9,13 +9,13 @@
 namespace sunsun\adt\action;
 
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
 /**
  * Class AdtHbAction
  * 心跳包处理
  * @package sunsun\adt\action
  */
-class AdtHbAction extends BaseAction
+class AdtHbAction extends BaseActionV2
 {
 }

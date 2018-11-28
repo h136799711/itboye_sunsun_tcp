@@ -8,8 +8,8 @@
 
 namespace sunsun\adt\action;
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
-class AdtLoginAction extends BaseAction
+class AdtLoginAction extends BaseActionV2
 {
 }

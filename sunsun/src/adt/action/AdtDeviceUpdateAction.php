@@ -9,8 +9,8 @@
 namespace sunsun\adt\action;
 
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
-class AdtDeviceUpdateAction extends BaseAction
+class AdtDeviceUpdateAction extends BaseActionV2
 {
 }
