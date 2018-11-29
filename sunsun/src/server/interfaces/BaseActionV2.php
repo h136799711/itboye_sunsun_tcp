@@ -62,6 +62,7 @@ abstract class BaseActionV2
         }
         // 更新设备信息
         $updateEntity = $resp->toDbEntityArray();
+        $updateEntity['_client_id'] = $clientId;
         // 向中转通道发送信息
         TransferClient::sendMessageToGroup($did, $updateEntity, $resp->getSn());
         $ret = $dal->updateByDid($did, $updateEntity);
