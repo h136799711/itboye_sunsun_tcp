@@ -12,7 +12,6 @@ use sunsun\dal\DeviceTcpClientDal;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
-use sunsun\server\business\ProxyEventsV2;
 use sunsun\server\consts\SunsunDeviceConstant;
 use sunsun\server\db\DbPool;
 use sunsun\server\factory\DeviceFacadeFactory;
@@ -220,7 +219,7 @@ abstract class BaseActionV2
         if (!defined("BusEventVersion")) {
             define("BusEventVersion", "ProxyEvents");
         }
-//        call_user_func_array(["\sunsun\server\business\\".BusEventVersion, "publish"], $data);
-        ProxyEventsV2::publish($data);
+        call_user_func_array(["\sunsun\server\business\\".BusEventVersion, "publish"], $data);
+//        ProxyEventsV2::publish($data);
     }
 }

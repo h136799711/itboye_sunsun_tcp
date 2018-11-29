@@ -14,6 +14,7 @@ use sunsun\pet_feeder\dal\PetFeederDeviceDal;
 use sunsun\pet_feeder\req\PetFeederDeviceInfoReq;
 use sunsun\server\consts\SessionKeys;
 use sunsun\ServerAddress;
+use sunsun\SunsunV1;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 
@@ -48,6 +49,7 @@ class PetFeederClient extends BaseClient implements DeviceClientInterface
         $req = new PetFeederDeviceInfoReq();
         $req->setSn($this->getSn());
         $data = Des::encrypt($req->toDataArray(), $pwd);
+        $data = SunsunV1::encode($data);
         $this->setRegisterAddr();
         Gateway::sendToClient($client_id,$data);
     }

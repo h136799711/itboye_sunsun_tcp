@@ -14,6 +14,7 @@ use sunsun\aq806\req\Aq806DeviceInfoReq;
 use sunsun\helper\Des;
 use sunsun\server\consts\SessionKeys;
 use sunsun\ServerAddress;
+use sunsun\SunsunV1;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 
@@ -60,6 +61,7 @@ class Aq806Client extends BaseClient implements DeviceClientInterface
         $req = new Aq806DeviceInfoReq();
         $req->setSn($this->getSn());
         $data = Des::encrypt($req->toDataArray(), $pwd);
+        $data = SunsunV1::encode($data);
         $this->setRegisterAddr();
         Gateway::sendToClient($client_id,$data);
     }
