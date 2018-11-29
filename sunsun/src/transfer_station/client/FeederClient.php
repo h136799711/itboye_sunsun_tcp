@@ -9,9 +9,9 @@
 namespace sunsun\transfer_station\client;
 
 use GatewayClient\Gateway;
-use sunsun\decoder\SunsunTDS;
 use sunsun\feeder\dal\FeederDeviceDal;
 use sunsun\feeder\req\FeederDeviceInfoReq;
+use sunsun\helper\Des;
 use sunsun\server\consts\SessionKeys;
 use sunsun\ServerAddress;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
@@ -60,7 +60,8 @@ class FeederClient extends BaseClient implements DeviceClientInterface
         }
         $req = new FeederDeviceInfoReq();
         $req->setSn($this->getSn());
-        $data = SunsunTDS::encode($req->toDataArray(), $pwd);
+//        $data = SunsunTDS::encode($req->toDataArray(), $pwd);
+        $data = Des::encrypt($req->toDataArray(), $pwd);
         $this->setRegisterAddr();
         $this->staticsDelay($req->getSn(),$client_id);
         Gateway::sendToClient($client_id,$data);

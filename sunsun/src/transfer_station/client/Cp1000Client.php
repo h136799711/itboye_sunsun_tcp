@@ -11,7 +11,7 @@ namespace sunsun\transfer_station\client;
 use GatewayClient\Gateway;
 use sunsun\cp1000\dal\Cp1000DeviceDal;
 use sunsun\cp1000\req\Cp1000DeviceInfoReq;
-use sunsun\decoder\SunsunTDS;
+use sunsun\helper\Des;
 use sunsun\server\consts\SessionKeys;
 use sunsun\ServerAddress;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
@@ -62,7 +62,8 @@ class Cp1000Client extends BaseClient implements DeviceClientInterface
         }
         $req = new Cp1000DeviceInfoReq();
         $req->setSn($this->getSn());
-        $data = SunsunTDS::encode($req->toDataArray(), $pwd);
+//        $data = SunsunTDS::encode($req->toDataArray(), $pwd);
+        $data = Des::encrypt($req->toDataArray(), $pwd);
         $this->setRegisterAddr();
         $this->staticsDelay($req->getSn(), $client_id);
         Gateway::sendToClient($client_id, $data);
