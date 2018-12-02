@@ -17,4 +17,5 @@ use sunsun\server\interfaces\BaseActionV2;
  */
 class HeatingRodDeviceEventAction extends BaseActionV2
 {
+
 }

@@ -220,7 +220,7 @@ abstract class BaseActionV2
         if (!defined("BusEventVersion")) {
             define("BusEventVersion", "ProxyEvents");
         }
-        call_user_func_array(["\sunsun\server\business\\".BusEventVersion, "publish"], $data);
+        call_user_func_array(["\sunsun\server\business\\".BusEventVersion, "publish"], [$data]);
 //        ProxyEventsV2::publish($data);
     }
 }
