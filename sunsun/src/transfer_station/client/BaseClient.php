@@ -10,6 +10,9 @@ namespace sunsun\transfer_station\client;
 
 
 
+use sunsun\helper\Des;
+use sunsun\po\BaseReqPo;
+
 class BaseClient
 {
     protected function staticsDelay($sn, $client_id)
@@ -24,5 +27,8 @@ class BaseClient
         return $sn % 147483648;
     }
 
+    protected function getEncryptPacketStr(BaseReqPo $req, $pwd) {
+        return Des::encrypt(json_encode($req->toDataArray()), $pwd);
+    }
 
 }

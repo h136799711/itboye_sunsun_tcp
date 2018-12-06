@@ -9,12 +9,10 @@
 namespace sunsun\transfer_station\client;
 
 use GatewayClient\Gateway;
-use sunsun\helper\Des;
 use sunsun\pet_feeder\dal\PetFeederDeviceDal;
 use sunsun\pet_feeder\req\PetFeederDeviceInfoReq;
 use sunsun\server\consts\SessionKeys;
 use sunsun\ServerAddress;
-use sunsun\SunsunV1;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 
@@ -48,8 +46,8 @@ class PetFeederClient extends BaseClient implements DeviceClientInterface
         if (empty($pwd)) return;
         $req = new PetFeederDeviceInfoReq();
         $req->setSn($this->getSn());
-        $data = Des::encrypt($req->toDataArray(), $pwd);
-        $data = SunsunV1::encode($data);
+
+        $data = $this->getEncryptPacketStr($req, $pwd);
         $this->setRegisterAddr();
         Gateway::sendToClient($client_id,$data);
     }

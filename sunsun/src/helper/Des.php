@@ -27,6 +27,10 @@ class Des
      */
     public static function encrypt($value, $key)
     {
+        if (is_array($value)) {
+            $value = json_encode($value);
+        }
+
         $ret = openssl_encrypt($value, "des-ecb", $key);
         return $ret;
     }

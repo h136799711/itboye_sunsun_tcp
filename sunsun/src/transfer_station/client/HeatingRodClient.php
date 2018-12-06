@@ -11,10 +11,8 @@ namespace sunsun\transfer_station\client;
 use GatewayClient\Gateway;
 use sunsun\heating_rod\dal\HeatingRodDeviceDal;
 use sunsun\heating_rod\req\HeatingRodDeviceInfoReq;
-use sunsun\helper\Des;
 use sunsun\server\consts\SessionKeys;
 use sunsun\ServerAddress;
-use sunsun\SunsunV1;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 
@@ -61,11 +59,9 @@ class HeatingRodClient extends BaseClient implements DeviceClientInterface
         }
         $req = new HeatingRodDeviceInfoReq();
         $req->setSn($this->getSn());
-//        $data = SunsunTDS::encode($req->toDataArray(), $pwd);
-        $data = Des::encrypt($req->toDataArray(), $pwd);
-        $data = SunsunV1::encode($data);
+        $data = $this->getEncryptPacketStr($req, $pwd);
         $this->setRegisterAddr();
-        $this->staticsDelay($req->getSn(),$client_id);
+
         Gateway::sendToClient($client_id,$data);
     }
 

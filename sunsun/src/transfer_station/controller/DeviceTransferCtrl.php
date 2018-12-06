@@ -21,7 +21,7 @@ class DeviceTransferCtrl implements DeviceClientInterface
 
     public function process($client_id,$message){
         $jsonDecode = json_decode($message, JSON_OBJECT_AS_ARRAY);
-        if($jsonDecode === false){
+        if(empty($jsonDecode)){
             return ResultHelper::fail('unknown message');
         }
         if(array_key_exists('t',$jsonDecode)){
@@ -75,10 +75,10 @@ class DeviceTransferCtrl implements DeviceClientInterface
         }
 
         // 更新在线设备数
-        $this->updateAppCnt($did);
+//        $this->updateAppCnt($did);
 
         // client_id 加入到 did
-        Gateway::joinGroup($this->getClientId(), $did);
+//        Gateway::joinGroup($this->getClientId(), $did);
 
         // 获取设备信息
 //        FactoryClient::createClient($did)->deviceInfo();

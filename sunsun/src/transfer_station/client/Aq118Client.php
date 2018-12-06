@@ -11,10 +11,8 @@ namespace sunsun\transfer_station\client;
 use GatewayClient\Gateway;
 use sunsun\aq118\dal\Aq118DeviceDal;
 use sunsun\aq118\req\Aq118DeviceInfoReq;
-use sunsun\helper\Des;
 use sunsun\server\consts\SessionKeys;
 use sunsun\ServerAddress;
-use sunsun\SunsunV1;
 use sunsun\transfer_station\interfaces\DeviceClientInterface;
 
 
@@ -62,12 +60,10 @@ class Aq118Client extends BaseClient implements DeviceClientInterface
         }
         $req = new Aq118DeviceInfoReq();
         $req->setSn($this->getSn());
-//        $data = SunsunTDS::encode($req->toDataArray(), $pwd);
-        $data = Des::encrypt($req->toDataArray(), $pwd);
-        $data = SunsunV1::encode($data);
 
+        $data = $this->getEncryptPacketStr($req, $pwd);
         $this->setRegisterAddr();
-        $this->staticsDelay($req->getSn(),$client_id);
+
         Gateway::sendToClient($client_id,$data);
     }
 
