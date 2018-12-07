@@ -8,8 +8,8 @@
 
 namespace sunsun\pet_feeder\action;
 
-use sunsun\server\interfaces\BaseAction;
+use sunsun\server\interfaces\BaseActionV2;
 
-class PetFeederDeviceFirmwareUpdateAction extends BaseAction
+class PetFeederDeviceFirmwareUpdateAction extends BaseActionV2
 {
 }

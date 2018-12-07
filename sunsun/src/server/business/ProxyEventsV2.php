@@ -229,6 +229,7 @@ class ProxyEventsV2
     /**
      * 处理指令
      * @param $client_id
+     * @throws \Exception
      */
     public static function acceptCommand($client_id)
     {
