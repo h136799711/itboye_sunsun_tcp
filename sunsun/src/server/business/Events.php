@@ -65,6 +65,7 @@ class Events
 //        if (self::ifOverLimitTimes()) {
 //            Gateway::closeClient($client_id);
 //        }
+        var_dump(DebugHelper::$DebugDid);
     }
 
     /**

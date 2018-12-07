@@ -15,7 +15,7 @@ use sunsun\transfer_station\controller\RespMsgType;
 
 class TransferClient
 {
-    private static function setRegisterAddr(){
+    public static function setRegisterAddr(){
         Gateway::$registerAddress = ServerAddress::REGISTER_IP . ":1250";
     }
     /**
