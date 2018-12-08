@@ -72,9 +72,8 @@ class DebugHelper
     public static function sendToHebidu($message)
     {
         try {
-            TransferClient::sendMessageToGroup(self::HEBIDU_GROUP, $message, date('Y-m-d H:i:s ', time()));
+            TransferClient::sendMessageToGroup(self::HEBIDU_GROUP, [$message], '1');
         } catch (\Exception $ex) {
-            //不处理
         }
     }
 
@@ -83,7 +82,7 @@ class DebugHelper
             // 本函数的结果会被缓存。
             $time = filemtime($filePath);
             if ($time != self::$LastModifyTime) {
-                self::refreshDid(file_get_contents($path));
+                self::refreshDid(file_get_contents($filePath));
                 self::$LastModifyTime = $time;
             }
             // 使用 clearstatcache() 清除缓存

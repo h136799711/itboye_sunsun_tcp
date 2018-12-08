@@ -79,6 +79,8 @@ class ProxyEventsV3
      */
     public static function refreshDebugDid($rootPath)
     {
+        // 首次读取
+        DebugHelper::readFile($rootPath . '/debug_did.txt');
         // 定时 5分钟 读取 需要调试的did如果有
         Timer::add(300, function () use ($rootPath) {
             DebugHelper::readFile($rootPath . '/debug_did.txt');
@@ -186,7 +188,7 @@ class ProxyEventsV3
                 || $result instanceof BaseControlDeviceClientResp) {
                 // 设备响应的信息 不回复信息
                 // 只响应设备请求的信息
-                DebugHelper::sendByDid($did, get_class($result)."no need to response");
+                DebugHelper::sendByDid($did, get_class($result)." no need to response");
                 return;
             }
 
