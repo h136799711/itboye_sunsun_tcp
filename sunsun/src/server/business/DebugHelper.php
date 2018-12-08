@@ -106,12 +106,12 @@ class DebugHelper
 
     /**
      * 根据did 判断是否发送消息给设备
-     * @param $did
-     * @param $msg
+     * @param string $did
+     * @param string $msg
      */
     public static function sendByDid($did, $msg) {
         if (in_array($did, self::$DebugDid)) {
-            self::sendToHebidu($msg);
+            self::sendToHebidu($did.' '.$msg);
         }
     }
 }

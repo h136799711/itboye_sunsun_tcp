@@ -1,25 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: hebidu
- * Date: 2017-08-14
- * Time: 14:21
- */
 
 namespace sunsun\server\business;
 
-/**
- * 用于检测业务代码死循环或者长时间阻塞等问题
- * 如果发现业务卡死，可以将下面declare打开（去掉//注释），并执行php start.php reload
- * 然后观察一段时间workerman.log看是否有process_timeout异常
- */
-#declare(ticks=1);
-
+// utc 时区
 date_default_timezone_set("Etc/GMT");
-// 外部没有定义过则默认正式环境
-if (!defined('SUNSUN_ENV')) {
-    define("SUNSUN_ENV", "production");//debug|production 模式
-}
 
 use by\component_3rdQueueClient\AmqpRabbitClient;
 use GatewayWorker\BusinessWorker;
@@ -76,10 +60,13 @@ class ProxyEventsV3
         }
         self::$workerName = $businessWorker->name;
         self::$workerId = $businessWorker->id;
+        // 载入 env 环境变量
         $rootPath = dirname(dirname(dirname(dirname(__DIR__))));
         (new Dotenv())->load($rootPath . '/.env');
+
         self::$connectLimitGate = new LimitHelper(500, 5);
         self::$msgLimitGate = new LimitHelper(600, 3);
+
         self::$dbPool = DbPool::getInstance();
         self::$cacheMsg = [];
         self::initAmqp();
@@ -92,28 +79,28 @@ class ProxyEventsV3
      */
     public static function refreshDebugDid($rootPath)
     {
+        // 定时 5分钟 读取 需要调试的did如果有
         Timer::add(300, function () use ($rootPath) {
             DebugHelper::readFile($rootPath . '/debug_did.txt');
         });
     }
 
+    /**
+     * 初始化rabbitmq 生产者 ，并启用定时器进行生产
+     */
     public static function initAmqp()
     {
-        $host = getenv('AMQP_HOST');
-        $user = getenv('AMQP_USER');
-        $pass = getenv('AMQP_PASS');
-        $vhost = getenv('AMQP_VHOST');
-        $port = getenv("AMQP_PORT");
         // 这边是在启动的时候不用管
-        self::$eventClient = new AmqpRabbitClient($host, $port, $user, $pass, $vhost);
+        self::$eventClient = new AmqpRabbitClient(getenv('AMQP_HOST'), getenv("AMQP_PORT"), getenv('AMQP_USER'), getenv('AMQP_PASS'), getenv('AMQP_VHOST'));
         self::$eventClient->openConnection();
 
+        // 不持久队列
         self::$eventClient->bindQueueAndExchange(self::$workerName, self::$workerName, ['durable' => false], ['durable' => false]);
 
-        // 一秒 400
+        // 定时 每5秒 最多转发 800条消息
         Timer::add(5, function () {
-            // 增加异常捕获，防止 amqp服务器出错影响链接通道x
-            $cnt = 1000;
+            $cnt = 800;
+            // 这里很有可能会报异常，然后导致 该子进程重启
             while ($cnt-- && count(self::$cacheMsg) > 0) {
                 $vo = array_shift(self::$cacheMsg);
                 self::$eventClient->publish($vo[0], json_encode($vo[1]));
@@ -147,11 +134,6 @@ class ProxyEventsV3
      */
     public static function onMessage($client_id, $message)
     {
-//        echo "message=>".$message, "\n";
-        if (is_array($_SESSION) && array_key_exists('close', $_SESSION) && $_SESSION['close'] == 1) {
-            self::closeChannel($client_id, 'this need close socket');
-            return;
-        }
 
         if (empty($message) || !is_string($message) || $message == 'A') {
             return;
@@ -190,9 +172,9 @@ class ProxyEventsV3
             $pwd = $result[SessionKeys::PWD];
             $did = $result[SessionKeys::DID];
             $decodeData = Des::decrypt($message, $pwd);
-//            var_dump($decodeData);
+
             if (empty($decodeData)) {
-//                self::jsonError($client_id, 'fail decode the data ', []);
+                DebugHelper::sendByDid($did, "decode the message failed, so no response data return.");
                 return;
             }
 
@@ -204,6 +186,7 @@ class ProxyEventsV3
                 || $result instanceof BaseControlDeviceClientResp) {
                 // 设备响应的信息 不回复信息
                 // 只响应设备请求的信息
+                DebugHelper::sendByDid($did, get_class($result)."no need to response");
                 return;
             }
 
@@ -215,10 +198,16 @@ class ProxyEventsV3
             foreach ($data as $key => $val) {
                 if (!is_null($val)) {
                     $newData[$key] = $val;
+                } else {
+                    $newData[$key] = '';
                 }
             }
             // 4. 加密数据
-            $encodeData = Des::encrypt(json_encode($newData), $pwd);
+            $str = json_encode($newData);
+            $encodeData = Des::encrypt($str, $pwd);
+            if (!empty($did)) {
+                DebugHelper::sendByDid($did, $client_id.' send to client '.$str);
+            }
             Gateway::sendToClient($client_id, $encodeData);
         }
 
@@ -261,7 +250,7 @@ class ProxyEventsV3
     //============================帮助方法
 
     /**
-     * 该次请求是否作为登录请求处理
+     * 该次请求是否作为首次登录请求处理
      * @return bool
      */
     protected static function isLoginRequest()
@@ -273,7 +262,7 @@ class ProxyEventsV3
     }
 
     /**
-     * 设备登录
+     * 设备首次登录
      * @param $client_id
      * @param $message
      * @param $pwd
@@ -284,7 +273,6 @@ class ProxyEventsV3
     {
         $originData = Des::decrypt($message, $pwd);
 
-//        var_dump("login data => ".$originData);
         if (empty($originData)) {
             self::jsonError($client_id, $pwd . 'decode fail' . serialize($message), []);
             return null;
@@ -298,7 +286,9 @@ class ProxyEventsV3
         $did = $data[SessionKeys::DID];
         $req = DeviceFacadeFactory::createLoginReq($did, $data);
         $dal = DeviceFacadeFactory::getDeviceDal($did);
+
         if ($dal == null) {
+            DebugHelper::sendByDid($did, "dal is null");
             self::jsonError($client_id, 'did invalid' . $did . 'is not exists. origin_data ' . $originData, []);
             return null;
         }
@@ -307,6 +297,7 @@ class ProxyEventsV3
         $did = str_replace("\\u0003", "", $did);
         $result = $dal->getInfoByDid($did);
         if (empty($result)) {
+            DebugHelper::sendByDid($did, "did is invalid");
             self::jsonError($client_id, 'which did=' . $did . 'is not exists. origin_data ' . $originData, []);
             return null;
         }
@@ -321,6 +312,7 @@ class ProxyEventsV3
         $_SESSION[SessionKeys::PWD] = $pwd;
         $originPwd = SunsunTDS::isLegalPwd($data[SessionKeys::PWD], $pwd);
         if (empty($originPwd)) {
+            DebugHelper::sendByDid($did, 'encrypt '.$data[SessionKeys::PWD]." pwd decrypt failed,key = ".$pwd);
             self::jsonError($client_id, $data[SessionKeys::PWD] . 'the control password decode fail,key=' . $pwd . ' and origin_data ' . $originData, []);
             return null;
         }
@@ -455,13 +447,26 @@ class ProxyEventsV3
         $_SESSION[SessionKeys::IS_FIRST] = 1;
     }
 
+    /*
+     * 消息缓存到内存 - 用于后续定时转发
+     * TODO: 区分 消息的优先级
+     */
     public static function publish($content)
     {
+        // 目前最多缓存5万条消息
         if (is_array(self::$cacheMsg) && count(self::$cacheMsg) < 50000) {
             array_push(self::$cacheMsg, [self::$workerName, $content]);
         }
     }
 
+    /**
+     * 处理其它消息
+     * @param $did
+     * @param $clientId
+     * @param $originData
+     * @return null|\sunsun\po\BaseRespPo
+     * @throws \Exception
+     */
     private static function process($did, $clientId, $originData)
     {
         $jsonDecode = json_decode($originData, JSON_OBJECT_AS_ARRAY);
@@ -475,7 +480,7 @@ class ProxyEventsV3
     }
 
     /**
-     * 当客户端断开连接时触发
+     * 当tcp连接断开时触发
      * @param int $client_id 连接id
      * @throws \Exception
      */
