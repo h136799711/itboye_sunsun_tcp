@@ -63,7 +63,6 @@ class PetFeederProcessAction
         $resp = null;
         //过滤桶除了设备登录之外的其它请求处理
         switch ($req->getReqType()) {
-
             //已登录成功后的登录请求
             case PetFeederRespType::Login:
                 $resp = (new PetFeederLoginAction())->deviceLogin($did, $clientId, $req);
@@ -92,7 +91,7 @@ class PetFeederProcessAction
     private function response($did, $clientId, $jsonData)
     {
         $resType = $jsonData['resType'];
-        $resp =PetFeederRespFactory::create($resType, $jsonData);
+        $resp = PetFeederRespFactory::create($resType, $jsonData);
         if (empty($resp)) {
             return null;
         }
@@ -115,7 +114,6 @@ class PetFeederProcessAction
             default:
                 break;
         }
-
 
         return $resp;
     }

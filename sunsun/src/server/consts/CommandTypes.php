@@ -12,4 +12,6 @@ namespace sunsun\server\consts;
 class CommandTypes
 {
     const CLOSE_CLIENT = 'close';
+
+    const INFO_CLIENT = 'info';
 }

@@ -38,7 +38,6 @@ use sunsun\server\resp\BaseDeviceLoginServerResp;
 use sunsun\server\tcpChannelCommand\CommandFactory;
 use Symfony\Component\Dotenv\Dotenv;
 use Workerman\Lib\Timer;
-use Workerman\Worker;
 
 /**
  * 主逻辑
@@ -78,16 +77,28 @@ class ProxyEventsV3
         self::$workerName = $businessWorker->name;
         self::$workerId = $businessWorker->id;
         $rootPath = dirname(dirname(dirname(dirname(__DIR__))));
-        (new Dotenv())->load($rootPath.'/.env');
+        (new Dotenv())->load($rootPath . '/.env');
         self::$connectLimitGate = new LimitHelper(500, 5);
         self::$msgLimitGate = new LimitHelper(600, 3);
         self::$dbPool = DbPool::getInstance();
         self::$cacheMsg = [];
         self::initAmqp();
-        DebugHelper::readFile($rootPath.'/debug_did.txt');
+        self::refreshDebugDid($rootPath);
     }
 
-    public static function initAmqp() {
+    /**
+     * 刷新调试did
+     * @param $rootPath
+     */
+    public static function refreshDebugDid($rootPath)
+    {
+        Timer::add(300, function () use ($rootPath) {
+            DebugHelper::readFile($rootPath . '/debug_did.txt');
+        });
+    }
+
+    public static function initAmqp()
+    {
         $host = getenv('AMQP_HOST');
         $user = getenv('AMQP_USER');
         $pass = getenv('AMQP_PASS');
@@ -96,20 +107,16 @@ class ProxyEventsV3
         // 这边是在启动的时候不用管
         self::$eventClient = new AmqpRabbitClient($host, $port, $user, $pass, $vhost);
         self::$eventClient->openConnection();
-        self::$eventClient->bindQueueAndExchange(self::$workerName, self::$workerName);
 
-        // 一秒 100
-        Timer::add(1, function() {
-            // 增加异常捕获，防止 amqp服务器出错影响链接通道
-            try {
-                $cnt = 400;
-                while($cnt-- && count(self::$cacheMsg) > 0) {
-                    $vo = array_shift(self::$cacheMsg);
-                    self::$eventClient->publish($vo[0], json_encode($vo[1]));
-                    usleep(10000);
-                }
-            } catch (\Exception $exception) {
-                Worker::log($exception->getTraceAsString());
+        self::$eventClient->bindQueueAndExchange(self::$workerName, self::$workerName, ['durable' => false], ['durable' => false]);
+
+        // 一秒 400
+        Timer::add(5, function () {
+            // 增加异常捕获，防止 amqp服务器出错影响链接通道x
+            $cnt = 1000;
+            while ($cnt-- && count(self::$cacheMsg) > 0) {
+                $vo = array_shift(self::$cacheMsg);
+                self::$eventClient->publish($vo[0], json_encode($vo[1]));
             }
         });
     }
@@ -143,7 +150,7 @@ class ProxyEventsV3
 //        echo "message=>".$message, "\n";
         if (is_array($_SESSION) && array_key_exists('close', $_SESSION) && $_SESSION['close'] == 1) {
             self::closeChannel($client_id, 'this need close socket');
-            return ;
+            return;
         }
 
         if (empty($message) || !is_string($message) || $message == 'A') {
@@ -166,7 +173,7 @@ class ProxyEventsV3
             $pwd = Password::getSecretKey(Password::TYPE_LOGIN, $client_id);
             $result = self::login($client_id, $message, $pwd);
             if (!($result instanceof BaseDeviceLoginServerResp)) {
-                self::jsonError($client_id, 'msg_channel_'.$msgChannel.'fail'.json_encode($result), []);
+                self::jsonError($client_id, 'msg_channel_' . $msgChannel . 'fail' . json_encode($result), []);
                 return;
             }
             if (is_array($_SESSION) && array_key_exists(SessionKeys::PWD, $_SESSION)) {
@@ -193,11 +200,11 @@ class ProxyEventsV3
             $result = self::process($did, $client_id, $decodeData);
 
             if ($result instanceof BaseDeviceInfoClientResp
-               || $result instanceof BaseDeviceFirmwareUpdateClientResp
-               || $result instanceof  BaseControlDeviceClientResp) {
+                || $result instanceof BaseDeviceFirmwareUpdateClientResp
+                || $result instanceof BaseControlDeviceClientResp) {
                 // 设备响应的信息 不回复信息
                 // 只响应设备请求的信息
-                return ;
+                return;
             }
 
         }
@@ -205,7 +212,7 @@ class ProxyEventsV3
         if (method_exists($result, "toDataArray")) {
             $data = $result->toDataArray();
             $newData = [];
-            foreach ($data as $key=>$val) {
+            foreach ($data as $key => $val) {
                 if (!is_null($val)) {
                     $newData[$key] = $val;
                 }
@@ -237,6 +244,9 @@ class ProxyEventsV3
         // TODO: 增加其它指令
         if (array_key_exists('cmd_type', $_SESSION)) {
             $cmdType = $_SESSION['cmd_type'];
+            if ($cmdType == 'info') {
+                $_SESSION['cache_msg'] = count(self::$cacheMsg);
+            }
             // 创建指令
             $command = CommandFactory::create($cmdType);
             // 设置参数
@@ -276,7 +286,7 @@ class ProxyEventsV3
 
 //        var_dump("login data => ".$originData);
         if (empty($originData)) {
-            self::jsonError($client_id, $pwd.'decode fail'.serialize($message), []);
+            self::jsonError($client_id, $pwd . 'decode fail' . serialize($message), []);
             return null;
         }
         $data = json_decode($originData, JSON_OBJECT_AS_ARRAY);
@@ -344,7 +354,7 @@ class ProxyEventsV3
         $resp->setHb($hb);
         //绑定did 和 client_id
         Gateway::bindUid($client_id, $did);
-        self::publish(['type'=>'login', 't'=>time(), 'did'=>$did, 'client_id'=>$client_id, 'reg_addr'=>
+        self::publish(['type' => 'login', 't' => time(), 'did' => $did, 'client_id' => $client_id, 'reg_addr' =>
             self::$regAddr]);
         return $resp;
     }
@@ -445,7 +455,8 @@ class ProxyEventsV3
         $_SESSION[SessionKeys::IS_FIRST] = 1;
     }
 
-    public static function publish($content) {
+    public static function publish($content)
+    {
         if (is_array(self::$cacheMsg) && count(self::$cacheMsg) < 50000) {
             array_push(self::$cacheMsg, [self::$workerName, $content]);
         }
@@ -456,7 +467,7 @@ class ProxyEventsV3
         $jsonDecode = json_decode($originData, JSON_OBJECT_AS_ARRAY);
         // 根据did 这里替换成具体设备的process类
         $action = DeviceFacadeFactory::createProcessAction($did);
-        if($action != null) {
+        if ($action != null) {
             $resp = $action->process($did, $clientId, $jsonDecode);
             return $resp;
         }
@@ -472,7 +483,7 @@ class ProxyEventsV3
     {
         if (is_array($_SESSION) && array_key_exists(SessionKeys::DID, $_SESSION)) {
             $did = $_SESSION[SessionKeys::DID];
-            self::publish(['type'=>'logout', 't'=>time(),'did'=>$did, 'client_id'=>$client_id]);
+            self::publish(['type' => 'logout', 't' => time(), 'did' => $did, 'client_id' => $client_id]);
         }
     }
 
