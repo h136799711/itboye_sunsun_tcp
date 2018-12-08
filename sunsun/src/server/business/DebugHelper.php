@@ -78,6 +78,19 @@ class DebugHelper
         }
     }
 
+    public static function readFile($filePath) {
+        if (file_exists($filePath)) {
+            // 本函数的结果会被缓存。
+            $time = filemtime($filePath);
+            if ($time != self::$LastModifyTime) {
+                self::refreshDid(file_get_contents($path));
+                self::$LastModifyTime = $time;
+            }
+            // 使用 clearstatcache() 清除缓存
+            clearstatcache();
+        }
+    }
+
     /**
      * 刷新测试did, 多个did 逗号隔开
      * @param $debugDidStr

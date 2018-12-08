@@ -25,27 +25,13 @@ $worker = new BusinessWorker();
 $worker->name = 'pet_feeder_worker';
 // bussinessWorker进程数量
 $worker->count = 4;
-define("BusEventVersion", "Events");
+define("BusEventVersion", "ProxyEventsV3");
 // 设置业务处理类
 $worker->eventHandler = "\sunsun\server\business\\".BusEventVersion;
 // 服务注册地址
 $worker->registerAddress = \sunsun\ServerAddress::MASTER_INNER_IP.':1246';
 // 进程启动时设置一个定时器，定时向所有客户端连接发送数据
 $worker->onWorkerStart = function () {
-    \Workerman\Lib\Timer::add(300, function() {
-        $path = __DIR__."/debug.txt";
-        if (file_exists($path)) {
-            // 本函数的结果会被缓存。
-            $time = filemtime($path);
-            if ($time != \sunsun\server\business\DebugHelper::$LastModifyTime) {
-                \sunsun\server\business\DebugHelper::refreshDid(file_get_contents($path));
-                \sunsun\server\business\DebugHelper::$LastModifyTime = $time;
-                echo "refresh";
-            }
-            // 使用 clearstatcache() 清除缓存
-            clearstatcache();
-        }
-    });
 };
 // 如果不是在根目录启动，则运行runAll方法
 if (!defined('GLOBAL_START')) {
