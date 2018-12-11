@@ -72,7 +72,7 @@ class DebugHelper
     public static function sendToHebidu($message)
     {
         try {
-            TransferClient::sendMessageToGroup(self::HEBIDU_GROUP, [$message], '1');
+            TransferClient::sendOriginMessageToGroup(self::HEBIDU_GROUP, ['d'=>date("Y-m-d H:i:s"), 'msg'=>$message]);
         } catch (\Exception $ex) {
         }
     }
