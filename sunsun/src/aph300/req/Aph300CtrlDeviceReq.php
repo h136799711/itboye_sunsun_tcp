@@ -226,7 +226,7 @@ class Aph300CtrlDeviceReq extends BaseControlDeviceServerReq
      */
     public function getPhCmd()
     {
-        return $this->ph_cmd;
+        return intval($this->ph_cmd);
     }
 
     /**
@@ -234,7 +234,7 @@ class Aph300CtrlDeviceReq extends BaseControlDeviceServerReq
      */
     public function setPhCmd($ph_cmd)
     {
-        $this->ph_cmd = $ph_cmd;
+        $this->ph_cmd = intval($ph_cmd);
     }
 
 
