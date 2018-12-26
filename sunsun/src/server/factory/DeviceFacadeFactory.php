@@ -39,6 +39,10 @@ use sunsun\feeder\dal\FeederDeviceDal;
 use sunsun\feeder\dal\FeederDeviceEventDal;
 use sunsun\feeder\req\FeederReqFactory;
 use sunsun\feeder\req\FeederReqType;
+use sunsun\feederV2\action\FeederV2ProcessAction;
+use sunsun\feederV2\dal\FeederV2DeviceDal;
+use sunsun\feederV2\dal\FeederV2DeviceEventDal;
+use sunsun\feederV2\req\FeederV2ReqType;
 use sunsun\filter_vat\action\FilterVatProcessAction;
 use sunsun\filter_vat\dal\FilterVatDeviceDal;
 use sunsun\filter_vat\dal\FilterVatDeviceEventDal;
@@ -114,6 +118,9 @@ class DeviceFacadeFactory
             case DeviceType::Did_Feeder:
                 $logic = new FeederDeviceEventDal();
                 break;
+            case DeviceType::Did_FeederV2:
+                $logic = new FeederV2DeviceEventDal();
+                break;
             default:
                 break;
         }
@@ -158,6 +165,9 @@ class DeviceFacadeFactory
                 break;
             case DeviceType::Did_Feeder:
                 $logic = new FeederDeviceDal();
+                break;
+            case DeviceType::Did_FeederV2:
+                $logic = new FeederV2DeviceDal();
                 break;
             default:break;
         }
@@ -213,6 +223,9 @@ class DeviceFacadeFactory
             case DeviceType::Did_Feeder:
                 $req = FeederReqFactory::create(FeederReqType::Login, $data);
                 break;
+            case DeviceType::Did_FeederV2:
+                $req = FeederReqFactory::create(FeederV2ReqType::Login, $data);
+                break;
             default:break;
         }
         return $req;
@@ -256,6 +269,9 @@ class DeviceFacadeFactory
                 break;
             case DeviceType::Did_Feeder:
                 $action = new FeederProcessAction();
+                break;
+            case DeviceType::Did_FeederV2:
+                $action = new FeederV2ProcessAction();
                 break;
             default:break;
         }
