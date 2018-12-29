@@ -141,6 +141,14 @@ class RespFacadeType
         $this->deviceArr[DeviceType::Did_PetFeeder][self::FIRMWARE_UPDATE] = PetFeederRespType::FirmwareUpdate;
         $this->deviceArr[DeviceType::Did_PetFeeder][self::CONTROL] = PetFeederRespType::Control;
         $this->deviceArr[DeviceType::Did_PetFeeder][self::EVENT] = PetFeederRespType::Event;
+        // pet_feederV2 S11
+        $this->deviceArr[DeviceType::Did_FeederV2] = [];
+        $this->deviceArr[DeviceType::Did_FeederV2][self::LOGIN] = PetFeederRespType::Login;
+        $this->deviceArr[DeviceType::Did_FeederV2][self::HEART_BEAT] = PetFeederRespType::Heartbeat;
+        $this->deviceArr[DeviceType::Did_FeederV2][self::DEVICE_INFO] = PetFeederRespType::DeviceInfo;
+        $this->deviceArr[DeviceType::Did_FeederV2][self::FIRMWARE_UPDATE] = PetFeederRespType::FirmwareUpdate;
+        $this->deviceArr[DeviceType::Did_FeederV2][self::CONTROL] = PetFeederRespType::Control;
+        $this->deviceArr[DeviceType::Did_FeederV2][self::EVENT] = PetFeederRespType::Event;
 
     }
 }
