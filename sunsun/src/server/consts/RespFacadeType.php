@@ -15,6 +15,7 @@ use sunsun\aq118\resp\Aq118RespType;
 use sunsun\aq806\resp\Aq806RespType;
 use sunsun\cp1000\resp\Cp1000RespType;
 use sunsun\feeder\resp\FeederRespType;
+use sunsun\feederV2\resp\FeederV2RespType;
 use sunsun\filter_vat\resp\FilterVatRespType;
 use sunsun\heating_rod\resp\HeatingRodRespType;
 use sunsun\pet_feeder\resp\PetFeederRespType;
@@ -143,12 +144,12 @@ class RespFacadeType
         $this->deviceArr[DeviceType::Did_PetFeeder][self::EVENT] = PetFeederRespType::Event;
         // pet_feederV2 S11
         $this->deviceArr[DeviceType::Did_FeederV2] = [];
-        $this->deviceArr[DeviceType::Did_FeederV2][self::LOGIN] = PetFeederRespType::Login;
-        $this->deviceArr[DeviceType::Did_FeederV2][self::HEART_BEAT] = PetFeederRespType::Heartbeat;
-        $this->deviceArr[DeviceType::Did_FeederV2][self::DEVICE_INFO] = PetFeederRespType::DeviceInfo;
-        $this->deviceArr[DeviceType::Did_FeederV2][self::FIRMWARE_UPDATE] = PetFeederRespType::FirmwareUpdate;
-        $this->deviceArr[DeviceType::Did_FeederV2][self::CONTROL] = PetFeederRespType::Control;
-        $this->deviceArr[DeviceType::Did_FeederV2][self::EVENT] = PetFeederRespType::Event;
+        $this->deviceArr[DeviceType::Did_FeederV2][self::LOGIN] = FeederV2RespType::Login;
+        $this->deviceArr[DeviceType::Did_FeederV2][self::HEART_BEAT] = FeederV2RespType::Heartbeat;
+        $this->deviceArr[DeviceType::Did_FeederV2][self::DEVICE_INFO] = FeederV2RespType::DeviceInfo;
+        $this->deviceArr[DeviceType::Did_FeederV2][self::FIRMWARE_UPDATE] = FeederV2RespType::FirmwareUpdate;
+        $this->deviceArr[DeviceType::Did_FeederV2][self::CONTROL] = FeederV2RespType::Control;
+        $this->deviceArr[DeviceType::Did_FeederV2][self::EVENT] = FeederV2RespType::Event;
 
     }
 }
