@@ -23,19 +23,25 @@ abstract class BaseRespPo implements SetDataInterface
         }
     }
 
+    /**
+     * @var integer
+     */
     private $respType;
+    /**
+     * @var integer
+     */
     private $sn;
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getRespType()
     {
-        return $this->respType;
+        return intval($this->respType);
     }
 
     /**
-     * @param mixed $respType
+     * @param integer $respType
      */
     public function setRespType($respType)
     {
@@ -45,11 +51,11 @@ abstract class BaseRespPo implements SetDataInterface
 
     /**
      * 获取响应包序号
-     * @return mixed
+     * @return integer
      */
     public function getSn()
     {
-        return $this->sn;
+        return intval($this->sn);
     }
 
     /**

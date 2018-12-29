@@ -110,7 +110,7 @@ class BaseDeviceLoginServerResp extends BaseRespPo
      */
     public function setHb($hb)
     {
-        $this->hb = $hb;
+        $this->hb = intval($hb);
     }
 
     /**
@@ -122,11 +122,11 @@ class BaseDeviceLoginServerResp extends BaseRespPo
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getState()
     {
-        return $this->state;
+        return ($this->state);
     }
 
     /**
@@ -134,7 +134,7 @@ class BaseDeviceLoginServerResp extends BaseRespPo
      */
     public function setState($state)
     {
-        $this->state = $state;
+        $this->state = intval($state);
     }
 
     /**
