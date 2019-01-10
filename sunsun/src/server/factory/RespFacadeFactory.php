@@ -18,6 +18,7 @@ use sunsun\feeder\resp\FeederRespFactory;
 use sunsun\feederV2\resp\FeederV2RespFactory;
 use sunsun\filter_vat\resp\FilterVatRespFactory;
 use sunsun\heating_rod\resp\HeatingRodRespFactory;
+use sunsun\hwfish\resp\HwfishRespFactory;
 use sunsun\pet_feeder\resp\PetFeederRespFactory;
 use sunsun\server\consts\DeviceType;
 use sunsun\server\consts\RespFacadeType;
@@ -118,6 +119,9 @@ class RespFacadeFactory
                 break;
             case DeviceType::Did_FeederV2:
                 $factory = new FeederV2RespFactory();
+                break;
+            case DeviceType::Did_Hwfish:
+                $factory = new HwfishRespFactory();
                 break;
             default:
                 break;

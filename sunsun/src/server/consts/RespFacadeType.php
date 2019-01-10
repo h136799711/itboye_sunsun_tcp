@@ -18,6 +18,7 @@ use sunsun\feeder\resp\FeederRespType;
 use sunsun\feederV2\resp\FeederV2RespType;
 use sunsun\filter_vat\resp\FilterVatRespType;
 use sunsun\heating_rod\resp\HeatingRodRespType;
+use sunsun\hwfish\resp\HwfishRespType;
 use sunsun\pet_feeder\resp\PetFeederRespType;
 use sunsun\water_pump\resp\WaterPumpRespType;
 
@@ -150,6 +151,14 @@ class RespFacadeType
         $this->deviceArr[DeviceType::Did_FeederV2][self::FIRMWARE_UPDATE] = FeederV2RespType::FirmwareUpdate;
         $this->deviceArr[DeviceType::Did_FeederV2][self::CONTROL] = FeederV2RespType::Control;
         $this->deviceArr[DeviceType::Did_FeederV2][self::EVENT] = FeederV2RespType::Event;
+        // hwfish S12
+        $this->deviceArr[DeviceType::Did_Hwfish] = [];
+        $this->deviceArr[DeviceType::Did_Hwfish][self::LOGIN] = HwfishRespType::Login;
+        $this->deviceArr[DeviceType::Did_Hwfish][self::HEART_BEAT] = HwfishRespType::Heartbeat;
+        $this->deviceArr[DeviceType::Did_Hwfish][self::DEVICE_INFO] = HwfishRespType::DeviceInfo;
+        $this->deviceArr[DeviceType::Did_Hwfish][self::FIRMWARE_UPDATE] = HwfishRespType::FirmwareUpdate;
+        $this->deviceArr[DeviceType::Did_Hwfish][self::CONTROL] = HwfishRespType::Control;
+        $this->deviceArr[DeviceType::Did_Hwfish][self::EVENT] = HwfishRespType::Event;
 
     }
 }

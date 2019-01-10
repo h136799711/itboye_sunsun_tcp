@@ -24,11 +24,15 @@ class DeviceType
     const Did_Feeder = 'S09';
     const Did_PetFeeder = 'S10';
     const Did_FeederV2 = 'S11';
+    const Did_Hwfish = 'S12';
     const Did_Unknown= 'XXX';
 
     public static function getDeviceType($did){
         $type = strtoupper(substr($did,0,3));
         switch ($type){
+            case DeviceType::Did_Hwfish:
+                return DeviceType::Did_Hwfish;
+                break;
             case DeviceType::Did_FilterVat:
                 return DeviceType::Did_FilterVat;
                 break;

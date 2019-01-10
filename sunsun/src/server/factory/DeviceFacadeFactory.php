@@ -55,6 +55,11 @@ use sunsun\heating_rod\dal\HeatingRodDeviceDal;
 use sunsun\heating_rod\dal\HeatingRodDeviceEventDal;
 use sunsun\heating_rod\req\HeatingRodReqFactory;
 use sunsun\heating_rod\req\HeatingRodReqType;
+use sunsun\hwfish\action\HwfishProcessAction;
+use sunsun\hwfish\dal\HwfishDeviceDal;
+use sunsun\hwfish\dal\HwfishDeviceEventDal;
+use sunsun\hwfish\req\HwfishReqFactory;
+use sunsun\hwfish\req\HwfishReqType;
 use sunsun\pet_feeder\action\PetFeederProcessAction;
 use sunsun\pet_feeder\dal\PetFeederDeviceDal;
 use sunsun\pet_feeder\req\PetFeederReqFactory;
@@ -122,6 +127,9 @@ class DeviceFacadeFactory
             case DeviceType::Did_FeederV2:
                 $logic = new FeederV2DeviceEventDal();
                 break;
+            case DeviceType::Did_Hwfish:
+                $logic = new HwfishDeviceEventDal();
+                break;
             default:
                 break;
         }
@@ -169,6 +177,9 @@ class DeviceFacadeFactory
                 break;
             case DeviceType::Did_FeederV2:
                 $logic = new FeederV2DeviceDal();
+                break;
+            case DeviceType::Did_Hwfish:
+                $logic = new HwfishDeviceDal();
                 break;
             default:break;
         }
@@ -227,6 +238,9 @@ class DeviceFacadeFactory
             case DeviceType::Did_FeederV2:
                 $req = FeederV2ReqFactory::create(FeederV2ReqType::Login, $data);
                 break;
+            case DeviceType::Did_Hwfish:
+                $req = HwfishReqFactory::create(HwfishReqType::Login, $data);
+                break;
             default:break;
         }
         return $req;
@@ -273,6 +287,9 @@ class DeviceFacadeFactory
                 break;
             case DeviceType::Did_FeederV2:
                 $action = new FeederV2ProcessAction();
+                break;
+            case DeviceType::Did_Hwfish:
+                $action = new HwfishProcessAction();
                 break;
             default:break;
         }
