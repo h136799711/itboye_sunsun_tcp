@@ -52,6 +52,12 @@ class FactoryClient
             case DeviceType::Did_Feeder:
                 return new FeederClient();
                 break;
+            case DeviceType::Did_FeederV2:
+                return new FeederV2Client();
+                break;
+            case DeviceType::Did_Hwfish:
+                return new HwfishClient();
+                break;
             default:
                 break;
         }
