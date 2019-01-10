@@ -71,31 +71,6 @@ class FactoryClient
     }
 
     public static function getInfo($client_id,$did,$pwd){
-        $type = DeviceType::getDeviceType($did);
-        switch ($type){
-            case DeviceType::Did_FilterVat:
-                (new FilterClient())->getInfo($client_id,$did,$pwd);
-                break;
-            case DeviceType::Did_WaterPump:
-                WaterPumpClient::getInstance()->getInfo($client_id,$did,$pwd);
-                break;
-            case DeviceType::Did_AQ806:
-                (new Aq806Client())->getInfo($client_id,$did,$pwd);
-                break;
-            case DeviceType::Did_APH300:
-                (new AphClient())->getInfo($client_id,$did,$pwd);
-                break;
-            case DeviceType::Did_HeatingRod:
-                (new HeatingRodClient())->getInfo($client_id,$did,$pwd);
-                break;
-            case DeviceType::Did_ADT:
-                (new AdtClient())->getInfo($client_id,$did,$pwd);
-                break;
-            case DeviceType::Did_CP1000:
-                (new Cp1000Client())->getInfo($client_id, $did, $pwd);
-                break;
-            default:
-                break;
-        }
+        
     }
 }
