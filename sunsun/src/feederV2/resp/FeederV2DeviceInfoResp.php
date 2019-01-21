@@ -31,6 +31,7 @@ class FeederV2DeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEnt
     private $fault;
     private $fcd;
     private $tz;
+    private $v;
 
 
     public function __construct(FeederV2DeviceInfoReq $req = null)
@@ -83,9 +84,28 @@ class FeederV2DeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEnt
         if (!is_null($this->getTz())) {
             $data['tz'] = $this->getTz();
         }
+        if (!is_null($this->getV())) {
+            $data['v'] = $this->getV();
+        }
 
 
         return $data;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getV()
+    {
+        return $this->v;
+    }
+
+    /**
+     * @param mixed $v
+     */
+    public function setV($v)
+    {
+        $this->v = $v;
     }
 
     /**
@@ -279,6 +299,7 @@ class FeederV2DeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEnt
             'fc' => $this->getFc(),
             'fcd' => $this->getFcd(),
             'fault' => $this->getFault(),
+            'v' => $this->getV(),
             'tz' => $this->getTz()
         ];
         if ($this->getUpdState() == -1) {

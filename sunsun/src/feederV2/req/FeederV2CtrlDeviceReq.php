@@ -25,6 +25,7 @@ class FeederV2CtrlDeviceReq extends BaseControlDeviceServerReq
     private $ws;
     private $fp;
     private $tz;
+    private $v;
 
 
     public function __construct($data = null)
@@ -62,8 +63,27 @@ class FeederV2CtrlDeviceReq extends BaseControlDeviceServerReq
         if (!is_null($this->getWs())) {
             $data['ws'] = $this->getWs();
         }
+        if (!is_null($this->getV())) {
+            $data['v'] = $this->getV();
+        }
 
         return $data;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getV()
+    {
+        return $this->v;
+    }
+
+    /**
+     * @param mixed $v
+     */
+    public function setV($v)
+    {
+        $this->v = $v;
     }
 
     /**
@@ -187,5 +207,6 @@ class FeederV2CtrlDeviceReq extends BaseControlDeviceServerReq
         array_key_exists("fp", $data) && $this->setFp($data['fp']);
         array_key_exists("ws", $data) && $this->setWs($data['ws']);
         array_key_exists("tz", $data) && $this->setTz($data['tz']);
+        array_key_exists("v", $data) && $this->setV($data['v']);
     }
 }

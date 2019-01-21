@@ -31,6 +31,7 @@ class FeederV2CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDb
     private $ws;
     private $fault;
     private $tz;
+    private $v;
 
     public function __construct(FeederV2CtrlDeviceReq $req = null)
     {
@@ -79,9 +80,28 @@ class FeederV2CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDb
         if (!is_null($this->getM())) {
             $data['m'] = $this->getM();
         }
+        if (!is_null($this->getV())) {
+            $data['v'] = $this->getV();
+        }
 
 
         return $data;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getV()
+    {
+        return $this->v;
+    }
+
+    /**
+     * @param mixed $v
+     */
+    public function setV($v)
+    {
+        $this->v = $v;
     }
 
     /**
@@ -258,7 +278,8 @@ class FeederV2CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDb
             'ws' => $this->getWs(),
             'fc' => $this->getFc(),
             'fault' => $this->getFault(),
-            'tz' => $this->getTz()
+            'tz' => $this->getTz(),
+            'v' => $this->getV()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;
