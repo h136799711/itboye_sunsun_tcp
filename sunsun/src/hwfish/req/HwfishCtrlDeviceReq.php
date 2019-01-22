@@ -61,7 +61,7 @@ class HwfishCtrlDeviceReq extends BaseControlDeviceServerReq
             $data['tl'] = $this->getTl();
         }
         if (!is_null($this->getPer())) {
-            $data['l_per'] = $this->getPer();
+            $data['per'] = $this->getPer();
         }
 
         if (!is_null($this->getPushCfg())) {
