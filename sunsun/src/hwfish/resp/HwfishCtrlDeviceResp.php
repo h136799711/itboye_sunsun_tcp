@@ -33,6 +33,7 @@ class HwfishCtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEn
     private $dCyc;
     private $devLock;
     private $updState;
+    private $tz;
 
     public function __construct(BaseReqPo $req = null)
     {
@@ -46,6 +47,9 @@ class HwfishCtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEn
         $data = [];
         $data['update_time'] = time();
 
+        if (!is_null($this->getTz())) {
+            $data['tz'] = $this->getTz();
+        }
         if (!is_null($this->getWh())) {
             $data['wh'] = $this->getWh();
         }
@@ -95,6 +99,22 @@ class HwfishCtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEn
             $data['d_cyc'] = $this->getDCyc();
         }
         return $data;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTz()
+    {
+        return $this->tz;
+    }
+
+    /**
+     * @param mixed $tz
+     */
+    public function setTz($tz)
+    {
+        $this->tz = $tz;
     }
 
     /**
@@ -326,6 +346,7 @@ class HwfishCtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEn
         array_key_exists("per", $data) && $this->setPer($data['per']);
         array_key_exists("f", $data) && $this->setF($data['f']);
         array_key_exists("rt", $data) && $this->setRt($data['rt']);
+        array_key_exists("tz", $data) && $this->setTz($data['tz']);
 
     }
 
@@ -346,7 +367,8 @@ class HwfishCtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEn
             'per' => $this->getPer(),
             'f' => $this->getF(),
             'rt' => $this->getRt(),
-            'wh' => $this->getWh()
+            'wh' => $this->getWh(),
+            'tz' => $this->getTz()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;

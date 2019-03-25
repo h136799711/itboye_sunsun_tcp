@@ -35,6 +35,7 @@ class HwfishDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntit
     private $dCyc;
     private $devLock;
     private $updState;
+    private $tz;
 
     public function __construct(HwfishDeviceInfoReq $req = null)
     {
@@ -62,6 +63,9 @@ class HwfishDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntit
         }
         if (!is_null($this->getRt())) {
             $data['rt'] = $this->getRt();
+        }
+        if (!is_null($this->getTz())) {
+            $data['tz'] = $this->getTz();
         }
         if (!is_null($this->getT())) {
             $data['t'] = $this->getT();
@@ -97,6 +101,22 @@ class HwfishDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntit
             $data['d_cyc'] = $this->getDCyc();
         }
         return $data;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTz()
+    {
+        return $this->tz;
+    }
+
+    /**
+     * @param mixed $tz
+     */
+    public function setTz($tz)
+    {
+        $this->tz = $tz;
     }
 
     /**
@@ -328,6 +348,7 @@ class HwfishDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntit
         array_key_exists("per", $data) && $this->setPer($data['per']);
         array_key_exists("f", $data) && $this->setF($data['f']);
         array_key_exists("rt", $data) && $this->setRt($data['rt']);
+        array_key_exists("tz", $data) && $this->setTz($data['tz']);
 
     }
 
@@ -348,7 +369,8 @@ class HwfishDeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntit
             'per' => $this->getPer(),
             'f' => $this->getF(),
             'rt' => $this->getRt(),
-            'wh' => $this->getWh()
+            'wh' => $this->getWh(),
+            'tz' => $this->getTz()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;

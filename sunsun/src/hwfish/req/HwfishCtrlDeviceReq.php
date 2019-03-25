@@ -27,6 +27,7 @@ class HwfishCtrlDeviceReq extends BaseControlDeviceServerReq
     private $tl;
     private $dCyc;
     private $pushCfg;
+    private $tz;
 
     public function __construct($data = null)
     {
@@ -50,6 +51,9 @@ class HwfishCtrlDeviceReq extends BaseControlDeviceServerReq
         if (!is_null($this->getWh())) {
             $data['wh'] = $this->getWh();
         }
+        if (!is_null($this->getTz())) {
+            $data['tz'] = $this->getTz();
+        }
 
         if (!is_null($this->getM())) {
             $data['m'] = $this->getM();
@@ -72,6 +76,22 @@ class HwfishCtrlDeviceReq extends BaseControlDeviceServerReq
         }
 
         return $data;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTz()
+    {
+        return $this->tz;
+    }
+
+    /**
+     * @param mixed $tz
+     */
+    public function setTz($tz)
+    {
+        $this->tz = $tz;
     }
 
     /**
@@ -228,6 +248,7 @@ class HwfishCtrlDeviceReq extends BaseControlDeviceServerReq
         array_key_exists("per", $data) && $this->setPer($data['per']);
         array_key_exists("sw", $data) && $this->setSw($data['sw']);
         array_key_exists("wh", $data) && $this->setWh($data['wh']);
+        array_key_exists("tz", $data) && $this->setTz($data['tz']);
     }
 
 
