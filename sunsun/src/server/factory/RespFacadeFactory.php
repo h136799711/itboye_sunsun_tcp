@@ -12,6 +12,7 @@ namespace sunsun\server\factory;
 use sunsun\adt\resp\AdtRespFactory;
 use sunsun\aph300\resp\Aph300RespFactory;
 use sunsun\aq118\resp\Aq118RespFactory;
+use sunsun\aq136\resp\Aq136RespFactory;
 use sunsun\aq806\resp\Aq806RespFactory;
 use sunsun\cp1000\resp\Cp1000RespFactory;
 use sunsun\feeder\resp\FeederRespFactory;
@@ -87,6 +88,9 @@ class RespFacadeFactory
     {
         $factory = null;
         switch ($deviceType) {
+            case DeviceType::Did_Aq136:
+                $factory = new Aq136RespFactory();
+                break;
             case DeviceType::Did_PetFeeder:
                 $factory = new PetFeederRespFactory();
                 break;

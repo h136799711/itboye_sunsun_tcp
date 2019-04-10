@@ -58,6 +58,9 @@ class FactoryClient
             case DeviceType::Did_Hwfish:
                 return new HwfishClient();
                 break;
+            case DeviceType::Did_Aq136:
+                return new Aq136Client();
+                break;
             default:
                 break;
         }

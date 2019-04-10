@@ -29,5 +29,6 @@ class ServerAddress
     const FeederV2_Register = "172.16.23.84:1252";
 
     const Hwfish_Register = "172.16.23.84:1254";
+    const Aq136_Register = "172.16.23.84:1255";
 
 }

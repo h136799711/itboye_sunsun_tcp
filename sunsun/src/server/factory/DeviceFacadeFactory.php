@@ -24,6 +24,11 @@ use sunsun\aq118\dal\Aq118DeviceDal;
 use sunsun\aq118\dal\Aq118DeviceEventDal;
 use sunsun\aq118\req\Aq118ReqFactory;
 use sunsun\aq118\req\Aq118ReqType;
+use sunsun\aq136\action\Aq136ProcessAction;
+use sunsun\aq136\dal\Aq136DeviceDal;
+use sunsun\aq136\dal\Aq136DeviceEventDal;
+use sunsun\aq136\req\Aq136ReqFactory;
+use sunsun\aq136\req\Aq136ReqType;
 use sunsun\aq806\action\Aq806ProcessAction;
 use sunsun\aq806\dal\Aq806DeviceDal;
 use sunsun\aq806\dal\Aq806DeviceEventDal;
@@ -97,6 +102,9 @@ class DeviceFacadeFactory
         $type = substr($did, 0, 3);
         $logic = null;
         switch ($type) {
+            case DeviceType::Did_Aq136:
+                $logic = new Aq136DeviceEventDal();
+                break;
             case DeviceType::Did_ADT:
                 $logic = new AdtDeviceEventDal();
                 break;
@@ -145,6 +153,9 @@ class DeviceFacadeFactory
         $type = substr($did,0,3);
         $logic = null;
         switch ($type){
+            case DeviceType::Did_Aq136:
+                $logic = new Aq136DeviceDal();
+                break;
             case DeviceType::Did_PetFeeder:
                 $logic = new PetFeederDeviceDal();
                 break;
@@ -205,6 +216,9 @@ class DeviceFacadeFactory
         $type = substr($did,0,3);
         $req = null;
         switch ($type){
+            case DeviceType::Did_Aq136:
+                $req = Aq136ReqFactory::create(Aq136ReqType::Login,$data);
+                break;
             case DeviceType::Did_PetFeeder:
                 $req = PetFeederReqFactory::create(PetFeederReqType::Login,$data);
                 break;
@@ -255,6 +269,9 @@ class DeviceFacadeFactory
         $type = substr($did,0,3);
         $action = null;
         switch ($type){
+            case DeviceType::Did_Aq136:
+                $action = new Aq136ProcessAction();
+                break;
             case DeviceType::Did_PetFeeder:
                 $action = new PetFeederProcessAction();
                 break;
