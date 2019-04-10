@@ -12,6 +12,7 @@ namespace sunsun\server\consts;
 use sunsun\adt\resp\AdtRespType;
 use sunsun\aph300\resp\Aph300RespType;
 use sunsun\aq118\resp\Aq118RespType;
+use sunsun\aq136\resp\Aq136RespType;
 use sunsun\aq806\resp\Aq806RespType;
 use sunsun\cp1000\resp\Cp1000RespType;
 use sunsun\feeder\resp\FeederRespType;
@@ -159,6 +160,13 @@ class RespFacadeType
         $this->deviceArr[DeviceType::Did_Hwfish][self::FIRMWARE_UPDATE] = HwfishRespType::FirmwareUpdate;
         $this->deviceArr[DeviceType::Did_Hwfish][self::CONTROL] = HwfishRespType::Control;
         $this->deviceArr[DeviceType::Did_Hwfish][self::EVENT] = HwfishRespType::Event;
-
+        // aq136 S13
+        $this->deviceArr[DeviceType::Did_Aq136] = [];
+        $this->deviceArr[DeviceType::Did_Aq136][self::LOGIN] = Aq136RespType::Login;
+        $this->deviceArr[DeviceType::Did_Aq136][self::HEART_BEAT] = Aq136RespType::Heartbeat;
+        $this->deviceArr[DeviceType::Did_Aq136][self::DEVICE_INFO] = Aq136RespType::DeviceInfo;
+        $this->deviceArr[DeviceType::Did_Aq136][self::FIRMWARE_UPDATE] = Aq136RespType::FirmwareUpdate;
+        $this->deviceArr[DeviceType::Did_Aq136][self::CONTROL] = Aq136RespType::Control;
+        $this->deviceArr[DeviceType::Did_Aq136][self::EVENT] = Aq136RespType::Event;
     }
 }
