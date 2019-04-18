@@ -20,8 +20,18 @@ use sunsun\server\resp\BaseControlDeviceClientResp;
  */
 class Aq806CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEntityArrayInterface
 {
-    public function toDbEntityArray()
+
+
+    public function __construct(Aq806CtrlDeviceReq $req = null)
     {
+        parent::__construct($req);
+        $this->setRespType(Aq806RespType::Control);
+    }
+
+
+    function toDbEntityArray()
+    {
+
         $data = [];
         $data['update_time'] = time();
         if (!is_null($this->getT())) {
@@ -49,7 +59,7 @@ class Aq806CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEnt
             $data['p_p'] = $this->getPP();
         }
         if (!is_null($this->getUvcP())) {
-            $data['uvc_p'] = ($this->getUvcP());
+            $data['uvc_p'] = $this->getUvcP();
         }
         if (!is_null($this->getSpP())) {
             $data['sp_p'] = $this->getSpP();
@@ -57,17 +67,35 @@ class Aq806CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEnt
         if (!is_null($this->getLP())) {
             $data['l_p'] = $this->getLP();
         }
+        if (!is_null($this->getE1Per())) {
+            $data['e1_per'] = $this->getE1Per();
+            if (is_array($data['e1_per'])) {
+                $data['e1_per'] = json_encode($data['e1_per']);
+            }
+        }
+        if (!is_null($this->getE2Per())) {
+            $data['e2_per'] = $this->getE2Per();
+            if (is_array($data['e2_per'])) {
+                $data['e2_per'] = json_encode($data['e2_per']);
+            }
+        }
         if (!is_null($this->getLPer())) {
             $data['l_per'] = $this->getLPer();
-            $data['l_per'] = json_encode($data['l_per']);
+            if (is_array($data['l_per'])) {
+                $data['l_per'] = json_encode($data['l_per']);
+            }
         }
         if (!is_null($this->getUvcPer())) {
             $data['uvc_per'] = $this->getUvcPer();
-            $data['uvc_per'] = json_encode($data['uvc_per']);
+            if (is_array($data['uvc_per'])) {
+                $data['uvc_per'] = json_encode($data['uvc_per']);
+            }
         }
         if (!is_null($this->getSpPer())) {
             $data['sp_per'] = $this->getSpPer();
-            $data['sp_per'] = json_encode($data['sp_per']);
+            if (is_array($data['sp_per'])) {
+                $data['sp_per'] = json_encode($data['sp_per']);
+            }
         }
         if (!is_null($this->getExDev())) {
             $data['ex_dev'] = $this->getExDev();
@@ -76,16 +104,13 @@ class Aq806CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEnt
         if (!is_null($this->getDevLock())) {
             $data['dev_lock'] = $this->getDevLock();
         }
-
         if (!is_null($this->getUpdState()) && $this->getUpdState() > -1) {
             $data['upd_state'] = $this->getUpdState();
         } else {
             $data['upd_state'] = 0;
         }
 
-        if (!is_null($this->getDevLock())) {
-            $data['dev_lock'] = $this->getDevLock();
-        }
+
         if (!is_null($this->getPushCfg())) {
             $data['push_cfg'] = $this->getPushCfg();
         }
@@ -154,6 +179,8 @@ class Aq806CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEnt
     private $l_p;
     //l_per	1	时段数组项	3	照明灯时间段	一天共三个时间段
     private $l_per;
+    private $e1_per;
+    private $e2_per;
     //uvc_per	1	时段数组项	3	杀菌灯时间段	一天共三个时间段
     private $uvc_per;
     //sp_per	1	时段数组项	h	冲浪水泵时间段	一天共三个时间段
@@ -166,12 +193,44 @@ class Aq806CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEnt
     //AQ211：AQ211底板
     //AQ210：AQ210底板
     private $exDev;
-
     private $pushCfg;
     private $dCyc;
     private $uvWh;
     private $pWh;
     private $lWh;
+
+    /**
+     * @return mixed
+     */
+    public function getE1Per()
+    {
+        return $this->e1_per;
+    }
+
+    /**
+     * @param mixed $e1_per
+     */
+    public function setE1Per($e1_per)
+    {
+        $this->e1_per = $e1_per;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getE2Per()
+    {
+        return $this->e2_per;
+    }
+
+    /**
+     * @param mixed $e2_per
+     */
+    public function setE2Per($e2_per)
+    {
+        $this->e2_per = $e2_per;
+    }
+
 
     /**
      * @return mixed
@@ -494,6 +553,7 @@ class Aq806CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEnt
         $this->exDev = $exDev;
     }
 
+
     /**
      * 设备锁机状态
      * 0：未锁机，可局域网查找
@@ -507,13 +567,11 @@ class Aq806CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEnt
      * 101：更新失败，硬件重启后该字段隐藏
      */
     private $updState;
-
-    public function __construct(Aq806CtrlDeviceReq $req = null)
-    {
-        parent::__construct($req);
-        $this->setRespType(Aq806RespType::Control);
-    }
-
+    
+    /**
+     * 设备传输过来的数据转换成该类
+     * @param $data
+     */
     public function setData($data = null)
     {
         array_key_exists("sn", $data) && $this->setSn($data['sn']);
@@ -535,12 +593,13 @@ class Aq806CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEnt
         array_key_exists("devLock", $data) && $this->setDevLock($data['devLock']);
         $this->setUpdState(-1);
         array_key_exists("updState", $data) && $this->setUpdState($data['updState']);
-
         array_key_exists("push_cfg", $data) && $this->setPushCfg($data['push_cfg']);
         array_key_exists("d_cyc", $data) && $this->setDCyc($data['d_cyc']);
         array_key_exists("uv_wh", $data) && $this->setUvWh($data['uv_wh']);
         array_key_exists("p_wh", $data) && $this->setPWh($data['p_wh']);
         array_key_exists("l_wh", $data) && $this->setLWh($data['l_wh']);
+        array_key_exists("e1_per", $data) && $this->setE1Per($data['e1_per']);
+        array_key_exists("e2_per", $data) && $this->setE2Per($data['e2_per']);
     }
 
     public function toDataArray()
@@ -569,7 +628,9 @@ class Aq806CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEnt
             'd_cyc' => $this->getDCyc(),
             'uv_wh' => $this->getUvWh(),
             'p_wh' => $this->getPWh(),
-            'l_wh' => $this->getLWh()
+            'l_wh' => $this->getLWh(),
+            'e1_per' => $this->getE1Per(),
+            'e2_per' => $this->getE2Per()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;
@@ -616,11 +677,10 @@ class Aq806CtrlDeviceResp extends BaseControlDeviceClientResp implements ToDbEnt
     {
 //        foreach ($this->toDataArray() as $key => $item) {
 //            if (is_null($item)) {
-//                return "缺少 " . $key . " 属性";
+//                return  $key . " is null value";
 //            }
 //        }
         return "";
     }
-
 
 }

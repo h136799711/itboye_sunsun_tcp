@@ -58,6 +58,18 @@ class Aq806DeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntity
         if (!is_null($this->getLP())) {
             $data['l_p'] = $this->getLP();
         }
+        if (!is_null($this->getE1Per())) {
+            $data['e1_per'] = $this->getE1Per();
+            if (is_array($data['e1_per'])) {
+                $data['e1_per'] = json_encode($data['e1_per']);
+            }
+        }
+        if (!is_null($this->getE2Per())) {
+            $data['e2_per'] = $this->getE2Per();
+            if (is_array($data['e2_per'])) {
+                $data['e2_per'] = json_encode($data['e2_per']);
+            }
+        }
         if (!is_null($this->getLPer())) {
             $data['l_per'] = $this->getLPer();
             if (is_array($data['l_per'])) {
@@ -158,6 +170,8 @@ class Aq806DeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntity
     private $l_p;
     //l_per	1	时段数组项	3	照明灯时间段	一天共三个时间段
     private $l_per;
+    private $e1_per;
+    private $e2_per;
     //uvc_per	1	时段数组项	3	杀菌灯时间段	一天共三个时间段
     private $uvc_per;
     //sp_per	1	时段数组项	h	冲浪水泵时间段	一天共三个时间段
@@ -175,6 +189,39 @@ class Aq806DeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntity
     private $uvWh;
     private $pWh;
     private $lWh;
+
+    /**
+     * @return mixed
+     */
+    public function getE1Per()
+    {
+        return $this->e1_per;
+    }
+
+    /**
+     * @param mixed $e1_per
+     */
+    public function setE1Per($e1_per)
+    {
+        $this->e1_per = $e1_per;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getE2Per()
+    {
+        return $this->e2_per;
+    }
+
+    /**
+     * @param mixed $e2_per
+     */
+    public function setE2Per($e2_per)
+    {
+        $this->e2_per = $e2_per;
+    }
+
 
     /**
      * @return mixed
@@ -548,6 +595,8 @@ class Aq806DeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntity
         array_key_exists("uv_wh", $data) && $this->setUvWh($data['uv_wh']);
         array_key_exists("p_wh", $data) && $this->setPWh($data['p_wh']);
         array_key_exists("l_wh", $data) && $this->setLWh($data['l_wh']);
+        array_key_exists("e1_per", $data) && $this->setE1Per($data['e1_per']);
+        array_key_exists("e2_per", $data) && $this->setE2Per($data['e2_per']);
     }
 
     public function toDataArray()
@@ -576,7 +625,9 @@ class Aq806DeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntity
             'd_cyc' => $this->getDCyc(),
             'uv_wh' => $this->getUvWh(),
             'p_wh' => $this->getPWh(),
-            'l_wh' => $this->getLWh()
+            'l_wh' => $this->getLWh(),
+            'e1_per' => $this->getE1Per(),
+            'e2_per' => $this->getE2Per()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;

@@ -62,6 +62,12 @@ class Aq806CtrlDeviceReq extends BaseControlDeviceServerReq
         if (!is_null($this->getLPer())) {
             $data['l_per'] = $this->getLPer();
         }
+        if (!is_null($this->getE1Per())) {
+            $data['e1_per'] = $this->getE1Per();
+        }
+        if (!is_null($this->getE2Per())) {
+            $data['e2_per'] = $this->getE2Per();
+        }
         if (!is_null($this->getUvcPer())) {
             $data['uvc_per'] = $this->getUvcPer();
         }
@@ -105,6 +111,8 @@ class Aq806CtrlDeviceReq extends BaseControlDeviceServerReq
     private $th;
     private $tl;
     private $lPer;
+    private $e2Per;
+    private $e1Per;
     private $uvcPer;
     private $spPer;
     private $pushCfg;
@@ -113,6 +121,38 @@ class Aq806CtrlDeviceReq extends BaseControlDeviceServerReq
     private $uvWh;
     private $pWh;
     private $lWh;
+
+    /**
+     * @return mixed
+     */
+    public function getE2Per()
+    {
+        return $this->e2Per;
+    }
+
+    /**
+     * @param mixed $e2Per
+     */
+    public function setE2Per($e2Per)
+    {
+        $this->e2Per = $e2Per;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getE1Per()
+    {
+        return $this->e1Per;
+    }
+
+    /**
+     * @param mixed $e1Per
+     */
+    public function setE1Per($e1Per)
+    {
+        $this->e1Per = $e1Per;
+    }
 
     /**
      * @return mixed
@@ -411,6 +451,8 @@ class Aq806CtrlDeviceReq extends BaseControlDeviceServerReq
         array_key_exists("spPer", $data) && $this->setSpPer($data['spPer']);
         array_key_exists("uvcPer", $data) && $this->setUvcPer($data['uvcPer']);
         array_key_exists("lPer", $data) && $this->setLPer($data['lPer']);
+        array_key_exists("e1Per", $data) && $this->setE1Per($data['e1Per']);
+        array_key_exists("e2Per", $data) && $this->setE2Per($data['e2Per']);
         array_key_exists("tl", $data) && $this->setTl($data['tl']);
         array_key_exists("th", $data) && $this->setTh($data['th']);
         array_key_exists("tMax", $data) && $this->setTMax($data['tMax']);
