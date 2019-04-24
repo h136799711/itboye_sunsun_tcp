@@ -121,6 +121,18 @@ class Aq806DeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntity
         if (!is_null($this->getLWh())) {
             $data['l_wh'] = $this->getLWh();
         }
+        if (!is_null($this->getE1Dly())) {
+            $data['e1_dly'] = $this->getE1Dly();
+        }
+        if (!is_null($this->getE2Dly())) {
+            $data['e2_dly'] = $this->getE2Dly();
+        }
+        if (!is_null($this->getE1M())) {
+            $data['e1_m'] = $this->getE1M();
+        }
+        if (!is_null($this->getE2M())) {
+            $data['e2_m'] = $this->getE2M();
+        }
         return $data;
     }
 
@@ -189,6 +201,74 @@ class Aq806DeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntity
     private $uvWh;
     private $pWh;
     private $lWh;
+    private $e1Dly;
+    private $e1M;
+    private $e2M;
+    private $e2Dly;
+
+    /**
+     * @return mixed
+     */
+    public function getE1Dly()
+    {
+        return $this->e1Dly;
+    }
+
+    /**
+     * @param mixed $e1Dly
+     */
+    public function setE1Dly($e1Dly)
+    {
+        $this->e1Dly = $e1Dly;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getE1M()
+    {
+        return $this->e1M;
+    }
+
+    /**
+     * @param mixed $e1M
+     */
+    public function setE1M($e1M)
+    {
+        $this->e1M = $e1M;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getE2M()
+    {
+        return $this->e2M;
+    }
+
+    /**
+     * @param mixed $e2M
+     */
+    public function setE2M($e2M)
+    {
+        $this->e2M = $e2M;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getE2Dly()
+    {
+        return $this->e2Dly;
+    }
+
+    /**
+     * @param mixed $e2Dly
+     */
+    public function setE2Dly($e2Dly)
+    {
+        $this->e2Dly = $e2Dly;
+    }
 
     /**
      * @return mixed
@@ -597,6 +677,10 @@ class Aq806DeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntity
         array_key_exists("l_wh", $data) && $this->setLWh($data['l_wh']);
         array_key_exists("e1_per", $data) && $this->setE1Per($data['e1_per']);
         array_key_exists("e2_per", $data) && $this->setE2Per($data['e2_per']);
+        array_key_exists("e1_dly", $data) && $this->setE1Dly($data['e1_dly']);
+        array_key_exists("e1_m", $data) && $this->setE1M($data['e1_m']);
+        array_key_exists("e2_dly", $data) && $this->setE2Dly($data['e2_dly']);
+        array_key_exists("e2_m", $data) && $this->setE2M($data['e2_m']);
     }
 
     public function toDataArray()
@@ -627,7 +711,11 @@ class Aq806DeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntity
             'p_wh' => $this->getPWh(),
             'l_wh' => $this->getLWh(),
             'e1_per' => $this->getE1Per(),
-            'e2_per' => $this->getE2Per()
+            'e2_per' => $this->getE2Per(),
+            'e1_dly' => $this->getE1Dly(),
+            'e1_m' => $this->getE1M(),
+            'e2_m' => $this->getE2M(),
+            'e2_dly' => $this->getE2Dly()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;
