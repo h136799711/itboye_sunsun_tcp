@@ -24,7 +24,7 @@ class BaseClient
         $str = "".time().rand(0,1000);
         $str = substr($str,2,strlen($str));
         $sn =  intval($str);
-        return $sn % 147483648;
+        return intval($sn % 7483648);
     }
 
     protected function getEncryptPacketStr(BaseReqPo $req, $pwd) {
