@@ -57,6 +57,8 @@ class FeederClient extends BaseClient implements DeviceClientInterface
         if(empty($pwd)){
             $pwd = $this->getDevicePwd($did);
         }
+        if (empty($pwd)) return;
+
         $req = new FeederDeviceInfoReq();
         $req->setSn($this->getSn());
         $data = $this->getEncryptPacketStr($req, $pwd);
