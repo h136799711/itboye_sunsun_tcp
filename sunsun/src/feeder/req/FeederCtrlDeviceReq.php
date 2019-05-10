@@ -75,7 +75,7 @@ class FeederCtrlDeviceReq extends BaseControlDeviceServerReq
      */
     public function setDevLock($devLock)
     {
-        $this->devLock = $devLock;
+        $this->devLock = intval($devLock);
     }
 
     /**
@@ -91,7 +91,7 @@ class FeederCtrlDeviceReq extends BaseControlDeviceServerReq
      */
     public function setPushCfg($push_cfg)
     {
-        $this->push_cfg = $push_cfg;
+        $this->push_cfg = intval($push_cfg);
     }
 
     /**
@@ -107,7 +107,7 @@ class FeederCtrlDeviceReq extends BaseControlDeviceServerReq
      */
     public function setFc($fc)
     {
-        $this->fc = $fc;
+        $this->fc = intval($fc);
     }
 
     /**
@@ -139,7 +139,7 @@ class FeederCtrlDeviceReq extends BaseControlDeviceServerReq
      */
     public function setM($m)
     {
-        $this->m = $m;
+        $this->m = intval($m);
     }
 
     /**
@@ -155,7 +155,7 @@ class FeederCtrlDeviceReq extends BaseControlDeviceServerReq
      */
     public function setWs($ws)
     {
-        $this->ws = $ws;
+        $this->ws = intval($ws);
     }
 
     public function setData($data = null)
