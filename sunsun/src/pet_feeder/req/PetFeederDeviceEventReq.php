@@ -45,4 +45,10 @@ class PetFeederDeviceEventReq extends BaseDeviceEventClientReq
     {
         $this->fc = $fc;
     }
+
+    function toDataArray()
+    {
+        $arr = parent::toDataArray();
+        $arr['fc'] = $this->getFc();
+    }
 }
