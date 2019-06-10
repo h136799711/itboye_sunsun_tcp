@@ -22,5 +22,27 @@ class PetFeederDeviceEventReq extends BaseDeviceEventClientReq
     {
         parent::__construct($data);
         $this->setReqType(PetFeederReqType::Event);
+
+        if (!empty($data) && array_key_exists('fc', $data)) {
+            $this->setFc($data['fc']);
+        }
+    }
+
+    protected $fc;
+
+    /**
+     * @return mixed
+     */
+    public function getFc()
+    {
+        return $this->fc;
+    }
+
+    /**
+     * @param mixed $fc
+     */
+    public function setFc($fc)
+    {
+        $this->fc = $fc;
     }
 }
