@@ -31,7 +31,7 @@
     "workerman/mysql": "1.0.1",
     "workerman/gatewayclient": "3.0.12",
     "workerman/mqtt": "1.0",
-    "symfony/dotenv": "^4.1",
+    "symfony/dotenv": "4.3.*",
     "itboye/component_3rd-queue-client": "1.0.*",
     "ext-json": "*",
     "ext-openssl": "*"
