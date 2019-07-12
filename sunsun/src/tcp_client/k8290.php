@@ -171,7 +171,7 @@ $task->onWorkerStart = function ($task) {
         array_push($sockets, $tcpDevice);
     }
 
-    Timer::add(3, function () use ($sockets, $size) {
+    Timer::add(1, function () use ($sockets, $size) {
         for ($i = 0; $i < $size; $i++) {
             $tcpDevice = $sockets[$i];
             if ($tcpDevice instanceof TcpDevice) {
