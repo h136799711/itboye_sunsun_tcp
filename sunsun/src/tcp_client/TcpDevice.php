@@ -29,7 +29,7 @@ class TcpDevice extends AsyncTcpConnection
 
     public function message($msg){
         $decode = SunsunTDS::decode($msg, $this->pwd);
-        echo $msg;
+        echo $msg,"\n";
         if($decode->isValid()){
             $data = $decode->getTdsData();
             $orginData = $decode->getTdsOriginData();
@@ -48,11 +48,11 @@ class TcpDevice extends AsyncTcpConnection
                 }elseif(array_key_exists('resType',$orginData)){
                     $reqType = $orginData['reqType'];
                 }else{
-                    echo '非法数据';
+                    echo '非法数据1',"\n";
                 }
             }
         }else{
-            echo '非法数据';
+            echo '非法数据2',"\n";
         }
     }
 

@@ -54,13 +54,13 @@ function initClients()
         $f = fopen($fileName, "r");
         $cnt = 0;
         while (!feof($f)) {
-            $line = fgets($f);
+            $line = trim(fgets($f));
             $lineData = explode(' ', $line);
             $types = getTypeBy($lineData[0]);
             $data = [
-                'did' => $lineData[0],
-                'pwd' => $lineData[1],
-                'ctrlPwd' => '88888888',
+                'did' => trim($lineData[0]),
+                'pwd' => trim($lineData[1]),
+                'ctrlPwd' => '12345678',
                 'hbType' => $types[0],
                 'loginType' => $types[1]
             ];
@@ -94,6 +94,8 @@ function getTypeBy($did)
             return [502, 501];
         case "S13":// adt
             return [1302, 1301];
+        case "S14":// 宠物
+            return [1402, 1401];
         default:
             break;
     }
@@ -129,6 +131,9 @@ function createByDid($one)
         case "S13":// aq136
             $tcpDevice = createTcp(new TcpDevice('tcp://master.sunsunxiaoli.com:8303', null, $one));
             break;
+        case "S14":// aq136
+            $tcpDevice = createTcp(new TcpDevice('tcp://master.sunsunxiaoli.com:8304', null, $one));
+            break;
         default:
             break;
     }
@@ -148,6 +153,7 @@ $task->onWorkerStart = function ($task) {
     $start = START;
     $size = SIZE;
     $clients = initClients();
+
     $sockets = [];
     if (count($clients) < $size) {
         echo('option size can\'t bigger than clients size');
