@@ -23,40 +23,41 @@ class TcpDevice extends AsyncTcpConnection
     public $hbType;
     public $loginType;
     public $hbSeconds = 10;//心跳间隔 s
-    public $sn=0;
+    public $sn = 0;
     public $isLogined;
     public $reconnectCnt = 0;// 当前重连次数
 
-    public function message($msg){
+    public function message($msg)
+    {
         $decode = SunsunTDS::decode($msg, $this->pwd);
-        echo $msg,"\n";
-        if($decode->isValid()){
+        echo $msg, "\n";
+        if ($decode->isValid()) {
             $data = $decode->getTdsData();
             $orginData = $decode->getTdsOriginData();
             var_dump($orginData);
-            if(is_string($orginData)){
+            if (is_string($orginData)) {
                 $orginData = json_decode($orginData, JSON_OBJECT_AS_ARRAY);
             }
-            if(is_array($orginData)){
-                if(array_key_exists('resType',$orginData)){
+            if (is_array($orginData)) {
+                if (array_key_exists('resType', $orginData)) {
                     $resType = $orginData['resType'];
-                    if($resType == '201'){
+                    if ($resType == '201') {
                         echo 'login';
                         // 变频水泵的登录
-                        $this->isLogined  = true;
+                        $this->isLogined = true;
                     }
-                }elseif(array_key_exists('resType',$orginData)){
+                } elseif (array_key_exists('resType', $orginData)) {
                     $reqType = $orginData['reqType'];
-                }else{
-                    echo '非法数据1',"\n";
+                } else {
+                    echo '非法数据1', "\n";
                 }
             }
-        }else{
-            echo '非法数据2',"\n";
+        } else {
+            echo '非法数据2', "\n";
         }
     }
 
-    public function __construct($remote_address, $context_option = null, $deviceInfo=[])
+    public function __construct($remote_address, $context_option = null, $deviceInfo = [])
     {
         parent::__construct($remote_address, $context_option);
         $this->did = $deviceInfo['did'];
@@ -70,15 +71,16 @@ class TcpDevice extends AsyncTcpConnection
     /**
      * 登录请求
      */
-    public function login(){
+    public function login()
+    {
         $this->isLogined = false;
-        $pwd  = SunsunTDS::encodePwd($this->ctrlPwd, $this->pwd);
+        $pwd = SunsunTDS::encodePwd($this->ctrlPwd, $this->pwd);
         $entity = [
-            'reqType'=>$this->loginType,
-            'sn'=>rand(10000,99999),
-            'did'=>$this->did,
-            'ver'=>'V1.0',
-            'pwd'=>base64_decode($pwd)
+            'reqType' => $this->loginType,
+            'sn' => rand(10000, 99999),
+            'did' => $this->did,
+            'ver' => 'V1.0',
+            'pwd' => base64_decode($pwd)
         ];
         $sendData = SunsunTDS::encode($entity, $this->publicPwd);
         $this->send($sendData);
@@ -87,28 +89,31 @@ class TcpDevice extends AsyncTcpConnection
     /**
      * 关闭通道
      */
-    public function logout(){
+    public function logout()
+    {
         $this->close();
     }
 
     /**
      * 心跳
      */
-    public function heartBeat(){
-        if(!$this->isLogined){
+    public function heartBeat()
+    {
+        if (!$this->isLogined) {
             $this->login();
-        }else{
+        } else {
             $entity = [
-                'reqType'=>$this->hbType,
-                'sn'=>($this->sn++)
+                'reqType' => $this->hbType,
+                'sn' => ($this->sn++)
             ];
             $sendData = SunsunTDS::encode($entity, $this->pwd);
             $this->send($sendData);
         }
     }
 
-    public function reConnect($after=0){
-        if($this->reconnectCnt > TcpDevice::ReconnectMax){
+    public function reConnect($after = 0)
+    {
+        if ($this->reconnectCnt > TcpDevice::ReconnectMax) {
             $this->logout();
         }
         parent::reConnect($after);
