@@ -105,6 +105,12 @@ class Aq806CtrlDeviceReq extends BaseControlDeviceServerReq
         if (!is_null($this->getE2M())) {
             $data['e2_m'] = $this->getE2M();
         }
+        if (!is_null($this->getE1S())) {
+            $data['e1_s'] = $this->getE1S();
+        }
+        if (!is_null($this->getE2S())) {
+            $data['e2_s'] = $this->getE2S();
+        }
 
         return $data;
     }
@@ -138,6 +144,40 @@ class Aq806CtrlDeviceReq extends BaseControlDeviceServerReq
     private $e1M;
     private $e2M;
     private $e2Dly;
+    protected $e1S;
+    protected $e2S;
+
+    /**
+     * @return mixed
+     */
+    public function getE1S()
+    {
+        return $this->e1S;
+    }
+
+    /**
+     * @param mixed $e1S
+     */
+    public function setE1S($e1S)
+    {
+        $this->e1S = $e1S;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getE2S()
+    {
+        return $this->e2S;
+    }
+
+    /**
+     * @param mixed $e2S
+     */
+    public function setE2S($e2S)
+    {
+        $this->e2S = $e2S;
+    }
 
     /**
      * @return mixed
@@ -557,6 +597,8 @@ class Aq806CtrlDeviceReq extends BaseControlDeviceServerReq
         array_key_exists("e1M", $data) && $this->setE1M($data['e1M']);
         array_key_exists("e2Dly", $data) && $this->setE2Dly($data['e2Dly']);
         array_key_exists("e2M", $data) && $this->setE2M($data['e2M']);
+        array_key_exists("e1S", $data) && $this->setE1S($data['e1S']);
+        array_key_exists("e2S", $data) && $this->setE2S($data['e2S']);
 
 
     }

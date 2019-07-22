@@ -133,10 +133,19 @@ class Aq806DeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntity
         if (!is_null($this->getE2M())) {
             $data['e2_m'] = $this->getE2M();
         }
+
+        if (!is_null($this->getE1S())) {
+            $data['e1_s'] = $this->getE1S();
+        }
+        if (!is_null($this->getE2S())) {
+            $data['e2_s'] = $this->getE2S();
+        }
         return $data;
     }
 
 
+    protected $e1S;
+    protected $e2S;
     //t	1	int		实时温度	温度值的10倍值
     private $t;
     //ph	1	int		实时PH值	数值为实际PH值的100倍
@@ -205,6 +214,39 @@ class Aq806DeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntity
     private $e1M;
     private $e2M;
     private $e2Dly;
+
+    /**
+     * @return mixed
+     */
+    public function getE1S()
+    {
+        return $this->e1S;
+    }
+
+    /**
+     * @param mixed $e1S
+     */
+    public function setE1S($e1S)
+    {
+        $this->e1S = $e1S;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getE2S()
+    {
+        return $this->e2S;
+    }
+
+    /**
+     * @param mixed $e2S
+     */
+    public function setE2S($e2S)
+    {
+        $this->e2S = $e2S;
+    }
+
 
     /**
      * @return mixed
@@ -681,6 +723,9 @@ class Aq806DeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntity
         array_key_exists("e1_m", $data) && $this->setE1M($data['e1_m']);
         array_key_exists("e2_dly", $data) && $this->setE2Dly($data['e2_dly']);
         array_key_exists("e2_m", $data) && $this->setE2M($data['e2_m']);
+
+        array_key_exists("e1_s", $data) && $this->setE1S($data['e1_s']);
+        array_key_exists("e2_s", $data) && $this->setE2S($data['e2_s']);
     }
 
     public function toDataArray()
@@ -715,7 +760,10 @@ class Aq806DeviceInfoResp extends BaseDeviceInfoClientResp implements ToDbEntity
             'e1_dly' => $this->getE1Dly(),
             'e1_m' => $this->getE1M(),
             'e2_m' => $this->getE2M(),
-            'e2_dly' => $this->getE2Dly()
+            'e2_dly' => $this->getE2Dly(),
+
+            'e1_s' => $this->getE1S(),
+            'e2_s' => $this->getE2S()
         ];
         if ($this->getUpdState() == -1) {
             $data['updState'] = 0;
