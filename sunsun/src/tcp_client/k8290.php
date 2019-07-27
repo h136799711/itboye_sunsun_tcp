@@ -96,6 +96,8 @@ function getTypeBy($did)
             return [1302, 1301];
         case "S14":// 宠物
             return [1402, 1401];
+        case "S20":// test
+            return [2002, 2001];
         default:
             break;
     }
@@ -133,6 +135,9 @@ function createByDid($one)
             break;
         case "S14":// aq136
             $tcpDevice = createTcp(new TcpDevice('tcp://master.sunsunxiaoli.com:8304', null, $one));
+            break;
+        case "S20":// test
+            $tcpDevice = createTcp(new TcpDevice('127.0.0.1:1234', null, $one));
             break;
         default:
             break;
