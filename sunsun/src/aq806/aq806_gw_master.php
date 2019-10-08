@@ -39,7 +39,7 @@ $gateway->pingNotResponseLimit = 0;
 
 $gateway->pingData = '';
 
-$gateway->reusePort = true;
+//$gateway->reusePort = true;
 
 /*
 // 当客户端连接上来时，设置连接的onWebSocketConnect，即在websocket握手时的回调
