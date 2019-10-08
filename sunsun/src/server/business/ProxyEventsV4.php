@@ -87,7 +87,7 @@ class ProxyEventsV4
 
         // 定时 每5秒 最多转发 800条消息
         Timer::add(3, function () {
-            $cnt = 800;
+            $cnt = 500;
             // 这里很有可能会报异常，然后导致 该子进程重启
             while ($cnt-- && count(self::$cacheMsg) > 0) {
                 $vo = array_shift(self::$cacheMsg);
@@ -103,7 +103,7 @@ class ProxyEventsV4
     public static function refreshDebugDid($rootPath)
     {
         // 首次读取
-        DebugHelper::readFile($rootPath . '/debug_did.txt');
+//        DebugHelper::readFile($rootPath . '/debug_did.txt');
         // 定时 5分钟 读取 需要调试的did如果有
 //        Timer::add(300, function () use ($rootPath) {
 //            DebugHelper::readFile($rootPath . '/debug_did.txt');
