@@ -101,7 +101,7 @@ class ProxyEventsV3
 
         // 定时 每5秒 最多转发 800条消息
         Timer::add(5, function () {
-            $cnt = 800;
+            $cnt = 500;
             // 这里很有可能会报异常，然后导致 该子进程重启
             while ($cnt-- && count(self::$cacheMsg) > 0) {
                 $vo = array_shift(self::$cacheMsg);
