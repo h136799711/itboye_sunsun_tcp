@@ -12,7 +12,6 @@ use sunsun\dal\DeviceTcpClientDal;
 use sunsun\decoder\SunsunTDS;
 use sunsun\helper\ResultHelper;
 use sunsun\po\BaseRespPo;
-use sunsun\server\business\DebugHelper;
 use sunsun\server\consts\SunsunDeviceConstant;
 use sunsun\server\db\DbPool;
 use sunsun\server\factory\DeviceFacadeFactory;
@@ -62,7 +61,7 @@ abstract class BaseActionV2
             throw new \Exception('resp toDbEntityArray method missing');
         }
 
-        DebugHelper::sendByDid($did, "设备信息".json_encode($resp->toDataArray()));
+//        DebugHelper::sendByDid($did, "设备信息".json_encode($resp->toDataArray()));
 
         // 更新设备信息
         $updateEntity = $resp->toDbEntityArray();
@@ -82,7 +81,7 @@ abstract class BaseActionV2
      */
     public function deviceHeartBeat($did, $clientId, BaseHeartBeatClientReq $req)
     {
-        DebugHelper::sendByDid($did, " 心跳".json_encode($req->toDataArray()));
+//        DebugHelper::sendByDid($did, " 心跳".json_encode($req->toDataArray()));
 
         $respObj = RespFacadeFactory::createHeartBeatRespObj($did, $req);
         $this->publish(['type'=>'hb', 'did'=>$did, 'time'=>time()]);
@@ -104,7 +103,7 @@ abstract class BaseActionV2
             throw new \Exception('resp toDbEntityArray method missing');
         }
 
-        DebugHelper::sendByDid($did, " 设备控制信息".json_encode($resp->toDataArray()));
+//        DebugHelper::sendByDid($did, " 设备控制信息".json_encode($resp->toDataArray()));
 
         //更新设备信息
         $updateEntity = $resp->toDbEntityArray();
@@ -150,7 +149,7 @@ abstract class BaseActionV2
      */
     public function deviceLogin($did, $clientId, BaseDeviceLoginClientReq $req)
     {
-        DebugHelper::sendByDid($did, " 设备登录信息".json_encode($req->toDataArray()));
+//        DebugHelper::sendByDid($did, " 设备登录信息".json_encode($req->toDataArray()));
 
         $resp = RespFacadeFactory::createLoginRespObj($did, $req);
         $dal = DeviceFacadeFactory::getDeviceDal($did);
@@ -207,7 +206,7 @@ abstract class BaseActionV2
      */
     public function deviceEventLog($did, $client_id, BaseDeviceEventClientReq $req)
     {
-        DebugHelper::sendByDid($did, " 设备事件信息".json_encode($req->toDataArray()));
+//        DebugHelper::sendByDid($did, " 设备事件信息".json_encode($req->toDataArray()));
 
         $resp = RespFacadeFactory::createDeviceEventRespObj($did, $req);
         $resp->setState(0);
