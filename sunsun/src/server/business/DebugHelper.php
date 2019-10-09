@@ -109,8 +109,8 @@ class DebugHelper
      * @param string $msg
      */
     public static function sendByDid($did, $msg) {
-//        if (in_array($did, self::$DebugDid)) {
-//            self::sendToHebidu($did.' '.$msg);
-//        }
+        if (in_array($did, self::$DebugDid)) {
+            self::sendToHebidu($did.' '.$msg);
+        }
     }
 }
