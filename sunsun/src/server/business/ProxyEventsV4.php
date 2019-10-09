@@ -188,7 +188,7 @@ class ProxyEventsV4
                 || $result instanceof BaseControlDeviceClientResp) {
                 // 设备响应的信息 不回复信息
                 // 只响应设备请求的信息
-                DebugHelper::sendByDid($did, get_class($result)." no need to response");
+//                DebugHelper::sendByDid($did, get_class($result)." no need to response");
                 return;
             }
 
@@ -201,6 +201,7 @@ class ProxyEventsV4
                 if (!is_null($val)) {
                     $newData[$key] = $val;
                 } else {
+//                    unset($newData[$key]);
                     $newData[$key] = '';
                 }
             }
